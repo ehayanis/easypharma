@@ -10,6 +10,7 @@ import java.util.List;
 
 import javax.persistence.EntityManager;
 import javax.swing.BoxLayout;
+import javax.swing.ImageIcon;
 import javax.swing.JInternalFrame;
 import javax.swing.JTextField;
 
@@ -36,8 +37,10 @@ public class ClientWidget extends JInternalFrame implements InternalFrameWidget{
 		
 		initComponent();
 		getContentPane().setBackground(Color.WHITE);
-
+		
+		setFrameIcon(new ImageIcon(getClass().getResource("/img/graphite.png")));
 		setTitle("Client");
+		setBorder(javax.swing.BorderFactory.createEtchedBorder());
 		setVisible(true);
 		setFont(new Font("Agency FB", 0, 9));
 	}

@@ -2,8 +2,10 @@ package com.mm.app.view;
 
 import java.awt.Color;
 import java.awt.Font;
+import java.beans.PropertyVetoException;
 
 import javax.swing.BoxLayout;
+import javax.swing.ImageIcon;
 import javax.swing.JInternalFrame;
 import javax.swing.JTextField;
 
@@ -25,7 +27,9 @@ public class AssuranceWidget extends JInternalFrame implements InternalFrameWidg
 		
 		getContentPane().setBackground(Color.WHITE);
 		
+		setFrameIcon(new ImageIcon(getClass().getResource("/img/graphite.png")));
 		setTitle("Assurance");
+		setBorder(javax.swing.BorderFactory.createEtchedBorder());
         setVisible(true);
         setFont(new Font("Agency FB", 0, 9));
 	}
