@@ -4,6 +4,7 @@ import java.awt.Color;
 import java.awt.Font;
 
 import javax.swing.BoxLayout;
+import javax.swing.ImageIcon;
 import javax.swing.JComboBox;
 import javax.swing.JInternalFrame;
 import javax.swing.JTextField;
@@ -26,7 +27,9 @@ public class MedecinWidget extends JInternalFrame implements InternalFrameWidget
 		
 		getContentPane().setBackground(Color.WHITE);
 		
+		setFrameIcon(new ImageIcon(getClass().getResource("/img/graphite.png")));
 		setTitle("Assurance");
+		setBorder(javax.swing.BorderFactory.createEtchedBorder());
         setVisible(true);
         setFont(new Font("Agency FB", 0, 9));
 	}
