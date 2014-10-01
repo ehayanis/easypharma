@@ -82,7 +82,7 @@ public class SaleView extends JFrame {
     private void initComponents() {
 
         jPanel1 = new JPanel();
-        jInternalFrame4 = new MedecinWidget();
+        jInternalFrame4 = new MedecinWidget(em);
         jInternalFrame3 = new AssuranceWidget();
         jInternalFrame1 = new ClientWidget(em);
         jPanel2 = new HeaderPanel();
@@ -300,7 +300,7 @@ public class SaleView extends JFrame {
 
         pack();
         setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-    }// </editor-fold>                        
+    }                        
 
     private void jMenuItem2ActionPerformed(ActionEvent evt) {                                           
         Component[] list1 = jInternalFrame1.getComponents();
@@ -318,12 +318,13 @@ public class SaleView extends JFrame {
 //                    break;
 //                }
 //            }
-        	 UIManager.setLookAndFeel("com.jtattoo.plaf.smart.LunaLookAndFeel");
+//        	 UIManager.setLookAndFeel("com.jtattoo.plaf.acryl.AcrylLookAndFeel");
+        	 UIManager.setLookAndFeel("com.jtattoo.plaf.smart.SmartLookAndFeel");
         } catch (Exception ex) {
             
         } 
        
-                new SaleView().setVisible(true);
+        new SaleView().setVisible(true);
          
     }
     

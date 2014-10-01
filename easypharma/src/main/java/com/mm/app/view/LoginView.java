@@ -131,7 +131,7 @@ public class LoginView extends JFrame {
             
     public static void main(String args[]) {
         try {
-        	UIManager.setLookAndFeel("com.jtattoo.plaf.smart.LunaLookAndFeel");
+        	UIManager.setLookAndFeel("com.jtattoo.plaf.smart.SmartLookAndFeel");
         } catch (Exception ex) {
         }
 
