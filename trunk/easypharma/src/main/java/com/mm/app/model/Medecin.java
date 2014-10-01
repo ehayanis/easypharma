@@ -2,6 +2,7 @@ package com.mm.app.model;
 
 import java.io.Serializable;
 import javax.persistence.*;
+
 import java.util.List;
 
 
@@ -9,6 +10,11 @@ import java.util.List;
  * The persistent class for the medecin database table.
  * 
  */
+
+
+@NamedQuery(name="findMedecinByName",
+query="SELECT m FROM Medecin m WHERE m.firstName LIKE :name OR m.lastName LIKE :name")
+
 @Entity
 public class Medecin implements Serializable {
 	private static final long serialVersionUID = 1L;

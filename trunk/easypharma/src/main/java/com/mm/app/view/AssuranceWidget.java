@@ -43,11 +43,11 @@ public class AssuranceWidget extends JInternalFrame implements InternalFrameWidg
 		phone = new JTextField();
 		coverCard = new JTextField();
 		
+		add(Utilities.createFilledSimplePanel("Cover Card", coverCard));
 		add(Utilities.createFilledSimplePanel("Agence", agence));
 		add(Utilities.createFilledSimplePanel("OFAS", ofas));
 		add(Utilities.createFilledSimplePanel("EAN", ean));
 		add(Utilities.createFilledSimplePanel("Tél.", phone));
-		add(Utilities.createFilledSimplePanel("Cover Card", coverCard));
 		
 	}
 
@@ -93,11 +93,15 @@ public class AssuranceWidget extends JInternalFrame implements InternalFrameWidg
 	
 	@Override
 	public void activateComponents(){
-		agence.setEnabled(true);
-		ofas.setEnabled(true);
-		ean.setEnabled(true);
-		phone.setEnabled(true);
 		coverCard.setEnabled(true);
+		agence.setEnabled(true);
+		agence.setEditable(true);
+		ofas.setEnabled(true);
+		ofas.setEditable(true);
+		ean.setEnabled(true);
+		ean.setEditable(true);
+		phone.setEnabled(true);
+		phone.setEditable(true);
 	}
 
 }
