@@ -21,13 +21,27 @@ public class HeaderButton extends JButton{
 		super();
 	}
 	
-	public HeaderButton(String title, String imgPath){
+	public HeaderButton(String title, String imgPath, boolean isBorder, boolean isBold){
 		super();
 		this.title = title;
 		this.imgPath = imgPath;
 		
 		setText(title);
-		setFont(this.getFont().deriveFont(Font.BOLD));
+		if(isBold){
+			setFont(this.getFont().deriveFont(Font.BOLD));
+		}
+		setIcon(new ImageIcon(getClass().getResource(imgPath)));
+		if(isBorder){
+			setBorder(BorderFactory.createEmptyBorder());
+		}
+		setContentAreaFilled(false);
+		setCursor(new Cursor(Cursor.HAND_CURSOR));
+	}
+	
+	public HeaderButton(String imgPath){
+		super();
+		this.imgPath = imgPath;
+		
 		setIcon(new ImageIcon(getClass().getResource(imgPath)));
 		setBorder(BorderFactory.createEmptyBorder());
 		setContentAreaFilled(false);
@@ -35,7 +49,7 @@ public class HeaderButton extends JButton{
 	}
 	
 	public HeaderButton(String title, String imgPath, String tooltip){
-		this(title, imgPath);
+		this(title, imgPath, true, true);
 		
 		setToolTipText(tooltip);
 	}

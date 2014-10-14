@@ -6,6 +6,7 @@ import java.awt.Cursor;
 import java.awt.Font;
 import java.awt.GridLayout;
 import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
 import java.awt.event.KeyAdapter;
 import java.awt.event.KeyEvent;
 import java.util.ArrayList;
@@ -25,6 +26,7 @@ import javax.swing.JMenuBar;
 import javax.swing.JMenuItem;
 import javax.swing.JPanel;
 import javax.swing.JPopupMenu;
+import javax.swing.JPopupMenu.Separator;
 import javax.swing.JScrollPane;
 import javax.swing.JTabbedPane;
 import javax.swing.JTable;
@@ -89,7 +91,6 @@ public class SaleView extends JFrame {
         jTabbedPane1 = new JTabbedPane();
         jScrollPane1 = new JScrollPane();
         jTable1 = new JTable();
-        jPanel3 = new JPanel();
         jPanel4 = new JPanel();
         jMenuBar1 = new JMenuBar();
         jMenu1 = new JMenu();
@@ -114,8 +115,8 @@ public class SaleView extends JFrame {
         
         jPanel1.setLayout(new GridLayout(1, 3, 10, 0));
 
-        jPanel1.add(jInternalFrame1);
         jPanel1.add(jInternalFrame3);
+        jPanel1.add(jInternalFrame1);
         jPanel1.add(jInternalFrame4);
         
         jPanel1.setBackground(Color.WHITE);
@@ -190,10 +191,31 @@ public class SaleView extends JFrame {
         renderer.setToolTipText("Séléctionner un produit");
         column.setCellRenderer(renderer);
         
+
+		JPopupMenu popupMenu = new JPopupMenu();
+		JMenuItem posologieItem = new JMenuItem("Posologie");
+		posologieItem.setIcon(new ImageIcon(getClass().getResource("/img/view.gif")));
+		JMenuItem deleteItem = new JMenuItem("Supprimer");
+		deleteItem.setIcon(new ImageIcon(getClass().getResource("/img/delete.gif")));
+		
+		Separator jSeparator12 = new Separator();
+		
+		popupMenu.add(posologieItem);
+		popupMenu.add(jSeparator12);
+		popupMenu.add(deleteItem);
+		
+		posologieItem.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent event) {
+				JFrame posologieFrame = new PosologieFrame();
+		        posologieFrame.setVisible(true);	
+			}
+		});
+
+jTable1.setComponentPopupMenu(popupMenu);
+
         
         jScrollPane1.setViewportView(jTable1);
         jTabbedPane1.addTab("Produits", jScrollPane1);
-        jTabbedPane1.addTab("Posologie", jPanel3);
         
         /////////////////////////////////////////
         // Insert Total JPanel 
@@ -346,7 +368,6 @@ public class SaleView extends JFrame {
     private JMenuItem jMenuItem3;
     private JPanel jPanel1;
     private JPanel jPanel2;
-    private JPanel jPanel3;
     private JPanel jPanel4;
     private JScrollPane jScrollPane1;
     private JPopupMenu.Separator jSeparator1;

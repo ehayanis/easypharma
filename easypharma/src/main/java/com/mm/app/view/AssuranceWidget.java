@@ -2,10 +2,10 @@ package com.mm.app.view;
 
 import java.awt.Color;
 import java.awt.Font;
-import java.beans.PropertyVetoException;
 
 import javax.swing.BoxLayout;
 import javax.swing.ImageIcon;
+import javax.swing.JButton;
 import javax.swing.JInternalFrame;
 import javax.swing.JTextField;
 
@@ -15,11 +15,16 @@ public class AssuranceWidget extends JInternalFrame implements InternalFrameWidg
 
 	private static final long serialVersionUID = -1528594567776851222L;
 	
-	private JTextField agence;
-	private JTextField ofas;
-	private JTextField ean;
-	private JTextField phone;
-	private JTextField coverCard;
+	private JTextField assurance1;
+	private JTextField assurance2;
+	private JTextField assurance3;
+	
+	private JButton editAssur1;
+	private JButton editAssur2; 
+	private JButton editAssur3;
+	private JButton newAssur1;
+	private JButton newAssur2;
+	private JButton newAssur3;
 	
 	public AssuranceWidget() {
 		
@@ -37,71 +42,55 @@ public class AssuranceWidget extends JInternalFrame implements InternalFrameWidg
 	private void initComponent() {
 		getContentPane().setLayout(new BoxLayout(getContentPane(), BoxLayout.Y_AXIS));
 		
-		agence = new JTextField();
-		ofas = new JTextField();
-		ean = new JTextField();
-		phone = new JTextField();
-		coverCard = new JTextField();
+		assurance1 = new JTextField();
+		assurance2 = new JTextField();
+		assurance3 = new JTextField();
 		
-		add(Utilities.createFilledSimplePanel("Cover Card", coverCard));
-		add(Utilities.createFilledSimplePanel("Agence", agence));
-		add(Utilities.createFilledSimplePanel("OFAS", ofas));
-		add(Utilities.createFilledSimplePanel("EAN", ean));
-		add(Utilities.createFilledSimplePanel("Tél.", phone));
+		editAssur1 = new HeaderButton("/img/edit.gif");
+		editAssur2 = new HeaderButton("/img/edit.gif");
+		editAssur3 = new HeaderButton("/img/edit.gif");
+		newAssur1 = new HeaderButton("/img/add.gif");
+		newAssur2 = new HeaderButton("/img/add.gif");
+		newAssur3 = new HeaderButton("/img/add.gif");
+		
+		add(Utilities.createFilledAdvancedPanel("Assurance Obligatoire", assurance1, editAssur1, newAssur1));
+		add(Utilities.createFilledAdvancedPanel("Assurance Accident", assurance2, editAssur2, newAssur2));
+		add(Utilities.createFilledAdvancedPanel("Assurance Complémentaire", assurance3, editAssur3, newAssur3));
 		
 	}
 
-	public JTextField getAgence() {
-		return agence;
+	public JTextField getAssurance1() {
+		return assurance1;
 	}
 
-	public void setAgence(JTextField agence) {
-		this.agence = agence;
+	public void setAssurance1(JTextField assurance) {
+		this.assurance1 = assurance;
 	}
 
-	public JTextField getOfas() {
-		return ofas;
+	public JTextField getAssurance2() {
+		return assurance2;
 	}
 
-	public void setOfas(JTextField ofas) {
-		this.ofas = ofas;
+	public void setAssurance2(JTextField assurance) {
+		this.assurance2 = assurance;
 	}
 
-	public JTextField getEan() {
-		return ean;
+	public JTextField getAssurance3() {
+		return assurance3;
 	}
 
-	public void setEan(JTextField ean) {
-		this.ean = ean;
+	public void setAssurance3(JTextField assurance) {
+		this.assurance3 = assurance;
 	}
 
-	public JTextField getPhone() {
-		return phone;
-	}
-
-	public void setPhone(JTextField phone) {
-		this.phone = phone;
-	}
-
-	public JTextField getCoverCard() {
-		return coverCard;
-	}
-
-	public void setCoverCard(JTextField coverCard) {
-		this.coverCard = coverCard;
-	}
-	
 	@Override
 	public void activateComponents(){
-		coverCard.setEnabled(true);
-		agence.setEnabled(true);
-		agence.setEditable(true);
-		ofas.setEnabled(true);
-		ofas.setEditable(true);
-		ean.setEnabled(true);
-		ean.setEditable(true);
-		phone.setEnabled(true);
-		phone.setEditable(true);
+		assurance1.setEnabled(true);
+		assurance1.setEditable(true);
+		assurance2.setEnabled(true);
+		assurance2.setEditable(true);
+		assurance3.setEnabled(true);
+		assurance3.setEditable(true);
 	}
 
 }
