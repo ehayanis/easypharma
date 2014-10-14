@@ -2,15 +2,15 @@ package com.mm.app.view;
 
 import java.awt.Color;
 import java.awt.Font;
-import java.awt.event.KeyAdapter;
-import java.awt.event.KeyEvent;
 import java.util.ArrayList;
 import java.util.List;
 
 import javax.persistence.EntityManager;
 import javax.swing.BoxLayout;
 import javax.swing.ImageIcon;
+import javax.swing.JButton;
 import javax.swing.JInternalFrame;
+import javax.swing.JPanel;
 import javax.swing.JTextField;
 
 import com.mm.app.model.Medecin;
@@ -29,6 +29,10 @@ public class MedecinWidget extends JInternalFrame implements InternalFrameWidget
 	private JTextField phone;
 	private JTextField nrcc;
 	
+	private JPanel buttonPanel;
+	private JButton editButton;
+	private JButton newButton;
+	
 	private MedecinService medecinService;
 	
 	public MedecinWidget(EntityManager em) {
@@ -39,7 +43,7 @@ public class MedecinWidget extends JInternalFrame implements InternalFrameWidget
 		getContentPane().setBackground(Color.WHITE);
 		
 		setFrameIcon(new ImageIcon(getClass().getResource("/img/graphite.png")));
-		setTitle("Assurance");
+		setTitle("Médecin");
 		setBorder(javax.swing.BorderFactory.createEtchedBorder());
         setVisible(true);
         setFont(new Font("Agency FB", 0, 9));
@@ -81,11 +85,19 @@ public class MedecinWidget extends JInternalFrame implements InternalFrameWidget
 //			}
 //		});
 		
+		buttonPanel = new JPanel();
+		buttonPanel.setBackground(Color.WHITE);
+		
+		editButton = new HeaderButton("Edition", "/img/edit.gif", false, false);
+		newButton = new HeaderButton("Nouveau", "/img/add.gif", false, false);
+		buttonPanel.add(editButton);
+		buttonPanel.add(newButton);
+		
 		add(Utilities.createFilledSimplePanel("Nom & Prénom", firstName));
-		add(Utilities.createFilledSimplePanel("Référence", reference));
 		add(Utilities.createFilledSimplePanel("Spécialité", speciality));
 		add(Utilities.createFilledSimplePanel("Tél.", phone));
 		add(Utilities.createFilledSimplePanel("NRCC", nrcc));
+		add(Utilities.createFilledSimplePanel(" ", buttonPanel));
 		
 	}
 

@@ -31,10 +31,10 @@ public class HeaderPanel extends JPanel {
 	
 	private void initComponents() {
         jButton2 = new HeaderButton(" ", "/img/jbutton2.png", "Activer la vente sur Ordonnance");
-        jButton1 = new HeaderButton("Assurance", "/img/jbutton1.png", "Assurance");
-        jButton3 = new HeaderButton("Médecin", "/img/jbutton3.png", "Médecin");
-        jButton4 = new HeaderButton("Payment", "/img/jbutton4.png", "Payment");
-        jButton5 = new HeaderButton("Impréssion", "/img/jbutton5.png", "Impréssion");
+        jButton1 = new HeaderButton("Client", "/img/jbutton1.png", "Assurance");
+        jButton3 = new HeaderButton("Médicaments", "/img/jbutton3.png", "Médecin");
+        jButton4 = new HeaderButton("Impression", "/img/jbutton4.png", "Payment");
+        jButton5 = new HeaderButton("Payement", "/img/jbutton5.png", "Impréssion");
         
         
         jButton1.activateButton(false);

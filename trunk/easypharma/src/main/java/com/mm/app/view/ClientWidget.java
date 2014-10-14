@@ -11,7 +11,9 @@ import java.util.List;
 import javax.persistence.EntityManager;
 import javax.swing.BoxLayout;
 import javax.swing.ImageIcon;
+import javax.swing.JButton;
 import javax.swing.JInternalFrame;
+import javax.swing.JPanel;
 import javax.swing.JTextField;
 
 import com.mm.app.model.Client;
@@ -28,7 +30,10 @@ public class ClientWidget extends JInternalFrame implements InternalFrameWidget{
 	private Java2sAutoComboBox reference;
 	private JTextField dateOfBirth;
 	private JTextField phone;
-	private JTextField email;
+	
+	private JPanel buttonPanel;
+	private JButton editButton;
+	private JButton newButton;
 	
 	private ClientService clientService;
 	
@@ -51,7 +56,6 @@ public class ClientWidget extends JInternalFrame implements InternalFrameWidget{
 		firstName = new JTextField();
 		dateOfBirth = new JTextField();
 		phone = new JTextField();
-		email = new JTextField();
 
 		ArrayList<String> data = new ArrayList<String>();   
 		data.add("");
@@ -76,18 +80,27 @@ public class ClientWidget extends JInternalFrame implements InternalFrameWidget{
 					firstName.setText(client.getFirstName() + " " + client.getLastName());
 					dateOfBirth.setText(DateFormat.getInstance().format(client.getBirthDate()));
 					phone.setText(client.getPhone());
-					email.setText(client.getEmail());
 					
 
 				}
 			}
 		});
-
+		
+		buttonPanel = new JPanel();
+		buttonPanel.setBackground(Color.WHITE);
+		
+		editButton = new HeaderButton("Edition", "/img/edit.gif", false, false);
+		newButton = new HeaderButton("Nouveau", "/img/add.gif", false, false);
+		
+		buttonPanel.add(editButton);
+		buttonPanel.add(newButton);
+		
+		
 		add(Utilities.createFilledSimplePanel("Référence", reference));
 		add(Utilities.createFilledSimplePanel("Nom & Prénom", firstName));
 		add(Utilities.createFilledSimplePanel("Date de Naissance", dateOfBirth));
 		add(Utilities.createFilledSimplePanel("Tél.", phone));
-		add(Utilities.createFilledSimplePanel("Email", email));
+		add(Utilities.createFilledSimplePanel(" ", buttonPanel));
 
 	}
 
@@ -123,13 +136,6 @@ public class ClientWidget extends JInternalFrame implements InternalFrameWidget{
 		this.phone = phone;
 	}
 
-	public JTextField getEmail() {
-		return email;
-	}
-
-	public void setEmail(JTextField email) {
-		this.email = email;
-	}	
 
 	@Override
 	public void activateComponents(){
@@ -140,8 +146,6 @@ public class ClientWidget extends JInternalFrame implements InternalFrameWidget{
 		dateOfBirth.setEditable(false);
 		phone.setEnabled(true);
 		phone.setEditable(false);
-		email.setEnabled(true);
-		email.setEditable(false);
 	}
 
 }
