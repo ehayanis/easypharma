@@ -4,14 +4,7 @@ import java.io.Serializable;
 import javax.persistence.*;
 
 
-/**
- * The persistent class for the product database table.
- * 
- */
-
-@NamedQuery(name="findProductByReference",
-query="SELECT p FROM Product p WHERE p.reference = :reference")
-
+@NamedQuery(name="findProductByReference", query="SELECT p FROM Product p WHERE p.reference = :reference")
 
 @Entity
 public class Product implements Serializable {

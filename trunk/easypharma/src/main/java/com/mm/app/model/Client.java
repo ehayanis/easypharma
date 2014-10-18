@@ -1,27 +1,11 @@
 package com.mm.app.model;
 
 import java.io.Serializable;
+import javax.persistence.*;
 import java.util.Date;
 import java.util.List;
 
-import javax.persistence.Column;
-import javax.persistence.Entity;
-import javax.persistence.GeneratedValue;
-import javax.persistence.GenerationType;
-import javax.persistence.Id;
-import javax.persistence.NamedQuery;
-import javax.persistence.OneToMany;
-import javax.persistence.Temporal;
-import javax.persistence.TemporalType;
-
-
-/**
- * The persistent class for the client database table.
- * 
- */
-
-@NamedQuery(name="findClientByReference",
-query="SELECT c FROM Client c WHERE c.reference = :reference")
+@NamedQuery(name="findClientByReference", query="SELECT c FROM Client c WHERE c.reference = :reference")
 
 @Entity
 public class Client implements Serializable {
@@ -33,17 +17,25 @@ public class Client implements Serializable {
 
 	private Integer age;
 
+	private Integer avs;
+
     @Temporal( TemporalType.DATE)
 	@Column(name="birth_date")
 	private Date birthDate;
 
 	private String email;
 
+	private String fax;
+
 	@Column(name="first_name")
 	private String firstName;
 
+	private String fix;
+
 	@Column(name="last_name")
 	private String lastName;
+
+	private Integer mpi;
 
 	private String phone;
 
@@ -78,6 +70,14 @@ public class Client implements Serializable {
 		this.age = age;
 	}
 
+	public Integer getAvs() {
+		return this.avs;
+	}
+
+	public void setAvs(Integer avs) {
+		this.avs = avs;
+	}
+
 	public Date getBirthDate() {
 		return this.birthDate;
 	}
@@ -94,6 +94,14 @@ public class Client implements Serializable {
 		this.email = email;
 	}
 
+	public String getFax() {
+		return this.fax;
+	}
+
+	public void setFax(String fax) {
+		this.fax = fax;
+	}
+
 	public String getFirstName() {
 		return this.firstName;
 	}
@@ -102,12 +110,28 @@ public class Client implements Serializable {
 		this.firstName = firstName;
 	}
 
+	public String getFix() {
+		return this.fix;
+	}
+
+	public void setFix(String fix) {
+		this.fix = fix;
+	}
+
 	public String getLastName() {
 		return this.lastName;
 	}
 
 	public void setLastName(String lastName) {
 		this.lastName = lastName;
+	}
+
+	public Integer getMpi() {
+		return this.mpi;
+	}
+
+	public void setMpi(Integer mpi) {
+		this.mpi = mpi;
 	}
 
 	public String getPhone() {

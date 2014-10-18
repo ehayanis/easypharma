@@ -85,7 +85,7 @@ public class SaleView extends JFrame {
 
         jPanel1 = new JPanel();
         jInternalFrame4 = new MedecinWidget(em);
-        jInternalFrame3 = new AssuranceWidget();
+        jInternalFrame3 = new AssuranceWidget(em);
         jInternalFrame1 = new ClientWidget(em);
         jPanel2 = new HeaderPanel();
         jTabbedPane1 = new JTabbedPane();
@@ -352,6 +352,10 @@ jTable1.setComponentPopupMenu(popupMenu);
     
     public JPanel getjPanel1(){
     	return this.jPanel1;
+    }
+    
+    public JInternalFrame getjInternalFrame3(){
+    	return this.jInternalFrame3;
     }
 
     private JInternalFrame jInternalFrame1;

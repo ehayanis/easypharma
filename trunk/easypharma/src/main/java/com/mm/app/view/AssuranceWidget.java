@@ -2,10 +2,13 @@ package com.mm.app.view;
 
 import java.awt.Color;
 import java.awt.Font;
+import java.awt.event.*;
 
+import javax.persistence.EntityManager;
 import javax.swing.BoxLayout;
 import javax.swing.ImageIcon;
 import javax.swing.JButton;
+import javax.swing.JFrame;
 import javax.swing.JInternalFrame;
 import javax.swing.JTextField;
 
@@ -26,7 +29,10 @@ public class AssuranceWidget extends JInternalFrame implements InternalFrameWidg
 	private JButton newAssur2;
 	private JButton newAssur3;
 	
-	public AssuranceWidget() {
+	private EntityManager em;
+	
+	public AssuranceWidget(EntityManager em) {
+		this.em = em;
 		
 		initComponent();
 		
@@ -52,6 +58,38 @@ public class AssuranceWidget extends JInternalFrame implements InternalFrameWidg
 		newAssur1 = new HeaderButton("/img/add.gif");
 		newAssur2 = new HeaderButton("/img/add.gif");
 		newAssur3 = new HeaderButton("/img/add.gif");
+		
+		editAssur1.addActionListener(new ActionListener() {
+            public void actionPerformed(ActionEvent evt) {
+                editActionPerformed(evt);
+            }
+        });
+		editAssur2.addActionListener(new ActionListener() {
+            public void actionPerformed(ActionEvent evt) {
+                editActionPerformed(evt);
+            }
+        });
+		editAssur3.addActionListener(new ActionListener() {
+            public void actionPerformed(ActionEvent evt) {
+                editActionPerformed(evt);
+            }
+        });
+		
+		newAssur1.addActionListener(new ActionListener() {
+            public void actionPerformed(ActionEvent evt) {
+                newActionPerformed(evt);
+            }
+        });
+		newAssur2.addActionListener(new ActionListener() {
+            public void actionPerformed(ActionEvent evt) {
+                newActionPerformed(evt);
+            }
+        });
+		newAssur3.addActionListener(new ActionListener() {
+            public void actionPerformed(ActionEvent evt) {
+                newActionPerformed(evt);
+            }
+        });
 		
 		add(Utilities.createFilledAdvancedPanel("Assurance Obligatoire", assurance1, editAssur1, newAssur1));
 		add(Utilities.createFilledAdvancedPanel("Assurance Accident", assurance2, editAssur2, newAssur2));
@@ -92,5 +130,15 @@ public class AssuranceWidget extends JInternalFrame implements InternalFrameWidg
 		assurance3.setEnabled(true);
 		assurance3.setEditable(true);
 	}
+	
+	private void editActionPerformed(ActionEvent evt) {                                         
+        JFrame assuranceManagementView = new AssuranceManagementView(em);
+        assuranceManagementView.setVisible(true);
+    } 
+	
+	private void newActionPerformed(ActionEvent evt) {                                         
+        JFrame assuranceManagementView = new AssuranceManagementView(em);
+        assuranceManagementView.setVisible(true);
+    } 
 
 }
