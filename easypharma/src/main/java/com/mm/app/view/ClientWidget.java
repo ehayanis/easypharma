@@ -2,6 +2,8 @@ package com.mm.app.view;
 
 import java.awt.Color;
 import java.awt.Font;
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
 import java.awt.event.KeyAdapter;
 import java.awt.event.KeyEvent;
 import java.text.DateFormat;
@@ -12,6 +14,7 @@ import javax.persistence.EntityManager;
 import javax.swing.BoxLayout;
 import javax.swing.ImageIcon;
 import javax.swing.JButton;
+import javax.swing.JFrame;
 import javax.swing.JInternalFrame;
 import javax.swing.JPanel;
 import javax.swing.JTextField;
@@ -92,6 +95,17 @@ public class ClientWidget extends JInternalFrame implements InternalFrameWidget{
 		editButton = new HeaderButton("Edition", "/img/edit.gif", false, false);
 		newButton = new HeaderButton("Nouveau", "/img/add.gif", false, false);
 		
+		editButton.addActionListener(new ActionListener() {
+            public void actionPerformed(ActionEvent evt) {
+                editActionPerformed(evt);
+            }
+        });
+		newButton.addActionListener(new ActionListener() {
+            public void actionPerformed(ActionEvent evt) {
+                newActionPerformed(evt);
+            }
+        });
+		
 		buttonPanel.add(editButton);
 		buttonPanel.add(newButton);
 		
@@ -135,7 +149,16 @@ public class ClientWidget extends JInternalFrame implements InternalFrameWidget{
 	public void setPhone(JTextField phone) {
 		this.phone = phone;
 	}
-
+	
+	private void editActionPerformed(ActionEvent evt) {                                         
+        JFrame clientManagementView = new ClientManagementView();
+        clientManagementView.setVisible(true);
+    } 
+	
+	private void newActionPerformed(ActionEvent evt) {                                         
+		 JFrame clientManagementView = new ClientManagementView();
+	        clientManagementView.setVisible(true);
+    }
 
 	@Override
 	public void activateComponents(){

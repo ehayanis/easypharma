@@ -2,6 +2,8 @@ package com.mm.app.view;
 
 import java.awt.Color;
 import java.awt.Font;
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -9,6 +11,7 @@ import javax.persistence.EntityManager;
 import javax.swing.BoxLayout;
 import javax.swing.ImageIcon;
 import javax.swing.JButton;
+import javax.swing.JFrame;
 import javax.swing.JInternalFrame;
 import javax.swing.JPanel;
 import javax.swing.JTextField;
@@ -90,6 +93,20 @@ public class MedecinWidget extends JInternalFrame implements InternalFrameWidget
 		
 		editButton = new HeaderButton("Edition", "/img/edit.gif", false, false);
 		newButton = new HeaderButton("Nouveau", "/img/add.gif", false, false);
+		
+		
+		editButton.addActionListener(new ActionListener() {
+            public void actionPerformed(ActionEvent evt) {
+                editActionPerformed(evt);
+            }
+        });
+		newButton.addActionListener(new ActionListener() {
+            public void actionPerformed(ActionEvent evt) {
+                newActionPerformed(evt);
+            }
+        });
+		
+		
 		buttonPanel.add(editButton);
 		buttonPanel.add(newButton);
 		
@@ -140,7 +157,17 @@ public class MedecinWidget extends JInternalFrame implements InternalFrameWidget
 	public void setNrcc(JTextField nrcc) {
 		this.nrcc = nrcc;
 	}
-
+	
+	private void editActionPerformed(ActionEvent evt) {                                         
+        JFrame medecinManagementView = new MedecinManagementView();
+        medecinManagementView.setVisible(true);
+    } 
+	
+	private void newActionPerformed(ActionEvent evt) {                                         
+		 JFrame medecinManagementView = new MedecinManagementView();
+		 medecinManagementView.setVisible(true);
+    }
+	
 	@Override
 	public void activateComponents(){
 		firstName.setEnabled(true);
