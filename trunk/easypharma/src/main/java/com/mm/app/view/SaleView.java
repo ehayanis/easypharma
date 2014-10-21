@@ -9,7 +9,6 @@ import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.awt.event.KeyAdapter;
 import java.awt.event.KeyEvent;
-import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -17,21 +16,26 @@ import java.util.Map;
 import javax.persistence.EntityManager;
 import javax.persistence.EntityManagerFactory;
 import javax.persistence.Persistence;
+import javax.swing.AbstractAction;
 import javax.swing.DefaultCellEditor;
 import javax.swing.GroupLayout;
 import javax.swing.ImageIcon;
+import javax.swing.JComboBox;
+import javax.swing.JComponent;
 import javax.swing.JFrame;
 import javax.swing.JInternalFrame;
 import javax.swing.JLabel;
 import javax.swing.JMenu;
 import javax.swing.JMenuBar;
 import javax.swing.JMenuItem;
+import javax.swing.JOptionPane;
 import javax.swing.JPanel;
 import javax.swing.JPopupMenu;
 import javax.swing.JPopupMenu.Separator;
 import javax.swing.JScrollPane;
 import javax.swing.JTabbedPane;
 import javax.swing.JTable;
+import javax.swing.KeyStroke;
 import javax.swing.LayoutStyle;
 import javax.swing.UIManager;
 import javax.swing.WindowConstants;
@@ -185,6 +189,12 @@ public class SaleView extends JFrame {
         renderer.setToolTipText("Séléctionner un produit");
         column.setCellRenderer(renderer);
         
+        
+        TableColumn factureColumn = jTable1.getColumnModel().getColumn(1);
+        JComboBox<String> facture = new JComboBox<String>();
+        facture.addItem("Comptoire");
+        facture.addItem("Assurance");
+        factureColumn.setCellEditor(new DefaultCellEditor(facture));
 
 		JPopupMenu popupMenu = new JPopupMenu();
 		JMenuItem posologieItem = new JMenuItem("Posologie");
@@ -313,7 +323,24 @@ public class SaleView extends JFrame {
                     .addComponent(jPanel4, GroupLayout.PREFERRED_SIZE, GroupLayout.DEFAULT_SIZE, GroupLayout.PREFERRED_SIZE)
                     .addContainerGap())
             );
-
+        
+        
+        KeyStroke escapeKeyStroke = KeyStroke.getKeyStroke(KeyEvent.VK_ESCAPE, 0, false);
+        javax.swing.Action escapeAction = new AbstractAction() {
+        	public void actionPerformed(ActionEvent e) {
+        		PaymentView paymentView = new PaymentView();
+        		
+        		if("".equals(jLabel3.getText())){
+        			JOptionPane.showMessageDialog(jTabbedPane1, "Veuillez séléctionner au moins un produit!");
+        		}else{
+        			paymentView.getTotal().setText(jLabel3.getText());
+        			paymentView.setVisible(true);
+        		}
+        	}
+        };
+        getRootPane().getInputMap(JComponent.WHEN_IN_FOCUSED_WINDOW).put(escapeKeyStroke, "ESCAPE");
+        getRootPane().getActionMap().put("ESCAPE", escapeAction);
+    
         pack();
         setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
     }                        
