@@ -3,14 +3,15 @@ package com.mm.app.utilities;
 import java.util.List;
 import javax.swing.table.AbstractTableModel;
 import com.mm.app.model.Assurance;
+import com.mm.app.model.Medecin;
 
-public class AssuranceTableModel extends AbstractTableModel{
+public class MedecinTableModel extends AbstractTableModel{
 
-	List<Assurance> assurancesList;
-	String headerList[] = new String[]{"Réf", "Agence", "N° OFAS", "N° EAN", "N° RCC", "Cover Card"};
+	List<Medecin> medecinsList;
+	String headerList[] = new String[]{"Id", "Réference", "Nom", "Prénom", "Spécialité", "N° NRCC"};
 
-	public AssuranceTableModel(List list) {
-		assurancesList = list;
+	public MedecinTableModel(List list) {
+		medecinsList = list;
 	}
 
 	@Override
@@ -20,27 +21,27 @@ public class AssuranceTableModel extends AbstractTableModel{
 
 	@Override
 	public int getRowCount() {
-		return assurancesList.size();
+		return medecinsList.size();
 	}
 
 	@Override
 	public Object getValueAt(int row, int column) {
-		Assurance entity = null;
-		entity= assurancesList.get(row);
+		Medecin entity = null;
+		entity= medecinsList.get(row);
 
 		switch (column) {
 		case 0:
 			return entity.getId();
 		case 1:
-			return entity.getAgence();
+			return entity.getReference();
 		case 2:
-			return entity.getOfas();
+			return entity.getFirstName();
 		case 3:
-			return entity.getEan();
+			return entity.getLastName();
 		case 4:
-			return entity.getRcc();
+			return entity.getSpeciality();
 		case 5:
-			return entity.getCoverCard();
+			return entity.getNrcc();
 		default:
 			return ""; 
 		}

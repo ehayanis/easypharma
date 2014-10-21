@@ -58,7 +58,11 @@ public class Assurance implements Serializable {
 	@OneToMany(mappedBy="assurance")
 	private List<Ordonnance> ordonnances;
 
-    public Assurance() {
+	@ManyToMany(mappedBy="assurances")
+	private List<Client> clients;
+	
+
+	public Assurance() {
     }
 
 	public Integer getId() {
@@ -115,6 +119,14 @@ public class Assurance implements Serializable {
 
 	public void setCardValidity(Date cardValidity) {
 		this.cardValidity = cardValidity;
+	}
+
+	public List<Client> getClients() {
+		return clients;
+	}
+	
+	public void setClients(List<Client> clients) {
+		this.clients = clients;
 	}
 
 	public String getCoverCard() {

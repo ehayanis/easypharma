@@ -31,6 +31,7 @@ public class HeaderPanel extends JPanel {
 	
 	private void initComponents() {
         jButton2 = new HeaderButton(" ", "/img/jbutton2.png", "Activer la vente sur Ordonnance");
+        jButton2.setVisible(false);
         jButton1 = new HeaderButton("Client", "/img/jbutton1.png", "Assurance");
         jButton3 = new HeaderButton("Médicaments", "/img/jbutton3.png", "Médecin");
         jButton4 = new HeaderButton("Impression", "/img/jbutton4.png", "Payment");

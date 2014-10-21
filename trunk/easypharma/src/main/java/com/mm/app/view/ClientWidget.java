@@ -16,10 +16,12 @@ import javax.swing.ImageIcon;
 import javax.swing.JButton;
 import javax.swing.JFrame;
 import javax.swing.JInternalFrame;
+import javax.swing.JOptionPane;
 import javax.swing.JPanel;
 import javax.swing.JTextField;
 
 import com.mm.app.model.Client;
+import com.mm.app.model.Ordonnance;
 import com.mm.app.service.ClientService;
 import com.mm.app.service.impl.ClientServiceImpl;
 import com.mm.app.utilities.Java2sAutoComboBox;
@@ -40,7 +42,10 @@ public class ClientWidget extends JInternalFrame implements InternalFrameWidget{
 	
 	private ClientService clientService;
 	
+	private EntityManager em;
+	
 	public ClientWidget(EntityManager em) {
+		this.em = em;
 		clientService = new ClientServiceImpl(em);
 		
 		initComponent();
@@ -150,13 +155,41 @@ public class ClientWidget extends JInternalFrame implements InternalFrameWidget{
 		this.phone = phone;
 	}
 	
-	private void editActionPerformed(ActionEvent evt) {                                         
-        JFrame clientManagementView = new ClientManagementView();
-        clientManagementView.setVisible(true);
+	private void editActionPerformed(ActionEvent evt) {
+		String ref = (String) reference.getSelectedItem();
+		ClientManagementView clientManagementView = new ClientManagementView(em);
+        
+		if(!"".equals(ref)){
+			Client client = clientService.findClientByReference(ref);
+			clientManagementView.getFirstName().setText(client.getFirstName());
+			clientManagementView.getLastName().setText(client.getLastName());
+			clientManagementView.getReference().setText(client.getReference());
+			clientManagementView.getDateOfBirth().setText(DateFormat.getInstance().format(client.getBirthDate()));
+			clientManagementView.getAge().setText(String.valueOf(client.getAge()));
+			clientManagementView.getEmail().setText(String.valueOf(client.getEmail()));
+			clientManagementView.getRpi().setText(String.valueOf(client.getMpi()));
+			clientManagementView.getFixe().setText(client.getPhone());
+			
+			List<Ordonnance> ordonnances = client.getOrdonnances();
+			
+			String[] data = new String[ordonnances.size()];
+			int i  = 0;
+			DateFormat df = DateFormat.getDateInstance();
+			for(Ordonnance ordonnance : ordonnances){
+				data[i] = df.format(ordonnance.getStartDate()) + "(" + ordonnance.getId() + ")";
+				i++;
+			}
+			
+			clientManagementView.getListOrdonnance().setListData(data);
+			clientManagementView.setVisible(true);
+		}
+		else{
+			JOptionPane.showMessageDialog(this, "Veuillez séléctionner un client pour pouvoir le modifier!");
+		}
     } 
 	
 	private void newActionPerformed(ActionEvent evt) {                                         
-		 JFrame clientManagementView = new ClientManagementView();
+		 JFrame clientManagementView = new ClientManagementView(em);
 	        clientManagementView.setVisible(true);
     }
 

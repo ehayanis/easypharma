@@ -4,8 +4,11 @@ import java.awt.Color;
 import java.awt.Font;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
-import java.util.ArrayList;
+import java.awt.event.KeyAdapter;
+import java.awt.event.KeyEvent;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 import javax.persistence.EntityManager;
 import javax.swing.BoxLayout;
@@ -13,6 +16,7 @@ import javax.swing.ImageIcon;
 import javax.swing.JButton;
 import javax.swing.JFrame;
 import javax.swing.JInternalFrame;
+import javax.swing.JOptionPane;
 import javax.swing.JPanel;
 import javax.swing.JTextField;
 
@@ -37,8 +41,10 @@ public class MedecinWidget extends JInternalFrame implements InternalFrameWidget
 	private JButton newButton;
 	
 	private MedecinService medecinService;
+	private EntityManager em;
 	
 	public MedecinWidget(EntityManager em) {
+		this.em = em;
 		medecinService = new MedecinServiceImpl(em);
 		
 		initComponent();
@@ -60,12 +66,14 @@ public class MedecinWidget extends JInternalFrame implements InternalFrameWidget
 		nrcc = new JTextField();
 		speciality = new JTextField();
 		
-		ArrayList<String> data = new ArrayList<String>();   
-		data.add("");
+//		ArrayList<String> data = new ArrayList<String>(); 
+		final Map<String, String> data = new HashMap<String, String>();
+		data.put("", "");
 		List<Medecin> result = medecinService.getMedecins();
 		if(result != null && result.size() > 0){
 			for(Medecin m : result){
-				data.add(m.getFirstName() + " " + m.getLastName());
+				System.out.println(m.getFirstName() + " " + m.getLastName() + " " + String.valueOf(m.getId()));
+				data.put(m.getFirstName() + " " + m.getLastName(), String.valueOf(m.getId()));
 			}
 		}
 		
@@ -73,20 +81,23 @@ public class MedecinWidget extends JInternalFrame implements InternalFrameWidget
 		firstName.setDataList(data);
 		firstName.setMaximumRowCount(3);
 
-//		firstName.getEditor().getEditorComponent().addKeyListener(new KeyAdapter() {
-//			@Override
-//			public void keyPressed(KeyEvent e) {
-//				if (e.getKeyChar() == KeyEvent.VK_ENTER) {
-//					String selectedValue = (String) firstName.getSelectedItem();
-//					Medecin medecin = medecinService.findMedecinByName(selectedValue);
-//					
-//					reference.setText(medecin.getReference());
-//					speciality.setText(medecin.getSpeciality());
-//					phone.setText(medecin.getPhone());
-//					nrcc.setText(medecin.getNrcc());
-//				}
-//			}
-//		});
+		firstName.getEditor().getEditorComponent().addKeyListener(new KeyAdapter() {
+			@Override
+			public void keyPressed(KeyEvent e) {
+				if (e.getKeyChar() == KeyEvent.VK_ENTER) {
+					String selectedValue = (String) firstName.getSelectedItem();
+					System.out.println("Selected Value : " + selectedValue);
+					int id = Integer.valueOf(data.get(selectedValue));
+					System.out.println("ID : " + id);
+					Medecin medecin = medecinService.findMedecin(id);
+					
+					reference.setText(String.valueOf(medecin.getId()));
+					speciality.setText(medecin.getSpeciality());
+					phone.setText(medecin.getPhone());
+					nrcc.setText(medecin.getNrcc());
+				}
+			}
+		});
 		
 		buttonPanel = new JPanel();
 		buttonPanel.setBackground(Color.WHITE);
@@ -115,6 +126,9 @@ public class MedecinWidget extends JInternalFrame implements InternalFrameWidget
 		add(Utilities.createFilledSimplePanel("Tél.", phone));
 		add(Utilities.createFilledSimplePanel("NRCC", nrcc));
 		add(Utilities.createFilledSimplePanel(" ", buttonPanel));
+		
+		reference.setVisible(false);
+		add(reference);
 		
 	}
 
@@ -159,12 +173,30 @@ public class MedecinWidget extends JInternalFrame implements InternalFrameWidget
 	}
 	
 	private void editActionPerformed(ActionEvent evt) {                                         
-        JFrame medecinManagementView = new MedecinManagementView();
-        medecinManagementView.setVisible(true);
+		MedecinManagementView medecinManagementView = new MedecinManagementView(em);
+        
+        if(!"".equals(reference.getText())){
+        	Medecin medecin = medecinService.findMedecin(Integer.valueOf(reference.getText()));
+        	
+        	medecinManagementView.getFirstName().setText(medecin.getFirstName());
+        	medecinManagementView.getLastName().setText(medecin.getLastName());
+        	medecinManagementView.getReference().setText(medecin.getReference());
+        	medecinManagementView.getNrcc().setText(medecin.getNrcc());
+        	medecinManagementView.getNumNC().setText(medecin.getNc());
+        	medecinManagementView.getFixe().setText(medecin.getPhone());
+        	medecinManagementView.getFax().setText(medecin.getFax());
+        	medecinManagementView.getSpeciality().setText(medecin.getSpeciality());
+        	
+        	
+        	medecinManagementView.setVisible(true);
+        }else{
+        	JOptionPane.showMessageDialog(this, "Veuillez séléctionner un médecin pour pouvoir le modifier!");
+        }
+        
     } 
 	
 	private void newActionPerformed(ActionEvent evt) {                                         
-		 JFrame medecinManagementView = new MedecinManagementView();
+		 JFrame medecinManagementView = new MedecinManagementView(em);
 		 medecinManagementView.setVisible(true);
     }
 	

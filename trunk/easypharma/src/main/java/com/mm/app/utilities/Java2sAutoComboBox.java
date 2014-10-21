@@ -1,81 +1,106 @@
 package com.mm.app.utilities;
 
 import java.awt.event.ItemEvent;
+import java.util.ArrayList;
+import java.util.Collection;
+import java.util.Collections;
+import java.util.List;
+import java.util.Map;
+import java.util.Set;
+
 import javax.swing.DefaultComboBoxModel;
 import javax.swing.JComboBox;
 import javax.swing.plaf.basic.BasicComboBoxEditor;
 
 public class Java2sAutoComboBox extends JComboBox {
-  private class AutoTextFieldEditor extends BasicComboBoxEditor {
+	private class AutoTextFieldEditor extends BasicComboBoxEditor {
 
-    private Java2sAutoTextField getAutoTextFieldEditor() {
-      return (Java2sAutoTextField) editor;
-    }
+		private Java2sAutoTextField getAutoTextFieldEditor() {
+			return (Java2sAutoTextField) editor;
+		}
 
-    AutoTextFieldEditor(java.util.List list) {
-      editor = new Java2sAutoTextField(list, Java2sAutoComboBox.this);
-    }
-  }
+		AutoTextFieldEditor(java.util.List list) {
+			editor = new Java2sAutoTextField(list, Java2sAutoComboBox.this);
+		}
+	}
 
-  public Java2sAutoComboBox(java.util.List list) {
-    isFired = false;
-    autoTextFieldEditor = new AutoTextFieldEditor(list);
-    setEditable(true);
-    setModel(new DefaultComboBoxModel(list.toArray()) {
+	public Java2sAutoComboBox(java.util.Map<String, String> map) {
+		this(mapValuesToList(map));
+	}
 
-      protected void fireContentsChanged(Object obj, int i, int j) {
-        if (!isFired)
-          super.fireContentsChanged(obj, i, j);
-      }
+	public Java2sAutoComboBox(java.util.List list) {
+		isFired = false;
+		autoTextFieldEditor = new AutoTextFieldEditor(list);
+		setEditable(true);
+		setModel(new DefaultComboBoxModel(list.toArray()) {
 
-    });
-    setEditor(autoTextFieldEditor);
-  }
+			protected void fireContentsChanged(Object obj, int i, int j) {
+				if (!isFired)
+					super.fireContentsChanged(obj, i, j);
+			}
 
-  public boolean isCaseSensitive() {
-    return autoTextFieldEditor.getAutoTextFieldEditor().isCaseSensitive();
-  }
+		});
+		setEditor(autoTextFieldEditor);
+	}
 
-  public void setCaseSensitive(boolean flag) {
-    autoTextFieldEditor.getAutoTextFieldEditor().setCaseSensitive(flag);
-  }
+	public boolean isCaseSensitive() {
+		return autoTextFieldEditor.getAutoTextFieldEditor().isCaseSensitive();
+	}
 
-  public boolean isStrict() {
-    return autoTextFieldEditor.getAutoTextFieldEditor().isStrict();
-  }
+	public void setCaseSensitive(boolean flag) {
+		autoTextFieldEditor.getAutoTextFieldEditor().setCaseSensitive(flag);
+	}
 
-  public void setStrict(boolean flag) {
-    autoTextFieldEditor.getAutoTextFieldEditor().setStrict(flag);
-  }
+	public boolean isStrict() {
+		return autoTextFieldEditor.getAutoTextFieldEditor().isStrict();
+	}
 
-  public java.util.List getDataList() {
-    return autoTextFieldEditor.getAutoTextFieldEditor().getDataList();
-  }
+	public void setStrict(boolean flag) {
+		autoTextFieldEditor.getAutoTextFieldEditor().setStrict(flag);
+	}
 
-  public void setDataList(java.util.List list) {
-    autoTextFieldEditor.getAutoTextFieldEditor().setDataList(list);
-    setModel(new DefaultComboBoxModel(list.toArray()));
-  }
- 
-  void setSelectedValue(Object obj) {
-    if (isFired) {
-      return;
-    } else {
-      isFired = true;
-      setSelectedItem(obj);
-      fireItemStateChanged(new ItemEvent(this, 701, selectedItemReminder, 1));
-      isFired = false;
-      return;
-    }
-  }
+	public java.util.List getDataList() {
+		return autoTextFieldEditor.getAutoTextFieldEditor().getDataList();
+	}
 
-  protected void fireActionEvent() {
-    if (!isFired)
-      super.fireActionEvent();
-  }
+	public void setDataList(java.util.List list) {
+		autoTextFieldEditor.getAutoTextFieldEditor().setDataList(list);
+		setModel(new DefaultComboBoxModel(list.toArray()));
+	}
 
-  private AutoTextFieldEditor autoTextFieldEditor;
+	public void setDataList(java.util.Map<String, String> map) {
+		List<String> list = mapValuesToList(map);
+		
+		autoTextFieldEditor.getAutoTextFieldEditor().setDataList(list);
+		setModel(new DefaultComboBoxModel(list.toArray()));
+	}
 
-  private boolean isFired;
+	void setSelectedValue(Object obj) {
+		if (isFired) {
+			return;
+		} else {
+			isFired = true;
+			setSelectedItem(obj);
+			fireItemStateChanged(new ItemEvent(this, 701, selectedItemReminder, 1));
+			isFired = false;
+			return;
+		}
+	}
+
+	protected void fireActionEvent() {
+		if (!isFired)
+			super.fireActionEvent();
+	}
+	
+	private static List<String> mapValuesToList(Map<String, String> map){
+		List<String> list = new ArrayList<String>();
+		Collection<String> collection = map.keySet();
+		list.addAll(collection);
+		return list;
+	}
+
+	private AutoTextFieldEditor autoTextFieldEditor;
+
+	private boolean isFired;
 
 }

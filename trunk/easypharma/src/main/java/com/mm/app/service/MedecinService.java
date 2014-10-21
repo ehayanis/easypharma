@@ -11,6 +11,7 @@ public interface MedecinService {
 	public Medecin findMedecin(int id);
 
 	public Medecin findMedecinByName(String name);
-
+	
+	public List<Medecin> findMedecinsByCriteria(String criteria);
 }
 

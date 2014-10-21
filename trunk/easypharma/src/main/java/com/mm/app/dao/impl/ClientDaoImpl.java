@@ -32,6 +32,12 @@ public class ClientDaoImpl implements ClientDao{
 		Client c = (Client) em.createNamedQuery("findClientByReference").setParameter("reference", reference).getSingleResult();
 		return c;
 	}
+
+	@Override
+	public List<Client> findClientsByCriteria(String criteria) {
+		List<Client> clients = em.createNamedQuery("findClientByReference").setParameter("reference", criteria).getResultList();
+		return clients;
+	}
 	
 	
 }
