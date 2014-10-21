@@ -57,43 +57,43 @@ public class AssuranceManagementView extends javax.swing.JFrame {
         jPanel3 = new JPanel();
         jPanel4 = new JPanel();
         jLabel1 = new JLabel();
-        jTextField2 = new JTextField();
+        nom = new JTextField();
         jPanel5 = new JPanel();
         jLabel4 = new JLabel();
-        jTextField3 = new JTextField();
+        agence = new JTextField();
         jPanel9 = new JPanel();
         jLabel7 = new JLabel();
-        jTextField7 = new JTextField();
+        ean = new JTextField();
         jPanel10 = new JPanel();
         jLabel8 = new JLabel();
-        jTextField8 = new JTextField();
+        ofas = new JTextField();
         jPanel12 = new JPanel();
         jLabel10 = new JLabel();
-        jTextField10 = new JTextField();
+        coverCard = new JTextField();
         jPanel14 = new JPanel();
         jLabel12 = new JLabel();
         jTextField12 = new JTextField();
         jPanel15 = new JPanel();
         jLabel13 = new JLabel();
-        jTextField13 = new JTextField();
+        cardValidity = new JTextField();
         jPanel16 = new JPanel();
         jLabel14 = new JLabel();
-        jTextField14 = new JTextField();
+        validationDate = new JTextField();
         jPanel17 = new JPanel();
         jLabel15 = new JLabel();
         jTextField15 = new JTextField();
         jPanel18 = new JPanel();
         jLabel16 = new JLabel();
-        jTextField16 = new JTextField();
+        phone = new JTextField();
         jPanel19 = new JPanel();
         jLabel17 = new JLabel();
-        jTextField17 = new JTextField();
+        validationNumber = new JTextField();
         jPanel13 = new JPanel();
         jLabel11 = new JLabel();
-        jTextField9 = new JTextField();
+        rcc = new JTextField();
         jPanel20 = new JPanel();
         jLabel18 = new JLabel();
-        jTextField11 = new JTextField();
+        npa = new JTextField();
         jLabel2 = new JLabel();
         jPanel21 = new JPanel();
         jLabel19 = new JLabel();
@@ -105,7 +105,7 @@ public class AssuranceManagementView extends javax.swing.JFrame {
         jRadioButton6 = new JRadioButton();
         jLabel3 = new JLabel();
         jScrollPane2 = new JScrollPane();
-        jTextArea1 = new JTextArea();
+        address = new JTextArea();
         jButton1 = new JButton();
         jButton2 = new JButton();
 
@@ -175,18 +175,18 @@ public class AssuranceManagementView extends javax.swing.JFrame {
               
               assurance = service.findAssurance(selectedData);
               if(assurance != null){
-            	  jTextField2.setText(assurance.getName());
-            	  jTextField3.setText(assurance.getAgence());
-            	  jTextField8.setText(assurance.getOfas());
-            	  jTextField7.setText(assurance.getEan());
-            	  jTextField9.setText(assurance.getRcc());
-            	  jTextField10.setText(assurance.getCoverCard());
-            	  jTextField11.setText(assurance.getNpa());
-            	  jTextField16.setText(assurance.getPhone());
-            	  jTextField14.setText(DateFormat.getDateInstance().format(assurance.getValidationDate()));
-            	  jTextField13.setText(DateFormat.getDateInstance().format(assurance.getCardValidity()));
-            	  jTextField17.setText(String.valueOf(assurance.getValidationNumber()));
-            	  jTextArea1.setText(assurance.getAddress());
+            	  nom.setText(assurance.getName());
+            	  agence.setText(assurance.getAgence());
+            	  ofas.setText(assurance.getOfas());
+            	  ean.setText(assurance.getEan());
+            	  rcc.setText(assurance.getRcc());
+            	  coverCard.setText(assurance.getCoverCard());
+            	  npa.setText(assurance.getNpa());
+            	  phone.setText(assurance.getPhone());
+            	  validationDate.setText(DateFormat.getDateInstance().format(assurance.getValidationDate()));
+            	  cardValidity.setText(DateFormat.getDateInstance().format(assurance.getCardValidity()));
+            	  validationNumber.setText(String.valueOf(assurance.getValidationNumber()));
+            	  address.setText(assurance.getAddress());
               }
             }
         });
@@ -201,14 +201,14 @@ public class AssuranceManagementView extends javax.swing.JFrame {
                 .addContainerGap()
                 .addComponent(jLabel1)
                 .addGap(18, 18, 18)
-                .addComponent(jTextField2)
+                .addComponent(nom)
                 .addContainerGap())
         );
         jPanel4Layout.setVerticalGroup(
             jPanel4Layout.createParallelGroup(GroupLayout.Alignment.LEADING)
             .addGroup(jPanel4Layout.createParallelGroup(GroupLayout.Alignment.BASELINE)
                 .addComponent(jLabel1, GroupLayout.DEFAULT_SIZE, 25, Short.MAX_VALUE)
-                .addComponent(jTextField2, GroupLayout.PREFERRED_SIZE, GroupLayout.DEFAULT_SIZE, GroupLayout.PREFERRED_SIZE))
+                .addComponent(nom, GroupLayout.PREFERRED_SIZE, GroupLayout.DEFAULT_SIZE, GroupLayout.PREFERRED_SIZE))
         );
 
         jLabel4.setText("Agence:");
@@ -221,14 +221,14 @@ public class AssuranceManagementView extends javax.swing.JFrame {
                 .addContainerGap()
                 .addComponent(jLabel4)
                 .addGap(18, 18, 18)
-                .addComponent(jTextField3, GroupLayout.DEFAULT_SIZE, 197, Short.MAX_VALUE)
+                .addComponent(agence, GroupLayout.DEFAULT_SIZE, 197, Short.MAX_VALUE)
                 .addContainerGap())
         );
         jPanel5Layout.setVerticalGroup(
             jPanel5Layout.createParallelGroup(GroupLayout.Alignment.LEADING)
             .addGroup(jPanel5Layout.createParallelGroup(GroupLayout.Alignment.BASELINE)
                 .addComponent(jLabel4, GroupLayout.DEFAULT_SIZE, 25, Short.MAX_VALUE)
-                .addComponent(jTextField3, GroupLayout.PREFERRED_SIZE, GroupLayout.DEFAULT_SIZE, GroupLayout.PREFERRED_SIZE))
+                .addComponent(agence, GroupLayout.PREFERRED_SIZE, GroupLayout.DEFAULT_SIZE, GroupLayout.PREFERRED_SIZE))
         );
 
         jLabel7.setText("N° EAN:");
@@ -241,14 +241,14 @@ public class AssuranceManagementView extends javax.swing.JFrame {
                 .addContainerGap()
                 .addComponent(jLabel7)
                 .addGap(18, 18, 18)
-                .addComponent(jTextField7, GroupLayout.DEFAULT_SIZE, 198, Short.MAX_VALUE)
+                .addComponent(ean, GroupLayout.DEFAULT_SIZE, 198, Short.MAX_VALUE)
                 .addContainerGap())
         );
         jPanel9Layout.setVerticalGroup(
             jPanel9Layout.createParallelGroup(GroupLayout.Alignment.LEADING)
             .addGroup(jPanel9Layout.createParallelGroup(GroupLayout.Alignment.BASELINE)
                 .addComponent(jLabel7, GroupLayout.DEFAULT_SIZE, 25, Short.MAX_VALUE)
-                .addComponent(jTextField7, GroupLayout.PREFERRED_SIZE, GroupLayout.DEFAULT_SIZE, GroupLayout.PREFERRED_SIZE))
+                .addComponent(ean, GroupLayout.PREFERRED_SIZE, GroupLayout.DEFAULT_SIZE, GroupLayout.PREFERRED_SIZE))
         );
 
         jLabel8.setText("N° OFAS:");
@@ -261,14 +261,14 @@ public class AssuranceManagementView extends javax.swing.JFrame {
                 .addContainerGap()
                 .addComponent(jLabel8)
                 .addGap(18, 18, 18)
-                .addComponent(jTextField8)
+                .addComponent(ofas)
                 .addContainerGap())
         );
         jPanel10Layout.setVerticalGroup(
             jPanel10Layout.createParallelGroup(GroupLayout.Alignment.LEADING)
             .addGroup(jPanel10Layout.createParallelGroup(GroupLayout.Alignment.BASELINE)
                 .addComponent(jLabel8, GroupLayout.DEFAULT_SIZE, 25, Short.MAX_VALUE)
-                .addComponent(jTextField8, GroupLayout.PREFERRED_SIZE, GroupLayout.DEFAULT_SIZE, GroupLayout.PREFERRED_SIZE))
+                .addComponent(ofas, GroupLayout.PREFERRED_SIZE, GroupLayout.DEFAULT_SIZE, GroupLayout.PREFERRED_SIZE))
         );
 
         jLabel10.setText("Cover Card:");
@@ -281,14 +281,14 @@ public class AssuranceManagementView extends javax.swing.JFrame {
                 .addContainerGap()
                 .addComponent(jLabel10)
                 .addGap(18, 18, 18)
-                .addComponent(jTextField10, GroupLayout.DEFAULT_SIZE, 179, Short.MAX_VALUE)
+                .addComponent(coverCard, GroupLayout.DEFAULT_SIZE, 179, Short.MAX_VALUE)
                 .addContainerGap())
         );
         jPanel12Layout.setVerticalGroup(
             jPanel12Layout.createParallelGroup(GroupLayout.Alignment.LEADING)
             .addGroup(jPanel12Layout.createParallelGroup(GroupLayout.Alignment.BASELINE)
                 .addComponent(jLabel10, GroupLayout.DEFAULT_SIZE, 25, Short.MAX_VALUE)
-                .addComponent(jTextField10, GroupLayout.PREFERRED_SIZE, GroupLayout.DEFAULT_SIZE, GroupLayout.PREFERRED_SIZE))
+                .addComponent(coverCard, GroupLayout.PREFERRED_SIZE, GroupLayout.DEFAULT_SIZE, GroupLayout.PREFERRED_SIZE))
         );
 
         jLabel12.setText("Email: ");
@@ -321,14 +321,14 @@ public class AssuranceManagementView extends javax.swing.JFrame {
                 .addContainerGap()
                 .addComponent(jLabel13)
                 .addGap(18, 18, 18)
-                .addComponent(jTextField13, GroupLayout.DEFAULT_SIZE, 136, Short.MAX_VALUE)
+                .addComponent(cardValidity, GroupLayout.DEFAULT_SIZE, 136, Short.MAX_VALUE)
                 .addContainerGap())
         );
         jPanel15Layout.setVerticalGroup(
             jPanel15Layout.createParallelGroup(GroupLayout.Alignment.LEADING)
             .addGroup(jPanel15Layout.createParallelGroup(GroupLayout.Alignment.BASELINE)
                 .addComponent(jLabel13, GroupLayout.DEFAULT_SIZE, 25, Short.MAX_VALUE)
-                .addComponent(jTextField13, GroupLayout.PREFERRED_SIZE, GroupLayout.DEFAULT_SIZE, GroupLayout.PREFERRED_SIZE))
+                .addComponent(cardValidity, GroupLayout.PREFERRED_SIZE, GroupLayout.DEFAULT_SIZE, GroupLayout.PREFERRED_SIZE))
         );
 
         jLabel14.setText("Date de Validation:");
@@ -341,14 +341,14 @@ public class AssuranceManagementView extends javax.swing.JFrame {
                 .addContainerGap()
                 .addComponent(jLabel14)
                 .addGap(18, 18, 18)
-                .addComponent(jTextField14, GroupLayout.DEFAULT_SIZE, 136, Short.MAX_VALUE)
+                .addComponent(validationDate, GroupLayout.DEFAULT_SIZE, 136, Short.MAX_VALUE)
                 .addContainerGap())
         );
         jPanel16Layout.setVerticalGroup(
             jPanel16Layout.createParallelGroup(GroupLayout.Alignment.LEADING)
             .addGroup(jPanel16Layout.createParallelGroup(GroupLayout.Alignment.BASELINE)
                 .addComponent(jLabel14, GroupLayout.DEFAULT_SIZE, 25, Short.MAX_VALUE)
-                .addComponent(jTextField14, GroupLayout.PREFERRED_SIZE, GroupLayout.DEFAULT_SIZE, GroupLayout.PREFERRED_SIZE))
+                .addComponent(validationDate, GroupLayout.PREFERRED_SIZE, GroupLayout.DEFAULT_SIZE, GroupLayout.PREFERRED_SIZE))
         );
 
         jLabel15.setText("Mobile:");
@@ -381,14 +381,14 @@ public class AssuranceManagementView extends javax.swing.JFrame {
                 .addContainerGap()
                 .addComponent(jLabel16)
                 .addGap(18, 18, 18)
-                .addComponent(jTextField16, GroupLayout.DEFAULT_SIZE, 136, Short.MAX_VALUE)
+                .addComponent(phone, GroupLayout.DEFAULT_SIZE, 136, Short.MAX_VALUE)
                 .addContainerGap())
         );
         jPanel18Layout.setVerticalGroup(
             jPanel18Layout.createParallelGroup(GroupLayout.Alignment.LEADING)
             .addGroup(jPanel18Layout.createParallelGroup(GroupLayout.Alignment.BASELINE)
                 .addComponent(jLabel16, GroupLayout.DEFAULT_SIZE, 25, Short.MAX_VALUE)
-                .addComponent(jTextField16, GroupLayout.PREFERRED_SIZE, GroupLayout.DEFAULT_SIZE, GroupLayout.PREFERRED_SIZE))
+                .addComponent(phone, GroupLayout.PREFERRED_SIZE, GroupLayout.DEFAULT_SIZE, GroupLayout.PREFERRED_SIZE))
         );
 
         jLabel17.setText("N° Validation:");
@@ -401,14 +401,14 @@ public class AssuranceManagementView extends javax.swing.JFrame {
                 .addContainerGap()
                 .addComponent(jLabel17)
                 .addGap(18, 18, 18)
-                .addComponent(jTextField17, GroupLayout.DEFAULT_SIZE, 136, Short.MAX_VALUE)
+                .addComponent(validationNumber, GroupLayout.DEFAULT_SIZE, 136, Short.MAX_VALUE)
                 .addContainerGap())
         );
         jPanel19Layout.setVerticalGroup(
             jPanel19Layout.createParallelGroup(GroupLayout.Alignment.LEADING)
             .addGroup(jPanel19Layout.createParallelGroup(GroupLayout.Alignment.BASELINE)
                 .addComponent(jLabel17, GroupLayout.DEFAULT_SIZE, 25, Short.MAX_VALUE)
-                .addComponent(jTextField17, GroupLayout.PREFERRED_SIZE, GroupLayout.DEFAULT_SIZE, GroupLayout.PREFERRED_SIZE))
+                .addComponent(validationNumber, GroupLayout.PREFERRED_SIZE, GroupLayout.DEFAULT_SIZE, GroupLayout.PREFERRED_SIZE))
         );
 
         jLabel11.setText("N° RCC:");
@@ -421,14 +421,14 @@ public class AssuranceManagementView extends javax.swing.JFrame {
                 .addContainerGap()
                 .addComponent(jLabel11)
                 .addGap(18, 18, 18)
-                .addComponent(jTextField9)
+                .addComponent(rcc)
                 .addContainerGap())
         );
         jPanel13Layout.setVerticalGroup(
             jPanel13Layout.createParallelGroup(GroupLayout.Alignment.LEADING)
             .addGroup(jPanel13Layout.createParallelGroup(GroupLayout.Alignment.BASELINE)
                 .addComponent(jLabel11, GroupLayout.DEFAULT_SIZE, 25, Short.MAX_VALUE)
-                .addComponent(jTextField9, GroupLayout.PREFERRED_SIZE, GroupLayout.DEFAULT_SIZE, GroupLayout.PREFERRED_SIZE))
+                .addComponent(rcc, GroupLayout.PREFERRED_SIZE, GroupLayout.DEFAULT_SIZE, GroupLayout.PREFERRED_SIZE))
         );
 
         jLabel18.setText("NPA/ Localité:");
@@ -441,14 +441,14 @@ public class AssuranceManagementView extends javax.swing.JFrame {
                 .addContainerGap()
                 .addComponent(jLabel18)
                 .addGap(18, 18, 18)
-                .addComponent(jTextField11, GroupLayout.DEFAULT_SIZE, 226, Short.MAX_VALUE)
+                .addComponent(npa, GroupLayout.DEFAULT_SIZE, 226, Short.MAX_VALUE)
                 .addContainerGap())
         );
         jPanel20Layout.setVerticalGroup(
             jPanel20Layout.createParallelGroup(GroupLayout.Alignment.LEADING)
             .addGroup(jPanel20Layout.createParallelGroup(GroupLayout.Alignment.BASELINE)
                 .addComponent(jLabel18, GroupLayout.DEFAULT_SIZE, 25, Short.MAX_VALUE)
-                .addComponent(jTextField11, GroupLayout.PREFERRED_SIZE, GroupLayout.DEFAULT_SIZE, GroupLayout.PREFERRED_SIZE))
+                .addComponent(npa, GroupLayout.PREFERRED_SIZE, GroupLayout.DEFAULT_SIZE, GroupLayout.PREFERRED_SIZE))
         );
 
         jLabel2.setFont(new java.awt.Font("Tahoma", 1, 11)); // NOI18N
@@ -510,9 +510,9 @@ public class AssuranceManagementView extends javax.swing.JFrame {
 
         jLabel3.setText("Addresse:");
 
-        jTextArea1.setColumns(20);
-        jTextArea1.setRows(3);
-        jScrollPane2.setViewportView(jTextArea1);
+        address.setColumns(20);
+        address.setRows(3);
+        jScrollPane2.setViewportView(address);
 
         GroupLayout jPanel3Layout = new GroupLayout(jPanel3);
         jPanel3.setLayout(jPanel3Layout);
@@ -665,11 +665,9 @@ public class AssuranceManagementView extends javax.swing.JFrame {
 	private void searchActionPerformed(ActionEvent evt) {                                         
 		String value = jTextField1.getText();
 		List<Assurance> assurances = service.getAssurancesByCriteria(value);
-		System.out.println("WE ARE IN");
 		if(assurances != null && assurances.size() > 0){
 			AbstractTableModel model = new AssuranceTableModel(assurances);
 			jTable1.setModel(model);
-			System.out.println("WE ARE REALLY IN");
 		}
 		
     } 
@@ -679,6 +677,8 @@ public class AssuranceManagementView extends javax.swing.JFrame {
 			if (frame.getTitle().equals("EasyPharma: Gestion Pharmacies ")) {
 				SaleView saleView = (SaleView) frame;
 				((AssuranceWidget) saleView.getjInternalFrame3()).getAssurance1().setText(assurance.getName());
+				((AssuranceWidget) saleView.getjInternalFrame3()).getHiddenField1().setText(String.valueOf(assurance.getId()));
+				
 				saleView.setVisible(true);
 			}
 		}
@@ -690,8 +690,62 @@ public class AssuranceManagementView extends javax.swing.JFrame {
 		setVisible(false);
 	     dispose();
 	}
+	
+    public Assurance getAssurance() {
+		return assurance;
+	}
 
-    private JButton jButton1;
+	public JTextArea getAddress() {
+		return address;
+	}
+
+	public JTextField getCoverCard() {
+		return coverCard;
+	}
+
+	public JTextField getNpa() {
+		return npa;
+	}
+
+	public JTextField getCardValidity() {
+		return cardValidity;
+	}
+
+	public JTextField getValidationDate() {
+		return validationDate;
+	}
+
+	public JTextField getPhone() {
+		return phone;
+	}
+
+	public JTextField getValidationNumber() {
+		return validationNumber;
+	}
+
+	public JTextField getNom() {
+		return nom;
+	}
+
+	public JTextField getAgence() {
+		return agence;
+	}
+
+	public JTextField getEan() {
+		return ean;
+	}
+
+	public JTextField getOfas() {
+		return ofas;
+	}
+
+	public JTextField getRcc() {
+		return rcc;
+	}
+
+
+
+	private JButton jButton1;
     private JButton jButton2;
     private JLabel jLabel1;
     private JLabel jLabel10;
@@ -734,20 +788,20 @@ public class AssuranceManagementView extends javax.swing.JFrame {
     private JScrollPane jScrollPane1;
     private JScrollPane jScrollPane2;
     private JTable jTable1;
-    private JTextArea jTextArea1;
+    private JTextArea address;
     private JTextField jTextField1;
-    private JTextField jTextField10;
-    private JTextField jTextField11;
+    private JTextField coverCard;
+    private JTextField npa;
     private JTextField jTextField12;
-    private JTextField jTextField13;
-    private JTextField jTextField14;
+    private JTextField cardValidity;
+    private JTextField validationDate;
     private JTextField jTextField15;
-    private JTextField jTextField16;
-    private JTextField jTextField17;
-    private JTextField jTextField2;
-    private JTextField jTextField3;
-    private JTextField jTextField7;
-    private JTextField jTextField8;
-    private JTextField jTextField9;
+    private JTextField phone;
+    private JTextField validationNumber;
+    private JTextField nom;
+    private JTextField agence;
+    private JTextField ean;
+    private JTextField ofas;
+    private JTextField rcc;
     // End of variables declaration                   
 }

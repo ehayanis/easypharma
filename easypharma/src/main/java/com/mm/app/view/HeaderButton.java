@@ -48,6 +48,12 @@ public class HeaderButton extends JButton{
 		setCursor(new Cursor(Cursor.HAND_CURSOR));
 	}
 	
+	public HeaderButton(String imgPath, String action){
+		this(imgPath);
+		
+		setActionCommand(action);
+	}
+	
 	public HeaderButton(String title, String imgPath, String tooltip){
 		this(title, imgPath, true, true);
 		

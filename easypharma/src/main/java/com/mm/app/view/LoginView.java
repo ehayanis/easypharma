@@ -24,9 +24,6 @@ import javax.swing.border.SoftBevelBorder;
  */
 public class LoginView extends JFrame {
 
-    /**
-	 * 
-	 */
 	private static final long serialVersionUID = 944984973485351368L;
 	public LoginView() {
         initComponents();

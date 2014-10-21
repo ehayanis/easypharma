@@ -34,5 +34,10 @@ public class MedecinServiceImpl implements MedecinService{
 		return dao.findMedecinByName(name);
 	}
 
+	@Override
+	public List<Medecin> findMedecinsByCriteria(String criteria) {
+		return dao.findMedecinsByCriteria(criteria);
+	}
+
 
 }

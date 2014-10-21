@@ -12,6 +12,7 @@ public interface ClientService {
 	public Client findClient(int id);
 
 	public Client findClientByReference(String reference);
-
+	
+	public List<Client> findClientsByCriteria(String criteria);
 }
 

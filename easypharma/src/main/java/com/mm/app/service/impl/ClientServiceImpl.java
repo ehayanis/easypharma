@@ -34,4 +34,9 @@ public class ClientServiceImpl implements ClientService{
 		return dao.findClientByReference(reference);
 	}
 
+	@Override
+	public List<Client> findClientsByCriteria(String criteria) {
+		return dao.findClientsByCriteria(criteria);
+	}
+
 }

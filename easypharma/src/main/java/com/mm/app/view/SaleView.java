@@ -10,7 +10,9 @@ import java.awt.event.ActionListener;
 import java.awt.event.KeyAdapter;
 import java.awt.event.KeyEvent;
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 import javax.persistence.EntityManager;
 import javax.persistence.EntityManagerFactory;
@@ -42,12 +44,6 @@ import com.mm.app.service.ProductService;
 import com.mm.app.service.impl.ProductServiceImpl;
 import com.mm.app.utilities.Java2sAutoComboBox;
 
-/*
- * To change this license header, choose License Headers in Project Properties.
- * To change this template file, choose Tools | Templates
- * and open the template in the editor.
- */
-
 /**
  *
  * @author A574266
@@ -58,9 +54,6 @@ public class SaleView extends JFrame {
 	 * 
 	 */
 	private static final long serialVersionUID = 6431174577095592545L;
-	/**
-     * Creates new form NewJFrame
-     */
 	
 	private EntityManagerFactory emf;
 	private EntityManager em;
@@ -86,7 +79,7 @@ public class SaleView extends JFrame {
         jPanel1 = new JPanel();
         jInternalFrame4 = new MedecinWidget(em);
         jInternalFrame3 = new AssuranceWidget(em);
-        jInternalFrame1 = new ClientWidget(em);
+        clientWidget = new ClientWidget(em);
         jPanel2 = new HeaderPanel();
         jTabbedPane1 = new JTabbedPane();
         jScrollPane1 = new JScrollPane();
@@ -116,41 +109,42 @@ public class SaleView extends JFrame {
         jPanel1.setLayout(new GridLayout(1, 3, 10, 0));
 
         jPanel1.add(jInternalFrame3);
-        jPanel1.add(jInternalFrame1);
+        jPanel1.add(clientWidget);
         jPanel1.add(jInternalFrame4);
         
         jPanel1.setBackground(Color.WHITE);
         
         jTable1.setModel(new DefaultTableModel(
             new Object [][] {
-                {null, null, null, null, null},
-                {null, null, null, null, null},
-                {null, null, null, null, null},
-                {null, null, null, null, null},
-                {null, null, null, null, null},
-                {null, null, null, null, null},
-                {null, null, null, null, null},
-                {null, null, null, null, null},
-                {null, null, null, null, null},
-                {null, null, null, null, null},
-                {null, null, null, null, null},
-                {null, null, null, null, null},
-                {null, null, null, null, null}
+                {null, null, null, null, null, null, null, null, null, null},
+                {null, null, null, null, null, null, null, null, null, null},
+                {null, null, null, null, null, null, null, null, null, null},
+                {null, null, null, null, null, null, null, null, null, null},
+                {null, null, null, null, null, null, null, null, null, null},
+                {null, null, null, null, null, null, null, null, null, null},
+                {null, null, null, null, null, null, null, null, null, null},
+                {null, null, null, null, null, null, null, null, null, null},
+                {null, null, null, null, null, null, null, null, null, null},
+                {null, null, null, null, null, null, null, null, null, null},
+                {null, null, null, null, null, null, null, null, null, null},
+                {null, null, null, null, null, null, null, null, null, null},
+                {null, null, null, null, null, null, null, null, null, null}
             },
             new String [] {
-                "Désignation", "Réference", "PU", "Quantité", "TOTAL"
+            		"Libellé", "Facture", "Référence", "Taux", "Base", "PU TTC", "Qté", "Remise", "Part Client", "Total"
             }
         ));
         jTable1.setRowHeight(22);
         jTable1.getColumnModel().getColumn(0).setPreferredWidth(230);
       
         
-        ArrayList<String> data = new ArrayList<String>();
-        data.add("");
+//        ArrayList<String> data = new ArrayList<String>();
+        final Map<String, String> data = new HashMap<String, String>();
+        data.put("", "");
         List<Product> result = productService.getProducts();
 		if(result != null && result.size() > 0){
 			for(Product p : result){
-				data.add(p.getReference());
+				data.put(p.getDesignation(), p.getReference());
 			}
 		}
         
@@ -164,16 +158,16 @@ public class SaleView extends JFrame {
         		 if (e.getKeyChar() == KeyEvent.VK_ENTER) {
         			 int row = jTable1.getSelectedRow();
         			 String selectedValue = (String) comboBox.getSelectedItem();
-        			 Product product = productService.findProductByReference(selectedValue);
-                	 jTable1.setValueAt(product.getReference(), row, 1);
-                	 jTable1.setValueAt(product.getPu(), row, 2);
-                	 jTable1.setValueAt(product.getQuantity(), row, 3);
-                	 jTable1.setValueAt(product.getPu() + (product.getPu() * 0.2), row, 4);
+        			 Product product = productService.findProductByReference(data.get(selectedValue));
+                	 jTable1.setValueAt(product.getReference(), row, 2);
+                	 jTable1.setValueAt(product.getPu(), row, 5);
+                	 jTable1.setValueAt(product.getQuantity(), row, 6);
+                	 jTable1.setValueAt(product.getPu() + (product.getPu() * 0.2), row, 9);
                 	 
                 	 int rows = jTable1.getRowCount();
                 	 double total = 0;
                 	 for(int i = 0; i < rows; i++){
-                		 Object d = jTable1.getValueAt(i, 4);
+                		 Object d = jTable1.getValueAt(i, 9);
                 		 if(d != null){
                 			 total += (Double)d; 
                 		 }
@@ -211,7 +205,7 @@ public class SaleView extends JFrame {
 			}
 		});
 
-jTable1.setComponentPopupMenu(popupMenu);
+		jTable1.setComponentPopupMenu(popupMenu);
 
         
         jScrollPane1.setViewportView(jTable1);
@@ -325,7 +319,7 @@ jTable1.setComponentPopupMenu(popupMenu);
     }                        
 
     private void jMenuItem2ActionPerformed(ActionEvent evt) {                                           
-        Component[] list1 = jInternalFrame1.getComponents();
+        Component[] list1 = clientWidget.getComponents();
         for(Component component : list1){
         	component.setEnabled(true);
         }
@@ -357,8 +351,12 @@ jTable1.setComponentPopupMenu(popupMenu);
     public JInternalFrame getjInternalFrame3(){
     	return this.jInternalFrame3;
     }
+    
+    public JInternalFrame getClientWidget(){
+    	return this.clientWidget;
+    }
 
-    private JInternalFrame jInternalFrame1;
+    private JInternalFrame clientWidget;
     private JInternalFrame jInternalFrame3;
     private JInternalFrame jInternalFrame4;
     private JMenu jMenu1;

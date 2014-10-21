@@ -6,10 +6,6 @@ import java.util.Date;
 import java.util.List;
 
 
-/**
- * The persistent class for the ordonnance database table.
- * 
- */
 @Entity
 public class Ordonnance implements Serializable {
 	private static final long serialVersionUID = 1L;

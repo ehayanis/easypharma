@@ -19,7 +19,7 @@ public class Utilities {
 		
 		jLabel.setFont(new Font("Arial", 0, 12));
 		field.setFont(new Font("Arial", 0, 12));
-		field.setEnabled(false);
+//		field.setEnabled(false);
 		
 		GroupLayout layout = new GroupLayout(pan);
 		pan.setLayout(layout);
@@ -52,7 +52,7 @@ public class Utilities {
 		
 		jLabel.setFont(new Font("Arial", 0, 12));
 		field.setFont(new Font("Arial", 0, 12));
-		field.setEnabled(false);
+//		field.setEnabled(false);
 		
 		GroupLayout layout = new GroupLayout(pan);
 		pan.setLayout(layout);

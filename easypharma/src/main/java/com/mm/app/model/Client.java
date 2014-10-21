@@ -4,6 +4,11 @@ import java.io.Serializable;
 import javax.persistence.*;
 import java.util.Date;
 import java.util.List;
+import java.util.Map;
+
+enum AssuranceType{
+	OBLIGATOIRE, COMPLEMENTAIRE, ACCIDENT
+}
 
 @NamedQuery(name="findClientByReference", query="SELECT c FROM Client c WHERE c.reference = :reference")
 
@@ -50,7 +55,11 @@ public class Client implements Serializable {
 	//bi-directional many-to-one association to Ordonnance
 	@OneToMany(mappedBy="client")
 	private List<Ordonnance> ordonnances;
-
+	
+	@ManyToMany
+	@JoinTable(name="client_assurance")
+	private Map<AssuranceType, Assurance> assurances;
+	
     public Client() {
     }
 
