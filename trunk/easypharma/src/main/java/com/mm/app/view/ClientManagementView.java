@@ -1,5 +1,6 @@
 package com.mm.app.view;
 
+import java.awt.Color;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.text.DateFormat;
@@ -48,6 +49,7 @@ public class ClientManagementView extends JFrame {
 		service = new ClientServiceImpl(em);
 
 		initComponents();
+		getContentPane().setBackground(Color.WHITE);
 		ImageIcon img = new ImageIcon(getClass().getResource("/img/logo.png"));
 		setIconImage(img.getImage());
 	}

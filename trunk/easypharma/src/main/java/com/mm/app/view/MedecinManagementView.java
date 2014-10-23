@@ -1,5 +1,6 @@
 package com.mm.app.view;
 
+import java.awt.Color;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.util.List;
@@ -47,6 +48,7 @@ public class MedecinManagementView extends JFrame {
 		service = new MedecinServiceImpl(em);
 		
         initComponents();
+        getContentPane().setBackground(Color.WHITE);
         ImageIcon img = new ImageIcon(getClass().getResource("/img/logo.png"));
         setIconImage(img.getImage());
     }

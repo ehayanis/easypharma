@@ -1,6 +1,8 @@
 package com.mm.app.view;
 
 import java.awt.Color;
+import java.awt.Dimension;
+import java.awt.FlowLayout;
 import java.awt.Font;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
@@ -99,11 +101,15 @@ public class MedecinWidget extends JInternalFrame implements InternalFrameWidget
 			}
 		});
 		
-		buttonPanel = new JPanel();
+		FlowLayout gl = new FlowLayout();
+		gl.setHgap(5);
+		gl.setVgap(0);
+		
+		buttonPanel = new JPanel(gl);
 		buttonPanel.setBackground(Color.WHITE);
 		
-		editButton = new HeaderButton("Edition", "/img/edit.gif", false, false);
-		newButton = new HeaderButton("Nouveau", "/img/add.gif", false, false);
+		editButton = new HeaderButton("/img/edit.gif", "editButton");
+		newButton = new HeaderButton("/img/add.gif", "newButton");
 		
 		
 		editButton.addActionListener(new ActionListener() {
@@ -118,17 +124,16 @@ public class MedecinWidget extends JInternalFrame implements InternalFrameWidget
         });
 		
 		
+		firstName.setPreferredSize(new Dimension(203, 20));
+		buttonPanel.add(firstName);
 		buttonPanel.add(editButton);
 		buttonPanel.add(newButton);
 		
-		add(Utilities.createFilledSimplePanel("Nom & Prénom", firstName));
+		add(Utilities.createFilledSimplePanel("Nom & Prénom", buttonPanel));
 		add(Utilities.createFilledSimplePanel("Spécialité", speciality));
 		add(Utilities.createFilledSimplePanel("Tél.", phone));
 		add(Utilities.createFilledSimplePanel("NRCC", nrcc));
-		add(Utilities.createFilledSimplePanel(" ", buttonPanel));
-		
-		reference.setVisible(false);
-		add(reference);
+		add(Utilities.createFilledSimplePanel("Réference", reference));
 		
 	}
 

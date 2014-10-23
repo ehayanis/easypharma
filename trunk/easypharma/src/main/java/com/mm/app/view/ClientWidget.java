@@ -1,7 +1,10 @@
 package com.mm.app.view;
 
 import java.awt.Color;
+import java.awt.Dimension;
+import java.awt.FlowLayout;
 import java.awt.Font;
+import java.awt.GridLayout;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.awt.event.KeyAdapter;
@@ -12,6 +15,7 @@ import java.util.List;
 
 import javax.persistence.EntityManager;
 import javax.swing.BoxLayout;
+import javax.swing.GroupLayout;
 import javax.swing.ImageIcon;
 import javax.swing.JButton;
 import javax.swing.JFrame;
@@ -35,6 +39,7 @@ public class ClientWidget extends JInternalFrame implements InternalFrameWidget{
 	private Java2sAutoComboBox reference;
 	private JTextField dateOfBirth;
 	private JTextField phone;
+	private JTextField age;
 	
 	private JPanel buttonPanel;
 	private JButton editButton;
@@ -63,6 +68,7 @@ public class ClientWidget extends JInternalFrame implements InternalFrameWidget{
 
 		firstName = new JTextField();
 		dateOfBirth = new JTextField();
+		age = new JTextField();
 		phone = new JTextField();
 
 		ArrayList<String> data = new ArrayList<String>();   
@@ -87,6 +93,7 @@ public class ClientWidget extends JInternalFrame implements InternalFrameWidget{
 					
 					firstName.setText(client.getFirstName() + " " + client.getLastName());
 					dateOfBirth.setText(DateFormat.getInstance().format(client.getBirthDate()));
+					age.setText(String.valueOf(client.getAge()));
 					phone.setText(client.getPhone());
 					
 
@@ -94,11 +101,15 @@ public class ClientWidget extends JInternalFrame implements InternalFrameWidget{
 			}
 		});
 		
-		buttonPanel = new JPanel();
+		FlowLayout gl = new FlowLayout();
+		gl.setHgap(5);
+		gl.setVgap(0);
+		
+		buttonPanel = new JPanel(gl);
 		buttonPanel.setBackground(Color.WHITE);
 		
-		editButton = new HeaderButton("Edition", "/img/edit.gif", false, false);
-		newButton = new HeaderButton("Nouveau", "/img/add.gif", false, false);
+		editButton = new HeaderButton("/img/edit.gif", "editButton");
+		newButton = new HeaderButton("/img/add.gif", "newButton");
 		
 		editButton.addActionListener(new ActionListener() {
             public void actionPerformed(ActionEvent evt) {
@@ -111,15 +122,17 @@ public class ClientWidget extends JInternalFrame implements InternalFrameWidget{
             }
         });
 		
+		reference.setPreferredSize(new Dimension(203, 20));
+		buttonPanel.add(reference);
 		buttonPanel.add(editButton);
 		buttonPanel.add(newButton);
 		
 		
-		add(Utilities.createFilledSimplePanel("Référence", reference));
+		add(Utilities.createFilledSimplePanel("Référence", buttonPanel));
 		add(Utilities.createFilledSimplePanel("Nom & Prénom", firstName));
 		add(Utilities.createFilledSimplePanel("Date de Naissance", dateOfBirth));
+		add(Utilities.createFilledSimplePanel("Age", age));
 		add(Utilities.createFilledSimplePanel("Tél.", phone));
-		add(Utilities.createFilledSimplePanel(" ", buttonPanel));
 
 	}
 
@@ -153,6 +166,14 @@ public class ClientWidget extends JInternalFrame implements InternalFrameWidget{
 
 	public void setPhone(JTextField phone) {
 		this.phone = phone;
+	}
+	
+	public JTextField getAge() {
+		return age;
+	}
+
+	public void setAge(JTextField age) {
+		this.age = age;
 	}
 	
 	private void editActionPerformed(ActionEvent evt) {
