@@ -43,7 +43,7 @@ public class LoginView extends JFrame {
         jMenu1 = new JMenu();
 
         setDefaultCloseOperation(WindowConstants.EXIT_ON_CLOSE);
-        setTitle("EasyPharma: Gestion Pharmacies ");
+        setTitle("EasyPharma: Bienvenu");
         setBackground(new Color(255, 255, 255));
         setCursor(new Cursor(Cursor.DEFAULT_CURSOR));
         setFont(new Font("Agency FB", 0, 11)); // NOI18N

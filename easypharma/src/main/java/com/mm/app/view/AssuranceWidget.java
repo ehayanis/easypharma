@@ -14,6 +14,7 @@ import javax.swing.ImageIcon;
 import javax.swing.JButton;
 import javax.swing.JFrame;
 import javax.swing.JInternalFrame;
+import javax.swing.JLabel;
 import javax.swing.JOptionPane;
 import javax.swing.JTextField;
 
@@ -114,9 +115,23 @@ public class AssuranceWidget extends JInternalFrame implements InternalFrameWidg
             }
         });
 		
+		///////////// TO BE REMOVED ///////////////////
+		///////////////////////////////////////////////
+		JButton hiddenBtn1 = new JButton();
+		hiddenBtn1.setVisible(false);
+		JButton hiddenBtn2 = new JButton();
+		hiddenBtn2.setVisible(false);
+		JButton hiddenBtn3 = new JButton();
+		hiddenBtn3.setVisible(false);
+		JButton hiddenBtn4 = new JButton();
+		hiddenBtn4.setVisible(false);
+		
+		
 		add(Utilities.createFilledAdvancedPanel("Assurance Obligatoire", assurance1, editAssur1, newAssur1));
 		add(Utilities.createFilledAdvancedPanel("Assurance Accident", assurance2, editAssur2, newAssur2));
 		add(Utilities.createFilledAdvancedPanel("Assurance Complémentaire", assurance3, editAssur3, newAssur3));
+		add(Utilities.createFilledAdvancedPanel(" ", new JLabel(), hiddenBtn1, hiddenBtn2));
+		add(Utilities.createFilledAdvancedPanel(" ", new JLabel(), hiddenBtn3, hiddenBtn4));
 		
 		hiddenField1.setVisible(false);
 		add(hiddenField1);
@@ -184,6 +199,7 @@ public class AssuranceWidget extends JInternalFrame implements InternalFrameWidg
 							clientWidget.getReference().setSelectedItem(client.getReference());
 							clientWidget.getDateOfBirth().setText(DateFormat.getDateInstance().format(client.getBirthDate()));
 							clientWidget.getPhone().setText(client.getPhone());
+							clientWidget.getAge().setText(String.valueOf(client.getAge()));
 							
 							
 							saleView.setVisible(true);

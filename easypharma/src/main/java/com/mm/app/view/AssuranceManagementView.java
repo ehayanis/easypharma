@@ -1,5 +1,6 @@
 package com.mm.app.view;
 
+import java.awt.Color;
 import java.awt.Frame;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
@@ -43,6 +44,7 @@ public class AssuranceManagementView extends javax.swing.JFrame {
 		service = new AssuranceServiceImpl(em);
 		
         initComponents();
+        getContentPane().setBackground(Color.WHITE);
         ImageIcon img = new ImageIcon(getClass().getResource("/img/logo.png"));
         setIconImage(img.getImage());
     }
@@ -139,6 +141,9 @@ public class AssuranceManagementView extends javax.swing.JFrame {
         
         jTable1.setModel(new DefaultTableModel(
             new Object [][] {
+                {null, null, null, null, null},
+                {null, null, null, null, null},
+                {null, null, null, null, null},
                 {null, null, null, null, null}
             },
             new String [] {
@@ -154,6 +159,7 @@ public class AssuranceManagementView extends javax.swing.JFrame {
             }
         });
         jScrollPane1.setViewportView(jTable1);
+        jScrollPane1.setBackground(Color.WHITE);
         
         jTable1.setCellSelectionEnabled(true);
         ListSelectionModel cellSelectionModel = jTable1.getSelectionModel();
@@ -210,7 +216,8 @@ public class AssuranceManagementView extends javax.swing.JFrame {
                 .addComponent(jLabel1, GroupLayout.DEFAULT_SIZE, 25, Short.MAX_VALUE)
                 .addComponent(nom, GroupLayout.PREFERRED_SIZE, GroupLayout.DEFAULT_SIZE, GroupLayout.PREFERRED_SIZE))
         );
-
+        
+        
         jLabel4.setText("Agence:");
 
         GroupLayout jPanel5Layout = new GroupLayout(jPanel5);
@@ -480,7 +487,12 @@ public class AssuranceManagementView extends javax.swing.JFrame {
                 .addComponent(jRadioButton3)
                 .addComponent(jRadioButton4))
         );
-
+        
+        jRadioButton5.setBackground(Color.WHITE);
+        jRadioButton6.setBackground(Color.WHITE);
+        jRadioButton3.setBackground(Color.WHITE);
+        jRadioButton4.setBackground(Color.WHITE);
+        
         jLabel20.setText("Accident:");
 
         jRadioButton5.setText("Oui");
@@ -613,6 +625,26 @@ public class AssuranceManagementView extends javax.swing.JFrame {
                         .addContainerGap())))
         );
 
+        jPanel1.setBackground(Color.WHITE);
+        jPanel10.setBackground(Color.WHITE);
+        jPanel12.setBackground(Color.WHITE);
+        jPanel13.setBackground(Color.WHITE);
+        jPanel14.setBackground(Color.WHITE);
+        jPanel15.setBackground(Color.WHITE);
+        jPanel16.setBackground(Color.WHITE);
+        jPanel17.setBackground(Color.WHITE);
+        jPanel18.setBackground(Color.WHITE);
+        jPanel19.setBackground(Color.WHITE);
+        jPanel20.setBackground(Color.WHITE);
+        jPanel21.setBackground(Color.WHITE);
+        jPanel22.setBackground(Color.WHITE);
+        jPanel3.setBackground(Color.WHITE);
+        jPanel4.setBackground(Color.WHITE);
+        jPanel5.setBackground(Color.WHITE);
+        jPanel9.setBackground(Color.WHITE);
+        
+        
+        
         jButton1.setText("Valider");
         jButton1.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent evt) {

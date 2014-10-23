@@ -18,11 +18,11 @@ public class HeaderPanel extends JPanel {
 	 * 
 	 */
 	private static final long serialVersionUID = -4803295226273222399L;
-	private HeaderButton jButton1;
+	private HeaderButton assurance;
     private HeaderButton jButton2;
-    private HeaderButton jButton3;
-    private HeaderButton jButton4;
-    private HeaderButton jButton5;
+    private HeaderButton medecin;
+    private HeaderButton payment;
+    private HeaderButton impression;
 	
 	public HeaderPanel() {
 		initComponents();
@@ -32,20 +32,20 @@ public class HeaderPanel extends JPanel {
 	private void initComponents() {
         jButton2 = new HeaderButton(" ", "/img/jbutton2.png", "Activer la vente sur Ordonnance");
         jButton2.setVisible(false);
-        jButton1 = new HeaderButton("Client", "/img/jbutton1.png", "Assurance");
-        jButton3 = new HeaderButton("Médicaments", "/img/jbutton3.png", "Médecin");
-        jButton4 = new HeaderButton("Impression", "/img/jbutton4.png", "Payment");
-        jButton5 = new HeaderButton("Payement", "/img/jbutton5.png", "Impréssion");
+        assurance = new HeaderButton("Client", "/img/jbutton1.png", "Assurance");
+        medecin = new HeaderButton("Médicaments", "/img/jbutton3.png", "Médecin");
+        payment = new HeaderButton("Impression", "/img/jbutton4.png", "Payment");
+        impression = new HeaderButton("Payement", "/img/jbutton5.png", "Impréssion");
         
         
-        jButton1.activateButton(false);
-        jButton3.activateButton(false);
-        jButton4.activateButton(false);
-        jButton5.activateButton(false);
+        assurance.activateButton(false);
+        medecin.activateButton(false);
+        payment.activateButton(false);
+        impression.activateButton(false);
         
         jButton2.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
-				jButton1.activateButton(true);
+				assurance.activateButton(true);
 				
 				Component[] internalFrames = ((SaleView) getParent().getParent().getParent().getParent()).getjPanel1().getComponents();
 				if(internalFrames != null){
@@ -66,24 +66,24 @@ public class HeaderPanel extends JPanel {
                 .addGap(35, 35, 35)
                 .addComponent(jButton2)
                 .addGap(340, 340, 340)
-                .addComponent(jButton1, javax.swing.GroupLayout.PREFERRED_SIZE, 110, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addComponent(assurance, javax.swing.GroupLayout.PREFERRED_SIZE, 110, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addGap(18, 18, 18)
-                .addComponent(jButton3, javax.swing.GroupLayout.PREFERRED_SIZE, 110, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addComponent(medecin, javax.swing.GroupLayout.PREFERRED_SIZE, 110, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addGap(18, 18, 18)
-                .addComponent(jButton4, javax.swing.GroupLayout.PREFERRED_SIZE, 110, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addComponent(impression, javax.swing.GroupLayout.PREFERRED_SIZE, 110, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addGap(18, 18, 18)
-                .addComponent(jButton5, javax.swing.GroupLayout.PREFERRED_SIZE, 110, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addComponent(payment, javax.swing.GroupLayout.PREFERRED_SIZE, 110, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
         );
         jPanelLayout.setVerticalGroup(
         		jPanelLayout.createParallelGroup(GroupLayout.Alignment.LEADING)
             .addGroup(jPanelLayout.createSequentialGroup()
                 .addGroup(jPanelLayout.createParallelGroup(GroupLayout.Alignment.BASELINE)
-                    .addComponent(jButton1, GroupLayout.PREFERRED_SIZE, 50, GroupLayout.PREFERRED_SIZE)
+                    .addComponent(assurance, GroupLayout.PREFERRED_SIZE, 50, GroupLayout.PREFERRED_SIZE)
                     .addComponent(jButton2, GroupLayout.PREFERRED_SIZE, 50, GroupLayout.PREFERRED_SIZE)
-                    .addComponent(jButton3, GroupLayout.PREFERRED_SIZE, 50, GroupLayout.PREFERRED_SIZE)
-                    .addComponent(jButton4, GroupLayout.PREFERRED_SIZE, 50, GroupLayout.PREFERRED_SIZE)
-                    .addComponent(jButton5, GroupLayout.PREFERRED_SIZE, 50, GroupLayout.PREFERRED_SIZE))
+                    .addComponent(medecin, GroupLayout.PREFERRED_SIZE, 50, GroupLayout.PREFERRED_SIZE)
+                    .addComponent(impression, GroupLayout.PREFERRED_SIZE, 50, GroupLayout.PREFERRED_SIZE)
+                    .addComponent(payment, GroupLayout.PREFERRED_SIZE, 50, GroupLayout.PREFERRED_SIZE))
                 .addGap(0, 0, Short.MAX_VALUE))
         );
 	}
