@@ -1,6 +1,7 @@
 package com.mm.app.view;
 
 import java.awt.Color;
+import java.awt.GridLayout;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.util.List;
@@ -29,6 +30,7 @@ import com.mm.app.model.Medecin;
 import com.mm.app.service.MedecinService;
 import com.mm.app.service.impl.MedecinServiceImpl;
 import com.mm.app.utilities.MedecinTableModel;
+import com.mm.app.utilities.Utilities;
 
 
 /**
@@ -54,55 +56,54 @@ public class MedecinManagementView extends JFrame {
     }
 
     @SuppressWarnings({ "unchecked", "serial", "rawtypes" })
-    // <editor-fold defaultstate="collapsed" desc="Generated Code">                          
     private void initComponents() {
 
         jPanel1 = new JPanel();
         searchField = new JTextField();
         jScrollPane1 = new JScrollPane();
-        jTable1 = new JTable();
+        searchTable = new JTable();
         jPanel3 = new JPanel();
         jPanel4 = new JPanel();
-        jLabel1 = new JLabel();
+        labelFirstName = new JLabel();
         firstName = new JTextField();
         jPanel5 = new JPanel();
-        jLabel4 = new JLabel();
+        labelLastName = new JLabel();
         lastName = new JTextField();
         jPanel9 = new JPanel();
-        jLabel7 = new JLabel();
+        labelNrcc = new JLabel();
         nrcc = new JTextField();
         jPanel10 = new JPanel();
-        jLabel8 = new JLabel();
+        labelReference = new JLabel();
         reference = new JTextField();
         jPanel12 = new JPanel();
-        jLabel10 = new JLabel();
+        labelSpeciality = new JLabel();
         speciality = new JTextField();
         jPanel14 = new JPanel();
-        jLabel12 = new JLabel();
+        labelEmail = new JLabel();
         email = new JTextField();
         jPanel16 = new JPanel();
-        jLabel14 = new JLabel();
+        labelNumNc = new JLabel();
         numNC = new JTextField();
         jPanel17 = new JPanel();
-        jLabel15 = new JLabel();
+        labelFax = new JLabel();
         fax = new JTextField();
         jPanel18 = new JPanel();
-        jLabel16 = new JLabel();
+        labelFixe = new JLabel();
         fixe = new JTextField();
-        jButton1 = new JButton();
-        jButton2 = new JButton();
+        validate = new JButton();
+        cancel = new JButton();
         jTabbedPane1 = new JTabbedPane();
         jPanel7 = new JPanel();
         jPanel21 = new JPanel();
-        jLabel2 = new JLabel();
-        jTextField4 = new JTextField();
+        labelCity = new JLabel();
+        city = new JTextField();
         jPanel22 = new JPanel();
-        jLabel5 = new JLabel();
-        jTextField5 = new JTextField();
+        labelPostalCode = new JLabel();
+        postalCode = new JTextField();
         jPanel23 = new JPanel();
-        jLabel11 = new JLabel();
+        labelAddress = new JLabel();
         jScrollPane4 = new JScrollPane();
-        jTextArea1 = new JTextArea();
+        address = new JTextArea();
 
         setDefaultCloseOperation(WindowConstants.DISPOSE_ON_CLOSE);
         setTitle("Gestion des Médecins");
@@ -126,8 +127,11 @@ public class MedecinManagementView extends JFrame {
                 .addContainerGap(GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
         );
 
-        jTable1.setModel(new DefaultTableModel(
+        searchTable.setModel(new DefaultTableModel(
             new Object [][] {
+                {null, null, null, null, null, null},
+                {null, null, null, null, null, null},
+                {null, null, null, null, null, null},
                 {null, null, null, null, null, null}
             },
             new String [] {
@@ -142,22 +146,22 @@ public class MedecinManagementView extends JFrame {
                 return canEdit [columnIndex];
             }
         });
-        jScrollPane1.setViewportView(jTable1);
+        jScrollPane1.setViewportView(searchTable);
 
-        jTable1.setCellSelectionEnabled(true);
-        ListSelectionModel cellSelectionModel = jTable1.getSelectionModel();
+        searchTable.setCellSelectionEnabled(true);
+        ListSelectionModel cellSelectionModel = searchTable.getSelectionModel();
         cellSelectionModel.setSelectionMode(ListSelectionModel.SINGLE_SELECTION);
         
         cellSelectionModel.addListSelectionListener(new ListSelectionListener() {
             public void valueChanged(ListSelectionEvent e) {
               Integer selectedData = 0;
 
-              int[] selectedRow = jTable1.getSelectedRows();
-              int[] selectedColumns = jTable1.getSelectedColumns();
+              int[] selectedRow = searchTable.getSelectedRows();
+              int[] selectedColumns = searchTable.getSelectedColumns();
 
               for (int i = 0; i < selectedRow.length; i++) {
                 for (int j = 0; j < selectedColumns.length; j++) {
-                  selectedData = (Integer) jTable1.getValueAt(selectedRow[i], selectedColumns[j]);
+                  selectedData = (Integer) searchTable.getValueAt(selectedRow[i], selectedColumns[j]);
                 }
               }
               
@@ -180,237 +184,37 @@ public class MedecinManagementView extends JFrame {
             }
         });
         
-        jLabel1.setText("Nom:");
+        labelFirstName.setText("Nom:");
+        labelLastName.setText("Prénom: ");
+        labelNrcc.setText("N° NRCC:");
+        labelReference.setText("Réference:");
+        labelSpeciality.setText("Spécialité: ");
+        labelEmail.setText("Email: ");
+        labelNumNc.setText("N° NC:");
+        labelFax.setText("Fax:");
+        labelFixe.setText("Fix: ");
+        
+        validate.setText("Valider");
+        cancel.setText("Annuler");
+        labelCity.setText("Ville:");
+        labelPostalCode.setText("Code Postale: ");
+        labelAddress.setText("Addresse: ");
+        
+        GridLayout gridLayout = new GridLayout(5, 3, 0, 0);
+        gridLayout.setHgap(10);
+        gridLayout.setVgap(14);
+        jPanel3.setLayout(gridLayout);
+        
+        jPanel3.add(Utilities.createFilledSimpleInnerPanel(labelFirstName, firstName));
+        jPanel3.add(Utilities.createFilledSimpleInnerPanel(labelLastName, lastName));
+        jPanel3.add(Utilities.createFilledSimpleInnerPanel(labelNrcc, nrcc));
+        jPanel3.add(Utilities.createFilledSimpleInnerPanel(labelReference, reference));
+        jPanel3.add(Utilities.createFilledSimpleInnerPanel(labelSpeciality, speciality));
+        jPanel3.add(Utilities.createFilledSimpleInnerPanel(labelEmail, email));
+        jPanel3.add(Utilities.createFilledSimpleInnerPanel(labelNumNc, numNC));
+        jPanel3.add(Utilities.createFilledSimpleInnerPanel(labelFax, fax));
+        jPanel3.add(Utilities.createFilledSimpleInnerPanel(labelFixe, fixe));
 
-        GroupLayout jPanel4Layout = new GroupLayout(jPanel4);
-        jPanel4.setLayout(jPanel4Layout);
-        jPanel4Layout.setHorizontalGroup(
-            jPanel4Layout.createParallelGroup(GroupLayout.Alignment.LEADING)
-            .addGroup(jPanel4Layout.createSequentialGroup()
-                .addContainerGap()
-                .addComponent(jLabel1)
-                .addGap(18, 18, 18)
-                .addComponent(firstName, GroupLayout.DEFAULT_SIZE, 136, Short.MAX_VALUE)
-                .addContainerGap())
-        );
-        jPanel4Layout.setVerticalGroup(
-            jPanel4Layout.createParallelGroup(GroupLayout.Alignment.LEADING)
-            .addGroup(jPanel4Layout.createParallelGroup(GroupLayout.Alignment.BASELINE)
-                .addComponent(jLabel1, GroupLayout.DEFAULT_SIZE, 25, Short.MAX_VALUE)
-                .addComponent(firstName, GroupLayout.PREFERRED_SIZE, GroupLayout.DEFAULT_SIZE, GroupLayout.PREFERRED_SIZE))
-        );
-
-        jLabel4.setText("Prénom: ");
-
-        GroupLayout jPanel5Layout = new GroupLayout(jPanel5);
-        jPanel5.setLayout(jPanel5Layout);
-        jPanel5Layout.setHorizontalGroup(
-            jPanel5Layout.createParallelGroup(GroupLayout.Alignment.LEADING)
-            .addGroup(jPanel5Layout.createSequentialGroup()
-                .addContainerGap()
-                .addComponent(jLabel4)
-                .addGap(18, 18, 18)
-                .addComponent(lastName, GroupLayout.DEFAULT_SIZE, 136, Short.MAX_VALUE)
-                .addContainerGap())
-        );
-        jPanel5Layout.setVerticalGroup(
-            jPanel5Layout.createParallelGroup(GroupLayout.Alignment.LEADING)
-            .addGroup(jPanel5Layout.createParallelGroup(GroupLayout.Alignment.BASELINE)
-                .addComponent(jLabel4, GroupLayout.DEFAULT_SIZE, 25, Short.MAX_VALUE)
-                .addComponent(lastName, GroupLayout.PREFERRED_SIZE, GroupLayout.DEFAULT_SIZE, GroupLayout.PREFERRED_SIZE))
-        );
-
-        jLabel7.setText("N° NRCC:");
-
-        GroupLayout jPanel9Layout = new GroupLayout(jPanel9);
-        jPanel9.setLayout(jPanel9Layout);
-        jPanel9Layout.setHorizontalGroup(
-            jPanel9Layout.createParallelGroup(GroupLayout.Alignment.LEADING)
-            .addGroup(jPanel9Layout.createSequentialGroup()
-                .addContainerGap()
-                .addComponent(jLabel7)
-                .addGap(18, 18, 18)
-                .addComponent(nrcc, GroupLayout.DEFAULT_SIZE, 136, Short.MAX_VALUE)
-                .addContainerGap())
-        );
-        jPanel9Layout.setVerticalGroup(
-            jPanel9Layout.createParallelGroup(GroupLayout.Alignment.LEADING)
-            .addGroup(jPanel9Layout.createParallelGroup(GroupLayout.Alignment.BASELINE)
-                .addComponent(jLabel7, GroupLayout.DEFAULT_SIZE, 25, Short.MAX_VALUE)
-                .addComponent(nrcc, GroupLayout.PREFERRED_SIZE, GroupLayout.DEFAULT_SIZE, GroupLayout.PREFERRED_SIZE))
-        );
-
-        jLabel8.setText("Réference:");
-
-        GroupLayout jPanel10Layout = new GroupLayout(jPanel10);
-        jPanel10.setLayout(jPanel10Layout);
-        jPanel10Layout.setHorizontalGroup(
-            jPanel10Layout.createParallelGroup(GroupLayout.Alignment.LEADING)
-            .addGroup(jPanel10Layout.createSequentialGroup()
-                .addContainerGap()
-                .addComponent(jLabel8)
-                .addGap(18, 18, 18)
-                .addComponent(reference, GroupLayout.DEFAULT_SIZE, 136, Short.MAX_VALUE)
-                .addContainerGap())
-        );
-        jPanel10Layout.setVerticalGroup(
-            jPanel10Layout.createParallelGroup(GroupLayout.Alignment.LEADING)
-            .addGroup(jPanel10Layout.createParallelGroup(GroupLayout.Alignment.BASELINE)
-                .addComponent(jLabel8, GroupLayout.DEFAULT_SIZE, 25, Short.MAX_VALUE)
-                .addComponent(reference, GroupLayout.PREFERRED_SIZE, GroupLayout.DEFAULT_SIZE, GroupLayout.PREFERRED_SIZE))
-        );
-
-        jLabel10.setText("Spécialité: ");
-
-        GroupLayout jPanel12Layout = new GroupLayout(jPanel12);
-        jPanel12.setLayout(jPanel12Layout);
-        jPanel12Layout.setHorizontalGroup(
-            jPanel12Layout.createParallelGroup(GroupLayout.Alignment.LEADING)
-            .addGroup(jPanel12Layout.createSequentialGroup()
-                .addContainerGap()
-                .addComponent(jLabel10)
-                .addGap(18, 18, 18)
-                .addComponent(speciality, 0, 182, Short.MAX_VALUE)
-                .addContainerGap())
-        );
-        jPanel12Layout.setVerticalGroup(
-            jPanel12Layout.createParallelGroup(GroupLayout.Alignment.LEADING)
-            .addGroup(jPanel12Layout.createParallelGroup(GroupLayout.Alignment.BASELINE)
-                .addComponent(jLabel10, GroupLayout.PREFERRED_SIZE, 25, GroupLayout.PREFERRED_SIZE)
-                .addComponent(speciality, GroupLayout.PREFERRED_SIZE, GroupLayout.DEFAULT_SIZE, GroupLayout.PREFERRED_SIZE))
-        );
-
-        jLabel12.setText("Email: ");
-
-        GroupLayout jPanel14Layout = new GroupLayout(jPanel14);
-        jPanel14.setLayout(jPanel14Layout);
-        jPanel14Layout.setHorizontalGroup(
-            jPanel14Layout.createParallelGroup(GroupLayout.Alignment.LEADING)
-            .addGroup(jPanel14Layout.createSequentialGroup()
-                .addContainerGap()
-                .addComponent(jLabel12)
-                .addGap(18, 18, 18)
-                .addComponent(email, GroupLayout.DEFAULT_SIZE, 267, Short.MAX_VALUE)
-                .addContainerGap())
-        );
-        jPanel14Layout.setVerticalGroup(
-            jPanel14Layout.createParallelGroup(GroupLayout.Alignment.LEADING)
-            .addGroup(jPanel14Layout.createParallelGroup(GroupLayout.Alignment.BASELINE)
-                .addComponent(jLabel12, GroupLayout.DEFAULT_SIZE, 25, Short.MAX_VALUE)
-                .addComponent(email, GroupLayout.PREFERRED_SIZE, GroupLayout.DEFAULT_SIZE, GroupLayout.PREFERRED_SIZE))
-        );
-
-        jLabel14.setText("N° NC:");
-
-        GroupLayout jPanel16Layout = new GroupLayout(jPanel16);
-        jPanel16.setLayout(jPanel16Layout);
-        jPanel16Layout.setHorizontalGroup(
-            jPanel16Layout.createParallelGroup(GroupLayout.Alignment.LEADING)
-            .addGroup(jPanel16Layout.createSequentialGroup()
-                .addContainerGap()
-                .addComponent(jLabel14)
-                .addGap(18, 18, 18)
-                .addComponent(numNC, GroupLayout.DEFAULT_SIZE, 136, Short.MAX_VALUE)
-                .addContainerGap())
-        );
-        jPanel16Layout.setVerticalGroup(
-            jPanel16Layout.createParallelGroup(GroupLayout.Alignment.LEADING)
-            .addGroup(jPanel16Layout.createParallelGroup(GroupLayout.Alignment.BASELINE)
-                .addComponent(jLabel14, GroupLayout.DEFAULT_SIZE, 25, Short.MAX_VALUE)
-                .addComponent(numNC, GroupLayout.PREFERRED_SIZE, GroupLayout.DEFAULT_SIZE, GroupLayout.PREFERRED_SIZE))
-        );
-
-        jLabel15.setText("Fax:");
-
-        GroupLayout jPanel17Layout = new GroupLayout(jPanel17);
-        jPanel17.setLayout(jPanel17Layout);
-        jPanel17Layout.setHorizontalGroup(
-            jPanel17Layout.createParallelGroup(GroupLayout.Alignment.LEADING)
-            .addGroup(jPanel17Layout.createSequentialGroup()
-                .addContainerGap()
-                .addComponent(jLabel15)
-                .addGap(18, 18, 18)
-                .addComponent(fax, GroupLayout.DEFAULT_SIZE, 136, Short.MAX_VALUE)
-                .addContainerGap())
-        );
-        jPanel17Layout.setVerticalGroup(
-            jPanel17Layout.createParallelGroup(GroupLayout.Alignment.LEADING)
-            .addGroup(jPanel17Layout.createParallelGroup(GroupLayout.Alignment.BASELINE)
-                .addComponent(jLabel15, GroupLayout.DEFAULT_SIZE, 25, Short.MAX_VALUE)
-                .addComponent(fax, GroupLayout.PREFERRED_SIZE, GroupLayout.DEFAULT_SIZE, GroupLayout.PREFERRED_SIZE))
-        );
-
-        jLabel16.setText("Fix: ");
-
-        GroupLayout jPanel18Layout = new GroupLayout(jPanel18);
-        jPanel18.setLayout(jPanel18Layout);
-        jPanel18Layout.setHorizontalGroup(
-            jPanel18Layout.createParallelGroup(GroupLayout.Alignment.LEADING)
-            .addGroup(jPanel18Layout.createSequentialGroup()
-                .addContainerGap()
-                .addComponent(jLabel16)
-                .addGap(18, 18, 18)
-                .addComponent(fixe, GroupLayout.DEFAULT_SIZE, 136, Short.MAX_VALUE)
-                .addContainerGap())
-        );
-        jPanel18Layout.setVerticalGroup(
-            jPanel18Layout.createParallelGroup(GroupLayout.Alignment.LEADING)
-            .addGroup(jPanel18Layout.createParallelGroup(GroupLayout.Alignment.BASELINE)
-                .addComponent(jLabel16, GroupLayout.DEFAULT_SIZE, 25, Short.MAX_VALUE)
-                .addComponent(fixe, GroupLayout.PREFERRED_SIZE, GroupLayout.DEFAULT_SIZE, GroupLayout.PREFERRED_SIZE))
-        );
-
-        GroupLayout jPanel3Layout = new GroupLayout(jPanel3);
-        jPanel3.setLayout(jPanel3Layout);
-        jPanel3Layout.setHorizontalGroup(
-            jPanel3Layout.createParallelGroup(GroupLayout.Alignment.LEADING)
-            .addGroup(jPanel3Layout.createSequentialGroup()
-                .addGroup(jPanel3Layout.createParallelGroup(GroupLayout.Alignment.LEADING)
-                    .addGroup(jPanel3Layout.createSequentialGroup()
-                        .addComponent(jPanel4, GroupLayout.PREFERRED_SIZE, GroupLayout.DEFAULT_SIZE, GroupLayout.PREFERRED_SIZE)
-                        .addPreferredGap(ComponentPlacement.RELATED)
-                        .addComponent(jPanel5, GroupLayout.PREFERRED_SIZE, GroupLayout.DEFAULT_SIZE, GroupLayout.PREFERRED_SIZE))
-                    .addGroup(jPanel3Layout.createSequentialGroup()
-                        .addComponent(jPanel10, GroupLayout.PREFERRED_SIZE, GroupLayout.DEFAULT_SIZE, GroupLayout.PREFERRED_SIZE)
-                        .addPreferredGap(ComponentPlacement.RELATED)
-                        .addComponent(jPanel9, GroupLayout.PREFERRED_SIZE, GroupLayout.DEFAULT_SIZE, GroupLayout.PREFERRED_SIZE))
-                    .addGroup(jPanel3Layout.createSequentialGroup()
-                        .addComponent(jPanel18, GroupLayout.PREFERRED_SIZE, GroupLayout.DEFAULT_SIZE, GroupLayout.PREFERRED_SIZE)
-                        .addPreferredGap(ComponentPlacement.RELATED)
-                        .addComponent(jPanel17, GroupLayout.PREFERRED_SIZE, GroupLayout.DEFAULT_SIZE, GroupLayout.PREFERRED_SIZE))
-                    .addComponent(jPanel14, GroupLayout.PREFERRED_SIZE, GroupLayout.DEFAULT_SIZE, GroupLayout.PREFERRED_SIZE)
-                    .addComponent(jPanel16, GroupLayout.PREFERRED_SIZE, GroupLayout.DEFAULT_SIZE, GroupLayout.PREFERRED_SIZE)
-                    .addComponent(jPanel12, GroupLayout.PREFERRED_SIZE, GroupLayout.DEFAULT_SIZE, GroupLayout.PREFERRED_SIZE))
-                .addGap(0, 32, Short.MAX_VALUE))
-        );
-        jPanel3Layout.setVerticalGroup(
-            jPanel3Layout.createParallelGroup(GroupLayout.Alignment.LEADING)
-            .addGroup(jPanel3Layout.createSequentialGroup()
-                .addGroup(jPanel3Layout.createParallelGroup(GroupLayout.Alignment.LEADING)
-                    .addComponent(jPanel4, GroupLayout.PREFERRED_SIZE, GroupLayout.DEFAULT_SIZE, GroupLayout.PREFERRED_SIZE)
-                    .addComponent(jPanel5, GroupLayout.PREFERRED_SIZE, GroupLayout.DEFAULT_SIZE, GroupLayout.PREFERRED_SIZE))
-                .addPreferredGap(ComponentPlacement.RELATED)
-                .addGroup(jPanel3Layout.createParallelGroup(GroupLayout.Alignment.LEADING)
-                    .addComponent(jPanel10, GroupLayout.PREFERRED_SIZE, GroupLayout.DEFAULT_SIZE, GroupLayout.PREFERRED_SIZE)
-                    .addComponent(jPanel9, GroupLayout.PREFERRED_SIZE, GroupLayout.DEFAULT_SIZE, GroupLayout.PREFERRED_SIZE))
-                .addPreferredGap(ComponentPlacement.RELATED)
-                .addComponent(jPanel12, GroupLayout.PREFERRED_SIZE, GroupLayout.DEFAULT_SIZE, GroupLayout.PREFERRED_SIZE)
-                .addPreferredGap(ComponentPlacement.RELATED)
-                .addComponent(jPanel14, GroupLayout.PREFERRED_SIZE, GroupLayout.DEFAULT_SIZE, GroupLayout.PREFERRED_SIZE)
-                .addPreferredGap(ComponentPlacement.RELATED)
-                .addComponent(jPanel16, GroupLayout.PREFERRED_SIZE, GroupLayout.DEFAULT_SIZE, GroupLayout.PREFERRED_SIZE)
-                .addPreferredGap(ComponentPlacement.RELATED)
-                .addGroup(jPanel3Layout.createParallelGroup(GroupLayout.Alignment.LEADING)
-                    .addComponent(jPanel18, GroupLayout.PREFERRED_SIZE, GroupLayout.DEFAULT_SIZE, GroupLayout.PREFERRED_SIZE)
-                    .addComponent(jPanel17, GroupLayout.PREFERRED_SIZE, GroupLayout.DEFAULT_SIZE, GroupLayout.PREFERRED_SIZE))
-                .addContainerGap(23, Short.MAX_VALUE))
-        );
-
-        jButton1.setText("Valider");
-
-        jButton2.setText("Annuler");
-
-        jLabel2.setText("Ville:");
 
         GroupLayout jPanel21Layout = new GroupLayout(jPanel21);
         jPanel21.setLayout(jPanel21Layout);
@@ -418,19 +222,18 @@ public class MedecinManagementView extends JFrame {
             jPanel21Layout.createParallelGroup(GroupLayout.Alignment.LEADING)
             .addGroup(jPanel21Layout.createSequentialGroup()
                 .addContainerGap()
-                .addComponent(jLabel2)
+                .addComponent(labelCity)
                 .addGap(18, 18, 18)
-                .addComponent(jTextField4)
+                .addComponent(city)
                 .addContainerGap())
         );
         jPanel21Layout.setVerticalGroup(
             jPanel21Layout.createParallelGroup(GroupLayout.Alignment.LEADING)
             .addGroup(jPanel21Layout.createParallelGroup(GroupLayout.Alignment.BASELINE)
-                .addComponent(jLabel2, GroupLayout.DEFAULT_SIZE, 25, Short.MAX_VALUE)
-                .addComponent(jTextField4, GroupLayout.PREFERRED_SIZE, GroupLayout.DEFAULT_SIZE, GroupLayout.PREFERRED_SIZE))
+                .addComponent(labelCity, GroupLayout.DEFAULT_SIZE, 25, Short.MAX_VALUE)
+                .addComponent(city, GroupLayout.PREFERRED_SIZE, GroupLayout.DEFAULT_SIZE, GroupLayout.PREFERRED_SIZE))
         );
 
-        jLabel5.setText("Code Postale: ");
 
         GroupLayout jPanel22Layout = new GroupLayout(jPanel22);
         jPanel22.setLayout(jPanel22Layout);
@@ -438,23 +241,22 @@ public class MedecinManagementView extends JFrame {
             jPanel22Layout.createParallelGroup(GroupLayout.Alignment.LEADING)
             .addGroup(jPanel22Layout.createSequentialGroup()
                 .addContainerGap()
-                .addComponent(jLabel5)
+                .addComponent(labelPostalCode)
                 .addGap(18, 18, 18)
-                .addComponent(jTextField5, GroupLayout.DEFAULT_SIZE, 198, Short.MAX_VALUE)
+                .addComponent(postalCode, GroupLayout.DEFAULT_SIZE, 198, Short.MAX_VALUE)
                 .addContainerGap())
         );
         jPanel22Layout.setVerticalGroup(
             jPanel22Layout.createParallelGroup(GroupLayout.Alignment.LEADING)
             .addGroup(jPanel22Layout.createParallelGroup(GroupLayout.Alignment.BASELINE)
-                .addComponent(jLabel5, GroupLayout.DEFAULT_SIZE, 25, Short.MAX_VALUE)
-                .addComponent(jTextField5, GroupLayout.PREFERRED_SIZE, GroupLayout.DEFAULT_SIZE, GroupLayout.PREFERRED_SIZE))
+                .addComponent(labelPostalCode, GroupLayout.DEFAULT_SIZE, 25, Short.MAX_VALUE)
+                .addComponent(postalCode, GroupLayout.PREFERRED_SIZE, GroupLayout.DEFAULT_SIZE, GroupLayout.PREFERRED_SIZE))
         );
 
-        jLabel11.setText("Addresse: ");
-
-        jTextArea1.setColumns(15);
-        jTextArea1.setRows(5);
-        jScrollPane4.setViewportView(jTextArea1);
+        
+        address.setColumns(15);
+        address.setRows(5);
+        jScrollPane4.setViewportView(address);
 
         GroupLayout jPanel23Layout = new GroupLayout(jPanel23);
         jPanel23.setLayout(jPanel23Layout);
@@ -462,7 +264,7 @@ public class MedecinManagementView extends JFrame {
             jPanel23Layout.createParallelGroup(GroupLayout.Alignment.LEADING)
             .addGroup(jPanel23Layout.createSequentialGroup()
                 .addContainerGap()
-                .addComponent(jLabel11)
+                .addComponent(labelAddress)
                 .addGap(18, 18, 18)
                 .addComponent(jScrollPane4, GroupLayout.DEFAULT_SIZE, 216, Short.MAX_VALUE)
                 .addContainerGap())
@@ -471,11 +273,11 @@ public class MedecinManagementView extends JFrame {
             jPanel23Layout.createParallelGroup(GroupLayout.Alignment.LEADING)
             .addGroup(jPanel23Layout.createSequentialGroup()
                 .addGroup(jPanel23Layout.createParallelGroup(GroupLayout.Alignment.LEADING)
-                    .addComponent(jLabel11, GroupLayout.PREFERRED_SIZE, 25, GroupLayout.PREFERRED_SIZE)
+                    .addComponent(labelAddress, GroupLayout.PREFERRED_SIZE, 25, GroupLayout.PREFERRED_SIZE)
                     .addComponent(jScrollPane4, GroupLayout.PREFERRED_SIZE, 53, GroupLayout.PREFERRED_SIZE))
                 .addContainerGap())
         );
-
+        
         GroupLayout jPanel7Layout = new GroupLayout(jPanel7);
         jPanel7.setLayout(jPanel7Layout);
         jPanel7Layout.setHorizontalGroup(
@@ -502,7 +304,16 @@ public class MedecinManagementView extends JFrame {
         );
 
         jTabbedPane1.addTab("Addr. Principale", jPanel7);
-
+        
+        jPanel1.setBackground(Color.WHITE);
+        jScrollPane1.setBackground(Color.WHITE);
+        jPanel3.setBackground(Color.WHITE);
+        jPanel7.setBackground(Color.WHITE);
+        jPanel23.setBackground(Color.WHITE);
+        jPanel22.setBackground(Color.WHITE);
+        jPanel21.setBackground(Color.WHITE);
+        jTabbedPane1.setBackground(Color.WHITE);
+        
         GroupLayout layout = new GroupLayout(getContentPane());
         getContentPane().setLayout(layout);
         layout.setHorizontalGroup(
@@ -514,9 +325,9 @@ public class MedecinManagementView extends JFrame {
                 .addPreferredGap(ComponentPlacement.RELATED, 35, Short.MAX_VALUE)
                 .addGroup(layout.createParallelGroup(GroupLayout.Alignment.LEADING)
                     .addGroup(GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
-                        .addComponent(jButton2, GroupLayout.PREFERRED_SIZE, 88, GroupLayout.PREFERRED_SIZE)
+                        .addComponent(cancel, GroupLayout.PREFERRED_SIZE, 88, GroupLayout.PREFERRED_SIZE)
                         .addGap(18, 18, 18)
-                        .addComponent(jButton1, GroupLayout.PREFERRED_SIZE, 88, GroupLayout.PREFERRED_SIZE)
+                        .addComponent(validate, GroupLayout.PREFERRED_SIZE, 88, GroupLayout.PREFERRED_SIZE)
                         .addGap(27, 27, 27))
                     .addComponent(jTabbedPane1, GroupLayout.Alignment.TRAILING, GroupLayout.PREFERRED_SIZE, 338, GroupLayout.PREFERRED_SIZE)))
         );
@@ -532,18 +343,18 @@ public class MedecinManagementView extends JFrame {
                     .addComponent(jTabbedPane1, GroupLayout.PREFERRED_SIZE, 173, GroupLayout.PREFERRED_SIZE))
                 .addPreferredGap(ComponentPlacement.RELATED, GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                 .addGroup(layout.createParallelGroup(GroupLayout.Alignment.BASELINE)
-                    .addComponent(jButton1)
-                    .addComponent(jButton2))
+                    .addComponent(validate)
+                    .addComponent(cancel))
                 .addContainerGap())
         );
         
-        jButton1.addActionListener(new ActionListener() {
+        validate.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent evt) {
 				validateActionPerformed(evt);	
 			}
 		});
         
-        jButton2.addActionListener(new ActionListener() {
+        cancel.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent evt) {
 				cancelActionPerformed(evt);	
 			}
@@ -564,7 +375,7 @@ public class MedecinManagementView extends JFrame {
 		List<Medecin> medecins = service.findMedecinsByCriteria(value);
 		if(medecins != null && medecins.size() > 0){
 			AbstractTableModel model = new MedecinTableModel(medecins);
-			jTable1.setModel(model);
+			searchTable.setModel(model);
 		}
 		
     }
@@ -640,6 +451,14 @@ public class MedecinManagementView extends JFrame {
 	public void setReference(JTextField reference) {
 		this.reference = reference;
 	}
+	
+	public JTable getSearchTable() {
+		return searchTable;
+	}
+
+	public JTextField getSearchField() {
+		return searchField;
+	}
 
 	private void validateActionPerformed(ActionEvent evt){
 		setVisible(false);
@@ -652,21 +471,21 @@ public class MedecinManagementView extends JFrame {
 	}
 	
 
-	private JButton jButton1;
-    private JButton jButton2;
+	private JButton validate;
+    private JButton cancel;
     private JTextField speciality;
-    private JLabel jLabel1;
-    private JLabel jLabel10;
-    private JLabel jLabel11;
-    private JLabel jLabel12;
-    private JLabel jLabel14;
-    private JLabel jLabel15;
-    private JLabel jLabel16;
-    private JLabel jLabel2;
-    private JLabel jLabel4;
-    private JLabel jLabel5;
-    private JLabel jLabel7;
-    private JLabel jLabel8;
+    private JLabel labelFirstName;
+    private JLabel labelSpeciality;
+    private JLabel labelAddress;
+    private JLabel labelEmail;
+    private JLabel labelNumNc;
+    private JLabel labelFax;
+    private JLabel labelFixe;
+    private JLabel labelCity;
+    private JLabel labelLastName;
+    private JLabel labelPostalCode;
+    private JLabel labelNrcc;
+    private JLabel labelReference;
     private JPanel jPanel1;
     private JPanel jPanel10;
     private JPanel jPanel12;
@@ -685,8 +504,8 @@ public class MedecinManagementView extends JFrame {
     private JScrollPane jScrollPane1;
     private JScrollPane jScrollPane4;
     private JTabbedPane jTabbedPane1;
-    private JTable jTable1;
-    private JTextArea jTextArea1;
+    private JTable searchTable;
+    private JTextArea address;
     private JTextField searchField;
     private JTextField email;
     private JTextField numNC;
@@ -694,8 +513,8 @@ public class MedecinManagementView extends JFrame {
     private JTextField fixe;
     private JTextField firstName;
     private JTextField lastName;
-    private JTextField jTextField4;
-    private JTextField jTextField5;
+    private JTextField city;
+    private JTextField postalCode;
     private JTextField nrcc;
     private JTextField reference;
 }

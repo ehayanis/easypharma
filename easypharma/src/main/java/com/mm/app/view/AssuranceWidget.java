@@ -228,6 +228,9 @@ public class AssuranceWidget extends JInternalFrame implements InternalFrameWidg
         if(!"".equals(HiddenId)){
         	Assurance assurance = service.findAssurance(Integer.valueOf(HiddenId));
         	if(assurance != null){
+        		assuranceManagementView.getSearchField().setEnabled(false);
+        		assuranceManagementView.getTableSearch().setEnabled(false);
+        		
         		assuranceManagementView.getNom().setText(assurance.getName());
         		assuranceManagementView.getAgence().setText(assurance.getAgence());
         		assuranceManagementView.getOfas().setText(assurance.getOfas());
@@ -246,7 +249,6 @@ public class AssuranceWidget extends JInternalFrame implements InternalFrameWidg
         }else{
 			JOptionPane.showMessageDialog(this, "Veuillez séléctionner une assurance pour pouvoir la modifier!");
         }
-        
         
     } 
 	

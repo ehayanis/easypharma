@@ -63,41 +63,41 @@ public class ClientManagementView extends JFrame {
 		jTable1 = new JTable();
 		jPanel3 = new JPanel();
 		jPanel4 = new JPanel();
-		jLabel1 = new JLabel();
+		firstNameLabel = new JLabel();
 		firstName = new JTextField();
 		jPanel5 = new JPanel();
-		jLabel4 = new JLabel();
+		lastNameLabel = new JLabel();
 		lastName = new JTextField();
 		jPanel9 = new JPanel();
-		jLabel7 = new JLabel();
+		dateOfBirthLabel = new JLabel();
 		dateOfBirth = new JTextField();
 		jPanel10 = new JPanel();
-		jLabel8 = new JLabel();
+		referenceLabel = new JLabel();
 		reference = new JTextField();
 		jPanel11 = new JPanel();
 		jLabel9 = new JLabel();
 		jRadioButton1 = new JRadioButton();
 		jRadioButton2 = new JRadioButton();
 		jPanel12 = new JPanel();
-		jLabel10 = new JLabel();
+		ageLabel = new JLabel();
 		age = new JTextField();
 		jPanel14 = new JPanel();
-		jLabel12 = new JLabel();
+		emailLabel = new JLabel();
 		email = new JTextField();
 		jPanel15 = new JPanel();
-		jLabel13 = new JLabel();
+		rpiLabel = new JLabel();
 		rpi = new JTextField();
 		jPanel16 = new JPanel();
-		jLabel14 = new JLabel();
+		avsLabel = new JLabel();
 		avs = new JTextField();
 		jPanel17 = new JPanel();
-		jLabel15 = new JLabel();
+		mobileLabel = new JLabel();
 		mobile = new JTextField();
 		jPanel18 = new JPanel();
-		jLabel16 = new JLabel();
+		fixeLabel = new JLabel();
 		fixe = new JTextField();
 		jPanel19 = new JPanel();
-		jLabel17 = new JLabel();
+		faxLabel = new JLabel();
 		fax = new JTextField();
 		jPanel2 = new JPanel();
 		jLabel3 = new JLabel();
@@ -238,7 +238,7 @@ public class ClientManagementView extends JFrame {
 			}
 		});
 
-		jLabel1.setText("Nom:");
+		firstNameLabel.setText("Nom:");
 
 		GroupLayout jPanel4Layout = new GroupLayout(jPanel4);
 		jPanel4.setLayout(jPanel4Layout);
@@ -246,7 +246,7 @@ public class ClientManagementView extends JFrame {
 				jPanel4Layout.createParallelGroup(GroupLayout.Alignment.LEADING)
 				.addGroup(jPanel4Layout.createSequentialGroup()
 						.addContainerGap()
-						.addComponent(jLabel1)
+						.addComponent(firstNameLabel)
 						.addGap(18, 18, 18)
 						.addComponent(firstName, GroupLayout.DEFAULT_SIZE, 136, Short.MAX_VALUE)
 						.addContainerGap())
@@ -254,11 +254,11 @@ public class ClientManagementView extends JFrame {
 		jPanel4Layout.setVerticalGroup(
 				jPanel4Layout.createParallelGroup(GroupLayout.Alignment.LEADING)
 				.addGroup(jPanel4Layout.createParallelGroup(GroupLayout.Alignment.BASELINE)
-						.addComponent(jLabel1, GroupLayout.DEFAULT_SIZE, 25, Short.MAX_VALUE)
+						.addComponent(firstNameLabel, GroupLayout.DEFAULT_SIZE, 25, Short.MAX_VALUE)
 						.addComponent(firstName, GroupLayout.PREFERRED_SIZE, GroupLayout.DEFAULT_SIZE, GroupLayout.PREFERRED_SIZE))
 				);
 
-		jLabel4.setText("Prénom: ");
+		lastNameLabel.setText("Prénom: ");
 
 		GroupLayout jPanel5Layout = new GroupLayout(jPanel5);
 		jPanel5.setLayout(jPanel5Layout);
@@ -266,7 +266,7 @@ public class ClientManagementView extends JFrame {
 				jPanel5Layout.createParallelGroup(GroupLayout.Alignment.LEADING)
 				.addGroup(jPanel5Layout.createSequentialGroup()
 						.addContainerGap()
-						.addComponent(jLabel4)
+						.addComponent(lastNameLabel)
 						.addGap(18, 18, 18)
 						.addComponent(lastName, GroupLayout.DEFAULT_SIZE, 136, Short.MAX_VALUE)
 						.addContainerGap())
@@ -274,11 +274,11 @@ public class ClientManagementView extends JFrame {
 		jPanel5Layout.setVerticalGroup(
 				jPanel5Layout.createParallelGroup(GroupLayout.Alignment.LEADING)
 				.addGroup(jPanel5Layout.createParallelGroup(GroupLayout.Alignment.BASELINE)
-						.addComponent(jLabel4, GroupLayout.DEFAULT_SIZE, 25, Short.MAX_VALUE)
+						.addComponent(lastNameLabel, GroupLayout.DEFAULT_SIZE, 25, Short.MAX_VALUE)
 						.addComponent(lastName, GroupLayout.PREFERRED_SIZE, GroupLayout.DEFAULT_SIZE, GroupLayout.PREFERRED_SIZE))
 				);
 
-		jLabel7.setText("Date de naissance:");
+		dateOfBirthLabel.setText("Date de naissance:");
 
 		GroupLayout jPanel9Layout = new GroupLayout(jPanel9);
 		jPanel9.setLayout(jPanel9Layout);
@@ -286,7 +286,7 @@ public class ClientManagementView extends JFrame {
 				jPanel9Layout.createParallelGroup(GroupLayout.Alignment.LEADING)
 				.addGroup(jPanel9Layout.createSequentialGroup()
 						.addContainerGap()
-						.addComponent(jLabel7)
+						.addComponent(dateOfBirthLabel)
 						.addGap(18, 18, 18)
 						.addComponent(dateOfBirth, GroupLayout.DEFAULT_SIZE, 136, Short.MAX_VALUE)
 						.addContainerGap())
@@ -294,11 +294,11 @@ public class ClientManagementView extends JFrame {
 		jPanel9Layout.setVerticalGroup(
 				jPanel9Layout.createParallelGroup(GroupLayout.Alignment.LEADING)
 				.addGroup(jPanel9Layout.createParallelGroup(GroupLayout.Alignment.BASELINE)
-						.addComponent(jLabel7, GroupLayout.DEFAULT_SIZE, 25, Short.MAX_VALUE)
+						.addComponent(dateOfBirthLabel, GroupLayout.DEFAULT_SIZE, 25, Short.MAX_VALUE)
 						.addComponent(dateOfBirth, GroupLayout.PREFERRED_SIZE, GroupLayout.DEFAULT_SIZE, GroupLayout.PREFERRED_SIZE))
 				);
 
-		jLabel8.setText("Réference:");
+		referenceLabel.setText("Réference:");
 
 		GroupLayout jPanel10Layout = new GroupLayout(jPanel10);
 		jPanel10.setLayout(jPanel10Layout);
@@ -306,7 +306,7 @@ public class ClientManagementView extends JFrame {
 				jPanel10Layout.createParallelGroup(GroupLayout.Alignment.LEADING)
 				.addGroup(jPanel10Layout.createSequentialGroup()
 						.addContainerGap()
-						.addComponent(jLabel8)
+						.addComponent(referenceLabel)
 						.addGap(18, 18, 18)
 						.addComponent(reference, GroupLayout.DEFAULT_SIZE, 136, Short.MAX_VALUE)
 						.addContainerGap())
@@ -314,7 +314,7 @@ public class ClientManagementView extends JFrame {
 		jPanel10Layout.setVerticalGroup(
 				jPanel10Layout.createParallelGroup(GroupLayout.Alignment.LEADING)
 				.addGroup(jPanel10Layout.createParallelGroup(GroupLayout.Alignment.BASELINE)
-						.addComponent(jLabel8, GroupLayout.DEFAULT_SIZE, 25, Short.MAX_VALUE)
+						.addComponent(referenceLabel, GroupLayout.DEFAULT_SIZE, 25, Short.MAX_VALUE)
 						.addComponent(reference, GroupLayout.PREFERRED_SIZE, GroupLayout.DEFAULT_SIZE, GroupLayout.PREFERRED_SIZE))
 				);
 
@@ -345,7 +345,7 @@ public class ClientManagementView extends JFrame {
 						.addComponent(jRadioButton2))
 				);
 
-		jLabel10.setText("Age:");
+		ageLabel.setText("Age:");
 
 		GroupLayout jPanel12Layout = new GroupLayout(jPanel12);
 		jPanel12.setLayout(jPanel12Layout);
@@ -353,7 +353,7 @@ public class ClientManagementView extends JFrame {
 				jPanel12Layout.createParallelGroup(GroupLayout.Alignment.LEADING)
 				.addGroup(jPanel12Layout.createSequentialGroup()
 						.addContainerGap()
-						.addComponent(jLabel10)
+						.addComponent(ageLabel)
 						.addGap(18, 18, 18)
 						.addComponent(age, GroupLayout.DEFAULT_SIZE, 136, Short.MAX_VALUE)
 						.addContainerGap())
@@ -361,11 +361,11 @@ public class ClientManagementView extends JFrame {
 		jPanel12Layout.setVerticalGroup(
 				jPanel12Layout.createParallelGroup(GroupLayout.Alignment.LEADING)
 				.addGroup(jPanel12Layout.createParallelGroup(GroupLayout.Alignment.BASELINE)
-						.addComponent(jLabel10, GroupLayout.DEFAULT_SIZE, 25, Short.MAX_VALUE)
+						.addComponent(ageLabel, GroupLayout.DEFAULT_SIZE, 25, Short.MAX_VALUE)
 						.addComponent(age, GroupLayout.PREFERRED_SIZE, GroupLayout.DEFAULT_SIZE, GroupLayout.PREFERRED_SIZE))
 				);
 
-		jLabel12.setText("Email: ");
+		emailLabel.setText("Email: ");
 
 		GroupLayout jPanel14Layout = new GroupLayout(jPanel14);
 		jPanel14.setLayout(jPanel14Layout);
@@ -373,7 +373,7 @@ public class ClientManagementView extends JFrame {
 				jPanel14Layout.createParallelGroup(GroupLayout.Alignment.LEADING)
 				.addGroup(jPanel14Layout.createSequentialGroup()
 						.addContainerGap()
-						.addComponent(jLabel12)
+						.addComponent(emailLabel)
 						.addGap(18, 18, 18)
 						.addComponent(email, GroupLayout.DEFAULT_SIZE, 267, Short.MAX_VALUE)
 						.addContainerGap())
@@ -381,11 +381,11 @@ public class ClientManagementView extends JFrame {
 		jPanel14Layout.setVerticalGroup(
 				jPanel14Layout.createParallelGroup(GroupLayout.Alignment.LEADING)
 				.addGroup(jPanel14Layout.createParallelGroup(GroupLayout.Alignment.BASELINE)
-						.addComponent(jLabel12, GroupLayout.DEFAULT_SIZE, 25, Short.MAX_VALUE)
+						.addComponent(emailLabel, GroupLayout.DEFAULT_SIZE, 25, Short.MAX_VALUE)
 						.addComponent(email, GroupLayout.PREFERRED_SIZE, GroupLayout.DEFAULT_SIZE, GroupLayout.PREFERRED_SIZE))
 				);
 
-		jLabel13.setText("N° RPI: ");
+		rpiLabel.setText("N° RPI: ");
 
 		GroupLayout jPanel15Layout = new GroupLayout(jPanel15);
 		jPanel15.setLayout(jPanel15Layout);
@@ -393,7 +393,7 @@ public class ClientManagementView extends JFrame {
 				jPanel15Layout.createParallelGroup(GroupLayout.Alignment.LEADING)
 				.addGroup(jPanel15Layout.createSequentialGroup()
 						.addContainerGap()
-						.addComponent(jLabel13)
+						.addComponent(rpiLabel)
 						.addGap(18, 18, 18)
 						.addComponent(rpi, GroupLayout.DEFAULT_SIZE, 136, Short.MAX_VALUE)
 						.addContainerGap())
@@ -401,11 +401,11 @@ public class ClientManagementView extends JFrame {
 		jPanel15Layout.setVerticalGroup(
 				jPanel15Layout.createParallelGroup(GroupLayout.Alignment.LEADING)
 				.addGroup(jPanel15Layout.createParallelGroup(GroupLayout.Alignment.BASELINE)
-						.addComponent(jLabel13, GroupLayout.DEFAULT_SIZE, 25, Short.MAX_VALUE)
+						.addComponent(rpiLabel, GroupLayout.DEFAULT_SIZE, 25, Short.MAX_VALUE)
 						.addComponent(rpi, GroupLayout.PREFERRED_SIZE, GroupLayout.DEFAULT_SIZE, GroupLayout.PREFERRED_SIZE))
 				);
 
-		jLabel14.setText("N° AVS: ");
+		avsLabel.setText("N° AVS: ");
 
 		GroupLayout jPanel16Layout = new GroupLayout(jPanel16);
 		jPanel16.setLayout(jPanel16Layout);
@@ -413,7 +413,7 @@ public class ClientManagementView extends JFrame {
 				jPanel16Layout.createParallelGroup(GroupLayout.Alignment.LEADING)
 				.addGroup(jPanel16Layout.createSequentialGroup()
 						.addContainerGap()
-						.addComponent(jLabel14)
+						.addComponent(avsLabel)
 						.addGap(18, 18, 18)
 						.addComponent(avs, GroupLayout.DEFAULT_SIZE, 136, Short.MAX_VALUE)
 						.addContainerGap())
@@ -421,11 +421,11 @@ public class ClientManagementView extends JFrame {
 		jPanel16Layout.setVerticalGroup(
 				jPanel16Layout.createParallelGroup(GroupLayout.Alignment.LEADING)
 				.addGroup(jPanel16Layout.createParallelGroup(GroupLayout.Alignment.BASELINE)
-						.addComponent(jLabel14, GroupLayout.DEFAULT_SIZE, 25, Short.MAX_VALUE)
+						.addComponent(avsLabel, GroupLayout.DEFAULT_SIZE, 25, Short.MAX_VALUE)
 						.addComponent(avs, GroupLayout.PREFERRED_SIZE, GroupLayout.DEFAULT_SIZE, GroupLayout.PREFERRED_SIZE))
 				);
 
-		jLabel15.setText("Mobile:");
+		mobileLabel.setText("Mobile:");
 
 		GroupLayout jPanel17Layout = new GroupLayout(jPanel17);
 		jPanel17.setLayout(jPanel17Layout);
@@ -433,7 +433,7 @@ public class ClientManagementView extends JFrame {
 				jPanel17Layout.createParallelGroup(GroupLayout.Alignment.LEADING)
 				.addGroup(jPanel17Layout.createSequentialGroup()
 						.addContainerGap()
-						.addComponent(jLabel15)
+						.addComponent(mobileLabel)
 						.addGap(18, 18, 18)
 						.addComponent(mobile, GroupLayout.DEFAULT_SIZE, 136, Short.MAX_VALUE)
 						.addContainerGap())
@@ -441,11 +441,11 @@ public class ClientManagementView extends JFrame {
 		jPanel17Layout.setVerticalGroup(
 				jPanel17Layout.createParallelGroup(GroupLayout.Alignment.LEADING)
 				.addGroup(jPanel17Layout.createParallelGroup(GroupLayout.Alignment.BASELINE)
-						.addComponent(jLabel15, GroupLayout.DEFAULT_SIZE, 25, Short.MAX_VALUE)
+						.addComponent(mobileLabel, GroupLayout.DEFAULT_SIZE, 25, Short.MAX_VALUE)
 						.addComponent(mobile, GroupLayout.PREFERRED_SIZE, GroupLayout.DEFAULT_SIZE, GroupLayout.PREFERRED_SIZE))
 				);
 
-		jLabel16.setText("Fix: ");
+		fixeLabel.setText("Fix: ");
 
 		GroupLayout jPanel18Layout = new GroupLayout(jPanel18);
 		jPanel18.setLayout(jPanel18Layout);
@@ -453,7 +453,7 @@ public class ClientManagementView extends JFrame {
 				jPanel18Layout.createParallelGroup(GroupLayout.Alignment.LEADING)
 				.addGroup(jPanel18Layout.createSequentialGroup()
 						.addContainerGap()
-						.addComponent(jLabel16)
+						.addComponent(fixeLabel)
 						.addGap(18, 18, 18)
 						.addComponent(fixe, GroupLayout.DEFAULT_SIZE, 136, Short.MAX_VALUE)
 						.addContainerGap())
@@ -461,11 +461,11 @@ public class ClientManagementView extends JFrame {
 		jPanel18Layout.setVerticalGroup(
 				jPanel18Layout.createParallelGroup(GroupLayout.Alignment.LEADING)
 				.addGroup(jPanel18Layout.createParallelGroup(GroupLayout.Alignment.BASELINE)
-						.addComponent(jLabel16, GroupLayout.DEFAULT_SIZE, 25, Short.MAX_VALUE)
+						.addComponent(fixeLabel, GroupLayout.DEFAULT_SIZE, 25, Short.MAX_VALUE)
 						.addComponent(fixe, GroupLayout.PREFERRED_SIZE, GroupLayout.DEFAULT_SIZE, GroupLayout.PREFERRED_SIZE))
 				);
 
-		jLabel17.setText("Fax: ");
+		faxLabel.setText("Fax: ");
 
 		GroupLayout jPanel19Layout = new GroupLayout(jPanel19);
 		jPanel19.setLayout(jPanel19Layout);
@@ -473,7 +473,7 @@ public class ClientManagementView extends JFrame {
 				jPanel19Layout.createParallelGroup(GroupLayout.Alignment.LEADING)
 				.addGroup(jPanel19Layout.createSequentialGroup()
 						.addContainerGap()
-						.addComponent(jLabel17)
+						.addComponent(faxLabel)
 						.addGap(18, 18, 18)
 						.addComponent(fax, GroupLayout.DEFAULT_SIZE, 136, Short.MAX_VALUE)
 						.addContainerGap())
@@ -481,7 +481,7 @@ public class ClientManagementView extends JFrame {
 		jPanel19Layout.setVerticalGroup(
 				jPanel19Layout.createParallelGroup(GroupLayout.Alignment.LEADING)
 				.addGroup(jPanel19Layout.createParallelGroup(GroupLayout.Alignment.BASELINE)
-						.addComponent(jLabel17, GroupLayout.DEFAULT_SIZE, 25, Short.MAX_VALUE)
+						.addComponent(faxLabel, GroupLayout.DEFAULT_SIZE, 25, Short.MAX_VALUE)
 						.addComponent(fax, GroupLayout.PREFERRED_SIZE, GroupLayout.DEFAULT_SIZE, GroupLayout.PREFERRED_SIZE))
 				);
 
@@ -1054,15 +1054,15 @@ public class ClientManagementView extends JFrame {
 
 	private JButton jButton1;
 	private JButton jButton2;
-	private JLabel jLabel1;
-	private JLabel jLabel10;
+	private JLabel firstNameLabel;
+	private JLabel ageLabel;
 	private JLabel jLabel11;
-	private JLabel jLabel12;
-	private JLabel jLabel13;
-	private JLabel jLabel14;
-	private JLabel jLabel15;
-	private JLabel jLabel16;
-	private JLabel jLabel17;
+	private JLabel emailLabel;
+	private JLabel rpiLabel;
+	private JLabel avsLabel;
+	private JLabel mobileLabel;
+	private JLabel fixeLabel;
+	private JLabel faxLabel;
 	private JLabel jLabel18;
 	private JLabel jLabel19;
 	private JLabel jLabel2;
@@ -1071,10 +1071,10 @@ public class ClientManagementView extends JFrame {
 	private JLabel jLabel22;
 	private JLabel jLabel23;
 	private JLabel jLabel3;
-	private JLabel jLabel4;
+	private JLabel lastNameLabel;
 	private JLabel jLabel5;
-	private JLabel jLabel7;
-	private JLabel jLabel8;
+	private JLabel dateOfBirthLabel;
+	private JLabel referenceLabel;
 	private JLabel jLabel9;
 	private JList listOrdonnance;
 	private JPanel jPanel1;

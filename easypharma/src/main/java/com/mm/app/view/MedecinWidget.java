@@ -68,7 +68,6 @@ public class MedecinWidget extends JInternalFrame implements InternalFrameWidget
 		nrcc = new JTextField();
 		speciality = new JTextField();
 		
-//		ArrayList<String> data = new ArrayList<String>(); 
 		final Map<String, String> data = new HashMap<String, String>();
 		data.put("", "");
 		List<Medecin> result = medecinService.getMedecins();
@@ -181,6 +180,9 @@ public class MedecinWidget extends JInternalFrame implements InternalFrameWidget
 		MedecinManagementView medecinManagementView = new MedecinManagementView(em);
         
         if(!"".equals(reference.getText())){
+        	medecinManagementView.getSearchField().setEnabled(false);
+        	medecinManagementView.getSearchTable().setEnabled(false);
+        	
         	Medecin medecin = medecinService.findMedecin(Integer.valueOf(reference.getText()));
         	
         	medecinManagementView.getFirstName().setText(medecin.getFirstName());
