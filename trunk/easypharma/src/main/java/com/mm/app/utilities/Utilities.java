@@ -90,7 +90,6 @@ public class Utilities {
 		
 		jLabel.setFont(new Font("Arial", 0, 12));
 		field.setFont(new Font("Arial", 0, 12));
-//		field.setEnabled(false);
 		
 		GroupLayout layout = new GroupLayout(pan);
 		pan.setLayout(layout);
@@ -110,29 +109,6 @@ public class Utilities {
                 .addComponent(field, GroupLayout.PREFERRED_SIZE, GroupLayout.DEFAULT_SIZE, GroupLayout.PREFERRED_SIZE))
         );
 
-		
-		
-//		GroupLayout layout = new GroupLayout(pan);
-//		pan.setLayout(layout);
-//        layout.setHorizontalGroup(
-//            layout.createParallelGroup(GroupLayout.Alignment.LEADING)
-//            .addGroup(layout.createSequentialGroup()
-//                .addContainerGap()
-//                .addComponent(jLabel, GroupLayout.DEFAULT_SIZE, GroupLayout.DEFAULT_SIZE, 110)
-//                .addGap(18, 18, 18)
-//                .addComponent(field, GroupLayout.DEFAULT_SIZE, GroupLayout.DEFAULT_SIZE, 250)
-//                .addContainerGap())
-//        );
-//        layout.setVerticalGroup(
-//            layout.createParallelGroup(GroupLayout.Alignment.LEADING)
-//            .addGroup(layout.createSequentialGroup()
-//                .addGap(7, 7, 7)
-//                .addGroup(layout.createParallelGroup(GroupLayout.Alignment.BASELINE)
-//                    .addComponent(jLabel, GroupLayout.PREFERRED_SIZE, GroupLayout.DEFAULT_SIZE, GroupLayout.PREFERRED_SIZE)
-//                    .addComponent(field, GroupLayout.PREFERRED_SIZE, GroupLayout.DEFAULT_SIZE, GroupLayout.PREFERRED_SIZE))
-//                .addContainerGap(GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
-//        );
-        
         return pan;
 	}
 	

@@ -181,6 +181,9 @@ public class ClientWidget extends JInternalFrame implements InternalFrameWidget{
 		ClientManagementView clientManagementView = new ClientManagementView(em);
         
 		if(!"".equals(ref)){
+			clientManagementView.getSearchField().setEnabled(false);
+			clientManagementView.getSearchTable().setEnabled(false);
+			
 			Client client = clientService.findClientByReference(ref);
 			clientManagementView.getFirstName().setText(client.getFirstName());
 			clientManagementView.getLastName().setText(client.getLastName());

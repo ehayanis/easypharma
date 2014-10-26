@@ -1,6 +1,7 @@
 package com.mm.app.view;
 
 import java.awt.Color;
+import java.awt.GridLayout;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.text.DateFormat;
@@ -20,6 +21,7 @@ import javax.swing.JTabbedPane;
 import javax.swing.JTable;
 import javax.swing.JTextArea;
 import javax.swing.JTextField;
+import javax.swing.LayoutStyle;
 import javax.swing.LayoutStyle.ComponentPlacement;
 import javax.swing.ListSelectionModel;
 import javax.swing.WindowConstants;
@@ -34,6 +36,7 @@ import com.mm.app.model.Product;
 import com.mm.app.service.ClientService;
 import com.mm.app.service.impl.ClientServiceImpl;
 import com.mm.app.utilities.ClientTableModel;
+import com.mm.app.utilities.Utilities;
 
 
 public class ClientManagementView extends JFrame {
@@ -60,7 +63,7 @@ public class ClientManagementView extends JFrame {
 		jPanel1 = new JPanel();
 		searchField = new JTextField();
 		jScrollPane1 = new JScrollPane();
-		jTable1 = new JTable();
+		searchTable = new JTable();
 		jPanel3 = new JPanel();
 		jPanel4 = new JPanel();
 		firstNameLabel = new JLabel();
@@ -74,10 +77,10 @@ public class ClientManagementView extends JFrame {
 		jPanel10 = new JPanel();
 		referenceLabel = new JLabel();
 		reference = new JTextField();
-		jPanel11 = new JPanel();
-		jLabel9 = new JLabel();
-		jRadioButton1 = new JRadioButton();
-		jRadioButton2 = new JRadioButton();
+		sexePanel = new JPanel();
+		sexeLabel = new JLabel();
+		sexeHomme = new JRadioButton();
+		sexeFemme = new JRadioButton();
 		jPanel12 = new JPanel();
 		ageLabel = new JLabel();
 		age = new JTextField();
@@ -100,13 +103,13 @@ public class ClientManagementView extends JFrame {
 		faxLabel = new JLabel();
 		fax = new JTextField();
 		jPanel2 = new JPanel();
-		jLabel3 = new JLabel();
+		listOrdonnanceLabel = new JLabel();
 		jScrollPane2 = new JScrollPane();
 		listOrdonnance = new JList();
 		jScrollPane3 = new JScrollPane();
-		jTable2 = new JTable();
-		jButton1 = new JButton();
-		jButton2 = new JButton();
+		tableOrdonnance = new JTable();
+		validate = new JButton();
+		cancel = new JButton();
 		jPanel6 = new JPanel();
 		jTabbedPane1 = new JTabbedPane();
 		jPanel7 = new JPanel();
@@ -142,6 +145,10 @@ public class ClientManagementView extends JFrame {
 		jLabel23 = new JLabel();
 		jScrollPane6 = new JScrollPane();
 		jTextArea3 = new JTextArea();
+		assuranceTable = new JTable();
+		jPanel13 = new JPanel();
+		listAssurancesLabel = new JLabel();
+		jScrollPane7 = new JScrollPane();
 
 		setDefaultCloseOperation(WindowConstants.DISPOSE_ON_CLOSE);
 		setTitle("Gestion des Clients");
@@ -164,8 +171,11 @@ public class ClientManagementView extends JFrame {
 						.addContainerGap(GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
 				);
 
-		jTable1.setModel(new DefaultTableModel(
+		searchTable.setModel(new DefaultTableModel(
 				new Object [][] {
+						{null, null, null, null, null, null},
+						{null, null, null, null, null, null},
+						{null, null, null, null, null, null},
 						{null, null, null, null, null, null}
 				},
 				new String [] {
@@ -180,10 +190,10 @@ public class ClientManagementView extends JFrame {
 				return canEdit [columnIndex];
 			}
 		});
-		jScrollPane1.setViewportView(jTable1);
-
-		jTable1.setCellSelectionEnabled(true);
-		ListSelectionModel cellSelectionModel = jTable1.getSelectionModel();
+		jScrollPane1.setViewportView(searchTable);
+		
+		searchTable.setCellSelectionEnabled(true);
+		ListSelectionModel cellSelectionModel = searchTable.getSelectionModel();
 		cellSelectionModel.setSelectionMode(ListSelectionModel.SINGLE_SELECTION);
 
 
@@ -191,12 +201,12 @@ public class ClientManagementView extends JFrame {
 			public void valueChanged(ListSelectionEvent e) {
 				Integer selectedData = 0;
 
-				int[] selectedRow = jTable1.getSelectedRows();
-				int[] selectedColumns = jTable1.getSelectedColumns();
+				int[] selectedRow = searchTable.getSelectedRows();
+				int[] selectedColumns = searchTable.getSelectedColumns();
 
 				for (int i = 0; i < selectedRow.length; i++) {
 					for (int j = 0; j < selectedColumns.length; j++) {
-						selectedData = (Integer) jTable1.getValueAt(selectedRow[i], selectedColumns[j]);
+						selectedData = (Integer) searchTable.getValueAt(selectedRow[i], selectedColumns[j]);
 					}
 				}
 
@@ -214,7 +224,6 @@ public class ClientManagementView extends JFrame {
 					lastName.setText(client.getLastName());
 					dateOfBirth.setText(client.getLastName());
 					reference.setText(client.getReference());
-
 
 					List<Ordonnance> ordonnances = client.getOrdonnances();
 
@@ -239,314 +248,65 @@ public class ClientManagementView extends JFrame {
 		});
 
 		firstNameLabel.setText("Nom:");
-
-		GroupLayout jPanel4Layout = new GroupLayout(jPanel4);
-		jPanel4.setLayout(jPanel4Layout);
-		jPanel4Layout.setHorizontalGroup(
-				jPanel4Layout.createParallelGroup(GroupLayout.Alignment.LEADING)
-				.addGroup(jPanel4Layout.createSequentialGroup()
-						.addContainerGap()
-						.addComponent(firstNameLabel)
-						.addGap(18, 18, 18)
-						.addComponent(firstName, GroupLayout.DEFAULT_SIZE, 136, Short.MAX_VALUE)
-						.addContainerGap())
-				);
-		jPanel4Layout.setVerticalGroup(
-				jPanel4Layout.createParallelGroup(GroupLayout.Alignment.LEADING)
-				.addGroup(jPanel4Layout.createParallelGroup(GroupLayout.Alignment.BASELINE)
-						.addComponent(firstNameLabel, GroupLayout.DEFAULT_SIZE, 25, Short.MAX_VALUE)
-						.addComponent(firstName, GroupLayout.PREFERRED_SIZE, GroupLayout.DEFAULT_SIZE, GroupLayout.PREFERRED_SIZE))
-				);
-
 		lastNameLabel.setText("Prénom: ");
-
-		GroupLayout jPanel5Layout = new GroupLayout(jPanel5);
-		jPanel5.setLayout(jPanel5Layout);
-		jPanel5Layout.setHorizontalGroup(
-				jPanel5Layout.createParallelGroup(GroupLayout.Alignment.LEADING)
-				.addGroup(jPanel5Layout.createSequentialGroup()
-						.addContainerGap()
-						.addComponent(lastNameLabel)
-						.addGap(18, 18, 18)
-						.addComponent(lastName, GroupLayout.DEFAULT_SIZE, 136, Short.MAX_VALUE)
-						.addContainerGap())
-				);
-		jPanel5Layout.setVerticalGroup(
-				jPanel5Layout.createParallelGroup(GroupLayout.Alignment.LEADING)
-				.addGroup(jPanel5Layout.createParallelGroup(GroupLayout.Alignment.BASELINE)
-						.addComponent(lastNameLabel, GroupLayout.DEFAULT_SIZE, 25, Short.MAX_VALUE)
-						.addComponent(lastName, GroupLayout.PREFERRED_SIZE, GroupLayout.DEFAULT_SIZE, GroupLayout.PREFERRED_SIZE))
-				);
-
 		dateOfBirthLabel.setText("Date de naissance:");
-
-		GroupLayout jPanel9Layout = new GroupLayout(jPanel9);
-		jPanel9.setLayout(jPanel9Layout);
-		jPanel9Layout.setHorizontalGroup(
-				jPanel9Layout.createParallelGroup(GroupLayout.Alignment.LEADING)
-				.addGroup(jPanel9Layout.createSequentialGroup()
-						.addContainerGap()
-						.addComponent(dateOfBirthLabel)
-						.addGap(18, 18, 18)
-						.addComponent(dateOfBirth, GroupLayout.DEFAULT_SIZE, 136, Short.MAX_VALUE)
-						.addContainerGap())
-				);
-		jPanel9Layout.setVerticalGroup(
-				jPanel9Layout.createParallelGroup(GroupLayout.Alignment.LEADING)
-				.addGroup(jPanel9Layout.createParallelGroup(GroupLayout.Alignment.BASELINE)
-						.addComponent(dateOfBirthLabel, GroupLayout.DEFAULT_SIZE, 25, Short.MAX_VALUE)
-						.addComponent(dateOfBirth, GroupLayout.PREFERRED_SIZE, GroupLayout.DEFAULT_SIZE, GroupLayout.PREFERRED_SIZE))
-				);
-
 		referenceLabel.setText("Réference:");
-
-		GroupLayout jPanel10Layout = new GroupLayout(jPanel10);
-		jPanel10.setLayout(jPanel10Layout);
-		jPanel10Layout.setHorizontalGroup(
-				jPanel10Layout.createParallelGroup(GroupLayout.Alignment.LEADING)
-				.addGroup(jPanel10Layout.createSequentialGroup()
-						.addContainerGap()
-						.addComponent(referenceLabel)
-						.addGap(18, 18, 18)
-						.addComponent(reference, GroupLayout.DEFAULT_SIZE, 136, Short.MAX_VALUE)
-						.addContainerGap())
-				);
-		jPanel10Layout.setVerticalGroup(
-				jPanel10Layout.createParallelGroup(GroupLayout.Alignment.LEADING)
-				.addGroup(jPanel10Layout.createParallelGroup(GroupLayout.Alignment.BASELINE)
-						.addComponent(referenceLabel, GroupLayout.DEFAULT_SIZE, 25, Short.MAX_VALUE)
-						.addComponent(reference, GroupLayout.PREFERRED_SIZE, GroupLayout.DEFAULT_SIZE, GroupLayout.PREFERRED_SIZE))
-				);
-
-		jLabel9.setText("Sexe: ");
-
-		jRadioButton1.setText("Homme");
-
-		jRadioButton2.setText("Femme");
-
-		GroupLayout jPanel11Layout = new GroupLayout(jPanel11);
-		jPanel11.setLayout(jPanel11Layout);
-		jPanel11Layout.setHorizontalGroup(
-				jPanel11Layout.createParallelGroup(GroupLayout.Alignment.LEADING)
-				.addGroup(jPanel11Layout.createSequentialGroup()
-						.addContainerGap()
-						.addComponent(jLabel9)
-						.addGap(18, 18, 18)
-						.addComponent(jRadioButton1)
-						.addPreferredGap(ComponentPlacement.UNRELATED)
-						.addComponent(jRadioButton2)
-						.addContainerGap(GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
-				);
-		jPanel11Layout.setVerticalGroup(
-				jPanel11Layout.createParallelGroup(GroupLayout.Alignment.LEADING)
-				.addGroup(jPanel11Layout.createParallelGroup(GroupLayout.Alignment.BASELINE)
-						.addComponent(jLabel9, GroupLayout.PREFERRED_SIZE, 25, GroupLayout.PREFERRED_SIZE)
-						.addComponent(jRadioButton1)
-						.addComponent(jRadioButton2))
-				);
-
 		ageLabel.setText("Age:");
-
-		GroupLayout jPanel12Layout = new GroupLayout(jPanel12);
-		jPanel12.setLayout(jPanel12Layout);
-		jPanel12Layout.setHorizontalGroup(
-				jPanel12Layout.createParallelGroup(GroupLayout.Alignment.LEADING)
-				.addGroup(jPanel12Layout.createSequentialGroup()
-						.addContainerGap()
-						.addComponent(ageLabel)
-						.addGap(18, 18, 18)
-						.addComponent(age, GroupLayout.DEFAULT_SIZE, 136, Short.MAX_VALUE)
-						.addContainerGap())
-				);
-		jPanel12Layout.setVerticalGroup(
-				jPanel12Layout.createParallelGroup(GroupLayout.Alignment.LEADING)
-				.addGroup(jPanel12Layout.createParallelGroup(GroupLayout.Alignment.BASELINE)
-						.addComponent(ageLabel, GroupLayout.DEFAULT_SIZE, 25, Short.MAX_VALUE)
-						.addComponent(age, GroupLayout.PREFERRED_SIZE, GroupLayout.DEFAULT_SIZE, GroupLayout.PREFERRED_SIZE))
-				);
-
+		rpiLabel.setText("N° RPI: ");
+		avsLabel.setText("N° AVS: ");
+		mobileLabel.setText("Mobile:");
+		fixeLabel.setText("Fix: ");
+		faxLabel.setText("Fax: ");
 		emailLabel.setText("Email: ");
 
-		GroupLayout jPanel14Layout = new GroupLayout(jPanel14);
-		jPanel14.setLayout(jPanel14Layout);
-		jPanel14Layout.setHorizontalGroup(
-				jPanel14Layout.createParallelGroup(GroupLayout.Alignment.LEADING)
-				.addGroup(jPanel14Layout.createSequentialGroup()
-						.addContainerGap()
-						.addComponent(emailLabel)
-						.addGap(18, 18, 18)
-						.addComponent(email, GroupLayout.DEFAULT_SIZE, 267, Short.MAX_VALUE)
-						.addContainerGap())
-				);
-		jPanel14Layout.setVerticalGroup(
-				jPanel14Layout.createParallelGroup(GroupLayout.Alignment.LEADING)
-				.addGroup(jPanel14Layout.createParallelGroup(GroupLayout.Alignment.BASELINE)
-						.addComponent(emailLabel, GroupLayout.DEFAULT_SIZE, 25, Short.MAX_VALUE)
-						.addComponent(email, GroupLayout.PREFERRED_SIZE, GroupLayout.DEFAULT_SIZE, GroupLayout.PREFERRED_SIZE))
-				);
+		GridLayout gridLayout = new GridLayout(6, 2, 0, 0);
+		gridLayout.setHgap(0);
+		gridLayout.setVgap(0);
+		jPanel3.setLayout(gridLayout);
 
-		rpiLabel.setText("N° RPI: ");
+		jPanel3.add(Utilities.createFilledSimpleInnerPanel(firstNameLabel, firstName));
+		jPanel3.add(Utilities.createFilledSimpleInnerPanel(lastNameLabel, lastName));
+		jPanel3.add(Utilities.createFilledSimpleInnerPanel(dateOfBirthLabel, dateOfBirth));
+		jPanel3.add(Utilities.createFilledSimpleInnerPanel(referenceLabel, reference));
+		jPanel3.add(Utilities.createFilledSimpleInnerPanel(ageLabel, age));
+		jPanel3.add(Utilities.createFilledSimpleInnerPanel(rpiLabel, rpi));
+		jPanel3.add(Utilities.createFilledSimpleInnerPanel(avsLabel, avs));
+		jPanel3.add(Utilities.createFilledSimpleInnerPanel(mobileLabel, mobile));
+		jPanel3.add(Utilities.createFilledSimpleInnerPanel(fixeLabel, fixe));
+		jPanel3.add(Utilities.createFilledSimpleInnerPanel(faxLabel, fax));
+		jPanel3.add(Utilities.createFilledSimpleInnerPanel(emailLabel, email));
 
-		GroupLayout jPanel15Layout = new GroupLayout(jPanel15);
-		jPanel15.setLayout(jPanel15Layout);
-		jPanel15Layout.setHorizontalGroup(
-				jPanel15Layout.createParallelGroup(GroupLayout.Alignment.LEADING)
-				.addGroup(jPanel15Layout.createSequentialGroup()
-						.addContainerGap()
-						.addComponent(rpiLabel)
-						.addGap(18, 18, 18)
-						.addComponent(rpi, GroupLayout.DEFAULT_SIZE, 136, Short.MAX_VALUE)
-						.addContainerGap())
-				);
-		jPanel15Layout.setVerticalGroup(
-				jPanel15Layout.createParallelGroup(GroupLayout.Alignment.LEADING)
-				.addGroup(jPanel15Layout.createParallelGroup(GroupLayout.Alignment.BASELINE)
-						.addComponent(rpiLabel, GroupLayout.DEFAULT_SIZE, 25, Short.MAX_VALUE)
-						.addComponent(rpi, GroupLayout.PREFERRED_SIZE, GroupLayout.DEFAULT_SIZE, GroupLayout.PREFERRED_SIZE))
-				);
 
-		avsLabel.setText("N° AVS: ");
+//		sexeLabel.setText("Sexe: ");
+//		sexeHomme.setText("Homme");
+//		sexeFemme.setText("Femme");
+//
+//		GroupLayout jPanel11Layout = new GroupLayout(sexePanel);
+//		sexePanel.setLayout(jPanel11Layout);
+//		jPanel11Layout.setHorizontalGroup(
+//				jPanel11Layout.createParallelGroup(GroupLayout.Alignment.LEADING)
+//				.addGroup(jPanel11Layout.createSequentialGroup()
+//						.addContainerGap()
+//						.addComponent(sexeLabel)
+//						.addGap(18, 18, 18)
+//						.addComponent(sexeHomme)
+//						.addPreferredGap(ComponentPlacement.UNRELATED)
+//						.addComponent(sexeFemme)
+//						.addContainerGap(GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+//				);
+//		jPanel11Layout.setVerticalGroup(
+//				jPanel11Layout.createParallelGroup(GroupLayout.Alignment.LEADING)
+//				.addGroup(jPanel11Layout.createParallelGroup(GroupLayout.Alignment.BASELINE)
+//						.addComponent(sexeLabel, GroupLayout.PREFERRED_SIZE, 25, GroupLayout.PREFERRED_SIZE)
+//						.addComponent(sexeHomme)
+//						.addComponent(sexeFemme))
+//				);
+//
+//		jPanel3.add(Utilities.createFilledSimpleInnerPanel(sexeLabel, sexePanel));
 
-		GroupLayout jPanel16Layout = new GroupLayout(jPanel16);
-		jPanel16.setLayout(jPanel16Layout);
-		jPanel16Layout.setHorizontalGroup(
-				jPanel16Layout.createParallelGroup(GroupLayout.Alignment.LEADING)
-				.addGroup(jPanel16Layout.createSequentialGroup()
-						.addContainerGap()
-						.addComponent(avsLabel)
-						.addGap(18, 18, 18)
-						.addComponent(avs, GroupLayout.DEFAULT_SIZE, 136, Short.MAX_VALUE)
-						.addContainerGap())
-				);
-		jPanel16Layout.setVerticalGroup(
-				jPanel16Layout.createParallelGroup(GroupLayout.Alignment.LEADING)
-				.addGroup(jPanel16Layout.createParallelGroup(GroupLayout.Alignment.BASELINE)
-						.addComponent(avsLabel, GroupLayout.DEFAULT_SIZE, 25, Short.MAX_VALUE)
-						.addComponent(avs, GroupLayout.PREFERRED_SIZE, GroupLayout.DEFAULT_SIZE, GroupLayout.PREFERRED_SIZE))
-				);
 
-		mobileLabel.setText("Mobile:");
-
-		GroupLayout jPanel17Layout = new GroupLayout(jPanel17);
-		jPanel17.setLayout(jPanel17Layout);
-		jPanel17Layout.setHorizontalGroup(
-				jPanel17Layout.createParallelGroup(GroupLayout.Alignment.LEADING)
-				.addGroup(jPanel17Layout.createSequentialGroup()
-						.addContainerGap()
-						.addComponent(mobileLabel)
-						.addGap(18, 18, 18)
-						.addComponent(mobile, GroupLayout.DEFAULT_SIZE, 136, Short.MAX_VALUE)
-						.addContainerGap())
-				);
-		jPanel17Layout.setVerticalGroup(
-				jPanel17Layout.createParallelGroup(GroupLayout.Alignment.LEADING)
-				.addGroup(jPanel17Layout.createParallelGroup(GroupLayout.Alignment.BASELINE)
-						.addComponent(mobileLabel, GroupLayout.DEFAULT_SIZE, 25, Short.MAX_VALUE)
-						.addComponent(mobile, GroupLayout.PREFERRED_SIZE, GroupLayout.DEFAULT_SIZE, GroupLayout.PREFERRED_SIZE))
-				);
-
-		fixeLabel.setText("Fix: ");
-
-		GroupLayout jPanel18Layout = new GroupLayout(jPanel18);
-		jPanel18.setLayout(jPanel18Layout);
-		jPanel18Layout.setHorizontalGroup(
-				jPanel18Layout.createParallelGroup(GroupLayout.Alignment.LEADING)
-				.addGroup(jPanel18Layout.createSequentialGroup()
-						.addContainerGap()
-						.addComponent(fixeLabel)
-						.addGap(18, 18, 18)
-						.addComponent(fixe, GroupLayout.DEFAULT_SIZE, 136, Short.MAX_VALUE)
-						.addContainerGap())
-				);
-		jPanel18Layout.setVerticalGroup(
-				jPanel18Layout.createParallelGroup(GroupLayout.Alignment.LEADING)
-				.addGroup(jPanel18Layout.createParallelGroup(GroupLayout.Alignment.BASELINE)
-						.addComponent(fixeLabel, GroupLayout.DEFAULT_SIZE, 25, Short.MAX_VALUE)
-						.addComponent(fixe, GroupLayout.PREFERRED_SIZE, GroupLayout.DEFAULT_SIZE, GroupLayout.PREFERRED_SIZE))
-				);
-
-		faxLabel.setText("Fax: ");
-
-		GroupLayout jPanel19Layout = new GroupLayout(jPanel19);
-		jPanel19.setLayout(jPanel19Layout);
-		jPanel19Layout.setHorizontalGroup(
-				jPanel19Layout.createParallelGroup(GroupLayout.Alignment.LEADING)
-				.addGroup(jPanel19Layout.createSequentialGroup()
-						.addContainerGap()
-						.addComponent(faxLabel)
-						.addGap(18, 18, 18)
-						.addComponent(fax, GroupLayout.DEFAULT_SIZE, 136, Short.MAX_VALUE)
-						.addContainerGap())
-				);
-		jPanel19Layout.setVerticalGroup(
-				jPanel19Layout.createParallelGroup(GroupLayout.Alignment.LEADING)
-				.addGroup(jPanel19Layout.createParallelGroup(GroupLayout.Alignment.BASELINE)
-						.addComponent(faxLabel, GroupLayout.DEFAULT_SIZE, 25, Short.MAX_VALUE)
-						.addComponent(fax, GroupLayout.PREFERRED_SIZE, GroupLayout.DEFAULT_SIZE, GroupLayout.PREFERRED_SIZE))
-				);
-
-		GroupLayout jPanel3Layout = new GroupLayout(jPanel3);
-		jPanel3.setLayout(jPanel3Layout);
-		jPanel3Layout.setHorizontalGroup(
-				jPanel3Layout.createParallelGroup(GroupLayout.Alignment.LEADING)
-				.addGroup(jPanel3Layout.createSequentialGroup()
-						.addGroup(jPanel3Layout.createParallelGroup(GroupLayout.Alignment.LEADING)
-								.addGroup(jPanel3Layout.createSequentialGroup()
-										.addComponent(jPanel4, GroupLayout.PREFERRED_SIZE, GroupLayout.DEFAULT_SIZE, GroupLayout.PREFERRED_SIZE)
-										.addPreferredGap(ComponentPlacement.RELATED)
-										.addComponent(jPanel5, GroupLayout.PREFERRED_SIZE, GroupLayout.DEFAULT_SIZE, GroupLayout.PREFERRED_SIZE))
-										.addGroup(jPanel3Layout.createSequentialGroup()
-												.addComponent(jPanel10, GroupLayout.PREFERRED_SIZE, GroupLayout.DEFAULT_SIZE, GroupLayout.PREFERRED_SIZE)
-												.addPreferredGap(ComponentPlacement.RELATED)
-												.addComponent(jPanel9, GroupLayout.PREFERRED_SIZE, GroupLayout.DEFAULT_SIZE, GroupLayout.PREFERRED_SIZE))
-												.addGroup(jPanel3Layout.createSequentialGroup()
-														.addComponent(jPanel18, GroupLayout.PREFERRED_SIZE, GroupLayout.DEFAULT_SIZE, GroupLayout.PREFERRED_SIZE)
-														.addPreferredGap(ComponentPlacement.RELATED)
-														.addComponent(jPanel17, GroupLayout.PREFERRED_SIZE, GroupLayout.DEFAULT_SIZE, GroupLayout.PREFERRED_SIZE))
-														.addComponent(jPanel14, GroupLayout.PREFERRED_SIZE, GroupLayout.DEFAULT_SIZE, GroupLayout.PREFERRED_SIZE)
-														.addComponent(jPanel19, GroupLayout.PREFERRED_SIZE, GroupLayout.DEFAULT_SIZE, GroupLayout.PREFERRED_SIZE)
-														.addGroup(jPanel3Layout.createParallelGroup(GroupLayout.Alignment.TRAILING, false)
-																.addGroup(jPanel3Layout.createSequentialGroup()
-																		.addComponent(jPanel12, GroupLayout.PREFERRED_SIZE, GroupLayout.DEFAULT_SIZE, GroupLayout.PREFERRED_SIZE)
-																		.addPreferredGap(ComponentPlacement.RELATED)
-																		.addComponent(jPanel11, GroupLayout.DEFAULT_SIZE, GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
-																		.addGroup(jPanel3Layout.createSequentialGroup()
-																				.addComponent(jPanel16, GroupLayout.PREFERRED_SIZE, GroupLayout.DEFAULT_SIZE, GroupLayout.PREFERRED_SIZE)
-																				.addPreferredGap(ComponentPlacement.RELATED)
-																				.addComponent(jPanel15, GroupLayout.PREFERRED_SIZE, GroupLayout.DEFAULT_SIZE, GroupLayout.PREFERRED_SIZE))))
-																				.addGap(0, 0, Short.MAX_VALUE))
-				);
-		jPanel3Layout.setVerticalGroup(
-				jPanel3Layout.createParallelGroup(GroupLayout.Alignment.LEADING)
-				.addGroup(jPanel3Layout.createSequentialGroup()
-						.addGroup(jPanel3Layout.createParallelGroup(GroupLayout.Alignment.LEADING)
-								.addComponent(jPanel4, GroupLayout.PREFERRED_SIZE, GroupLayout.DEFAULT_SIZE, GroupLayout.PREFERRED_SIZE)
-								.addComponent(jPanel5, GroupLayout.PREFERRED_SIZE, GroupLayout.DEFAULT_SIZE, GroupLayout.PREFERRED_SIZE))
-								.addPreferredGap(ComponentPlacement.RELATED)
-								.addGroup(jPanel3Layout.createParallelGroup(GroupLayout.Alignment.LEADING)
-										.addComponent(jPanel10, GroupLayout.PREFERRED_SIZE, GroupLayout.DEFAULT_SIZE, GroupLayout.PREFERRED_SIZE)
-										.addComponent(jPanel9, GroupLayout.PREFERRED_SIZE, GroupLayout.DEFAULT_SIZE, GroupLayout.PREFERRED_SIZE))
-										.addPreferredGap(ComponentPlacement.RELATED)
-										.addGroup(jPanel3Layout.createParallelGroup(GroupLayout.Alignment.LEADING)
-												.addComponent(jPanel12, GroupLayout.PREFERRED_SIZE, GroupLayout.DEFAULT_SIZE, GroupLayout.PREFERRED_SIZE)
-												.addComponent(jPanel11, GroupLayout.PREFERRED_SIZE, GroupLayout.DEFAULT_SIZE, GroupLayout.PREFERRED_SIZE))
-												.addPreferredGap(ComponentPlacement.RELATED)
-												.addComponent(jPanel14, GroupLayout.PREFERRED_SIZE, GroupLayout.DEFAULT_SIZE, GroupLayout.PREFERRED_SIZE)
-												.addPreferredGap(ComponentPlacement.RELATED)
-												.addGroup(jPanel3Layout.createParallelGroup(GroupLayout.Alignment.LEADING)
-														.addComponent(jPanel16, GroupLayout.PREFERRED_SIZE, GroupLayout.DEFAULT_SIZE, GroupLayout.PREFERRED_SIZE)
-														.addComponent(jPanel15, GroupLayout.PREFERRED_SIZE, GroupLayout.DEFAULT_SIZE, GroupLayout.PREFERRED_SIZE))
-														.addPreferredGap(ComponentPlacement.RELATED)
-														.addGroup(jPanel3Layout.createParallelGroup(GroupLayout.Alignment.LEADING)
-																.addComponent(jPanel18, GroupLayout.PREFERRED_SIZE, GroupLayout.DEFAULT_SIZE, GroupLayout.PREFERRED_SIZE)
-																.addComponent(jPanel17, GroupLayout.PREFERRED_SIZE, GroupLayout.DEFAULT_SIZE, GroupLayout.PREFERRED_SIZE))
-																.addPreferredGap(ComponentPlacement.RELATED)
-																.addComponent(jPanel19, GroupLayout.PREFERRED_SIZE, GroupLayout.DEFAULT_SIZE, GroupLayout.PREFERRED_SIZE)
-																.addContainerGap(GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
-				);
-
-		jLabel3.setText("Liste Ordonnances");
-
+		listOrdonnanceLabel.setText("Liste Ordonnances");
+		listOrdonnanceLabel.setFont(new java.awt.Font("Tahoma", 1, 11));
 		jScrollPane2.setViewportView(listOrdonnance);
 
 		listOrdonnance.addListSelectionListener(new ListSelectionListener() {
@@ -555,7 +315,7 @@ public class ClientManagementView extends JFrame {
 			}
 		});
 
-		jTable2.setModel(new DefaultTableModel(
+		tableOrdonnance.setModel(new DefaultTableModel(
 				new Object [][] {
 						{null, null},
 						{null, null},
@@ -573,41 +333,43 @@ public class ClientManagementView extends JFrame {
 				return canEdit [columnIndex];
 			}
 		});
-		jScrollPane3.setViewportView(jTable2);
+		jScrollPane3.setViewportView(tableOrdonnance);
+		jPanel2.setBorder(javax.swing.BorderFactory.createEtchedBorder());
+		jPanel2.setBackground(Color.WHITE);
 
-		GroupLayout jPanel2Layout = new GroupLayout(jPanel2);
-		jPanel2.setLayout(jPanel2Layout);
-		jPanel2Layout.setHorizontalGroup(
-				jPanel2Layout.createParallelGroup(GroupLayout.Alignment.LEADING)
-				.addGroup(GroupLayout.Alignment.TRAILING, jPanel2Layout.createSequentialGroup()
-						.addGap(0, 9, Short.MAX_VALUE)
-						.addGroup(jPanel2Layout.createParallelGroup(GroupLayout.Alignment.LEADING)
-								.addComponent(jLabel3)
-								.addComponent(jScrollPane2, GroupLayout.PREFERRED_SIZE, 139, GroupLayout.PREFERRED_SIZE)
-								.addComponent(jScrollPane3, GroupLayout.PREFERRED_SIZE, 266, GroupLayout.PREFERRED_SIZE)))
-				);
-		jPanel2Layout.setVerticalGroup(
-				jPanel2Layout.createParallelGroup(GroupLayout.Alignment.LEADING)
-				.addGroup(jPanel2Layout.createSequentialGroup()
-						.addComponent(jLabel3)
-						.addPreferredGap(ComponentPlacement.RELATED)
-						.addComponent(jScrollPane2, GroupLayout.PREFERRED_SIZE, 93, GroupLayout.PREFERRED_SIZE)
-						.addPreferredGap(ComponentPlacement.UNRELATED)
-						.addComponent(jScrollPane3, GroupLayout.PREFERRED_SIZE, 91, GroupLayout.PREFERRED_SIZE)
-						.addContainerGap(GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
-				);
+		javax.swing.GroupLayout jPanel2Layout = new javax.swing.GroupLayout(jPanel2);
+        jPanel2.setLayout(jPanel2Layout);
+        jPanel2Layout.setHorizontalGroup(
+            jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel2Layout.createSequentialGroup()
+                .addGap(0, 2, Short.MAX_VALUE)
+                .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addComponent(listOrdonnanceLabel)
+                    .addComponent(jScrollPane2, javax.swing.GroupLayout.PREFERRED_SIZE, 139, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(jScrollPane3, javax.swing.GroupLayout.PREFERRED_SIZE, 266, javax.swing.GroupLayout.PREFERRED_SIZE)))
+        );
+        jPanel2Layout.setVerticalGroup(
+            jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(jPanel2Layout.createSequentialGroup()
+                .addComponent(listOrdonnanceLabel)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addComponent(jScrollPane2, javax.swing.GroupLayout.PREFERRED_SIZE, 93, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                .addComponent(jScrollPane3, javax.swing.GroupLayout.PREFERRED_SIZE, 91, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+        );
+        
+		validate.setText("Valider");
 
-		jButton1.setText("Valider");
+		cancel.setText("Annuler");
 
-		jButton2.setText("Annuler");
-
-		jButton1.addActionListener(new ActionListener() {
+		validate.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent evt) {
 				validateActionPerformed(evt);	
 			}
 		});
 
-		jButton2.addActionListener(new ActionListener() {
+		cancel.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent evt) {
 				cancelActionPerformed(evt);	
 			}
@@ -706,6 +468,11 @@ public class ClientManagementView extends JFrame {
 								.addContainerGap(GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
 				);
 
+		jPanel21.setBackground(Color.WHITE);
+		jPanel22.setBackground(Color.WHITE);
+		jPanel23.setBackground(Color.WHITE);
+		jPanel7.setBackground(Color.WHITE);
+		
 		jTabbedPane1.addTab("Addr. Principale", jPanel7);
 
 		jLabel18.setText("Ville:");
@@ -802,7 +569,12 @@ public class ClientManagementView extends JFrame {
 				);
 
 		jTabbedPane1.addTab("Addr. Facturation", jPanel24);
-
+		
+		jPanel24.setBackground(Color.WHITE);
+		jPanel25.setBackground(Color.WHITE);
+		jPanel26.setBackground(Color.WHITE);
+		jPanel27.setBackground(Color.WHITE);
+		
 		jLabel21.setText("Ville:");
 
 		GroupLayout jPanel29Layout = new GroupLayout(jPanel29);
@@ -897,9 +669,15 @@ public class ClientManagementView extends JFrame {
 				);
 
 		jTabbedPane1.addTab("Addr. Livraison", jPanel28);
-
+		
+		jPanel28.setBackground(Color.WHITE);
+		jPanel29.setBackground(Color.WHITE);
+		jPanel30.setBackground(Color.WHITE);
+		jPanel31.setBackground(Color.WHITE);
+		
 		GroupLayout jPanel6Layout = new GroupLayout(jPanel6);
 		jPanel6.setLayout(jPanel6Layout);
+		jPanel6.setBackground(Color.WHITE);
 		jPanel6Layout.setHorizontalGroup(
 				jPanel6Layout.createParallelGroup(GroupLayout.Alignment.LEADING)
 				.addComponent(jTabbedPane1)
@@ -910,46 +688,100 @@ public class ClientManagementView extends JFrame {
 						.addComponent(jTabbedPane1, GroupLayout.PREFERRED_SIZE, 131, GroupLayout.PREFERRED_SIZE)
 						.addGap(0, 0, Short.MAX_VALUE))
 				);
+		
+		listAssurancesLabel.setText("Liste Assurances");
+		listAssurancesLabel.setFont(new java.awt.Font("Tahoma", 1, 11));
+		
+        assuranceTable.setModel(new javax.swing.table.DefaultTableModel(
+            new Object [][] {
+                {null, null},
+                {null, null},
+                {null, null}
+            },
+            new String [] {
+                "Assurance", "Type"
+            }
+        ) {
+            boolean[] canEdit = new boolean [] {
+                false, false
+            };
 
-		GroupLayout layout = new GroupLayout(getContentPane());
-		getContentPane().setLayout(layout);
-		layout.setHorizontalGroup(
-				layout.createParallelGroup(GroupLayout.Alignment.LEADING)
-				.addComponent(jPanel1, GroupLayout.DEFAULT_SIZE, GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-				.addComponent(jScrollPane1, GroupLayout.Alignment.TRAILING)
-				.addGroup(GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
-						.addGroup(layout.createParallelGroup(GroupLayout.Alignment.TRAILING)
-								.addComponent(jPanel6, GroupLayout.DEFAULT_SIZE, GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-								.addComponent(jPanel3, GroupLayout.DEFAULT_SIZE, GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
-								.addPreferredGap(ComponentPlacement.RELATED)
-								.addGroup(layout.createParallelGroup(GroupLayout.Alignment.LEADING)
-										.addComponent(jPanel2, GroupLayout.Alignment.TRAILING, GroupLayout.PREFERRED_SIZE, GroupLayout.DEFAULT_SIZE, GroupLayout.PREFERRED_SIZE)
-										.addGroup(GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
-												.addComponent(jButton2, GroupLayout.PREFERRED_SIZE, 88, GroupLayout.PREFERRED_SIZE)
-												.addGap(18, 18, 18)
-												.addComponent(jButton1, GroupLayout.PREFERRED_SIZE, 88, GroupLayout.PREFERRED_SIZE)
-												.addContainerGap())))
-				);
-		layout.setVerticalGroup(
-				layout.createParallelGroup(GroupLayout.Alignment.LEADING)
-				.addGroup(layout.createSequentialGroup()
-						.addComponent(jPanel1, GroupLayout.PREFERRED_SIZE, GroupLayout.DEFAULT_SIZE, GroupLayout.PREFERRED_SIZE)
-						.addPreferredGap(ComponentPlacement.UNRELATED)
-						.addComponent(jScrollPane1, GroupLayout.PREFERRED_SIZE, 107, GroupLayout.PREFERRED_SIZE)
-						.addPreferredGap(ComponentPlacement.UNRELATED)
-						.addGroup(layout.createParallelGroup(GroupLayout.Alignment.LEADING, false)
-								.addComponent(jPanel2, GroupLayout.DEFAULT_SIZE, GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-								.addComponent(jPanel3, GroupLayout.DEFAULT_SIZE, GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
-								.addPreferredGap(ComponentPlacement.UNRELATED)
-								.addGroup(layout.createParallelGroup(GroupLayout.Alignment.LEADING)
-										.addGroup(layout.createSequentialGroup()
-												.addGap(0, 0, Short.MAX_VALUE)
-												.addGroup(layout.createParallelGroup(GroupLayout.Alignment.BASELINE)
-														.addComponent(jButton1)
-														.addComponent(jButton2)))
-														.addComponent(jPanel6, GroupLayout.DEFAULT_SIZE, GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
-														.addContainerGap())
-				);
+            public boolean isCellEditable(int rowIndex, int columnIndex) {
+                return canEdit [columnIndex];
+            }
+        });
+
+        jScrollPane7.setViewportView(assuranceTable);
+
+        jPanel13.setBorder(javax.swing.BorderFactory.createEtchedBorder());
+        jPanel13.setBackground(Color.WHITE);
+        
+        javax.swing.GroupLayout jPanel13Layout = new GroupLayout(jPanel13);
+        jPanel13.setLayout(jPanel13Layout);
+        jPanel13Layout.setHorizontalGroup(
+            jPanel13Layout.createParallelGroup(GroupLayout.Alignment.LEADING)
+            .addGroup(GroupLayout.Alignment.TRAILING, jPanel13Layout.createSequentialGroup()
+                .addGap(0, 0, Short.MAX_VALUE)
+                .addGroup(jPanel13Layout.createParallelGroup(GroupLayout.Alignment.LEADING)
+                    .addComponent(listAssurancesLabel)
+                    .addComponent(jScrollPane7, GroupLayout.PREFERRED_SIZE, 266, GroupLayout.PREFERRED_SIZE)))
+        );
+        jPanel13Layout.setVerticalGroup(
+            jPanel13Layout.createParallelGroup(GroupLayout.Alignment.LEADING)
+            .addGroup(jPanel13Layout.createSequentialGroup()
+                .addComponent(listAssurancesLabel)
+                .addPreferredGap(LayoutStyle.ComponentPlacement.UNRELATED)
+                .addComponent(jScrollPane7, GroupLayout.PREFERRED_SIZE, 91, GroupLayout.PREFERRED_SIZE)
+                .addGap(10, 10, 10))
+        );
+
+        
+        jPanel1.setBackground(Color.WHITE);
+        jPanel3.setBackground(Color.WHITE);
+        
+        GroupLayout layout = new GroupLayout(getContentPane());
+        getContentPane().setLayout(layout);
+        layout.setHorizontalGroup(
+            layout.createParallelGroup(GroupLayout.Alignment.LEADING)
+            .addComponent(jPanel1, GroupLayout.DEFAULT_SIZE, GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+            .addComponent(jScrollPane1, GroupLayout.Alignment.TRAILING)
+            .addGroup(GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
+                .addGroup(layout.createParallelGroup(GroupLayout.Alignment.TRAILING)
+                    .addComponent(jPanel6, GroupLayout.DEFAULT_SIZE, GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                    .addComponent(jPanel3, GroupLayout.DEFAULT_SIZE, GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                .addPreferredGap(LayoutStyle.ComponentPlacement.RELATED)
+                .addGroup(layout.createParallelGroup(GroupLayout.Alignment.LEADING, false)
+                    .addComponent(jPanel2, GroupLayout.DEFAULT_SIZE, GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                    .addGroup(GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
+                        .addComponent(cancel, GroupLayout.PREFERRED_SIZE, 88, GroupLayout.PREFERRED_SIZE)
+                        .addGap(18, 18, 18)
+                        .addComponent(validate, GroupLayout.PREFERRED_SIZE, 88, GroupLayout.PREFERRED_SIZE)
+                        .addContainerGap())
+                    .addComponent(jPanel13, GroupLayout.Alignment.TRAILING, GroupLayout.DEFAULT_SIZE, GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)))
+        );
+        layout.setVerticalGroup(
+            layout.createParallelGroup(GroupLayout.Alignment.LEADING)
+            .addGroup(layout.createSequentialGroup()
+                .addComponent(jPanel1, GroupLayout.PREFERRED_SIZE, GroupLayout.DEFAULT_SIZE, GroupLayout.PREFERRED_SIZE)
+                .addPreferredGap(LayoutStyle.ComponentPlacement.UNRELATED)
+                .addComponent(jScrollPane1, GroupLayout.PREFERRED_SIZE, 107, GroupLayout.PREFERRED_SIZE)
+                .addPreferredGap(LayoutStyle.ComponentPlacement.UNRELATED)
+                .addGroup(layout.createParallelGroup(GroupLayout.Alignment.LEADING, false)
+                    .addComponent(jPanel2, GroupLayout.DEFAULT_SIZE, GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                    .addComponent(jPanel3, GroupLayout.DEFAULT_SIZE, GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                .addPreferredGap(LayoutStyle.ComponentPlacement.UNRELATED)
+                .addGroup(layout.createParallelGroup(GroupLayout.Alignment.LEADING)
+                    .addGroup(layout.createSequentialGroup()
+                        .addComponent(jPanel13, GroupLayout.PREFERRED_SIZE, GroupLayout.DEFAULT_SIZE, GroupLayout.PREFERRED_SIZE)
+                        .addPreferredGap(LayoutStyle.ComponentPlacement.RELATED, 14, Short.MAX_VALUE)
+                        .addGroup(layout.createParallelGroup(GroupLayout.Alignment.BASELINE)
+                            .addComponent(validate)
+                            .addComponent(cancel)))
+                    .addGroup(layout.createSequentialGroup()
+                        .addComponent(jPanel6, GroupLayout.PREFERRED_SIZE, GroupLayout.DEFAULT_SIZE, GroupLayout.PREFERRED_SIZE)
+                        .addGap(0, 0, Short.MAX_VALUE)))
+                .addContainerGap())
+        );
 
 		pack();
 		setLocationRelativeTo(null);
@@ -981,7 +813,7 @@ public class ClientManagementView extends JFrame {
 				return getValueAt(0, c).getClass();
 			}
 		};
-		jTable2.setModel(dtm);
+		tableOrdonnance.setModel(dtm);
 	}
 
 	private void validateActionPerformed(ActionEvent evt){
@@ -999,13 +831,21 @@ public class ClientManagementView extends JFrame {
 		List<Client> clients = service.findClientsByCriteria(value);
 		if(clients != null && clients.size() > 0){
 			AbstractTableModel model = new ClientTableModel(clients);
-			jTable1.setModel(model);
+			searchTable.setModel(model);
 		}
 
 	}
 
 	public JList getListOrdonnance() {
 		return listOrdonnance;
+	}
+	
+	public JTable getSearchTable() {
+		return searchTable;
+	}
+
+	public JTextField getSearchField() {
+		return searchField;
 	}
 
 	public JTextField getAge() {
@@ -1052,8 +892,8 @@ public class ClientManagementView extends JFrame {
 		return firstName;
 	}
 
-	private JButton jButton1;
-	private JButton jButton2;
+	private JButton validate;
+	private JButton cancel;
 	private JLabel firstNameLabel;
 	private JLabel ageLabel;
 	private JLabel jLabel11;
@@ -1070,16 +910,16 @@ public class ClientManagementView extends JFrame {
 	private JLabel jLabel21;
 	private JLabel jLabel22;
 	private JLabel jLabel23;
-	private JLabel jLabel3;
+	private JLabel listOrdonnanceLabel;
 	private JLabel lastNameLabel;
 	private JLabel jLabel5;
 	private JLabel dateOfBirthLabel;
 	private JLabel referenceLabel;
-	private JLabel jLabel9;
+	private JLabel sexeLabel;
 	private JList listOrdonnance;
 	private JPanel jPanel1;
 	private JPanel jPanel10;
-	private JPanel jPanel11;
+	private JPanel sexePanel;
 	private JPanel jPanel12;
 	private JPanel jPanel14;
 	private JPanel jPanel15;
@@ -1105,8 +945,8 @@ public class ClientManagementView extends JFrame {
 	private JPanel jPanel6;
 	private JPanel jPanel7;
 	private JPanel jPanel9;
-	private JRadioButton jRadioButton1;
-	private JRadioButton jRadioButton2;
+	private JRadioButton sexeHomme;
+	private JRadioButton sexeFemme;
 	private JScrollPane jScrollPane1;
 	private JScrollPane jScrollPane2;
 	private JScrollPane jScrollPane3;
@@ -1114,8 +954,8 @@ public class ClientManagementView extends JFrame {
 	private JScrollPane jScrollPane5;
 	private JScrollPane jScrollPane6;
 	private JTabbedPane jTabbedPane1;
-	private JTable jTable1;
-	private JTable jTable2;
+	private JTable searchTable;
+	private JTable tableOrdonnance;
 	private JTextArea jTextArea1;
 	private JTextArea jTextArea2;
 	private JTextArea jTextArea3;
@@ -1137,4 +977,8 @@ public class ClientManagementView extends JFrame {
 	private JTextField dateOfBirth;
 	private JTextField reference;
 	private JTextField jTextField9;
+	private JTable assuranceTable;
+	private JPanel jPanel13;
+	private JLabel listAssurancesLabel;
+	private JScrollPane jScrollPane7;
 }
