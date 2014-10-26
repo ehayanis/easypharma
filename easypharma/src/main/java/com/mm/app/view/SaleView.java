@@ -54,9 +54,6 @@ import com.mm.app.utilities.Java2sAutoComboBox;
  */
 public class SaleView extends JFrame {
 
-    /**
-	 * 
-	 */
 	private static final long serialVersionUID = 6431174577095592545L;
 	
 	private EntityManagerFactory emf;
@@ -197,23 +194,23 @@ public class SaleView extends JFrame {
         factureColumn.setCellEditor(new DefaultCellEditor(facture));
 
 		JPopupMenu popupMenu = new JPopupMenu();
-		JMenuItem posologieItem = new JMenuItem("Posologie");
-		posologieItem.setIcon(new ImageIcon(getClass().getResource("/img/view.gif")));
+//		JMenuItem posologieItem = new JMenuItem("Posologie");
+//		posologieItem.setIcon(new ImageIcon(getClass().getResource("/img/view.gif")));
 		JMenuItem deleteItem = new JMenuItem("Supprimer");
 		deleteItem.setIcon(new ImageIcon(getClass().getResource("/img/delete.gif")));
 		
 		Separator jSeparator12 = new Separator();
 		
-		popupMenu.add(posologieItem);
+//		popupMenu.add(posologieItem);
 		popupMenu.add(jSeparator12);
 		popupMenu.add(deleteItem);
 		
-		posologieItem.addActionListener(new ActionListener() {
-			public void actionPerformed(ActionEvent event) {
-				JFrame posologieFrame = new PosologieFrame();
-		        posologieFrame.setVisible(true);	
-			}
-		});
+//		posologieItem.addActionListener(new ActionListener() {
+//			public void actionPerformed(ActionEvent event) {
+//				JFrame posologieFrame = new PosologieFrame();
+//		        posologieFrame.setVisible(true);	
+//			}
+//		});
 
 		jTable1.setComponentPopupMenu(popupMenu);
 
@@ -338,8 +335,26 @@ public class SaleView extends JFrame {
         		}
         	}
         };
+        
+        KeyStroke f9KeyStroke = KeyStroke.getKeyStroke(KeyEvent.VK_F9, 0, false);
+        javax.swing.Action f9Action = new AbstractAction() {
+        	public void actionPerformed(ActionEvent e) {
+        		PosologieFrame posologieFrame = new PosologieFrame();
+        		posologieFrame.setVisible(true);
+        		
+//        		if("".equals(jLabel3.getText())){
+//        			JOptionPane.showMessageDialog(jTabbedPane1, "Veuillez séléctionner au moins un produit!");
+//        		}else{
+//        		}
+        	}
+        };
+        
+        
         getRootPane().getInputMap(JComponent.WHEN_IN_FOCUSED_WINDOW).put(escapeKeyStroke, "ESCAPE");
+        getRootPane().getInputMap(JComponent.WHEN_IN_FOCUSED_WINDOW).put(f9KeyStroke, "F9");
         getRootPane().getActionMap().put("ESCAPE", escapeAction);
+        getRootPane().getActionMap().put("F9", f9Action);
+        
     
         pack();
         setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
