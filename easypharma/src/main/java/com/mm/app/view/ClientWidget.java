@@ -23,12 +23,16 @@ import javax.swing.JInternalFrame;
 import javax.swing.JOptionPane;
 import javax.swing.JPanel;
 import javax.swing.JTextField;
+import javax.swing.table.AbstractTableModel;
 
+import com.mm.app.model.Assurance;
 import com.mm.app.model.Client;
 import com.mm.app.model.Ordonnance;
 import com.mm.app.service.ClientService;
 import com.mm.app.service.impl.ClientServiceImpl;
+import com.mm.app.utilities.ClientTableModel;
 import com.mm.app.utilities.Java2sAutoComboBox;
+import com.mm.app.utilities.SubAssuranceTableModel;
 import com.mm.app.utilities.Utilities;
 
 public class ClientWidget extends JInternalFrame implements InternalFrameWidget{
@@ -202,6 +206,12 @@ public class ClientWidget extends JInternalFrame implements InternalFrameWidget{
 			for(Ordonnance ordonnance : ordonnances){
 				data[i] = df.format(ordonnance.getStartDate()) + "(" + ordonnance.getId() + ")";
 				i++;
+			}
+			
+			List<Assurance> assurances = client.getAssurances();
+			if(assurances != null && assurances.size() > 0){
+				AbstractTableModel model = new SubAssuranceTableModel(assurances);
+				clientManagementView.getAssuranceTable().setModel(model);
 			}
 			
 			clientManagementView.getListOrdonnance().setListData(data);
