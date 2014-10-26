@@ -58,7 +58,7 @@ public class Client implements Serializable {
 	
 	@ManyToMany
 	@JoinTable(name="client_assurance")
-	private Map<AssuranceType, Assurance> assurances;
+	private List<Assurance> assurances;
 	
     public Client() {
     }
@@ -181,6 +181,14 @@ public class Client implements Serializable {
 
 	public void setOrdonnances(List<Ordonnance> ordonnances) {
 		this.ordonnances = ordonnances;
+	}
+
+	public List<Assurance> getAssurances() {
+		return assurances;
+	}
+
+	public void setAssurances(List<Assurance> assurances) {
+		this.assurances = assurances;
 	}
 	
 }

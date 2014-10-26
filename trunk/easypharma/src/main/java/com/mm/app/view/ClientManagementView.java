@@ -30,12 +30,14 @@ import javax.swing.event.ListSelectionListener;
 import javax.swing.table.AbstractTableModel;
 import javax.swing.table.DefaultTableModel;
 
+import com.mm.app.model.Assurance;
 import com.mm.app.model.Client;
 import com.mm.app.model.Ordonnance;
 import com.mm.app.model.Product;
 import com.mm.app.service.ClientService;
 import com.mm.app.service.impl.ClientServiceImpl;
 import com.mm.app.utilities.ClientTableModel;
+import com.mm.app.utilities.SubAssuranceTableModel;
 import com.mm.app.utilities.Utilities;
 
 
@@ -236,6 +238,12 @@ public class ClientManagementView extends JFrame {
 					}
 
 					listOrdonnance.setListData(data);
+					
+					List<Assurance> assurances = client.getAssurances();
+					if(assurances != null && assurances.size() > 0){
+						AbstractTableModel model = new SubAssuranceTableModel(assurances);
+						assuranceTable.setModel(model);
+					}
 				}
 			}
 		});
@@ -699,7 +707,7 @@ public class ClientManagementView extends JFrame {
                 {null, null}
             },
             new String [] {
-                "Assurance", "Type"
+                "Réference", "Assurance"
             }
         ) {
             boolean[] canEdit = new boolean [] {
@@ -891,6 +899,12 @@ public class ClientManagementView extends JFrame {
 	public JTextField getFirstName() {
 		return firstName;
 	}
+	
+	public JTable getAssuranceTable() {
+		return assuranceTable;
+	}
+
+
 
 	private JButton validate;
 	private JButton cancel;
