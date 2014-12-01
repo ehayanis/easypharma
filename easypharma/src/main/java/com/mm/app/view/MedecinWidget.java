@@ -23,6 +23,7 @@ import javax.swing.JPanel;
 import javax.swing.JTextField;
 
 import com.mm.app.model.Medecin;
+import com.mm.app.model.Vente;
 import com.mm.app.service.MedecinService;
 import com.mm.app.service.impl.MedecinServiceImpl;
 import com.mm.app.utilities.Java2sAutoComboBox;
@@ -44,9 +45,12 @@ public class MedecinWidget extends JInternalFrame implements InternalFrameWidget
 	
 	private MedecinService medecinService;
 	private EntityManager em;
+	private Vente vente;
 	
-	public MedecinWidget(EntityManager em) {
+	public MedecinWidget(EntityManager em, Vente vente) {
 		this.em = em;
+		this.vente = vente;
+		
 		medecinService = new MedecinServiceImpl(em);
 		
 		initComponent();
@@ -91,6 +95,11 @@ public class MedecinWidget extends JInternalFrame implements InternalFrameWidget
 					int id = Integer.valueOf(data.get(selectedValue));
 					System.out.println("ID : " + id);
 					Medecin medecin = medecinService.findMedecin(id);
+					
+					em.getTransaction().begin();
+					vente = em.find(Vente.class, vente.getId());
+					vente.setMedecin(medecin);
+					em.getTransaction().commit();
 					
 					reference.setText(String.valueOf(medecin.getId()));
 					speciality.setText(medecin.getSpeciality());

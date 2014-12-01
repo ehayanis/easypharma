@@ -48,19 +48,13 @@ public class Client implements Serializable {
 
 	private Boolean sexe;
 
-	//bi-directional many-to-one association to Address
-	@OneToMany(mappedBy="client")
-	private List<Address> addresses;
-
-	//bi-directional many-to-one association to Ordonnance
-	@OneToMany(mappedBy="client")
-	private List<Ordonnance> ordonnances;
+	@OneToMany(mappedBy="client", fetch= FetchType.LAZY)
+	private List<Vente> ventes;
 	
-	@ManyToMany
-	@JoinTable(name="client_assurance")
-	private List<Assurance> assurances;
+	@OneToMany(mappedBy="client", cascade = CascadeType.ALL, fetch= FetchType.LAZY)
+	private List<AssuranceClient> assuranceClients;
 	
-    public Client() {
+	public Client() {
     }
 
 	public Integer getId() {
@@ -167,28 +161,20 @@ public class Client implements Serializable {
 		this.sexe = sexe;
 	}
 
-	public List<Address> getAddresses() {
-		return this.addresses;
+	public List<Vente> getVentes() {
+		return ventes;
 	}
 
-	public void setAddresses(List<Address> addresses) {
-		this.addresses = addresses;
-	}
-	
-	public List<Ordonnance> getOrdonnances() {
-		return this.ordonnances;
+	public void setVentes(List<Vente> ventes) {
+		this.ventes = ventes;
 	}
 
-	public void setOrdonnances(List<Ordonnance> ordonnances) {
-		this.ordonnances = ordonnances;
+	public List<AssuranceClient> getAssuranceClients() {
+		return assuranceClients;
 	}
 
-	public List<Assurance> getAssurances() {
-		return assurances;
-	}
-
-	public void setAssurances(List<Assurance> assurances) {
-		this.assurances = assurances;
+	public void setAssuranceClients(List<AssuranceClient> assuranceClients) {
+		this.assuranceClients = assuranceClients;
 	}
 	
 }

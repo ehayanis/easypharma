@@ -6,6 +6,7 @@ import java.awt.GridLayout;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.text.DateFormat;
+import java.util.ArrayList;
 import java.util.List;
 
 import javax.persistence.EntityManager;
@@ -29,8 +30,13 @@ import javax.swing.table.AbstractTableModel;
 import javax.swing.table.DefaultTableModel;
 
 import com.mm.app.model.Assurance;
+import com.mm.app.model.AssuranceClient;
+import com.mm.app.model.Client;
+import com.mm.app.model.Vente;
 import com.mm.app.service.AssuranceService;
+import com.mm.app.service.VenteService;
 import com.mm.app.service.impl.AssuranceServiceImpl;
+import com.mm.app.service.impl.VenteServiceImpl;
 import com.mm.app.utilities.AssuranceTableModel;
 import com.mm.app.utilities.Utilities;
 
@@ -40,11 +46,19 @@ public class AssuranceManagementView extends javax.swing.JFrame {
 
 	private EntityManager em;
 	private AssuranceService service;
+	private VenteService venteService;
 	private Assurance assurance = null;
+	private Vente vente;
+	private TypeAssurance typeAssurance;
+	private List<AssuranceClient> assuranceClients;
 	
-	public AssuranceManagementView(EntityManager em) {
+	public AssuranceManagementView(EntityManager em, Vente vente) {
 		this.em = em;
+		this.vente = vente;
 		service = new AssuranceServiceImpl(em);
+		venteService = new VenteServiceImpl(em);
+		
+		assuranceClients = new ArrayList<AssuranceClient>();
 		
         initComponents();
         getContentPane().setBackground(Color.WHITE);
@@ -373,8 +387,45 @@ public class AssuranceManagementView extends javax.swing.JFrame {
 		for (Frame frame : Frame.getFrames()) {
 			if (frame.getTitle().equals("EasyPharma: Gestion Pharmacies ")) {
 				SaleView saleView = (SaleView) frame;
-				((AssuranceWidget) saleView.getjInternalFrame3()).getAssurance1().setText(assurance.getName());
-				((AssuranceWidget) saleView.getjInternalFrame3()).getHiddenField1().setText(String.valueOf(assurance.getId()));
+				
+				AssuranceWidget assuranceWidget = ((AssuranceWidget) saleView.getjInternalFrame3());
+				JTextField assuranceField = null;
+				JTextField hiddenField = null;
+				
+				switch (typeAssurance) {
+				case OBLIGATOIRE:
+					assuranceField = assuranceWidget.getAssurance1();
+					hiddenField = assuranceWidget.getHiddenField1();
+					break;
+				case ACCIDENT:
+					assuranceField = assuranceWidget.getAssurance2();
+					hiddenField = assuranceWidget.getHiddenField2();
+					break;
+				case COMPLEMENTAIRE:
+					assuranceField = assuranceWidget.getAssurance3();
+					hiddenField = assuranceWidget.getHiddenField3();
+					break;
+				default:
+					break;
+				}
+					
+				assuranceField.setText(assurance.getName());
+				hiddenField.setText(String.valueOf(assurance.getId()));
+				
+				em.getTransaction().begin();
+				vente = em.find(Vente.class, vente.getId());
+				Client client = vente.getClient();
+				
+				AssuranceClient assuranceClient = new AssuranceClient();
+				assuranceClient.setAssurance(assurance);
+				assuranceClient.setClient(client);
+				
+				em.persist(assuranceClient);
+				
+				assuranceClients.add(assuranceClient);
+				client.setAssuranceClients(assuranceClients);
+				em.getTransaction().commit();
+				
 				
 				saleView.setVisible(true);
 			}
@@ -458,6 +509,10 @@ public class AssuranceManagementView extends javax.swing.JFrame {
 
 	public JTextField getSearchField() {
 		return searchField;
+	}
+	
+	public void setTypeAssurance(TypeAssurance typeAssurance){
+		this.typeAssurance = typeAssurance;
 	}
 
 	private JButton validate;

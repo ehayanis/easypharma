@@ -6,7 +6,9 @@ import javax.persistence.EntityManager;
 
 import com.mm.app.dao.ClientDao;
 import com.mm.app.dao.impl.ClientDaoImpl;
+import com.mm.app.model.Assurance;
 import com.mm.app.model.Client;
+import com.mm.app.model.Vente;
 import com.mm.app.service.ClientService;
 
 public class ClientServiceImpl implements ClientService{
@@ -37,6 +39,16 @@ public class ClientServiceImpl implements ClientService{
 	@Override
 	public List<Client> findClientsByCriteria(String criteria) {
 		return dao.findClientsByCriteria(criteria);
+	}
+
+	@Override
+	public List<Assurance> getClientAssurances(Client client) {
+		return dao.getClientAssurances(client);
+	}
+
+	@Override
+	public List<Vente> getClientVentes(Client client) {
+		return dao.getClientVentes(client);
 	}
 
 }

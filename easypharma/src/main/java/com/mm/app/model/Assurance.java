@@ -54,13 +54,6 @@ public class Assurance implements Serializable {
 	@Column(name="validation_number")
 	private Integer validationNumber;
 
-	//bi-directional many-to-one association to Ordonnance
-	@OneToMany(mappedBy="assurance")
-	private List<Ordonnance> ordonnances;
-
-	@ManyToMany(mappedBy="assurances")
-	private List<Client> clients;
-	
 
 	public Assurance() {
     }
@@ -119,14 +112,6 @@ public class Assurance implements Serializable {
 
 	public void setCardValidity(Date cardValidity) {
 		this.cardValidity = cardValidity;
-	}
-
-	public List<Client> getClients() {
-		return clients;
-	}
-	
-	public void setClients(List<Client> clients) {
-		this.clients = clients;
 	}
 
 	public String getCoverCard() {
@@ -201,12 +186,4 @@ public class Assurance implements Serializable {
 		this.validationNumber = validationNumber;
 	}
 
-	public List<Ordonnance> getOrdonnances() {
-		return this.ordonnances;
-	}
-
-	public void setOrdonnances(List<Ordonnance> ordonnances) {
-		this.ordonnances = ordonnances;
-	}
-	
 }

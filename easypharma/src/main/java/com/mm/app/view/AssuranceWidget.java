@@ -18,11 +18,18 @@ import javax.swing.JLabel;
 import javax.swing.JOptionPane;
 import javax.swing.JTextField;
 
+import org.omg.CORBA.COMM_FAILURE;
+
 import com.mm.app.model.Assurance;
 import com.mm.app.model.Client;
+import com.mm.app.model.Vente;
 import com.mm.app.service.AssuranceService;
 import com.mm.app.service.impl.AssuranceServiceImpl;
 import com.mm.app.utilities.Utilities;
+
+enum TypeAssurance{
+	OBLIGATOIRE, ACCIDENT, COMPLEMENTAIRE
+}
 
 public class AssuranceWidget extends JInternalFrame implements InternalFrameWidget{
 
@@ -44,9 +51,12 @@ public class AssuranceWidget extends JInternalFrame implements InternalFrameWidg
 	
 	private EntityManager em;
 	private AssuranceService service;
+	private Vente vente;
 	
-	public AssuranceWidget(EntityManager em) {
+	public AssuranceWidget(EntityManager em, Vente vente) {
 		this.em = em;
+		this.vente = vente;
+		
 		service = new AssuranceServiceImpl(em);
 		
 		initComponent();
@@ -101,17 +111,17 @@ public class AssuranceWidget extends JInternalFrame implements InternalFrameWidg
 		
 		newAssur1.addActionListener(new ActionListener() {
             public void actionPerformed(ActionEvent evt) {
-                newActionPerformed(evt);
+                newActionPerformed(evt, TypeAssurance.OBLIGATOIRE);
             }
         });
 		newAssur2.addActionListener(new ActionListener() {
             public void actionPerformed(ActionEvent evt) {
-                newActionPerformed(evt);
+                newActionPerformed(evt, TypeAssurance.ACCIDENT);
             }
         });
 		newAssur3.addActionListener(new ActionListener() {
             public void actionPerformed(ActionEvent evt) {
-                newActionPerformed(evt);
+                newActionPerformed(evt, TypeAssurance.COMPLEMENTAIRE);
             }
         });
 		
@@ -164,6 +174,14 @@ public class AssuranceWidget extends JInternalFrame implements InternalFrameWidg
 	public JTextField getHiddenField1() {
 		return hiddenField1;
 	}
+	
+	public JTextField getHiddenField2() {
+		return hiddenField2;
+	}
+	
+	public JTextField getHiddenField3() {
+		return hiddenField3;
+	}
 
 	public void setAssurance3(JTextField assurance) {
 		this.assurance3 = assurance;
@@ -180,38 +198,38 @@ public class AssuranceWidget extends JInternalFrame implements InternalFrameWidg
 	}
 	
 	private void searchActionPerformed(ActionEvent evt) {
-		String coverCard = assurance1.getText();
-		if(!"".equals(coverCard)){
-			Assurance assurance = service.findAssuranceByCoverCard(coverCard);
-			if(assurance != null){
-				assurance1.setText(assurance.getName());
-				hiddenField1.setText(String.valueOf(assurance.getId()));
-				
-				List<Client> clients = assurance.getClients();
-				if(clients != null && clients.size() > 0){
-					Client client = clients.get(0);
-					
-					for (Frame frame : Frame.getFrames()) {
-						if (frame.getTitle().equals("EasyPharma: Gestion Pharmacies ")) {
-							SaleView saleView = (SaleView) frame;
-							ClientWidget clientWidget = (ClientWidget) saleView.getClientWidget();
-							clientWidget.getFirstName().setText(client.getFirstName() + " " + client.getLastName());
-							clientWidget.getReference().setSelectedItem(client.getReference());
-							clientWidget.getDateOfBirth().setText(DateFormat.getDateInstance().format(client.getBirthDate()));
-							clientWidget.getPhone().setText(client.getPhone());
-							clientWidget.getAge().setText(String.valueOf(client.getAge()));
-							
-							
-							saleView.setVisible(true);
-						}
-					}
-				}
-			}
-		}
+//		String coverCard = assurance1.getText();
+//		if(!"".equals(coverCard)){
+//			Assurance assurance = service.findAssuranceByCoverCard(coverCard);
+//			if(assurance != null){
+//				assurance1.setText(assurance.getName());
+//				hiddenField1.setText(String.valueOf(assurance.getId()));
+//				
+//				List<Client> clients = assurance.getClients();
+//				if(clients != null && clients.size() > 0){
+//					Client client = clients.get(0);
+//					
+//					for (Frame frame : Frame.getFrames()) {
+//						if (frame.getTitle().equals("EasyPharma: Gestion Pharmacies ")) {
+//							SaleView saleView = (SaleView) frame;
+//							ClientWidget clientWidget = (ClientWidget) saleView.getClientWidget();
+//							clientWidget.getFirstName().setText(client.getFirstName() + " " + client.getLastName());
+//							clientWidget.getReference().setSelectedItem(client.getReference());
+//							clientWidget.getDateOfBirth().setText(DateFormat.getDateInstance().format(client.getBirthDate()));
+//							clientWidget.getPhone().setText(client.getPhone());
+//							clientWidget.getAge().setText(String.valueOf(client.getAge()));
+//							
+//							
+//							saleView.setVisible(true);
+//						}
+//					}
+//				}
+//			}
+//		}
 	}
 	
 	private void editActionPerformed(ActionEvent evt) {                                         
-		AssuranceManagementView assuranceManagementView = new AssuranceManagementView(em);
+		AssuranceManagementView assuranceManagementView = new AssuranceManagementView(em, vente);
         String HiddenId = "";
         
         if("editAssur1".equals(evt.getActionCommand())){
@@ -252,8 +270,9 @@ public class AssuranceWidget extends JInternalFrame implements InternalFrameWidg
         
     } 
 	
-	private void newActionPerformed(ActionEvent evt) {                                         
-        JFrame assuranceManagementView = new AssuranceManagementView(em);
+	private void newActionPerformed(ActionEvent evt, TypeAssurance assurance) {                                         
+		AssuranceManagementView assuranceManagementView = new AssuranceManagementView(em, vente);
+        assuranceManagementView.setTypeAssurance(assurance);
         assuranceManagementView.setVisible(true);
     } 
 

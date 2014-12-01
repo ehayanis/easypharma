@@ -34,10 +34,9 @@ public class Medecin implements Serializable {
 
 	private String speciality;
 
-	//bi-directional many-to-one association to Ordonnance
 	@OneToMany(mappedBy="medecin")
-	private List<Ordonnance> ordonnances;
-
+	private List<Vente> ventes;
+	
     public Medecin() {
     }
 
@@ -113,12 +112,5 @@ public class Medecin implements Serializable {
 		this.speciality = speciality;
 	}
 
-	public List<Ordonnance> getOrdonnances() {
-		return this.ordonnances;
-	}
-
-	public void setOrdonnances(List<Ordonnance> ordonnances) {
-		this.ordonnances = ordonnances;
-	}
 	
 }

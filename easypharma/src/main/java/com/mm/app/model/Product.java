@@ -1,6 +1,8 @@
 package com.mm.app.model;
 
 import java.io.Serializable;
+import java.util.List;
+
 import javax.persistence.*;
 
 
@@ -24,11 +26,12 @@ public class Product implements Serializable {
 
 	private Integer thresholdalert;
 
-	//bi-directional many-to-one association to Ordonnance
-    @ManyToOne
-	@JoinColumn(name="id_ordonnance")
-	private Ordonnance ordonnance;
-
+	@OneToMany(mappedBy="product")
+	private List<VenteProduit> venteProduits;
+	
+	@OneToOne
+	private Posologie posologie;
+		
     public Product() {
     }
 
@@ -80,12 +83,20 @@ public class Product implements Serializable {
 		this.thresholdalert = thresholdalert;
 	}
 
-	public Ordonnance getOrdonnance() {
-		return this.ordonnance;
+	public List<VenteProduit> getVenteProduits() {
+		return venteProduits;
 	}
 
-	public void setOrdonnance(Ordonnance ordonnance) {
-		this.ordonnance = ordonnance;
+	public void setVenteProduits(List<VenteProduit> venteProduits) {
+		this.venteProduits = venteProduits;
+	}
+
+	public Posologie getPosologie() {
+		return posologie;
+	}
+
+	public void setPosologie(Posologie posologie) {
+		this.posologie = posologie;
 	}
 	
 }

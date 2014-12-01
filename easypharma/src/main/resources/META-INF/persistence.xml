@@ -2,12 +2,16 @@
 <persistence version="2.0" xmlns="http://java.sun.com/xml/ns/persistence" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://java.sun.com/xml/ns/persistence http://java.sun.com/xml/ns/persistence/persistence_2_0.xsd">
 	<persistence-unit name="easypharma" transaction-type="RESOURCE_LOCAL">
 		<provider>org.eclipse.persistence.jpa.PersistenceProvider</provider>
-		<class>com.mm.app.model.Address</class>
 		<class>com.mm.app.model.Assurance</class>
 		<class>com.mm.app.model.Client</class>
 		<class>com.mm.app.model.Medecin</class>
-		<class>com.mm.app.model.Ordonnance</class>
 		<class>com.mm.app.model.Product</class>
+		<class>com.mm.app.model.Operator</class>
+		<class>com.mm.app.model.Vente</class>
+		<class>com.mm.app.model.AssuranceClient</class>
+		<class>com.mm.app.model.VenteProduit</class>
+		<class>com.mm.app.model.Posologie</class>
+		<class>com.mm.app.model.PosologieSpecifique</class>
 <!-- 		<exclude-unlisted-classes>false</exclude-unlisted-classes> -->
 		
 		<properties>

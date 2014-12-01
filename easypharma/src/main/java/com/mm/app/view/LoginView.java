@@ -5,12 +5,16 @@ import java.awt.Cursor;
 import java.awt.Font;
 import java.awt.event.ActionEvent;
 
+import javax.persistence.EntityManager;
+import javax.persistence.EntityManagerFactory;
+import javax.persistence.Persistence;
 import javax.swing.GroupLayout;
 import javax.swing.ImageIcon;
 import javax.swing.JFrame;
 import javax.swing.JLabel;
 import javax.swing.JMenu;
 import javax.swing.JMenuBar;
+import javax.swing.JOptionPane;
 import javax.swing.JTextField;
 import javax.swing.LayoutStyle.ComponentPlacement;
 import javax.swing.UIManager;
@@ -18,15 +22,27 @@ import javax.swing.WindowConstants;
 import javax.swing.border.BevelBorder;
 import javax.swing.border.SoftBevelBorder;
 
+import com.mm.app.model.Operator;
+import com.mm.app.service.OperatorService;
+import com.mm.app.service.impl.OperatorServiceImpl;
+
 /**
  *
  * @author A574266
  */
 public class LoginView extends JFrame {
-
+	private EntityManagerFactory emf;
+	private EntityManager em;
+	private OperatorService service;
+	
 	private static final long serialVersionUID = 944984973485351368L;
 	public LoginView() {
-        initComponents();
+		emf = Persistence.createEntityManagerFactory("easypharma");
+    	em = emf.createEntityManager();
+		
+    	service = new OperatorServiceImpl(em);
+    	
+		initComponents();
         getContentPane().setBackground(Color.WHITE);
         this.setExtendedState(JFrame.MAXIMIZED_BOTH);
         ImageIcon img = new ImageIcon(getClass().getResource("/img/logo.png"));
@@ -118,11 +134,21 @@ public class LoginView extends JFrame {
     }                       
     
     private void jTextField1ActionPerformed(ActionEvent evt) {                                            
-        JFrame saleView = new SaleView();
-        saleView.setVisible(true);
-        
-        setVisible(false);
-        dispose();
+        String id = jTextField1.getText();
+    	
+        if(id != null){
+        	Operator operator = service.findOperator(Integer.valueOf(id));
+        	if(operator == null){
+        		JOptionPane.showMessageDialog(this, "Veuillez saisir un identifiant valide!");
+        	}else{
+        		JFrame saleView = new SaleView(em, operator);
+        		saleView.setVisible(true);
+        		
+        		setVisible(false);
+        		dispose();
+        	}
+        }
+    	
     }   
 
             
