@@ -1,6 +1,7 @@
 package com.mm.app.view;
 
 import java.awt.Color;
+import java.awt.Frame;
 import java.awt.GridLayout;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
@@ -31,9 +32,10 @@ import javax.swing.table.AbstractTableModel;
 import javax.swing.table.DefaultTableModel;
 
 import com.mm.app.model.Assurance;
+import com.mm.app.model.AssuranceClient;
 import com.mm.app.model.Client;
-import com.mm.app.model.Ordonnance;
 import com.mm.app.model.Product;
+import com.mm.app.model.Vente;
 import com.mm.app.service.ClientService;
 import com.mm.app.service.impl.ClientServiceImpl;
 import com.mm.app.utilities.ClientTableModel;
@@ -48,9 +50,11 @@ public class ClientManagementView extends JFrame {
 	private EntityManager em;
 	private ClientService service;
 	private Client client = null;
-
-	public ClientManagementView(EntityManager em) {
+	private Vente vente;
+	
+	public ClientManagementView(EntityManager em, Vente vente) {
 		this.em = em;
+		this.vente = vente;
 		service = new ClientServiceImpl(em);
 
 		initComponents();
@@ -79,6 +83,7 @@ public class ClientManagementView extends JFrame {
 		jPanel10 = new JPanel();
 		referenceLabel = new JLabel();
 		reference = new JTextField();
+		hiddenId = new JTextField();
 		sexePanel = new JPanel();
 		sexeLabel = new JLabel();
 		sexeHomme = new JRadioButton();
@@ -226,24 +231,27 @@ public class ClientManagementView extends JFrame {
 					lastName.setText(client.getLastName());
 					dateOfBirth.setText(client.getLastName());
 					reference.setText(client.getReference());
-
-					List<Ordonnance> ordonnances = client.getOrdonnances();
-
-					String[] data = new String[ordonnances.size()];
+					hiddenId.setText(String.valueOf(client.getId()));
+					
+					
+					List<Vente> ventes = client.getVentes();
+					
+					String[] data = new String[ventes.size()];
 					int i  = 0;
-					DateFormat df = DateFormat.getDateInstance();
-					for(Ordonnance ordonnance : ordonnances){
-						data[i] = df.format(ordonnance.getStartDate()) + "(" + ordonnance.getId() + ")";
+					for(Vente vente : ventes){
+						data[i] = vente.getId() + " (" + vente.getOperator().getFirstName() + ")";
 						i++;
 					}
-
-					listOrdonnance.setListData(data);
 					
-					List<Assurance> assurances = client.getAssurances();
-					if(assurances != null && assurances.size() > 0){
-						AbstractTableModel model = new SubAssuranceTableModel(assurances);
-						assuranceTable.setModel(model);
-					}
+					listOrdonnance.setListData(data);
+
+//					List<Assurance> assurances = service.getClientAssurances(client);
+//					
+//					if(assurances != null && assurances.size() > 0){
+//						AbstractTableModel model = new SubAssuranceTableModel(assurances);
+//						assuranceTable.setModel(model);
+//					}
+					
 				}
 			}
 		});
@@ -319,7 +327,7 @@ public class ClientManagementView extends JFrame {
 
 		listOrdonnance.addListSelectionListener(new ListSelectionListener() {
 			public void valueChanged(ListSelectionEvent evt) {
-				listOrdonnanceValueChanged(evt);
+//				listOrdonnanceValueChanged(evt);
 			}
 		});
 
@@ -825,6 +833,31 @@ public class ClientManagementView extends JFrame {
 	}
 
 	private void validateActionPerformed(ActionEvent evt){
+		for (Frame frame : Frame.getFrames()) {
+			if (frame.getTitle().equals("EasyPharma: Gestion Pharmacies ")) {
+				SaleView saleView = (SaleView) frame;
+				
+				ClientWidget clientWidget = ((ClientWidget) saleView.getClientWidget());
+				
+				if(hiddenId.getText() != ""){
+					client = em.find(Client.class, Integer.valueOf(hiddenId.getText()));
+				}
+				
+				em.getTransaction().begin();
+				vente = em.find(Vente.class, vente.getId());
+				vente.setClient(client);
+				em.getTransaction().commit();
+				
+				clientWidget.getReference().setSelectedItem(client.getReference());
+				clientWidget.getFirstName().setText(client.getFirstName() + " " + client.getLastName());
+				clientWidget.getDateOfBirth().setText(DateFormat.getInstance().format(client.getBirthDate()));
+				clientWidget.getAge().setText(String.valueOf(client.getAge()));
+				clientWidget.getPhone().setText(client.getPhone());
+					
+				
+				saleView.setVisible(true);
+			}
+		}
 		setVisible(false);
 		dispose();
 	}
@@ -902,6 +935,10 @@ public class ClientManagementView extends JFrame {
 	
 	public JTable getAssuranceTable() {
 		return assuranceTable;
+	}
+	
+	public JTextField gethiddenId(){
+		return hiddenId;
 	}
 
 
@@ -991,6 +1028,7 @@ public class ClientManagementView extends JFrame {
 	private JTextField dateOfBirth;
 	private JTextField reference;
 	private JTextField jTextField9;
+	private JTextField hiddenId;
 	private JTable assuranceTable;
 	private JPanel jPanel13;
 	private JLabel listAssurancesLabel;

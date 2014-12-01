@@ -2,29 +2,51 @@ package com.mm.app.view;
 
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.awt.event.KeyAdapter;
+import java.awt.event.KeyEvent;
+import java.text.NumberFormat;
+import java.util.Collection;
+import java.util.HashMap;
+import java.util.Map;
+import java.util.Set;
 import java.util.Vector;
 
-import javax.swing.AbstractListModel;
+import javax.persistence.EntityManager;
+import javax.swing.AbstractAction;
 import javax.swing.DefaultComboBoxModel;
 import javax.swing.DefaultListModel;
 import javax.swing.GroupLayout;
 import javax.swing.ImageIcon;
 import javax.swing.JButton;
 import javax.swing.JComboBox;
+import javax.swing.JComponent;
 import javax.swing.JFrame;
 import javax.swing.JLabel;
 import javax.swing.JList;
+import javax.swing.JOptionPane;
 import javax.swing.JPanel;
 import javax.swing.JScrollPane;
 import javax.swing.JTextField;
+import javax.swing.KeyStroke;
 import javax.swing.LayoutStyle;
-import javax.swing.ListModel;
 import javax.swing.WindowConstants;
+
+import com.mm.app.model.Vente;
 
 public class PaymentView extends JFrame {
 
-    public PaymentView() {
-        initComponents();
+	private Vente vente;
+	private EntityManager em;
+	private Map<String, Float> result;
+	private Vector<String> listData;
+	
+    public PaymentView(EntityManager em, Vente vente) {
+        this.vente = vente;
+        this.em = em;
+        result = new HashMap<String, Float>();
+        listData = new Vector<String>();
+        
+    	initComponents();
         ImageIcon img = new ImageIcon(getClass().getResource("/img/logo.png"));
         setIconImage(img.getImage());
     }
@@ -56,11 +78,6 @@ public class PaymentView extends JFrame {
 
         jComboBox1.setModel(new DefaultComboBoxModel(new String[] { "Comptant", "Carte de Crédit", "BVR", "Assurance Maladie-Accident" }));
 
-//        jList1.setModel(new AbstractListModel() {
-//            String[] strings = { "Item 1", "Item 2", "Item 3", "Item 4", "Item 5" };
-//            public int getSize() { return strings.length; }
-//            public Object getElementAt(int i) { return strings[i]; }
-//        });
         jScrollPane1.setViewportView(jList1);
 
         jButton1.setText("...");
@@ -78,7 +95,27 @@ public class PaymentView extends JFrame {
         annuler.setText("Annuler");
 
         valider.setText("Valider");
+        valider.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent evt) {
+				validatePayementAction(evt);
+			}
+		});
 
+        jList1.addKeyListener(new KeyAdapter() {
+        	public void keyPressed(KeyEvent ke){
+        		if(ke.getKeyCode()==KeyEvent.VK_DELETE){
+        			String selectedValue = jList1.getSelectedValue(); 
+        			String key = selectedValue.substring(selectedValue.indexOf("(") + 1, selectedValue.indexOf(")"));
+
+        			listData.remove(selectedValue);
+        			result.remove(key);
+        			
+        			jList1.setListData(listData);
+        		}
+        	}
+        });
+        
+		
         GroupLayout jPanel8Layout = new GroupLayout(jPanel8);
         jPanel8.setLayout(jPanel8Layout);
         jPanel8Layout.setHorizontalGroup(
@@ -160,24 +197,59 @@ public class PaymentView extends JFrame {
 		return total;
 	}
     
-    
     private void addPaiementTypeAction(ActionEvent evt) {
     	String montant = payed.getText();
     	if(!"".equals(montant)){
     		String selectedItem = (String) jComboBox1.getSelectedItem();
+    		Set<String> types = result.keySet();
     		
-    		Vector<String> listData = new Vector<String>();
-    		for(int i = 0; i < jList1.getModel().getSize(); i++){
-    			listData.add(jList1.getModel().getElementAt(i));
+    		if(types.contains(selectedItem)){
+    			JOptionPane.showMessageDialog(this, "Le type " + selectedItem + " est déjà séléctionné");
+    		}else{
+    			listData.add(montant + " (" + selectedItem + ")");
+    			result.put(selectedItem, Float.valueOf(montant));
+    			
+    			jList1.setListData(listData);
     		}
-    		listData.add(montant + " >>>>>>>>>>  " + selectedItem);
-    		
-    		jList1.setListData(listData);
-    		
+
     	}
 	}
+     
+    private void validatePayementAction(ActionEvent evt) {
+    	Collection<Float> values = result.values();
+    	Float currentTotal = 0f;
+    	for(Float d : values){
+    		currentTotal = d + currentTotal;
+    		System.out.println("currentTotal " + currentTotal);
+    		System.out.println("TOTAL "  + Float.valueOf(total.getText()));
+    	}
+    	
+    	if(currentTotal > Float.valueOf(total.getText())){
+    		JOptionPane.showMessageDialog(this, "Le total saisi est suppérieure à ce qui doit être payé");
+    	}else if(currentTotal < Float.valueOf(total.getText())){
+    		JOptionPane.showMessageDialog(this, "Le total saisi est inférieure à ce qui doit être payé");
+    	}else{
+    		em.getTransaction().begin();
+			vente = em.find(Vente.class, vente.getId());
+			for(String key : result.keySet()){
+				Float value = result.get(key);
+				if("Comptant".equals(key)){
+					vente.setPaiementCheque(value);
+				}else if("Carte de Crédit".equals(key)){
+					vente.setPaiementCarte(value);
+				}else if("BVR".equals(key)){
+					vente.setPaiementBvr(value);
+				}else{
+					vente.setPaiementAssurance(value);
+				}
+			}
+			em.getTransaction().commit();
+			
+			setVisible(false);
+			dispose();
+    	}
+    }
     
-
 	private JButton jButton1;
     private JButton annuler;
     private JButton valider;

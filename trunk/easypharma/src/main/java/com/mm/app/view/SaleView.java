@@ -6,16 +6,14 @@ import java.awt.Cursor;
 import java.awt.Font;
 import java.awt.GridLayout;
 import java.awt.event.ActionEvent;
-import java.awt.event.ActionListener;
 import java.awt.event.KeyAdapter;
 import java.awt.event.KeyEvent;
+import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
 import javax.persistence.EntityManager;
-import javax.persistence.EntityManagerFactory;
-import javax.persistence.Persistence;
 import javax.swing.AbstractAction;
 import javax.swing.DefaultCellEditor;
 import javax.swing.GroupLayout;
@@ -37,15 +35,19 @@ import javax.swing.JTabbedPane;
 import javax.swing.JTable;
 import javax.swing.KeyStroke;
 import javax.swing.LayoutStyle;
-import javax.swing.UIManager;
 import javax.swing.WindowConstants;
 import javax.swing.table.DefaultTableCellRenderer;
 import javax.swing.table.DefaultTableModel;
 import javax.swing.table.TableColumn;
 
+import com.mm.app.model.Operator;
 import com.mm.app.model.Product;
+import com.mm.app.model.Vente;
+import com.mm.app.model.VenteProduit;
 import com.mm.app.service.ProductService;
+import com.mm.app.service.VenteService;
 import com.mm.app.service.impl.ProductServiceImpl;
+import com.mm.app.service.impl.VenteServiceImpl;
 import com.mm.app.utilities.Java2sAutoComboBox;
 
 /**
@@ -56,15 +58,26 @@ public class SaleView extends JFrame {
 
 	private static final long serialVersionUID = 6431174577095592545L;
 	
-	private EntityManagerFactory emf;
 	private EntityManager em;
-	private ProductService productService; 
+	private Operator operator;
+	private ProductService productService;
+	private VenteService venteService;
+	private Vente vente;
+	private List<VenteProduit> products;
     
-	public SaleView() {
-    	emf = Persistence.createEntityManagerFactory("easypharma");
-    	em = emf.createEntityManager();
-        
+	public SaleView(EntityManager em, Operator operator) {
+    	
+        this.em = em;
+        this.operator = operator;
     	productService = new ProductServiceImpl(em);
+    	venteService = new VenteServiceImpl(em);
+    	
+    	vente = new Vente();
+    	vente.setOperator(operator);
+    	
+    	vente = venteService.addVente(vente);
+    	
+    	products = new ArrayList<VenteProduit>();
     	
     	initComponents();
         getContentPane().setBackground(Color.WHITE);
@@ -78,9 +91,9 @@ public class SaleView extends JFrame {
     private void initComponents() {
 
         jPanel1 = new JPanel();
-        jInternalFrame4 = new MedecinWidget(em);
-        jInternalFrame3 = new AssuranceWidget(em);
-        clientWidget = new ClientWidget(em);
+        medecinWidget = new MedecinWidget(em, vente);
+        assuranceWidget = new AssuranceWidget(em, vente);
+        clientWidget = new ClientWidget(em, vente);
         jPanel2 = new HeaderPanel();
         jTabbedPane1 = new JTabbedPane();
         jScrollPane1 = new JScrollPane();
@@ -109,9 +122,9 @@ public class SaleView extends JFrame {
         
         jPanel1.setLayout(new GridLayout(1, 3, 10, 0));
 
-        jPanel1.add(jInternalFrame3);
+        jPanel1.add(assuranceWidget);
         jPanel1.add(clientWidget);
-        jPanel1.add(jInternalFrame4);
+        jPanel1.add(medecinWidget);
         
         jPanel1.setBackground(Color.WHITE);
         
@@ -162,8 +175,11 @@ public class SaleView extends JFrame {
         			 Product product = productService.findProductByReference(data.get(selectedValue));
                 	 jTable1.setValueAt(product.getReference(), row, 2);
                 	 jTable1.setValueAt(product.getPu(), row, 5);
-                	 jTable1.setValueAt(product.getQuantity(), row, 6);
                 	 jTable1.setValueAt(product.getPu() + (product.getPu() * 0.2), row, 9);
+                	 
+                	 VenteProduit vp = new VenteProduit(product);
+                	 vp.setVente(vente);
+                	 products.add(vp);
                 	 
                 	 int rows = jTable1.getRowCount();
                 	 double total = 0;
@@ -325,11 +341,16 @@ public class SaleView extends JFrame {
         KeyStroke escapeKeyStroke = KeyStroke.getKeyStroke(KeyEvent.VK_ESCAPE, 0, false);
         javax.swing.Action escapeAction = new AbstractAction() {
         	public void actionPerformed(ActionEvent e) {
-        		PaymentView paymentView = new PaymentView();
+        		PaymentView paymentView = new PaymentView(em, vente);
         		
         		if("".equals(jLabel3.getText())){
         			JOptionPane.showMessageDialog(jTabbedPane1, "Veuillez séléctionner au moins un produit!");
         		}else{
+        			em.getTransaction().begin();
+        			vente = em.find(Vente.class, vente.getId());
+        			vente.setProduits(products);
+        			em.getTransaction().commit();
+        			
         			paymentView.getTotal().setText(jLabel3.getText());
         			paymentView.setVisible(true);
         		}
@@ -368,30 +389,12 @@ public class SaleView extends JFrame {
     }                                          
 
             
-    public static void main(String args[]) {
-        try {
-//            for (UIManager.LookAndFeelInfo info : UIManager.getInstalledLookAndFeels()) {
-//                if ("Nimbus".equals(info.getName())) {
-//                    UIManager.setLookAndFeel(info.getClassName());
-//                    break;
-//                }
-//            }
-//        	 UIManager.setLookAndFeel("com.jtattoo.plaf.acryl.AcrylLookAndFeel");
-        	 UIManager.setLookAndFeel("com.jtattoo.plaf.smart.SmartLookAndFeel");
-        } catch (Exception ex) {
-            
-        } 
-       
-        new SaleView().setVisible(true);
-         
-    }
-    
     public JPanel getjPanel1(){
     	return this.jPanel1;
     }
     
     public JInternalFrame getjInternalFrame3(){
-    	return this.jInternalFrame3;
+    	return this.assuranceWidget;
     }
     
     public JInternalFrame getClientWidget(){
@@ -399,8 +402,8 @@ public class SaleView extends JFrame {
     }
 
     private JInternalFrame clientWidget;
-    private JInternalFrame jInternalFrame3;
-    private JInternalFrame jInternalFrame4;
+    private JInternalFrame assuranceWidget;
+    private JInternalFrame medecinWidget;
     private JMenu jMenu1;
     private JMenu jMenu2;
     private JMenu jMenu3;

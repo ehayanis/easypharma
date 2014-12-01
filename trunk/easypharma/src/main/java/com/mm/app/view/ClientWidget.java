@@ -26,10 +26,13 @@ import javax.swing.JTextField;
 import javax.swing.table.AbstractTableModel;
 
 import com.mm.app.model.Assurance;
+import com.mm.app.model.AssuranceClient;
 import com.mm.app.model.Client;
-import com.mm.app.model.Ordonnance;
+import com.mm.app.model.Vente;
 import com.mm.app.service.ClientService;
+import com.mm.app.service.VenteService;
 import com.mm.app.service.impl.ClientServiceImpl;
+import com.mm.app.service.impl.VenteServiceImpl;
 import com.mm.app.utilities.ClientTableModel;
 import com.mm.app.utilities.Java2sAutoComboBox;
 import com.mm.app.utilities.SubAssuranceTableModel;
@@ -50,12 +53,15 @@ public class ClientWidget extends JInternalFrame implements InternalFrameWidget{
 	private JButton newButton;
 	
 	private ClientService clientService;
-	
+	private VenteService venteService;
+	private Vente vente;
 	private EntityManager em;
 	
-	public ClientWidget(EntityManager em) {
+	public ClientWidget(EntityManager em, Vente vente) {
 		this.em = em;
+		this.vente = vente;
 		clientService = new ClientServiceImpl(em);
+		venteService = new VenteServiceImpl(em);
 		
 		initComponent();
 		getContentPane().setBackground(Color.WHITE);
@@ -94,6 +100,11 @@ public class ClientWidget extends JInternalFrame implements InternalFrameWidget{
 				if (e.getKeyChar() == KeyEvent.VK_ENTER) {
 					String selectedValue = (String) reference.getSelectedItem();
 					Client client = clientService.findClientByReference(selectedValue);
+					
+					em.getTransaction().begin();
+					vente = em.find(Vente.class, vente.getId());
+					vente.setClient(client);
+					em.getTransaction().commit();
 					
 					firstName.setText(client.getFirstName() + " " + client.getLastName());
 					dateOfBirth.setText(DateFormat.getInstance().format(client.getBirthDate()));
@@ -182,7 +193,7 @@ public class ClientWidget extends JInternalFrame implements InternalFrameWidget{
 	
 	private void editActionPerformed(ActionEvent evt) {
 		String ref = (String) reference.getSelectedItem();
-		ClientManagementView clientManagementView = new ClientManagementView(em);
+		ClientManagementView clientManagementView = new ClientManagementView(em, vente);
         
 		if(!"".equals(ref)){
 			clientManagementView.getSearchField().setEnabled(false);
@@ -197,23 +208,24 @@ public class ClientWidget extends JInternalFrame implements InternalFrameWidget{
 			clientManagementView.getEmail().setText(String.valueOf(client.getEmail()));
 			clientManagementView.getRpi().setText(String.valueOf(client.getMpi()));
 			clientManagementView.getFixe().setText(client.getPhone());
+			clientManagementView.gethiddenId().setText(String.valueOf(client.getId()));
 			
-			List<Ordonnance> ordonnances = client.getOrdonnances();
+			List<Vente> ventes = client.getVentes();
 			
-			String[] data = new String[ordonnances.size()];
+			String[] data = new String[ventes.size()];
 			int i  = 0;
-			DateFormat df = DateFormat.getDateInstance();
-			for(Ordonnance ordonnance : ordonnances){
-				data[i] = df.format(ordonnance.getStartDate()) + "(" + ordonnance.getId() + ")";
+			for(Vente vente : ventes){
+				data[i] = vente.getId() + " (" + vente.getOperator().getFirstName() + ")";
 				i++;
 			}
 			
-			List<Assurance> assurances = client.getAssurances();
-			if(assurances != null && assurances.size() > 0){
-				AbstractTableModel model = new SubAssuranceTableModel(assurances);
-				clientManagementView.getAssuranceTable().setModel(model);
-			}
-			
+//			List<Assurance> assurances = clientService.getClientAssurances(client);
+//			
+//			if(assurances != null && assurances.size() > 0){
+//				AbstractTableModel model = new SubAssuranceTableModel(assurances);
+//				clientManagementView.getAssuranceTable().setModel(model);
+//			}
+//			
 			clientManagementView.getListOrdonnance().setListData(data);
 			clientManagementView.setVisible(true);
 		}
@@ -223,7 +235,7 @@ public class ClientWidget extends JInternalFrame implements InternalFrameWidget{
     } 
 	
 	private void newActionPerformed(ActionEvent evt) {                                         
-		 JFrame clientManagementView = new ClientManagementView(em);
+		 JFrame clientManagementView = new ClientManagementView(em, vente);
 	        clientManagementView.setVisible(true);
     }
 
