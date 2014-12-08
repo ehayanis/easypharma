@@ -4,6 +4,7 @@ import java.awt.Color;
 import java.awt.Dimension;
 import java.awt.FlowLayout;
 import java.awt.Font;
+import java.awt.Frame;
 import java.awt.GridLayout;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
@@ -100,17 +101,57 @@ public class ClientWidget extends JInternalFrame implements InternalFrameWidget{
 				if (e.getKeyChar() == KeyEvent.VK_ENTER) {
 					String selectedValue = (String) reference.getSelectedItem();
 					Client client = clientService.findClientByReference(selectedValue);
-					
+
 					em.getTransaction().begin();
 					vente = em.find(Vente.class, vente.getId());
 					vente.setClient(client);
 					em.getTransaction().commit();
-					
+
 					firstName.setText(client.getFirstName() + " " + client.getLastName());
 					dateOfBirth.setText(DateFormat.getInstance().format(client.getBirthDate()));
 					age.setText(String.valueOf(client.getAge()));
 					phone.setText(client.getPhone());
+
+					AssuranceWidget assuranceWidget = null;
+					for (Frame frame : Frame.getFrames()) {
+						if (frame.getTitle().equals("EasyPharma: Gestion Pharmacies ")) {
+							SaleView saleView = (SaleView) frame;
+							assuranceWidget = (AssuranceWidget) saleView.getAssuranceWidget();
+						}
+					}
+					JTextField assuranceField = null;
+					JTextField hiddenField = null;
+					JButton newAssurance = null;
 					
+					List<Assurance> assurances = clientService.getClientAssurances(client);
+					if(assurances != null && assurances.size() > 0){
+						for(Assurance assurance : assurances){
+							TypeAssurance type = assurance.getType();
+							switch (type) {
+							case OBLIGATOIRE:
+								assuranceField = assuranceWidget.getAssurance1();
+								hiddenField = assuranceWidget.getHiddenField1();
+								newAssurance = assuranceWidget.getNewAssur1();
+								break;
+							case ACCIDENT:
+								assuranceField = assuranceWidget.getAssurance2();
+								hiddenField = assuranceWidget.getHiddenField2();
+								newAssurance = assuranceWidget.getNewAssur2();
+								break;
+							case COMPLEMENTAIRE:
+								assuranceField = assuranceWidget.getAssurance3();
+								hiddenField = assuranceWidget.getHiddenField3();
+								newAssurance = assuranceWidget.getNewAssur3();
+								break;
+							default:
+								break;
+							}
+							
+							assuranceField.setText(assurance.getName());
+							hiddenField.setText(String.valueOf(assurance.getId()));
+							newAssurance.setEnabled(false);
+						}
+					}
 
 				}
 			}
@@ -219,13 +260,12 @@ public class ClientWidget extends JInternalFrame implements InternalFrameWidget{
 				i++;
 			}
 			
-//			List<Assurance> assurances = clientService.getClientAssurances(client);
-//			
-//			if(assurances != null && assurances.size() > 0){
-//				AbstractTableModel model = new SubAssuranceTableModel(assurances);
-//				clientManagementView.getAssuranceTable().setModel(model);
-//			}
-//			
+			List<Assurance> assurances = clientService.getClientAssurances(client);
+			if(assurances != null && assurances.size() > 0){
+				AbstractTableModel model = new SubAssuranceTableModel(assurances);
+				clientManagementView.getAssuranceTable().setModel(model);
+			}
+			
 			clientManagementView.getListOrdonnance().setListData(data);
 			clientManagementView.setVisible(true);
 		}

@@ -243,6 +243,7 @@ public class PaymentView extends JFrame {
 					vente.setPaiementAssurance(value);
 				}
 			}
+			vente.setStatus("COMPLETE");
 			em.getTransaction().commit();
 			
 			setVisible(false);

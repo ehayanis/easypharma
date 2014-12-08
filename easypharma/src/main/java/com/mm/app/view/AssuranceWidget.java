@@ -27,9 +27,6 @@ import com.mm.app.service.AssuranceService;
 import com.mm.app.service.impl.AssuranceServiceImpl;
 import com.mm.app.utilities.Utilities;
 
-enum TypeAssurance{
-	OBLIGATOIRE, ACCIDENT, COMPLEMENTAIRE
-}
 
 public class AssuranceWidget extends JInternalFrame implements InternalFrameWidget{
 
@@ -89,23 +86,38 @@ public class AssuranceWidget extends JInternalFrame implements InternalFrameWidg
 		
 		assurance1.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent evt) {
-				searchActionPerformed(evt);
+				searchActionPerformed(evt, TypeAssurance.OBLIGATOIRE);
+			}
+		});
+		
+		assurance1.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent evt) {
+				searchActionPerformed(evt, TypeAssurance.ACCIDENT);
+			}
+		});
+		
+		assurance1.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent evt) {
+				searchActionPerformed(evt, TypeAssurance.COMPLEMENTAIRE);
 			}
 		});
 		
 		editAssur1.addActionListener(new ActionListener() {
             public void actionPerformed(ActionEvent evt) {
-                editActionPerformed(evt);
+            	System.out.println("Nothing for that moment");
+//                editActionPerformed(evt);
             }
         });
 		editAssur2.addActionListener(new ActionListener() {
             public void actionPerformed(ActionEvent evt) {
-                editActionPerformed(evt);
+            	System.out.println("Nothing for that moment");
+//                editActionPerformed(evt);
             }
         });
 		editAssur3.addActionListener(new ActionListener() {
             public void actionPerformed(ActionEvent evt) {
-                editActionPerformed(evt);
+            	System.out.println("Nothing for that moment");
+//                editActionPerformed(evt);
             }
         });
 		
@@ -186,6 +198,29 @@ public class AssuranceWidget extends JInternalFrame implements InternalFrameWidg
 	public void setAssurance3(JTextField assurance) {
 		this.assurance3 = assurance;
 	}
+	public JButton getNewAssur1() {
+		return newAssur1;
+	}
+
+	public void setNewAssur1(JButton newAssur1) {
+		this.newAssur1 = newAssur1;
+	}
+
+	public JButton getNewAssur2() {
+		return newAssur2;
+	}
+
+	public void setNewAssur2(JButton newAssur2) {
+		this.newAssur2 = newAssur2;
+	}
+
+	public JButton getNewAssur3() {
+		return newAssur3;
+	}
+
+	public void setNewAssur3(JButton newAssur3) {
+		this.newAssur3 = newAssur3;
+	}
 
 	@Override
 	public void activateComponents(){
@@ -197,8 +232,41 @@ public class AssuranceWidget extends JInternalFrame implements InternalFrameWidg
 		assurance3.setEditable(true);
 	}
 	
-	private void searchActionPerformed(ActionEvent evt) {
-//		String coverCard = assurance1.getText();
+	private void searchActionPerformed(ActionEvent evt, TypeAssurance typeAssurance) {
+		
+//		JTextField assuranceField = null;
+//		switch (typeAssurance) {
+//		case OBLIGATOIRE:
+//			assuranceField = assurance1;
+//			break;
+//		case ACCIDENT:
+//			assuranceField = assurance2;
+//			break;
+//		case COMPLEMENTAIRE:
+//			assuranceField = assurance3;
+//			break;
+//		default:
+//			break;
+//		}
+//		
+		String coverCard = ((JTextField) evt.getSource()).getText();
+		
+		if(!"".equals(coverCard)){
+			// CODE TO CALL THE WEB SERVICE TO RETREIVE BOTH THE CLIENT AND THE ASSURANCE
+			Client c = null;
+			Assurance a = null;
+			
+			// service to check if a client exists 
+				// if exists OK 
+				// if not, add it as new client
+			// service to check if an insurrance exists 
+				// if not exist, add assurance 
+				// if exists, check if it already associated 
+					// if not, associate it and then return the name and the assurance ID 
+					// Field the CLient widget fields 
+			
+		}
+		
 //		if(!"".equals(coverCard)){
 //			Assurance assurance = service.findAssuranceByCoverCard(coverCard);
 //			if(assurance != null){
@@ -254,7 +322,7 @@ public class AssuranceWidget extends JInternalFrame implements InternalFrameWidg
         		assuranceManagementView.getOfas().setText(assurance.getOfas());
         		assuranceManagementView.getEan().setText(assurance.getEan());
         		assuranceManagementView.getRcc().setText(assurance.getRcc());
-        		assuranceManagementView.getCoverCard().setText(assurance.getCoverCard());
+//        		assuranceManagementView.getCoverCard().setText(assurance.getCoverCard());
         		assuranceManagementView.getNpa().setText(assurance.getNpa());
         		assuranceManagementView.getPhone().setText(assurance.getPhone());
         		assuranceManagementView.getValidationDate().setText(DateFormat.getDateInstance().format(assurance.getValidationDate()));

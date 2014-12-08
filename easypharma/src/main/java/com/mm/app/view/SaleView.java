@@ -18,6 +18,7 @@ import javax.swing.AbstractAction;
 import javax.swing.DefaultCellEditor;
 import javax.swing.GroupLayout;
 import javax.swing.ImageIcon;
+import javax.swing.JButton;
 import javax.swing.JComboBox;
 import javax.swing.JComponent;
 import javax.swing.JFrame;
@@ -74,7 +75,7 @@ public class SaleView extends JFrame {
     	
     	vente = new Vente();
     	vente.setOperator(operator);
-    	
+    	vente.setStatus("INIT");
     	vente = venteService.addVente(vente);
     	
     	products = new ArrayList<VenteProduit>();
@@ -94,11 +95,11 @@ public class SaleView extends JFrame {
         medecinWidget = new MedecinWidget(em, vente);
         assuranceWidget = new AssuranceWidget(em, vente);
         clientWidget = new ClientWidget(em, vente);
-        jPanel2 = new HeaderPanel();
+        headerPanel = new HeaderPanel(operator);
         jTabbedPane1 = new JTabbedPane();
         jScrollPane1 = new JScrollPane();
         jTable1 = new JTable();
-        jPanel4 = new JPanel();
+        footerPanel = new FooterPanel();
         jMenuBar1 = new JMenuBar();
         jMenu1 = new JMenu();
         jMenuItem1 = new JMenuItem();
@@ -110,8 +111,8 @@ public class SaleView extends JFrame {
         jMenu3 = new JMenu();
         jMenu4 = new JMenu();
         jMenu5 = new JMenu();
-        jLabel2 = new JLabel();
-        jLabel3 = new JLabel();
+//        jLabel2 = new JLabel();
+//        jLabel3 = new JLabel();
         
         
         setDefaultCloseOperation(WindowConstants.EXIT_ON_CLOSE);
@@ -191,7 +192,7 @@ public class SaleView extends JFrame {
                 		 
                 	 }
                 	 
-                	 jLabel3.setText(String.valueOf(total));
+                	 footerPanel.getTotalValue().setText(String.valueOf(total));
              }
         	}
 		});
@@ -238,32 +239,32 @@ public class SaleView extends JFrame {
         // Insert Total JPanel 
         ////////////////////////////////////////
         
-        jLabel2.setFont(new Font("Tahoma", 0, 14)); // NOI18N
-        jLabel2.setText("TOTAL : ");
-
-        jLabel3.setFont(new Font("Tahoma", 1, 18)); // NOI18N
-        
-        jPanel4.setBackground(Color.WHITE);
-        GroupLayout jPanel4Layout = new GroupLayout(jPanel4);
-        jPanel4.setLayout(jPanel4Layout);
-        jPanel4Layout.setHorizontalGroup(
-            jPanel4Layout.createParallelGroup(GroupLayout.Alignment.LEADING)
-            .addGroup(GroupLayout.Alignment.TRAILING, jPanel4Layout.createSequentialGroup()
-                .addContainerGap(GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                .addComponent(jLabel2)
-                .addGap(18, 18, 18)
-                .addComponent(jLabel3)
-                .addGap(40, 40, 40))
-        );
-        jPanel4Layout.setVerticalGroup(
-            jPanel4Layout.createParallelGroup(GroupLayout.Alignment.LEADING)
-            .addGroup(jPanel4Layout.createSequentialGroup()
-                .addContainerGap()
-                .addGroup(jPanel4Layout.createParallelGroup(GroupLayout.Alignment.BASELINE)
-                    .addComponent(jLabel2)
-                    .addComponent(jLabel3))
-                .addContainerGap(24, Short.MAX_VALUE))
-        );
+//        jLabel2.setFont(new Font("Tahoma", 0, 14)); // NOI18N
+//        jLabel2.setText("TOTAL : ");
+//
+//        jLabel3.setFont(new Font("Tahoma", 1, 18)); // NOI18N
+//        
+//        footerPanel.setBackground(Color.WHITE);
+//        GroupLayout jPanel4Layout = new GroupLayout(footerPanel);
+//        footerPanel.setLayout(jPanel4Layout);
+//        jPanel4Layout.setHorizontalGroup(
+//            jPanel4Layout.createParallelGroup(GroupLayout.Alignment.LEADING)
+//            .addGroup(GroupLayout.Alignment.TRAILING, jPanel4Layout.createSequentialGroup()
+//                .addContainerGap(GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+//                .addComponent(jLabel2)
+//                .addGap(18, 18, 18)
+//                .addComponent(jLabel3)
+//                .addGap(40, 40, 40))
+//        );
+//        jPanel4Layout.setVerticalGroup(
+//            jPanel4Layout.createParallelGroup(GroupLayout.Alignment.LEADING)
+//            .addGroup(jPanel4Layout.createSequentialGroup()
+//                .addContainerGap()
+//                .addGroup(jPanel4Layout.createParallelGroup(GroupLayout.Alignment.BASELINE)
+//                    .addComponent(jLabel2)
+//                    .addComponent(jLabel3))
+//                .addContainerGap(24, Short.MAX_VALUE))
+//        );
 
         jMenu1.setIcon(new ImageIcon(getClass().getResource("/img/AdminCatalog.gif"))); // NOI18N
         jMenu1.setText("Vente de Produits");
@@ -320,20 +321,20 @@ public class SaleView extends JFrame {
         layout.setHorizontalGroup(
             layout.createParallelGroup(GroupLayout.Alignment.LEADING)
             .addComponent(jPanel1, GroupLayout.DEFAULT_SIZE, GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-            .addComponent(jPanel2, GroupLayout.DEFAULT_SIZE, GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+            .addComponent(headerPanel, GroupLayout.DEFAULT_SIZE, GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
             .addComponent(jTabbedPane1)
-            .addComponent(jPanel4, GroupLayout.DEFAULT_SIZE, GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+            .addComponent(footerPanel, GroupLayout.DEFAULT_SIZE, GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
         );
         layout.setVerticalGroup(
                 layout.createParallelGroup(GroupLayout.Alignment.LEADING)
                 .addGroup(layout.createSequentialGroup()
-                    .addComponent(jPanel2, GroupLayout.PREFERRED_SIZE, GroupLayout.DEFAULT_SIZE, GroupLayout.PREFERRED_SIZE)
+                    .addComponent(headerPanel, GroupLayout.PREFERRED_SIZE, GroupLayout.DEFAULT_SIZE, GroupLayout.PREFERRED_SIZE)
                     .addPreferredGap(LayoutStyle.ComponentPlacement.RELATED)
                     .addComponent(jPanel1, GroupLayout.PREFERRED_SIZE, 219, GroupLayout.PREFERRED_SIZE)
                     .addPreferredGap(LayoutStyle.ComponentPlacement.RELATED)
                     .addComponent(jTabbedPane1, GroupLayout.PREFERRED_SIZE, 351, GroupLayout.PREFERRED_SIZE)
                     .addPreferredGap(LayoutStyle.ComponentPlacement.RELATED, GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                    .addComponent(jPanel4, GroupLayout.PREFERRED_SIZE, GroupLayout.DEFAULT_SIZE, GroupLayout.PREFERRED_SIZE)
+                    .addComponent(footerPanel, GroupLayout.PREFERRED_SIZE, GroupLayout.DEFAULT_SIZE, GroupLayout.PREFERRED_SIZE)
                     .addContainerGap())
             );
         
@@ -343,7 +344,7 @@ public class SaleView extends JFrame {
         	public void actionPerformed(ActionEvent e) {
         		PaymentView paymentView = new PaymentView(em, vente);
         		
-        		if("".equals(jLabel3.getText())){
+        		if("".equals(footerPanel.getTotalValue().getText())){
         			JOptionPane.showMessageDialog(jTabbedPane1, "Veuillez séléctionner au moins un produit!");
         		}else{
         			em.getTransaction().begin();
@@ -351,7 +352,7 @@ public class SaleView extends JFrame {
         			vente.setProduits(products);
         			em.getTransaction().commit();
         			
-        			paymentView.getTotal().setText(jLabel3.getText());
+        			paymentView.getTotal().setText(footerPanel.getTotalValue().getText());
         			paymentView.setVisible(true);
         		}
         	}
@@ -393,7 +394,7 @@ public class SaleView extends JFrame {
     	return this.jPanel1;
     }
     
-    public JInternalFrame getjInternalFrame3(){
+    public JInternalFrame getAssuranceWidget(){
     	return this.assuranceWidget;
     }
     
@@ -414,15 +415,15 @@ public class SaleView extends JFrame {
     private JMenuItem jMenuItem2;
     private JMenuItem jMenuItem3;
     private JPanel jPanel1;
-    private JPanel jPanel2;
-    private JPanel jPanel4;
+    private HeaderPanel headerPanel;
+    private FooterPanel footerPanel;
     private JScrollPane jScrollPane1;
     private JPopupMenu.Separator jSeparator1;
     private JPopupMenu.Separator jSeparator2;
     private JTabbedPane jTabbedPane1;
     private JTable jTable1;
-    private JLabel jLabel2;
-    private JLabel jLabel3;
+//    private JLabel jLabel2;
+//    private JLabel jLabel3;
     
 
 }

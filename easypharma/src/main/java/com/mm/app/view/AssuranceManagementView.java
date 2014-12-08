@@ -194,7 +194,7 @@ public class AssuranceManagementView extends javax.swing.JFrame {
             	  ofas.setText(assurance.getOfas());
             	  ean.setText(assurance.getEan());
             	  rcc.setText(assurance.getRcc());
-            	  coverCard.setText(assurance.getCoverCard());
+//            	  coverCard.setText(assurance.getCoverCard());
             	  npa.setText(assurance.getNpa());
             	  phone.setText(assurance.getPhone());
             	  validationDate.setText(DateFormat.getDateInstance().format(assurance.getValidationDate()));
@@ -388,22 +388,26 @@ public class AssuranceManagementView extends javax.swing.JFrame {
 			if (frame.getTitle().equals("EasyPharma: Gestion Pharmacies ")) {
 				SaleView saleView = (SaleView) frame;
 				
-				AssuranceWidget assuranceWidget = ((AssuranceWidget) saleView.getjInternalFrame3());
+				AssuranceWidget assuranceWidget = ((AssuranceWidget) saleView.getAssuranceWidget());
 				JTextField assuranceField = null;
 				JTextField hiddenField = null;
+				JButton newAssurance = null;
 				
 				switch (typeAssurance) {
 				case OBLIGATOIRE:
 					assuranceField = assuranceWidget.getAssurance1();
 					hiddenField = assuranceWidget.getHiddenField1();
+					newAssurance = assuranceWidget.getNewAssur1();
 					break;
 				case ACCIDENT:
 					assuranceField = assuranceWidget.getAssurance2();
 					hiddenField = assuranceWidget.getHiddenField2();
+					newAssurance = assuranceWidget.getNewAssur2();
 					break;
 				case COMPLEMENTAIRE:
 					assuranceField = assuranceWidget.getAssurance3();
 					hiddenField = assuranceWidget.getHiddenField3();
+					newAssurance = assuranceWidget.getNewAssur3();
 					break;
 				default:
 					break;
@@ -411,6 +415,7 @@ public class AssuranceManagementView extends javax.swing.JFrame {
 					
 				assuranceField.setText(assurance.getName());
 				hiddenField.setText(String.valueOf(assurance.getId()));
+				newAssurance.setEnabled(false);
 				
 				em.getTransaction().begin();
 				vente = em.find(Vente.class, vente.getId());

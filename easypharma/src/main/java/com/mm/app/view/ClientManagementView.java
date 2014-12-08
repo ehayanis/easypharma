@@ -245,12 +245,11 @@ public class ClientManagementView extends JFrame {
 					
 					listOrdonnance.setListData(data);
 
-//					List<Assurance> assurances = service.getClientAssurances(client);
-//					
-//					if(assurances != null && assurances.size() > 0){
-//						AbstractTableModel model = new SubAssuranceTableModel(assurances);
-//						assuranceTable.setModel(model);
-//					}
+					List<Assurance> assurances = service.getClientAssurances(client);
+					if(assurances != null && assurances.size() > 0){
+						AbstractTableModel model = new SubAssuranceTableModel(assurances);
+						assuranceTable.setModel(model);
+					}
 					
 				}
 			}
@@ -853,7 +852,41 @@ public class ClientManagementView extends JFrame {
 				clientWidget.getDateOfBirth().setText(DateFormat.getInstance().format(client.getBirthDate()));
 				clientWidget.getAge().setText(String.valueOf(client.getAge()));
 				clientWidget.getPhone().setText(client.getPhone());
-					
+				
+				AssuranceWidget assuranceWidget = (AssuranceWidget) saleView.getAssuranceWidget();
+				JTextField assuranceField = null;
+				JTextField hiddenField = null;
+				JButton newAssurance = null;
+				
+				List<Assurance> assurances = service.getClientAssurances(client);
+				if(assurances != null && assurances.size() > 0){
+					for(Assurance assurance : assurances){
+						TypeAssurance type = assurance.getType();
+						switch (type) {
+						case OBLIGATOIRE:
+							assuranceField = assuranceWidget.getAssurance1();
+							hiddenField = assuranceWidget.getHiddenField1();
+							newAssurance = assuranceWidget.getNewAssur1();
+							break;
+						case ACCIDENT:
+							assuranceField = assuranceWidget.getAssurance2();
+							hiddenField = assuranceWidget.getHiddenField2();
+							newAssurance = assuranceWidget.getNewAssur2();
+							break;
+						case COMPLEMENTAIRE:
+							assuranceField = assuranceWidget.getAssurance3();
+							hiddenField = assuranceWidget.getHiddenField3();
+							newAssurance = assuranceWidget.getNewAssur3();
+							break;
+						default:
+							break;
+						}
+						
+						assuranceField.setText(assurance.getName());
+						hiddenField.setText(String.valueOf(assurance.getId()));
+						newAssurance.setEnabled(false);
+					}
+				}
 				
 				saleView.setVisible(true);
 			}

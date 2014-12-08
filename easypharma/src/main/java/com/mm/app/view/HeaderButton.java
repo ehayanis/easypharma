@@ -38,6 +38,20 @@ public class HeaderButton extends JButton{
 		setCursor(new Cursor(Cursor.HAND_CURSOR));
 	}
 	
+	public HeaderButton(String title, boolean isBorder, boolean isBold){
+		super();
+		this.title = title;
+		
+		setText(title);
+		if(isBold){
+			setFont(this.getFont().deriveFont(Font.BOLD));
+		}
+		if(isBorder){
+			setBorder(BorderFactory.createEmptyBorder());
+		}
+		setContentAreaFilled(false);
+	}
+	
 	public HeaderButton(String imgPath){
 		super();
 		this.imgPath = imgPath;

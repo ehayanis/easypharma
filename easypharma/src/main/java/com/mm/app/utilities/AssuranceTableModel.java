@@ -7,7 +7,7 @@ import com.mm.app.model.Assurance;
 public class AssuranceTableModel extends AbstractTableModel{
 
 	List<Assurance> assurancesList;
-	String headerList[] = new String[]{"Réf", "Agence", "N° OFAS", "N° EAN", "N° RCC", "Cover Card"};
+	String headerList[] = new String[]{"Réf", "Agence", "N° OFAS", "N° EAN", "N° RCC"};
 
 	public AssuranceTableModel(List list) {
 		assurancesList = list;
@@ -15,7 +15,7 @@ public class AssuranceTableModel extends AbstractTableModel{
 
 	@Override
 	public int getColumnCount() {
-		return 6;
+		return 5;
 	}
 
 	@Override
@@ -39,8 +39,6 @@ public class AssuranceTableModel extends AbstractTableModel{
 			return entity.getEan();
 		case 4:
 			return entity.getRcc();
-		case 5:
-			return entity.getCoverCard();
 		default:
 			return ""; 
 		}
