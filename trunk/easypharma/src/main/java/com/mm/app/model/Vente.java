@@ -26,7 +26,7 @@ public class Vente implements Serializable {
 	private float paiementBvr;
 	@Column(name="paiement_assurance")
 	private float paiementAssurance;
-	
+	private String status;
 	@ManyToOne
 	private Operator operator;
 	
@@ -121,5 +121,12 @@ public class Vente implements Serializable {
 	public void setProduits(List<VenteProduit> produits) {
 		this.produits = produits;
 	}
-   
+
+	public String getStatus() {
+		return status;
+	}
+
+	public void setStatus(String status) {
+		this.status = status;
+	}
 }

@@ -1,14 +1,26 @@
 package com.mm.app.model;
 
 import java.io.Serializable;
-import javax.persistence.*;
 import java.util.Date;
-import java.util.List;
+
+import javax.persistence.Column;
+import javax.persistence.Entity;
+import javax.persistence.EnumType;
+import javax.persistence.Enumerated;
+import javax.persistence.GeneratedValue;
+import javax.persistence.GenerationType;
+import javax.persistence.Id;
+import javax.persistence.NamedQueries;
+import javax.persistence.NamedQuery;
+import javax.persistence.Temporal;
+import javax.persistence.TemporalType;
+
+import com.mm.app.view.TypeAssurance;
 
 @NamedQueries({
-	@NamedQuery(name="findAssuranceByCoverCard", query="SELECT a FROM Assurance a WHERE a.coverCard = :name"),
 	@NamedQuery(name="findAssurancesByCriteria", query="SELECT a FROM Assurance a WHERE a.name LIKE :name")
 })
+
 
 @Entity
 public class Assurance implements Serializable {
@@ -32,9 +44,6 @@ public class Assurance implements Serializable {
 	@Column(name="card_validity")
 	private Date cardValidity;
 
-	@Column(name="cover_card")
-	private String coverCard;
-
 	private String ean;
 
 	private String name;
@@ -53,7 +62,9 @@ public class Assurance implements Serializable {
 
 	@Column(name="validation_number")
 	private Integer validationNumber;
-
+	
+	@Enumerated(EnumType.STRING)
+	private TypeAssurance type;
 
 	public Assurance() {
     }
@@ -112,14 +123,6 @@ public class Assurance implements Serializable {
 
 	public void setCardValidity(Date cardValidity) {
 		this.cardValidity = cardValidity;
-	}
-
-	public String getCoverCard() {
-		return this.coverCard;
-	}
-
-	public void setCoverCard(String coverCard) {
-		this.coverCard = coverCard;
 	}
 
 	public String getEan() {
@@ -184,6 +187,14 @@ public class Assurance implements Serializable {
 
 	public void setValidationNumber(Integer validationNumber) {
 		this.validationNumber = validationNumber;
+	}
+
+	public TypeAssurance getType() {
+		return type;
+	}
+
+	public void setType(TypeAssurance type) {
+		this.type = type;
 	}
 
 }

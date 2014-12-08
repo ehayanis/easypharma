@@ -2,6 +2,7 @@ package com.mm.app.model;
 
 import java.io.Serializable;
 import javax.persistence.*;
+
 import java.util.Date;
 import java.util.List;
 import java.util.Map;
@@ -23,6 +24,8 @@ public class Client implements Serializable {
 	private Integer age;
 
 	private Integer avs;
+	@Column(name="cover_card")
+	private String coverCard;
 
     @Temporal( TemporalType.DATE)
 	@Column(name="birth_date")
@@ -175,6 +178,14 @@ public class Client implements Serializable {
 
 	public void setAssuranceClients(List<AssuranceClient> assuranceClients) {
 		this.assuranceClients = assuranceClients;
+	}
+	
+	public String getCoverCard() {
+		return this.coverCard;
+	}
+
+	public void setCoverCard(String coverCard) {
+		this.coverCard = coverCard;
 	}
 	
 }
