@@ -7,6 +7,7 @@ import javax.persistence.TypedQuery;
 
 import com.mm.app.dao.AssuranceDao;
 import com.mm.app.model.Assurance;
+import com.mm.app.view.TypeAssurance;
 
 public class AssuranceDaoImpl implements AssuranceDao{
 	
@@ -34,8 +35,8 @@ public class AssuranceDaoImpl implements AssuranceDao{
 	}
 
 	@Override
-	public List<Assurance> getAssurancesByCriteria(String criteria) {
-		List<Assurance> result = em.createNamedQuery("findAssurancesByCriteria").setParameter("name", criteria).getResultList();
+	public List<Assurance> getAssurancesByCriteria(String criteria, TypeAssurance typeAssurance) {
+		List<Assurance> result = em.createNamedQuery("findAssurancesByCriteria").setParameter("name", "%" + criteria + "%").setParameter("type", typeAssurance).getResultList();
 		return result;
 	}
 	

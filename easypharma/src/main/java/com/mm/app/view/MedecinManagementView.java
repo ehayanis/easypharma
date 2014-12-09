@@ -1,9 +1,11 @@
 package com.mm.app.view;
 
 import java.awt.Color;
+import java.awt.Frame;
 import java.awt.GridLayout;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.text.DateFormat;
 import java.util.List;
 
 import javax.persistence.EntityManager;
@@ -26,7 +28,10 @@ import javax.swing.event.ListSelectionListener;
 import javax.swing.table.AbstractTableModel;
 import javax.swing.table.DefaultTableModel;
 
+import com.mm.app.model.AssuranceClient;
+import com.mm.app.model.Client;
 import com.mm.app.model.Medecin;
+import com.mm.app.model.Vente;
 import com.mm.app.service.MedecinService;
 import com.mm.app.service.impl.MedecinServiceImpl;
 import com.mm.app.utilities.MedecinTableModel;
@@ -42,11 +47,13 @@ public class MedecinManagementView extends JFrame {
 	private EntityManager em;
 	private MedecinService service;
 	private Medecin medecin = null;
+	private Vente vente; 
 	
 	private static final long serialVersionUID = 5336224759833199368L;
 
-	public MedecinManagementView(EntityManager em) {
+	public MedecinManagementView(EntityManager em, Vente vente) {
 		this.em = em;
+		this.vente = vente;
 		service = new MedecinServiceImpl(em);
 		
         initComponents();
@@ -461,6 +468,27 @@ public class MedecinManagementView extends JFrame {
 	}
 
 	private void validateActionPerformed(ActionEvent evt){
+		for (Frame frame : Frame.getFrames()) {
+			if (frame.getTitle().equals("EasyPharma: Gestion Pharmacies ")) {
+				SaleView saleView = (SaleView) frame;
+				
+				MedecinWidget medecinWidget = saleView.getMedecinWidget();
+				
+				em.getTransaction().begin();
+				vente = em.find(Vente.class, vente.getId());
+				vente.setMedecin(medecin);
+				em.getTransaction().commit();
+				
+				
+				medecinWidget.getReference().setText(String.valueOf(medecin.getId()));
+				medecinWidget.getFirstName().setSelectedItem(medecin.getFirstName() + " " + medecin.getLastName());
+				medecinWidget.getSpeciality().setText(medecin.getSpeciality());
+				medecinWidget.getNrcc().setText(medecin.getNrcc());
+				medecinWidget.getPhone().setText(medecin.getPhone());
+				
+				saleView.setVisible(true);
+			}
+		}
 		setVisible(false);
 		dispose();
 	}
