@@ -847,6 +847,8 @@ public class ClientManagementView extends JFrame {
 				vente.setClient(client);
 				em.getTransaction().commit();
 				
+				saleView.getHeaderPanel().getClient().activateButton(true);
+				
 				clientWidget.getReference().setSelectedItem(client.getReference());
 				clientWidget.getFirstName().setText(client.getFirstName() + " " + client.getLastName());
 				clientWidget.getDateOfBirth().setText(DateFormat.getInstance().format(client.getBirthDate()));

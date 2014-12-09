@@ -317,6 +317,10 @@ WITH (
 ALTER TABLE sequence
   OWNER TO easypharma;
 
+-- Sequence Table
+INSERT INTO sequence(
+            seq_name, seq_count)
+    VALUES ('SEQ_GEN', 0);
 
 
 -- Operator Table

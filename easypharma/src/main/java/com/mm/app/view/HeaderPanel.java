@@ -2,6 +2,7 @@ package com.mm.app.view;
 
 import java.awt.Color;
 import java.awt.Component;
+import java.awt.Font;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 
@@ -10,6 +11,7 @@ import javax.swing.GroupLayout;
 import javax.swing.ImageIcon;
 import javax.swing.JButton;
 import javax.swing.JInternalFrame;
+import javax.swing.JLabel;
 import javax.swing.JPanel;
 
 import com.mm.app.model.Operator;
@@ -21,7 +23,7 @@ public class HeaderPanel extends JPanel {
 	 */
 	private static final long serialVersionUID = -4803295226273222399L;
 	private HeaderButton client;
-    private HeaderButton op;
+    private JLabel op;
     private HeaderButton produit;
     private HeaderButton impression;
     private HeaderButton paiement;
@@ -35,8 +37,8 @@ public class HeaderPanel extends JPanel {
 	}
 	
 	private void initComponents() {
-        op = new HeaderButton(">>> " + operator.getFirstName() + " " + operator.getLastname() + " <<<", true, true);
-        op.setEnabled(false);
+        op = new JLabel(operator.getFirstName() + " " + operator.getLastname());
+        op.setFont(new Font("Arial", 1, 12));
         client = new HeaderButton("Client", "/img/jbutton1.png", "Client");
         produit = new HeaderButton("Médicaments", "/img/jbutton3.png", "Médicaments");
         paiement = new HeaderButton("Payement", "/img/jbutton5.png", "Paiement");
@@ -93,44 +95,37 @@ public class HeaderPanel extends JPanel {
         );
 	}
 
-	public HeaderButton getAssurance() {
+	public HeaderButton getClient() {
 		return client;
 	}
 
-	public void setAssurance(HeaderButton assurance) {
-		this.client = assurance;
+	public void setClient(HeaderButton client) {
+		this.client = client;
 	}
 
-	public HeaderButton getOperator() {
-		return op;
-	}
-
-	public void setOperator(HeaderButton operator) {
-		this.op = operator;
-	}
-
-	public HeaderButton getMedecin() {
+	public HeaderButton getProduit() {
 		return produit;
 	}
 
-	public void setMedecin(HeaderButton medecin) {
-		this.produit = medecin;
-	}
-
-	public HeaderButton getPayment() {
-		return impression;
-	}
-
-	public void setPayment(HeaderButton payment) {
-		this.impression = payment;
+	public void setProduit(HeaderButton produit) {
+		this.produit = produit;
 	}
 
 	public HeaderButton getImpression() {
-		return paiement;
+		return impression;
 	}
 
 	public void setImpression(HeaderButton impression) {
-		this.paiement = impression;
+		this.impression = impression;
 	}
-	
+
+	public HeaderButton getPaiement() {
+		return paiement;
+	}
+
+	public void setPaiement(HeaderButton paiement) {
+		this.paiement = paiement;
+	}
+
+		
 }
