@@ -52,7 +52,7 @@ public class FooterPanel extends JPanel{
         produit.setText("Produits : F4");
 
         paiement.setFont(new java.awt.Font("Tahoma", 0, 12)); // NOI18N
-        paiement.setText("Paiement : F5");
+        paiement.setText("Paiement : Esc");
 
         impression.setFont(new java.awt.Font("Tahoma", 0, 12)); // NOI18N
         impression.setText("Imprés... : F6");
