@@ -317,7 +317,8 @@ public class SaleView extends JFrame {
 
         
         setJMenuBar(jMenuBar1);
-
+        footerPanel.setBackground(Color.WHITE);
+        
         GroupLayout layout = new GroupLayout(getContentPane());
         getContentPane().setLayout(layout);
         layout.setHorizontalGroup(
@@ -395,8 +396,8 @@ public class SaleView extends JFrame {
         javax.swing.Action f4Action = new AbstractAction() {
         	public void actionPerformed(ActionEvent e) {
         		jTable1.requestFocus();
-//        		jTable1.editCellAt(0, 0);
-        		jTable1.changeSelection(0, 0, false, false);
+        		jTable1.editCellAt(0, 0);
+//        		jTable1.changeSelection(0, 0, false, false);
         	}
         };
         
@@ -431,12 +432,16 @@ public class SaleView extends JFrame {
     	return this.jPanel1;
     }
     
-    public JInternalFrame getAssuranceWidget(){
+    public AssuranceWidget getAssuranceWidget(){
     	return this.assuranceWidget;
     }
     
-    public JInternalFrame getClientWidget(){
+    public ClientWidget getClientWidget(){
     	return this.clientWidget;
+    }
+    
+    public MedecinWidget getMedecinWidget(){
+    	return this.medecinWidget;
     }
     
     public HeaderPanel getHeaderPanel() {

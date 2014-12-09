@@ -55,7 +55,6 @@ public class AssuranceWidget extends JInternalFrame implements InternalFrameWidg
 		this.vente = vente;
 		
 		service = new AssuranceServiceImpl(em);
-		
 		initComponent();
 		
 		getContentPane().setBackground(Color.WHITE);
@@ -90,13 +89,13 @@ public class AssuranceWidget extends JInternalFrame implements InternalFrameWidg
 			}
 		});
 		
-		assurance1.addActionListener(new ActionListener() {
+		assurance2.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent evt) {
 				searchActionPerformed(evt, TypeAssurance.ACCIDENT);
 			}
 		});
 		
-		assurance1.addActionListener(new ActionListener() {
+		assurance3.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent evt) {
 				searchActionPerformed(evt, TypeAssurance.COMPLEMENTAIRE);
 			}

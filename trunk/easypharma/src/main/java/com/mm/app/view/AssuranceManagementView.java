@@ -375,7 +375,7 @@ public class AssuranceManagementView extends javax.swing.JFrame {
     
 	private void searchActionPerformed(ActionEvent evt) {                                         
 		String value = searchField.getText();
-		List<Assurance> assurances = service.getAssurancesByCriteria(value);
+		List<Assurance> assurances = service.getAssurancesByCriteria(value, typeAssurance);
 		if(assurances != null && assurances.size() > 0){
 			AbstractTableModel model = new AssuranceTableModel(assurances);
 			tableSearch.setModel(model);

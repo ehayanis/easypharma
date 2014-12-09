@@ -3,6 +3,7 @@ package com.mm.app.service;
 import java.util.List;
 
 import com.mm.app.model.Assurance;
+import com.mm.app.view.TypeAssurance;
 
 
 public interface AssuranceService {
@@ -13,7 +14,7 @@ public interface AssuranceService {
 
 	public Assurance findAssuranceByCoverCard(String coverrCard);
 	
-	public List<Assurance> getAssurancesByCriteria(String criteria);
+	public List<Assurance> getAssurancesByCriteria(String criteria, TypeAssurance typeAssurance);
 
 }
 

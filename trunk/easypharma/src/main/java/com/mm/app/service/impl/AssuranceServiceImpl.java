@@ -8,6 +8,7 @@ import com.mm.app.dao.AssuranceDao;
 import com.mm.app.dao.impl.AssuranceDaoImpl;
 import com.mm.app.model.Assurance;
 import com.mm.app.service.AssuranceService;
+import com.mm.app.view.TypeAssurance;
 
 public class AssuranceServiceImpl implements AssuranceService{
 	
@@ -34,8 +35,8 @@ public class AssuranceServiceImpl implements AssuranceService{
 		return dao.findAssuranceByCoverCard(coverCard);
 	}
 
-	public List<Assurance> getAssurancesByCriteria(String criteria) {
-		return dao.getAssurancesByCriteria(criteria);
+	public List<Assurance> getAssurancesByCriteria(String criteria, TypeAssurance typeAssurance) {
+		return dao.getAssurancesByCriteria(criteria, typeAssurance);
 	}
 
 }

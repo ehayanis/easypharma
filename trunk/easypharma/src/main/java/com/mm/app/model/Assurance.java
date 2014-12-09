@@ -18,7 +18,7 @@ import javax.persistence.TemporalType;
 import com.mm.app.view.TypeAssurance;
 
 @NamedQueries({
-	@NamedQuery(name="findAssurancesByCriteria", query="SELECT a FROM Assurance a WHERE a.name LIKE :name")
+	@NamedQuery(name="findAssurancesByCriteria", query="SELECT a FROM Assurance a WHERE a.name LIKE :name AND a.type = :type")
 })
 
 

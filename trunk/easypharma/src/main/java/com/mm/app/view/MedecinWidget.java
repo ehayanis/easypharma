@@ -186,7 +186,7 @@ public class MedecinWidget extends JInternalFrame implements InternalFrameWidget
 	}
 	
 	private void editActionPerformed(ActionEvent evt) {                                         
-		MedecinManagementView medecinManagementView = new MedecinManagementView(em);
+		MedecinManagementView medecinManagementView = new MedecinManagementView(em, vente);
         
         if(!"".equals(reference.getText())){
         	medecinManagementView.getSearchField().setEnabled(false);
@@ -212,7 +212,7 @@ public class MedecinWidget extends JInternalFrame implements InternalFrameWidget
     } 
 	
 	private void newActionPerformed(ActionEvent evt) {                                         
-		 JFrame medecinManagementView = new MedecinManagementView(em);
+		 JFrame medecinManagementView = new MedecinManagementView(em, vente);
 		 medecinManagementView.setVisible(true);
     }
 	
