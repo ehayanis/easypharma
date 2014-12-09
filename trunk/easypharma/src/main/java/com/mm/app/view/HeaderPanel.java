@@ -37,7 +37,7 @@ public class HeaderPanel extends JPanel {
 	}
 	
 	private void initComponents() {
-        op = new JLabel(operator.getFirstName() + " " + operator.getLastname());
+        op = new JLabel("Operateur: " + operator.getFirstName() + " " + operator.getLastname());
         op.setFont(new Font("Arial", 1, 12));
         client = new HeaderButton("Client", "/img/jbutton1.png", "Client");
         produit = new HeaderButton("Médicaments", "/img/jbutton3.png", "Médicaments");

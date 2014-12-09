@@ -367,21 +367,54 @@ public class SaleView extends JFrame {
         	public void actionPerformed(ActionEvent e) {
         		PosologieFrame posologieFrame = new PosologieFrame();
         		posologieFrame.setVisible(true);
-        		
-//        		if("".equals(jLabel3.getText())){
-//        			JOptionPane.showMessageDialog(jTabbedPane1, "Veuillez séléctionner au moins un produit!");
-//        		}else{
-//        		}
+        	}
+        };
+        
+        KeyStroke f1KeyStroke = KeyStroke.getKeyStroke(KeyEvent.VK_F1, 0, false);
+        javax.swing.Action f1Action = new AbstractAction() {
+        	public void actionPerformed(ActionEvent e) {
+        		assuranceWidget.getAssurance1().requestFocus();
+        	}
+        };
+        
+        KeyStroke f2KeyStroke = KeyStroke.getKeyStroke(KeyEvent.VK_F2, 0, false);
+        javax.swing.Action f2Action = new AbstractAction() {
+        	public void actionPerformed(ActionEvent e) {
+        		clientWidget.getReference().requestFocus();
+        	}
+        };
+        
+        KeyStroke f3KeyStroke = KeyStroke.getKeyStroke(KeyEvent.VK_F3, 0, false);
+        javax.swing.Action f3Action = new AbstractAction() {
+        	public void actionPerformed(ActionEvent e) {
+        		medecinWidget.getFirstName().requestFocus();
+        	}
+        };
+        
+        KeyStroke f4KeyStroke = KeyStroke.getKeyStroke(KeyEvent.VK_F4, 0, false);
+        javax.swing.Action f4Action = new AbstractAction() {
+        	public void actionPerformed(ActionEvent e) {
+        		jTable1.requestFocus();
+//        		jTable1.editCellAt(0, 0);
+        		jTable1.changeSelection(0, 0, false, false);
         	}
         };
         
         
         getRootPane().getInputMap(JComponent.WHEN_IN_FOCUSED_WINDOW).put(escapeKeyStroke, "ESCAPE");
         getRootPane().getInputMap(JComponent.WHEN_IN_FOCUSED_WINDOW).put(f9KeyStroke, "F9");
+        getRootPane().getInputMap(JComponent.WHEN_IN_FOCUSED_WINDOW).put(f1KeyStroke, "F1");
+        getRootPane().getInputMap(JComponent.WHEN_IN_FOCUSED_WINDOW).put(f2KeyStroke, "F2");
+        getRootPane().getInputMap(JComponent.WHEN_IN_FOCUSED_WINDOW).put(f3KeyStroke, "F3");
+        getRootPane().getInputMap(JComponent.WHEN_IN_FOCUSED_WINDOW).put(f4KeyStroke, "F4");
         getRootPane().getActionMap().put("ESCAPE", escapeAction);
         getRootPane().getActionMap().put("F9", f9Action);
+        getRootPane().getActionMap().put("F1", f1Action);
+        getRootPane().getActionMap().put("F2", f2Action);
+        getRootPane().getActionMap().put("F3", f3Action);
+        getRootPane().getActionMap().put("F4", f4Action);
         
-    
+        
         pack();
         setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
     }                        
@@ -415,9 +448,9 @@ public class SaleView extends JFrame {
 	}
 
 
-	private JInternalFrame clientWidget;
-    private JInternalFrame assuranceWidget;
-    private JInternalFrame medecinWidget;
+	private ClientWidget clientWidget;
+    private AssuranceWidget assuranceWidget;
+    private MedecinWidget medecinWidget;
     private JMenu jMenu1;
     private JMenu jMenu2;
     private JMenu jMenu3;
