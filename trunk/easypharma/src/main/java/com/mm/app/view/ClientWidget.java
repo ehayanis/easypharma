@@ -113,12 +113,17 @@ public class ClientWidget extends JInternalFrame implements InternalFrameWidget{
 					phone.setText(client.getPhone());
 
 					AssuranceWidget assuranceWidget = null;
+					HeaderPanel headerPanel = null;
 					for (Frame frame : Frame.getFrames()) {
 						if (frame.getTitle().equals("EasyPharma: Gestion Pharmacies ")) {
 							SaleView saleView = (SaleView) frame;
 							assuranceWidget = (AssuranceWidget) saleView.getAssuranceWidget();
+							headerPanel = saleView.getHeaderPanel();
 						}
 					}
+					
+					headerPanel.getClient().activateButton(true);
+					
 					JTextField assuranceField = null;
 					JTextField hiddenField = null;
 					JButton newAssurance = null;

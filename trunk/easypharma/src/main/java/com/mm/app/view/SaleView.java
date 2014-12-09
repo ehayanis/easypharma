@@ -182,6 +182,8 @@ public class SaleView extends JFrame {
                 	 vp.setVente(vente);
                 	 products.add(vp);
                 	 
+                	 headerPanel.getProduit().activateButton(true);
+                	 
                 	 int rows = jTable1.getRowCount();
                 	 double total = 0;
                 	 for(int i = 0; i < rows; i++){
@@ -352,6 +354,8 @@ public class SaleView extends JFrame {
         			vente.setProduits(products);
         			em.getTransaction().commit();
         			
+        			headerPanel.getPaiement().activateButton(true);
+        			
         			paymentView.getTotal().setText(footerPanel.getTotalValue().getText());
         			paymentView.setVisible(true);
         		}
@@ -401,8 +405,17 @@ public class SaleView extends JFrame {
     public JInternalFrame getClientWidget(){
     	return this.clientWidget;
     }
+    
+    public HeaderPanel getHeaderPanel() {
+		return headerPanel;
+	}
 
-    private JInternalFrame clientWidget;
+	public void setHeaderPanel(HeaderPanel headerPanel) {
+		this.headerPanel = headerPanel;
+	}
+
+
+	private JInternalFrame clientWidget;
     private JInternalFrame assuranceWidget;
     private JInternalFrame medecinWidget;
     private JMenu jMenu1;
