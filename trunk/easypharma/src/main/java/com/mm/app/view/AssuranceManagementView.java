@@ -6,6 +6,7 @@ import java.awt.GridLayout;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.text.DateFormat;
+import java.text.ParseException;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -14,14 +15,12 @@ import javax.swing.GroupLayout;
 import javax.swing.ImageIcon;
 import javax.swing.JButton;
 import javax.swing.JLabel;
-import javax.swing.JPanel;
 import javax.swing.JRadioButton;
 import javax.swing.JScrollPane;
 import javax.swing.JTable;
 import javax.swing.JTextArea;
 import javax.swing.JTextField;
 import javax.swing.LayoutStyle;
-import javax.swing.LayoutStyle.ComponentPlacement;
 import javax.swing.ListSelectionModel;
 import javax.swing.WindowConstants;
 import javax.swing.event.ListSelectionEvent;
@@ -51,6 +50,8 @@ public class AssuranceManagementView extends javax.swing.JFrame {
 	private Vente vente;
 	private TypeAssurance typeAssurance;
 	private List<AssuranceClient> assuranceClients;
+	private boolean isEdit = false;
+	private int idAssurance = 0;
 	
 	public AssuranceManagementView(EntityManager em, Vente vente) {
 		this.em = em;
@@ -69,12 +70,12 @@ public class AssuranceManagementView extends javax.swing.JFrame {
     @SuppressWarnings({ "serial" })
     private void initComponents() {
 
-        jPanel1 = new JPanel();
+        jPanel1 = new MyJPanel();
         searchField = new JTextField();
         jScrollPane1 = new JScrollPane();
         tableSearch = new JTable();
-        jPanel3 = new JPanel();
-        jPanel2 = new JPanel();
+        jPanel3 = new MyJPanel();
+        jPanel2 = new MyJPanel();
         labelNom = new JLabel();
         nom = new JTextField();
         labelAgence = new JLabel();
@@ -102,11 +103,11 @@ public class AssuranceManagementView extends javax.swing.JFrame {
         labelNpa = new JLabel();
         npa = new JTextField();
         couvertureAos = new JLabel();
-        jPanel21 = new JPanel();
+        jPanel21 = new MyJPanel();
         aos = new JLabel();
         aosYes = new JRadioButton();
         aosNo = new JRadioButton();
-        jPanel22 = new JPanel();
+        jPanel22 = new MyJPanel();
         accident = new JLabel();
         accidentYes = new JRadioButton();
         accidentNo = new JRadioButton();
@@ -120,10 +121,6 @@ public class AssuranceManagementView extends javax.swing.JFrame {
         setTitle("Gestion des Assurances");
         setResizable(false);
 
-        jPanel1.setBackground(Color.WHITE);
-        jPanel3.setBackground(Color.WHITE);
-        jPanel2.setBackground(Color.WHITE);
-        
         GroupLayout jPanel1Layout = new GroupLayout(jPanel1);
         jPanel1.setLayout(jPanel1Layout);
         jPanel1Layout.setHorizontalGroup(
@@ -167,7 +164,6 @@ public class AssuranceManagementView extends javax.swing.JFrame {
             }
         });
         jScrollPane1.setViewportView(tableSearch);
-        jScrollPane1.setBackground(Color.WHITE);
         
         tableSearch.setCellSelectionEnabled(true);
         ListSelectionModel cellSelectionModel = tableSearch.getSelectionModel();
@@ -189,18 +185,18 @@ public class AssuranceManagementView extends javax.swing.JFrame {
               
               assurance = service.findAssurance(selectedData);
               if(assurance != null){
-            	  nom.setText(assurance.getName());
-            	  agence.setText(assurance.getAgence());
-            	  ofas.setText(assurance.getOfas());
-            	  ean.setText(assurance.getEan());
-            	  rcc.setText(assurance.getRcc());
+            	  nom.setText(Utilities.isEmpty(assurance.getName()));
+            	  agence.setText(Utilities.isEmpty(assurance.getAgence()));
+            	  ofas.setText(Utilities.isEmpty(assurance.getOfas()));
+            	  ean.setText(Utilities.isEmpty(assurance.getEan()));
+            	  rcc.setText(Utilities.isEmpty(assurance.getRcc()));
 //            	  coverCard.setText(assurance.getCoverCard());
-            	  npa.setText(assurance.getNpa());
-            	  phone.setText(assurance.getPhone());
-            	  validationDate.setText(DateFormat.getDateInstance().format(assurance.getValidationDate()));
-            	  cardValidity.setText(DateFormat.getDateInstance().format(assurance.getCardValidity()));
-            	  validationNumber.setText(String.valueOf(assurance.getValidationNumber()));
-            	  address.setText(assurance.getAddress());
+            	  npa.setText(Utilities.isEmpty(assurance.getNpa()));
+            	  phone.setText(Utilities.isEmpty(assurance.getPhone()));
+            	  validationDate.setText(Utilities.isEmpty(assurance.getValidationDate()));
+            	  cardValidity.setText(Utilities.isEmpty(assurance.getCardValidity()));
+            	  validationNumber.setText(Utilities.isEmpty(assurance.getValidationNumber()));
+            	  address.setText(Utilities.isEmpty(assurance.getAddress()));
               }
             }
         });
@@ -228,8 +224,8 @@ public class AssuranceManagementView extends javax.swing.JFrame {
         jPanel3.add(Utilities.createFilledSimpleInnerPanel(labelAgence, agence));
         jPanel3.add(Utilities.createFilledSimpleInnerPanel(labelEan, ean));
         jPanel3.add(Utilities.createFilledSimpleInnerPanel(labelOfas, ofas));
-        jPanel3.add(Utilities.createFilledSimpleInnerPanel(labelCoverCard, coverCard));
-        jPanel3.add(Utilities.createFilledSimpleInnerPanel(labelEmail, email));
+//        jPanel3.add(Utilities.createFilledSimpleInnerPanel(labelCoverCard, coverCard));
+//        jPanel3.add(Utilities.createFilledSimpleInnerPanel(labelEmail, email));
         jPanel3.add(Utilities.createFilledSimpleInnerPanel(labelCardValidity, cardValidity));
         jPanel3.add(Utilities.createFilledSimpleInnerPanel(labelValidationDate, validationDate));
         jPanel3.add(Utilities.createFilledSimpleInnerPanel(labelMobile, mobile));
@@ -413,23 +409,50 @@ public class AssuranceManagementView extends javax.swing.JFrame {
 					break;
 				}
 					
-				assuranceField.setText(assurance.getName());
-				hiddenField.setText(String.valueOf(assurance.getId()));
+				
+				if(isEdit){
+					em.getTransaction().begin();
+					assurance = em.find(Assurance.class, idAssurance);
+					
+					assurance.setName(Utilities.isEmpty(nom.getText()));
+					assurance.setAgence(Utilities.isEmpty(agence.getText()));
+					assurance.setOfas(Utilities.isEmpty(ofas.getText()));
+					assurance.setEan(Utilities.isEmpty(ean.getText()));
+					assurance.setRcc(Utilities.isEmpty(rcc.getText()));
+					assurance.setNpa(Utilities.isEmpty(npa.getText()));
+					assurance.setPhone(Utilities.isEmpty(phone.getText()));
+//					try {
+//						assurance.setValidationDate(DateFormat.getInstance().parse(Utilities.isEmpty(validationDate.getText())));
+//						assurance.setCardValidity(DateFormat.getInstance().parse(Utilities.isEmpty(cardValidity.getText())));
+//					} catch (ParseException e) {
+//						e.printStackTrace();
+//					}
+					assurance.setValidationNumber(Integer.valueOf(Utilities.isEmpty(validationNumber.getText())));
+					assurance.setAddress(Utilities.isEmpty(address.getText()));
+					
+					em.persist(assurance);
+					em.getTransaction().commit();
+					
+				}else{
+					
+					em.getTransaction().begin();
+					vente = em.find(Vente.class, vente.getId());
+					Client client = vente.getClient();
+					
+					AssuranceClient assuranceClient = new AssuranceClient();
+					assuranceClient.setAssurance(assurance);
+					assuranceClient.setClient(client);
+					
+					em.persist(assuranceClient);
+					
+					assuranceClients.add(assuranceClient);
+					client.setAssuranceClients(assuranceClients);
+					em.getTransaction().commit();
+				}
+				
+				assuranceField.setText(Utilities.isEmpty(assurance.getName()));
+				hiddenField.setText(Utilities.isEmpty(assurance.getId()));
 				newAssurance.setEnabled(false);
-				
-				em.getTransaction().begin();
-				vente = em.find(Vente.class, vente.getId());
-				Client client = vente.getClient();
-				
-				AssuranceClient assuranceClient = new AssuranceClient();
-				assuranceClient.setAssurance(assurance);
-				assuranceClient.setClient(client);
-				
-				em.persist(assuranceClient);
-				
-				assuranceClients.add(assuranceClient);
-				client.setAssuranceClients(assuranceClients);
-				em.getTransaction().commit();
 				
 				
 				saleView.setVisible(true);
@@ -516,9 +539,27 @@ public class AssuranceManagementView extends javax.swing.JFrame {
 		return searchField;
 	}
 	
+	public boolean isEdit() {
+		return isEdit;
+	}
+
+	public void setEdit(boolean isEdit) {
+		this.isEdit = isEdit;
+	}
+
 	public void setTypeAssurance(TypeAssurance typeAssurance){
 		this.typeAssurance = typeAssurance;
 	}
+	
+	public int getIdAssurance() {
+		return idAssurance;
+	}
+
+	public void setIdAssurance(int idAssurance) {
+		this.idAssurance = idAssurance;
+	}
+
+
 
 	private JButton validate;
     private JButton cancel;
@@ -539,11 +580,11 @@ public class AssuranceManagementView extends javax.swing.JFrame {
     private JLabel labelAgence;
     private JLabel labelEan;
     private JLabel labelOfas;
-    private JPanel jPanel1;
-    private JPanel jPanel21;
-    private JPanel jPanel22;
-    private JPanel jPanel3;
-    private JPanel jPanel2;
+    private MyJPanel jPanel1;
+    private MyJPanel jPanel21;
+    private MyJPanel jPanel22;
+    private MyJPanel jPanel3;
+    private MyJPanel jPanel2;
     private JRadioButton aosYes;
     private JRadioButton aosNo;
     private JRadioButton accidentYes;

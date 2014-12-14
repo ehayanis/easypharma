@@ -5,16 +5,16 @@ import java.awt.Frame;
 import java.awt.GridLayout;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
-import java.text.DateFormat;
 import java.util.List;
 
+import javax.persistence.CascadeType;
 import javax.persistence.EntityManager;
+import javax.persistence.ManyToOne;
 import javax.swing.GroupLayout;
 import javax.swing.ImageIcon;
 import javax.swing.JButton;
 import javax.swing.JFrame;
 import javax.swing.JLabel;
-import javax.swing.JPanel;
 import javax.swing.JScrollPane;
 import javax.swing.JTabbedPane;
 import javax.swing.JTable;
@@ -28,8 +28,6 @@ import javax.swing.event.ListSelectionListener;
 import javax.swing.table.AbstractTableModel;
 import javax.swing.table.DefaultTableModel;
 
-import com.mm.app.model.AssuranceClient;
-import com.mm.app.model.Client;
 import com.mm.app.model.Medecin;
 import com.mm.app.model.Vente;
 import com.mm.app.service.MedecinService;
@@ -48,6 +46,8 @@ public class MedecinManagementView extends JFrame {
 	private MedecinService service;
 	private Medecin medecin = null;
 	private Vente vente; 
+	private boolean isEdit = false;
+	private int idMedecin = 0;
 	
 	private static final long serialVersionUID = 5336224759833199368L;
 
@@ -65,51 +65,47 @@ public class MedecinManagementView extends JFrame {
     @SuppressWarnings({ "unchecked", "serial", "rawtypes" })
     private void initComponents() {
 
-        jPanel1 = new JPanel();
+        jPanel1 = new MyJPanel();
         searchField = new JTextField();
         jScrollPane1 = new JScrollPane();
         searchTable = new JTable();
-        jPanel3 = new JPanel();
-        jPanel4 = new JPanel();
+        jPanel3 = new MyJPanel();
+        jPanel4 = new MyJPanel();
         labelFirstName = new JLabel();
         firstName = new JTextField();
-        jPanel5 = new JPanel();
+        jPanel5 = new MyJPanel();
         labelLastName = new JLabel();
         lastName = new JTextField();
-        jPanel9 = new JPanel();
+        jPanel9 = new MyJPanel();
         labelNrcc = new JLabel();
         nrcc = new JTextField();
-        jPanel10 = new JPanel();
+        jPanel10 = new MyJPanel();
         labelReference = new JLabel();
         reference = new JTextField();
-        jPanel12 = new JPanel();
+        jPanel12 = new MyJPanel();
         labelSpeciality = new JLabel();
         speciality = new JTextField();
-        jPanel14 = new JPanel();
+        jPanel14 = new MyJPanel();
         labelEmail = new JLabel();
         email = new JTextField();
-        jPanel16 = new JPanel();
+        jPanel16 = new MyJPanel();
         labelNumNc = new JLabel();
         numNC = new JTextField();
-        jPanel17 = new JPanel();
+        jPanel17 = new MyJPanel();
         labelFax = new JLabel();
         fax = new JTextField();
-        jPanel18 = new JPanel();
+        jPanel18 = new MyJPanel();
         labelFixe = new JLabel();
         fixe = new JTextField();
         validate = new JButton();
         cancel = new JButton();
-        jTabbedPane1 = new JTabbedPane();
-        jPanel7 = new JPanel();
-        jPanel21 = new JPanel();
-        labelCity = new JLabel();
-        city = new JTextField();
-        jPanel22 = new JPanel();
-        labelPostalCode = new JLabel();
-        postalCode = new JTextField();
-        jPanel23 = new JPanel();
+        addrPrincipale = new JTabbedPane();
+        jPanel7 = new MyJPanel();
+        jPanel21 = new MyJPanel();
+        jPanel22 = new MyJPanel();
+        panelAddress = new MyJPanel();
         labelAddress = new JLabel();
-        jScrollPane4 = new JScrollPane();
+        scrollPaneAddress = new JScrollPane();
         address = new JTextArea();
 
         setDefaultCloseOperation(WindowConstants.DISPOSE_ON_CLOSE);
@@ -177,16 +173,16 @@ public class MedecinManagementView extends JFrame {
               
               medecin = service.findMedecin(selectedData);
               
-              if(medecin != null){
-            	  numNC.setText(medecin.getNc());
-            	  fax.setText(medecin.getFax());
-            	  fixe.setText(medecin.getPhone());
-            	  firstName.setText(medecin.getFirstName());
-            	  lastName.setText(medecin.getLastName());
-            	  nrcc.setText(medecin.getNrcc());
-            	  reference.setText(medecin.getReference());
-            	  speciality.setText(medecin.getSpeciality());
-              }
+        	  numNC.setText(Utilities.isEmpty(medecin.getNc()));
+        	  fax.setText(Utilities.isEmpty(medecin.getFax()));
+        	  fixe.setText(Utilities.isEmpty(medecin.getPhone()));
+        	  firstName.setText(Utilities.isEmpty(medecin.getFirstName()));
+        	  lastName.setText(Utilities.isEmpty(medecin.getLastName()));
+        	  nrcc.setText(Utilities.isEmpty(medecin.getNrcc()));
+        	  reference.setText(Utilities.isEmpty(medecin.getReference()));
+        	  speciality.setText(Utilities.isEmpty(medecin.getSpeciality()));
+        	  address.setText(Utilities.isEmpty(medecin.getAddress()));
+        	  email.setText(Utilities.isEmpty(medecin.getEmail()));
             		  
             }
         });
@@ -203,10 +199,6 @@ public class MedecinManagementView extends JFrame {
         
         validate.setText("Valider");
         cancel.setText("Annuler");
-        labelCity.setText("Ville:");
-        labelPostalCode.setText("Code Postale: ");
-        labelAddress.setText("Addresse: ");
-        
         GridLayout gridLayout = new GridLayout(5, 3, 0, 0);
         gridLayout.setHgap(10);
         gridLayout.setVgap(14);
@@ -221,105 +213,51 @@ public class MedecinManagementView extends JFrame {
         jPanel3.add(Utilities.createFilledSimpleInnerPanel(labelNumNc, numNC));
         jPanel3.add(Utilities.createFilledSimpleInnerPanel(labelFax, fax));
         jPanel3.add(Utilities.createFilledSimpleInnerPanel(labelFixe, fixe));
-
-
-        GroupLayout jPanel21Layout = new GroupLayout(jPanel21);
-        jPanel21.setLayout(jPanel21Layout);
-        jPanel21Layout.setHorizontalGroup(
-            jPanel21Layout.createParallelGroup(GroupLayout.Alignment.LEADING)
-            .addGroup(jPanel21Layout.createSequentialGroup()
-                .addContainerGap()
-                .addComponent(labelCity)
-                .addGap(18, 18, 18)
-                .addComponent(city)
-                .addContainerGap())
-        );
-        jPanel21Layout.setVerticalGroup(
-            jPanel21Layout.createParallelGroup(GroupLayout.Alignment.LEADING)
-            .addGroup(jPanel21Layout.createParallelGroup(GroupLayout.Alignment.BASELINE)
-                .addComponent(labelCity, GroupLayout.DEFAULT_SIZE, 25, Short.MAX_VALUE)
-                .addComponent(city, GroupLayout.PREFERRED_SIZE, GroupLayout.DEFAULT_SIZE, GroupLayout.PREFERRED_SIZE))
-        );
-
-
-        GroupLayout jPanel22Layout = new GroupLayout(jPanel22);
-        jPanel22.setLayout(jPanel22Layout);
-        jPanel22Layout.setHorizontalGroup(
-            jPanel22Layout.createParallelGroup(GroupLayout.Alignment.LEADING)
-            .addGroup(jPanel22Layout.createSequentialGroup()
-                .addContainerGap()
-                .addComponent(labelPostalCode)
-                .addGap(18, 18, 18)
-                .addComponent(postalCode, GroupLayout.DEFAULT_SIZE, 198, Short.MAX_VALUE)
-                .addContainerGap())
-        );
-        jPanel22Layout.setVerticalGroup(
-            jPanel22Layout.createParallelGroup(GroupLayout.Alignment.LEADING)
-            .addGroup(jPanel22Layout.createParallelGroup(GroupLayout.Alignment.BASELINE)
-                .addComponent(labelPostalCode, GroupLayout.DEFAULT_SIZE, 25, Short.MAX_VALUE)
-                .addComponent(postalCode, GroupLayout.PREFERRED_SIZE, GroupLayout.DEFAULT_SIZE, GroupLayout.PREFERRED_SIZE))
-        );
-
         
+        
+        labelAddress.setText("Addresse: ");
+
         address.setColumns(15);
         address.setRows(5);
-        jScrollPane4.setViewportView(address);
+        scrollPaneAddress.setViewportView(address);
 
-        GroupLayout jPanel23Layout = new GroupLayout(jPanel23);
-        jPanel23.setLayout(jPanel23Layout);
-        jPanel23Layout.setHorizontalGroup(
-            jPanel23Layout.createParallelGroup(GroupLayout.Alignment.LEADING)
-            .addGroup(jPanel23Layout.createSequentialGroup()
+        GroupLayout panelAddressLayout = new GroupLayout(panelAddress);
+        panelAddress.setLayout(panelAddressLayout);
+        panelAddressLayout.setHorizontalGroup(
+            panelAddressLayout.createParallelGroup(GroupLayout.Alignment.LEADING)
+            .addGroup(panelAddressLayout.createSequentialGroup()
                 .addContainerGap()
                 .addComponent(labelAddress)
                 .addGap(18, 18, 18)
-                .addComponent(jScrollPane4, GroupLayout.DEFAULT_SIZE, 216, Short.MAX_VALUE)
+                .addComponent(scrollPaneAddress, GroupLayout.DEFAULT_SIZE, 233, Short.MAX_VALUE)
                 .addContainerGap())
         );
-        jPanel23Layout.setVerticalGroup(
-            jPanel23Layout.createParallelGroup(GroupLayout.Alignment.LEADING)
-            .addGroup(jPanel23Layout.createSequentialGroup()
-                .addGroup(jPanel23Layout.createParallelGroup(GroupLayout.Alignment.LEADING)
+        panelAddressLayout.setVerticalGroup(
+            panelAddressLayout.createParallelGroup(GroupLayout.Alignment.LEADING)
+            .addGroup(panelAddressLayout.createSequentialGroup()
+                .addGroup(panelAddressLayout.createParallelGroup(GroupLayout.Alignment.LEADING)
                     .addComponent(labelAddress, GroupLayout.PREFERRED_SIZE, 25, GroupLayout.PREFERRED_SIZE)
-                    .addComponent(jScrollPane4, GroupLayout.PREFERRED_SIZE, 53, GroupLayout.PREFERRED_SIZE))
-                .addContainerGap())
+                    .addComponent(scrollPaneAddress, GroupLayout.PREFERRED_SIZE, 79, GroupLayout.PREFERRED_SIZE))
+                .addContainerGap(GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
         );
-        
+
         GroupLayout jPanel7Layout = new GroupLayout(jPanel7);
         jPanel7.setLayout(jPanel7Layout);
         jPanel7Layout.setHorizontalGroup(
             jPanel7Layout.createParallelGroup(GroupLayout.Alignment.LEADING)
             .addGroup(jPanel7Layout.createSequentialGroup()
                 .addContainerGap()
-                .addGroup(jPanel7Layout.createParallelGroup(GroupLayout.Alignment.TRAILING, false)
-                    .addComponent(jPanel23, GroupLayout.DEFAULT_SIZE, GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                    .addGroup(jPanel7Layout.createParallelGroup(GroupLayout.Alignment.LEADING, false)
-                        .addComponent(jPanel22, GroupLayout.DEFAULT_SIZE, GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                        .addComponent(jPanel21, GroupLayout.DEFAULT_SIZE, GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)))
-                .addGap(0, 17, Short.MAX_VALUE))
+                .addComponent(panelAddress, GroupLayout.DEFAULT_SIZE, GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
         );
         jPanel7Layout.setVerticalGroup(
             jPanel7Layout.createParallelGroup(GroupLayout.Alignment.LEADING)
             .addGroup(jPanel7Layout.createSequentialGroup()
                 .addContainerGap()
-                .addComponent(jPanel21, GroupLayout.PREFERRED_SIZE, GroupLayout.DEFAULT_SIZE, GroupLayout.PREFERRED_SIZE)
-                .addPreferredGap(ComponentPlacement.UNRELATED)
-                .addComponent(jPanel22, GroupLayout.PREFERRED_SIZE, GroupLayout.DEFAULT_SIZE, GroupLayout.PREFERRED_SIZE)
-                .addGap(10, 10, 10)
-                .addComponent(jPanel23, GroupLayout.PREFERRED_SIZE, GroupLayout.DEFAULT_SIZE, GroupLayout.PREFERRED_SIZE)
+                .addComponent(panelAddress, GroupLayout.PREFERRED_SIZE, GroupLayout.DEFAULT_SIZE, GroupLayout.PREFERRED_SIZE)
                 .addContainerGap(GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
         );
 
-        jTabbedPane1.addTab("Addr. Principale", jPanel7);
-        
-        jPanel1.setBackground(Color.WHITE);
-        jScrollPane1.setBackground(Color.WHITE);
-        jPanel3.setBackground(Color.WHITE);
-        jPanel7.setBackground(Color.WHITE);
-        jPanel23.setBackground(Color.WHITE);
-        jPanel22.setBackground(Color.WHITE);
-        jPanel21.setBackground(Color.WHITE);
-        jTabbedPane1.setBackground(Color.WHITE);
+        addrPrincipale.addTab("Addr. Principale", jPanel7);
         
         GroupLayout layout = new GroupLayout(getContentPane());
         getContentPane().setLayout(layout);
@@ -336,7 +274,7 @@ public class MedecinManagementView extends JFrame {
                         .addGap(18, 18, 18)
                         .addComponent(validate, GroupLayout.PREFERRED_SIZE, 88, GroupLayout.PREFERRED_SIZE)
                         .addGap(27, 27, 27))
-                    .addComponent(jTabbedPane1, GroupLayout.Alignment.TRAILING, GroupLayout.PREFERRED_SIZE, 338, GroupLayout.PREFERRED_SIZE)))
+                    .addComponent(addrPrincipale, GroupLayout.Alignment.TRAILING, GroupLayout.PREFERRED_SIZE, 338, GroupLayout.PREFERRED_SIZE)))
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(GroupLayout.Alignment.LEADING)
@@ -347,7 +285,7 @@ public class MedecinManagementView extends JFrame {
                 .addPreferredGap(ComponentPlacement.UNRELATED)
                 .addGroup(layout.createParallelGroup(GroupLayout.Alignment.LEADING)
                     .addComponent(jPanel3, GroupLayout.PREFERRED_SIZE, GroupLayout.DEFAULT_SIZE, GroupLayout.PREFERRED_SIZE)
-                    .addComponent(jTabbedPane1, GroupLayout.PREFERRED_SIZE, 173, GroupLayout.PREFERRED_SIZE))
+                    .addComponent(addrPrincipale, GroupLayout.PREFERRED_SIZE, 173, GroupLayout.PREFERRED_SIZE))
                 .addPreferredGap(ComponentPlacement.RELATED, GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                 .addGroup(layout.createParallelGroup(GroupLayout.Alignment.BASELINE)
                     .addComponent(validate)
@@ -467,24 +405,54 @@ public class MedecinManagementView extends JFrame {
 		return searchField;
 	}
 
+	public JTextArea getAddress() {
+		return address;
+	}
+
+	public void setAddress(JTextArea address) {
+		this.address = address;
+	}
+	
+	public boolean isEdit() {
+		return isEdit;
+	}
+
+	public void setEdit(boolean isEdit) {
+		this.isEdit = isEdit;
+	}
+
 	private void validateActionPerformed(ActionEvent evt){
 		for (Frame frame : Frame.getFrames()) {
 			if (frame.getTitle().equals("EasyPharma: Gestion Pharmacies ")) {
 				SaleView saleView = (SaleView) frame;
 				
 				MedecinWidget medecinWidget = saleView.getMedecinWidget();
-				
 				em.getTransaction().begin();
 				vente = em.find(Vente.class, vente.getId());
+				medecin = vente.getMedecin();
+				
+				if(isEdit){
+					medecin.setNc(Utilities.isEmpty(numNC.getText()));
+					medecin.setFax(Utilities.isEmpty(fax.getText()));
+					medecin.setPhone(Utilities.isEmpty(fixe.getText()));
+					medecin.setFirstName(Utilities.isEmpty(firstName.getText()));
+					medecin.setLastName(Utilities.isEmpty(lastName.getText()));
+					medecin.setNrcc(Utilities.isEmpty(nrcc.getText()));
+					medecin.setReference(Utilities.isEmpty(reference.getText()));
+					medecin.setSpeciality(Utilities.isEmpty(speciality.getText()));
+					medecin.setAddress(Utilities.isEmpty(address.getText()));
+					medecin.setEmail(Utilities.isEmpty(email.getText()));
+				}
+
 				vente.setMedecin(medecin);
 				em.getTransaction().commit();
 				
 				
-				medecinWidget.getReference().setText(String.valueOf(medecin.getId()));
-				medecinWidget.getFirstName().setSelectedItem(medecin.getFirstName() + " " + medecin.getLastName());
-				medecinWidget.getSpeciality().setText(medecin.getSpeciality());
-				medecinWidget.getNrcc().setText(medecin.getNrcc());
-				medecinWidget.getPhone().setText(medecin.getPhone());
+				medecinWidget.getReference().setText(Utilities.isEmpty(medecin.getId()));
+				medecinWidget.getFirstName().setSelectedItem(Utilities.isEmpty(medecin.getFirstName() + " " + medecin.getLastName()));
+				medecinWidget.getSpeciality().setText(Utilities.isEmpty(medecin.getSpeciality()));
+				medecinWidget.getNrcc().setText(Utilities.isEmpty(medecin.getNrcc()));
+				medecinWidget.getPhone().setText(Utilities.isEmpty(medecin.getPhone()));
 				
 				saleView.setVisible(true);
 			}
@@ -498,6 +466,15 @@ public class MedecinManagementView extends JFrame {
 	     dispose();
 	}
 	
+	public int getIdMedecin() {
+		return idMedecin;
+	}
+
+	public void setIdMedecin(int idMedecin) {
+		this.idMedecin = idMedecin;
+	}
+
+
 
 	private JButton validate;
     private JButton cancel;
@@ -509,29 +486,27 @@ public class MedecinManagementView extends JFrame {
     private JLabel labelNumNc;
     private JLabel labelFax;
     private JLabel labelFixe;
-    private JLabel labelCity;
     private JLabel labelLastName;
-    private JLabel labelPostalCode;
     private JLabel labelNrcc;
     private JLabel labelReference;
-    private JPanel jPanel1;
-    private JPanel jPanel10;
-    private JPanel jPanel12;
-    private JPanel jPanel14;
-    private JPanel jPanel16;
-    private JPanel jPanel17;
-    private JPanel jPanel18;
-    private JPanel jPanel21;
-    private JPanel jPanel22;
-    private JPanel jPanel23;
-    private JPanel jPanel3;
-    private JPanel jPanel4;
-    private JPanel jPanel5;
-    private JPanel jPanel7;
-    private JPanel jPanel9;
+    private MyJPanel jPanel1;
+    private MyJPanel jPanel10;
+    private MyJPanel jPanel12;
+    private MyJPanel jPanel14;
+    private MyJPanel jPanel16;
+    private MyJPanel jPanel17;
+    private MyJPanel jPanel18;
+    private MyJPanel jPanel21;
+    private MyJPanel jPanel22;
+    private MyJPanel panelAddress;
+    private MyJPanel jPanel3;
+    private MyJPanel jPanel4;
+    private MyJPanel jPanel5;
+    private MyJPanel jPanel7;
+    private MyJPanel jPanel9;
     private JScrollPane jScrollPane1;
-    private JScrollPane jScrollPane4;
-    private JTabbedPane jTabbedPane1;
+    private JScrollPane scrollPaneAddress;
+    private JTabbedPane addrPrincipale;
     private JTable searchTable;
     private JTextArea address;
     private JTextField searchField;
@@ -541,8 +516,6 @@ public class MedecinManagementView extends JFrame {
     private JTextField fixe;
     private JTextField firstName;
     private JTextField lastName;
-    private JTextField city;
-    private JTextField postalCode;
     private JTextField nrcc;
     private JTextField reference;
 }

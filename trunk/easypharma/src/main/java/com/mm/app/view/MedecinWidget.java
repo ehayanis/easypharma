@@ -194,17 +194,25 @@ public class MedecinWidget extends JInternalFrame implements InternalFrameWidget
         	
         	Medecin medecin = medecinService.findMedecin(Integer.valueOf(reference.getText()));
         	
-        	medecinManagementView.getFirstName().setText(medecin.getFirstName());
-        	medecinManagementView.getLastName().setText(medecin.getLastName());
-        	medecinManagementView.getReference().setText(medecin.getReference());
-        	medecinManagementView.getNrcc().setText(medecin.getNrcc());
-        	medecinManagementView.getNumNC().setText(medecin.getNc());
-        	medecinManagementView.getFixe().setText(medecin.getPhone());
-        	medecinManagementView.getFax().setText(medecin.getFax());
-        	medecinManagementView.getSpeciality().setText(medecin.getSpeciality());
-        	
-        	
-        	medecinManagementView.setVisible(true);
+        	if(medecin != null){
+        		medecinManagementView.getFirstName().setText(Utilities.isEmpty(medecin.getFirstName()));
+        		medecinManagementView.getLastName().setText(Utilities.isEmpty(medecin.getLastName()));
+        		medecinManagementView.getReference().setText(Utilities.isEmpty(medecin.getReference()));
+        		medecinManagementView.getNrcc().setText(Utilities.isEmpty(medecin.getNrcc()));
+        		medecinManagementView.getNumNC().setText(Utilities.isEmpty(medecin.getNc()));
+        		medecinManagementView.getFixe().setText(Utilities.isEmpty(medecin.getPhone()));
+        		medecinManagementView.getFax().setText(Utilities.isEmpty(medecin.getFax()));
+        		medecinManagementView.getSpeciality().setText(Utilities.isEmpty(medecin.getSpeciality()));
+        		medecinManagementView.getEmail().setText(Utilities.isEmpty(medecin.getEmail()));
+        		medecinManagementView.getAddress().setText(Utilities.isEmpty(medecin.getAddress()));
+        		
+        		medecinManagementView.setIdMedecin(medecin.getId());
+        		
+        		medecinManagementView.setEdit(true);
+        		
+        		medecinManagementView.setVisible(true);
+        	}
+        
         }else{
         	JOptionPane.showMessageDialog(this, "Veuillez séléctionner un médecin pour pouvoir le modifier!");
         }

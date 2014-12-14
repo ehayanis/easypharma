@@ -3,11 +3,13 @@ package com.mm.app.view;
 import java.awt.Color;
 import java.awt.Component;
 import java.awt.Cursor;
+import java.awt.Desktop;
 import java.awt.Font;
 import java.awt.GridLayout;
 import java.awt.event.ActionEvent;
 import java.awt.event.KeyAdapter;
 import java.awt.event.KeyEvent;
+import java.beans.PropertyVetoException;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
@@ -16,11 +18,13 @@ import java.util.Map;
 import javax.persistence.EntityManager;
 import javax.swing.AbstractAction;
 import javax.swing.DefaultCellEditor;
+import javax.swing.DesktopManager;
 import javax.swing.GroupLayout;
 import javax.swing.ImageIcon;
 import javax.swing.JButton;
 import javax.swing.JComboBox;
 import javax.swing.JComponent;
+import javax.swing.JDesktopPane;
 import javax.swing.JFrame;
 import javax.swing.JInternalFrame;
 import javax.swing.JLabel;
@@ -65,9 +69,13 @@ public class SaleView extends JFrame {
 	private VenteService venteService;
 	private Vente vente;
 	private List<VenteProduit> products;
+	private MyDesktopManager desktopManager;
+	private JDesktopPane m_desktop;
     
 	public SaleView(EntityManager em, Operator operator) {
-    	
+		desktopManager = new MyDesktopManager();
+		m_desktop = new JDesktopPane();
+	    m_desktop.setDesktopManager(desktopManager);
         this.em = em;
         this.operator = operator;
     	productService = new ProductServiceImpl(em);
@@ -96,6 +104,17 @@ public class SaleView extends JFrame {
         assuranceWidget = new AssuranceWidget(em, vente);
         clientWidget = new ClientWidget(em, vente);
         headerPanel = new HeaderPanel(operator);
+        
+        m_desktop.add(assuranceWidget);
+        m_desktop.add(medecinWidget);
+        m_desktop.add(clientWidget);
+        
+        try {
+        	clientWidget.setSelected(true);
+		} catch (PropertyVetoException e1) {
+			e1.printStackTrace();
+		}
+        
         jTabbedPane1 = new JTabbedPane();
         jScrollPane1 = new JScrollPane();
         jTable1 = new JTable();

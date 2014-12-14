@@ -246,23 +246,34 @@ public class ClientWidget extends JInternalFrame implements InternalFrameWidget{
 			clientManagementView.getSearchTable().setEnabled(false);
 			
 			Client client = clientService.findClientByReference(ref);
-			clientManagementView.getFirstName().setText(client.getFirstName());
-			clientManagementView.getLastName().setText(client.getLastName());
-			clientManagementView.getReference().setText(client.getReference());
-			clientManagementView.getDateOfBirth().setText(DateFormat.getInstance().format(client.getBirthDate()));
-			clientManagementView.getAge().setText(String.valueOf(client.getAge()));
-			clientManagementView.getEmail().setText(String.valueOf(client.getEmail()));
-			clientManagementView.getRpi().setText(String.valueOf(client.getMpi()));
-			clientManagementView.getFixe().setText(client.getPhone());
-			clientManagementView.gethiddenId().setText(String.valueOf(client.getId()));
+
+			clientManagementView.getFirstName().setText(Utilities.isEmpty(client.getFirstName()));
+			clientManagementView.getLastName().setText(Utilities.isEmpty(client.getLastName()));
+			clientManagementView.getReference().setText(Utilities.isEmpty(client.getReference()));
+			clientManagementView.getDateOfBirth().setText(Utilities.isEmpty(client.getBirthDate()));
+			clientManagementView.getAge().setText(Utilities.isEmpty(client.getAge()));
+			clientManagementView.getEmail().setText(Utilities.isEmpty(client.getEmail()));
+			clientManagementView.getRpi().setText(Utilities.isEmpty(client.getMpi()));
+			clientManagementView.getFixe().setText(Utilities.isEmpty(client.getPhone()));
+			clientManagementView.getFax().setText(Utilities.isEmpty(client.getFax()));
+			clientManagementView.getAvs().setText(Utilities.isEmpty(client.getAvs()));
+			clientManagementView.getMobile().setText(Utilities.isEmpty(client.getPhone()));
+			clientManagementView.getAddrPrincipal().setText(Utilities.isEmpty(client.getAddrFacturation()));
+			clientManagementView.getAddrFacturation().setText(Utilities.isEmpty(client.getAddrFacturation()));
+			clientManagementView.getAddrLivraison().setText(Utilities.isEmpty(client.getAddrLivraison()));
+			clientManagementView.gethiddenId().setText(Utilities.isEmpty(client.getId()));
+			
+			clientManagementView.setEdit(true);
 			
 			List<Vente> ventes = client.getVentes();
-			
-			String[] data = new String[ventes.size()];
-			int i  = 0;
-			for(Vente vente : ventes){
-				data[i] = vente.getId() + " (" + vente.getOperator().getFirstName() + ")";
-				i++;
+			String[] data = null;
+			if(ventes != null && ventes.size() > 0){
+				data = new String[ventes.size()];
+				int i  = 0;
+				for(Vente vente : ventes){
+					data[i] = vente.getId() + " (" + vente.getOperator().getFirstName() + ")";
+					i++;
+				}
 			}
 			
 			List<Assurance> assurances = clientService.getClientAssurances(client);
@@ -280,8 +291,9 @@ public class ClientWidget extends JInternalFrame implements InternalFrameWidget{
     } 
 	
 	private void newActionPerformed(ActionEvent evt) {                                         
-		 JFrame clientManagementView = new ClientManagementView(em, vente);
-	        clientManagementView.setVisible(true);
+		ClientManagementView clientManagementView = new ClientManagementView(em, vente);
+		clientManagementView.setEdit(true);
+	    clientManagementView.setVisible(true);
     }
 
 	@Override
