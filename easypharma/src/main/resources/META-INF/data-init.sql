@@ -77,6 +77,9 @@ CREATE TABLE client
   phone character varying(255),
   reference character varying(255),
   sexe boolean,
+  addr_facturation character varying(255),
+  addr_livraison character varying(255),
+  addr_principal character varying(255),
   CONSTRAINT client_pkey PRIMARY KEY (id )
 )
 WITH (
@@ -119,6 +122,8 @@ ALTER TABLE assurance_client
 CREATE TABLE medecin
 (
   id integer NOT NULL,
+  address character varying(255),
+  email character varying(255),
   fax character varying(255),
   first_name character varying(255),
   last_name character varying(255),
@@ -324,55 +329,55 @@ INSERT INTO sequence(
 
 
 -- Operator Table
-INSERT INTO operator(id, firstname, lastname) VALUES (1, 'MEHDI', 'HAYANI');
-INSERT INTO operator(id, firstname, lastname) VALUES (2, 'MOHAMED', 'EL JAI');
+INSERT INTO operator(id, firstname, lastname) VALUES (111, 'MEHDI', 'HAYANI');
+INSERT INTO operator(id, firstname, lastname) VALUES (222, 'MOHAMED', 'EL JAI');
 
 -- Product Table
 INSERT INTO product(
             id, designation, pu, quantity, reference, thresholdalert)
-    VALUES (1, 'DOLIPRANE', 12, 12, '42HD0234YD2', 2);
+    VALUES (111, 'DOLIPRANE', 12, 12, '42HD0234YD2', 2);
 
 INSERT INTO product(
             id, designation, pu, quantity, reference, thresholdalert)
-    VALUES (2, 'CURACNE', 40, 10, '32D3423', 4);
+    VALUES (222, 'CURACNE', 40, 10, '32D3423', 4);
 	
 -- Client Table	
 INSERT INTO client(
             id, age, avs, birth_date, cover_card, email, fax, first_name, 
-            fix, last_name, mpi, phone, reference)
-    VALUES (1, 27, 3398723, '1987-12-13', 'FG328D230', 'omar@gmail.com', '+33643233298', 'Omar', 
-            '+33598544746', 'Omari', 742244, '+33598544746', 'CD12345');
+            fix, last_name, mpi, phone, reference, addr_principal, addr_facturation, addr_livraison)
+    VALUES (111, 27, 3398723, '1987-12-13', 'FG328D230', 'omar@gmail.com', '+33643233298', 'Omar', 
+            '+33598544746', 'Omari', 742244, '+33598544746', 'CD12345', '10 Rue Mohammed V', '11 Rue Mohammed V', '12 Rue Mohammed V');
 
 INSERT INTO client(
             id, age, avs, birth_date, cover_card, email, fax, first_name, 
-            fix, last_name, mpi, phone, reference)
-    VALUES (2, 35, 3398723, '1980-06-06', '47FF9584', 'amine@gmail.com', '+33643233298', 'Amine', 
-            '+33598544746', 'Alaoui', 324123, '+33598544746', 'CD54321');
+            fix, last_name, mpi, phone, reference, addr_principal)
+    VALUES (222, 35, 3398723, '1980-06-06', '47FF9584', 'amine@gmail.com', '+33643233298', 'Amine', 
+            '+33598544746', 'Alaoui', 324123, '+33598544746', 'CD54321', '24 Arrodissement La Croix');
 			
 -- Medecin Table
 INSERT INTO medecin(
-            id, fax, first_name, last_name, nc, nrcc, phone, reference, speciality)
-    VALUES (1, '+33598544746', 'Jean-Jack', 'Duran', '32GR2003', '34G2DE2', '+33598544746', 'CD11111', 'PEDIATRIE');
+            id, fax, first_name, last_name, nc, nrcc, phone, reference, speciality, address, email)
+    VALUES (111, '+33598544746', 'Jean-Jack', 'Duran', '32GR2003', '34G2DE2', '+33598544746', 'CD11111', 'PEDIATRIE', '22 Rue Montfleuri Fes', 'email@gmail.com');
 
 INSERT INTO medecin(
-            id, fax, first_name, last_name, nc, nrcc, phone, reference, speciality)
-    VALUES (2, '+33598544746', 'Olivier', 'Marcel', '32GR2003', '34G2DE2', '+33598544746', 'CD22222', 'PEDIATRIE');
+            id, fax, first_name, last_name, nc, nrcc, phone, reference, speciality, email)
+    VALUES (222, '+33598544746', 'Olivier', 'Marcel', '32GR2003', '34G2DE2', '+33598544746', 'CD22222', 'PEDIATRIE', 'olivier.marcel@hotmail.fr');
 
 -- Assurance Table
 INSERT INTO assurance(
             id, address, agence, assure, card_validity, ean, 
             name, npa, ofas, phone, rcc, type, validation_date, validation_number)
-    VALUES (1, 'Address 1', 'AXA', 329632, '2016-12-13', '4234GD32', 
+    VALUES (111, 'Address 1', 'AXA', 329632, '2016-12-13', '4234GD32', 
             'AXA', 'NDFZH23', 'FH2349D3', '+33598544746', 'DF2323', 'ACCIDENT', '2010-12-13', 3327);
 
 INSERT INTO assurance(
             id, address, agence, assure, card_validity, ean, 
             name, npa, ofas, phone, rcc, type, validation_date, validation_number)
-    VALUES (2, 'Address 2', 'MUTUEL', 329632, '2018-10-10', '4234GD32', 
+    VALUES (222, 'Address 2', 'MUTUEL', 329632, '2018-10-10', '4234GD32', 
             'MUTUEL', 'NDFZH23', 'FH2349D3', '+33598544746', 'DF2323', 'OBLIGATOIRE', '2012-10-10', '3327');
 
 INSERT INTO assurance(
             id, address, agence, assure, card_validity, ean, 
             name, npa, ofas, phone, rcc, type, validation_date, validation_number)
-    VALUES (3, 'Address 3', 'WAFA', 329632, '2017-04-04', '4234GD32', 
+    VALUES (333, 'Address 3', 'WAFA', 329632, '2017-04-04', '4234GD32', 
             'WAFA', 'NDFZH23', 'FH2349D3', '+33598544746', 'DF2323', 'COMPLEMENTAIRE', '2014-04-04', 3327);

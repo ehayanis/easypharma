@@ -103,20 +103,17 @@ public class AssuranceWidget extends JInternalFrame implements InternalFrameWidg
 		
 		editAssur1.addActionListener(new ActionListener() {
             public void actionPerformed(ActionEvent evt) {
-            	System.out.println("Nothing for that moment");
-//                editActionPerformed(evt);
+                editActionPerformed(evt, TypeAssurance.OBLIGATOIRE);
             }
         });
 		editAssur2.addActionListener(new ActionListener() {
             public void actionPerformed(ActionEvent evt) {
-            	System.out.println("Nothing for that moment");
-//                editActionPerformed(evt);
+                editActionPerformed(evt, TypeAssurance.ACCIDENT);
             }
         });
 		editAssur3.addActionListener(new ActionListener() {
             public void actionPerformed(ActionEvent evt) {
-            	System.out.println("Nothing for that moment");
-//                editActionPerformed(evt);
+                editActionPerformed(evt, TypeAssurance.COMPLEMENTAIRE);
             }
         });
 		
@@ -295,7 +292,7 @@ public class AssuranceWidget extends JInternalFrame implements InternalFrameWidg
 //		}
 	}
 	
-	private void editActionPerformed(ActionEvent evt) {                                         
+	private void editActionPerformed(ActionEvent evt, TypeAssurance typeAssurance) {                                         
 		AssuranceManagementView assuranceManagementView = new AssuranceManagementView(em, vente);
         String HiddenId = "";
         
@@ -315,19 +312,24 @@ public class AssuranceWidget extends JInternalFrame implements InternalFrameWidg
         	if(assurance != null){
         		assuranceManagementView.getSearchField().setEnabled(false);
         		assuranceManagementView.getTableSearch().setEnabled(false);
+        		assuranceManagementView.setTypeAssurance(typeAssurance);
+        		assuranceManagementView.setIdAssurance(assurance.getId());
         		
-        		assuranceManagementView.getNom().setText(assurance.getName());
-        		assuranceManagementView.getAgence().setText(assurance.getAgence());
-        		assuranceManagementView.getOfas().setText(assurance.getOfas());
-        		assuranceManagementView.getEan().setText(assurance.getEan());
-        		assuranceManagementView.getRcc().setText(assurance.getRcc());
+        		assuranceManagementView.getNom().setText(Utilities.isEmpty(assurance.getName()));
+        		assuranceManagementView.getAgence().setText(Utilities.isEmpty(assurance.getAgence()));
+        		assuranceManagementView.getOfas().setText(Utilities.isEmpty(assurance.getOfas()));
+        		assuranceManagementView.getEan().setText(Utilities.isEmpty(assurance.getEan()));
+        		assuranceManagementView.getRcc().setText(Utilities.isEmpty(assurance.getRcc()));
 //        		assuranceManagementView.getCoverCard().setText(assurance.getCoverCard());
-        		assuranceManagementView.getNpa().setText(assurance.getNpa());
-        		assuranceManagementView.getPhone().setText(assurance.getPhone());
-        		assuranceManagementView.getValidationDate().setText(DateFormat.getDateInstance().format(assurance.getValidationDate()));
-        		assuranceManagementView.getCardValidity().setText(DateFormat.getDateInstance().format(assurance.getCardValidity()));
-        		assuranceManagementView.getValidationNumber().setText(String.valueOf(assurance.getValidationNumber()));
-        		assuranceManagementView.getAddress().setText(assurance.getAddress());
+        		assuranceManagementView.getNpa().setText(Utilities.isEmpty(assurance.getNpa()));
+        		assuranceManagementView.getPhone().setText(Utilities.isEmpty(assurance.getPhone()));
+        		assuranceManagementView.getValidationDate().setText(Utilities.isEmpty(assurance.getValidationDate()));
+        		assuranceManagementView.getCardValidity().setText(Utilities.isEmpty(assurance.getCardValidity()));
+        		assuranceManagementView.getValidationNumber().setText(Utilities.isEmpty(assurance.getValidationNumber()));
+        		assuranceManagementView.getAddress().setText(Utilities.isEmpty(assurance.getAddress()));
+//        		assuranceManagementView.getAos().setText(assurance.getAos());
+        		
+        		assuranceManagementView.setEdit(true);
         		
         		assuranceManagementView.setVisible(true);
         	}

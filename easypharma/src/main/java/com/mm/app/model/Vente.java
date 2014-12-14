@@ -30,10 +30,10 @@ public class Vente implements Serializable {
 	@ManyToOne
 	private Operator operator;
 	
-	@ManyToOne
+	@ManyToOne(cascade=CascadeType.ALL)
 	private Client client;
 	
-	@ManyToOne
+	@ManyToOne(cascade=CascadeType.ALL)
 	private Medecin medecin;
 	
 	@OneToMany(mappedBy="vente", cascade=CascadeType.ALL)

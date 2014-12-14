@@ -44,7 +44,7 @@ public class ClientDaoImpl implements ClientDao {
 
 	@Override
 	public List<Assurance> getClientAssurances(Client client) {
-		List<Assurance> assurances = em.createQuery("SELECT s FROM Client c LEFT JOIN c.assuranceClients a LEFT JOIN a.assurance s WHERE c.id = :id", Assurance.class).setParameter("id", client.getId()).getResultList();
+		List<Assurance> assurances = em.createQuery("SELECT s FROM Client c JOIN c.assuranceClients a JOIN a.assurance s WHERE c.id = :id", Assurance.class).setParameter("id", client.getId()).getResultList();
 		return assurances;
 	}
 

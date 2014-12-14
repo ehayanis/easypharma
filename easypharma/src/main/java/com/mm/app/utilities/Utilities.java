@@ -2,6 +2,8 @@ package com.mm.app.utilities;
 
 import java.awt.Color;
 import java.awt.Font;
+import java.text.DateFormat;
+import java.util.Date;
 
 import javax.swing.GroupLayout;
 import javax.swing.JButton;
@@ -111,5 +113,30 @@ public class Utilities {
 
         return pan;
 	}
+	
+	public static String isEmpty(String o){
+		if (!"".equals(o) || o != null){
+			return String.valueOf(o);
+		}
+		
+		return "";
+	}
+	
+	public static String isEmpty(Number n){
+		if (n != null){
+			return String.valueOf(n);
+		}
+		
+		return "";
+	}
+	
+	public static String isEmpty(Date d){
+		if (d != null){
+			return DateFormat.getInstance().format(d);
+		}
+		
+		return "";
+	}
+	
 	
 }

@@ -6,16 +6,17 @@ import java.awt.GridLayout;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.text.DateFormat;
+import java.text.ParseException;
 import java.util.List;
 
 import javax.persistence.EntityManager;
+import javax.swing.BorderFactory;
 import javax.swing.GroupLayout;
 import javax.swing.ImageIcon;
 import javax.swing.JButton;
 import javax.swing.JFrame;
 import javax.swing.JLabel;
 import javax.swing.JList;
-import javax.swing.JPanel;
 import javax.swing.JRadioButton;
 import javax.swing.JScrollPane;
 import javax.swing.JTabbedPane;
@@ -23,7 +24,6 @@ import javax.swing.JTable;
 import javax.swing.JTextArea;
 import javax.swing.JTextField;
 import javax.swing.LayoutStyle;
-import javax.swing.LayoutStyle.ComponentPlacement;
 import javax.swing.ListSelectionModel;
 import javax.swing.WindowConstants;
 import javax.swing.event.ListSelectionEvent;
@@ -32,7 +32,6 @@ import javax.swing.table.AbstractTableModel;
 import javax.swing.table.DefaultTableModel;
 
 import com.mm.app.model.Assurance;
-import com.mm.app.model.AssuranceClient;
 import com.mm.app.model.Client;
 import com.mm.app.model.Product;
 import com.mm.app.model.Vente;
@@ -51,6 +50,7 @@ public class ClientManagementView extends JFrame {
 	private ClientService service;
 	private Client client = null;
 	private Vente vente;
+	private boolean isEdit = false;
 	
 	public ClientManagementView(EntityManager em, Vente vente) {
 		this.em = em;
@@ -66,50 +66,50 @@ public class ClientManagementView extends JFrame {
 	@SuppressWarnings({ "unchecked", "serial", "rawtypes" })
 	private void initComponents() {
 
-		jPanel1 = new JPanel();
+		jPanel1 = new MyJPanel();
 		searchField = new JTextField();
 		jScrollPane1 = new JScrollPane();
 		searchTable = new JTable();
-		jPanel3 = new JPanel();
-		jPanel4 = new JPanel();
+		jPanel3 = new MyJPanel();
+		jPanel4 = new MyJPanel();
 		firstNameLabel = new JLabel();
 		firstName = new JTextField();
-		jPanel5 = new JPanel();
+		jPanel5 = new MyJPanel();
 		lastNameLabel = new JLabel();
 		lastName = new JTextField();
-		jPanel9 = new JPanel();
+		jPanel9 = new MyJPanel();
 		dateOfBirthLabel = new JLabel();
 		dateOfBirth = new JTextField();
-		jPanel10 = new JPanel();
+		jPanel10 = new MyJPanel();
 		referenceLabel = new JLabel();
 		reference = new JTextField();
 		hiddenId = new JTextField();
-		sexePanel = new JPanel();
+		sexePanel = new MyJPanel();
 		sexeLabel = new JLabel();
 		sexeHomme = new JRadioButton();
 		sexeFemme = new JRadioButton();
-		jPanel12 = new JPanel();
+		jPanel12 = new MyJPanel();
 		ageLabel = new JLabel();
 		age = new JTextField();
-		jPanel14 = new JPanel();
+		jPanel14 = new MyJPanel();
 		emailLabel = new JLabel();
 		email = new JTextField();
-		jPanel15 = new JPanel();
+		jPanel15 = new MyJPanel();
 		rpiLabel = new JLabel();
 		rpi = new JTextField();
-		jPanel16 = new JPanel();
+		jPanel16 = new MyJPanel();
 		avsLabel = new JLabel();
 		avs = new JTextField();
-		jPanel17 = new JPanel();
+		jPanel17 = new MyJPanel();
 		mobileLabel = new JLabel();
 		mobile = new JTextField();
-		jPanel18 = new JPanel();
+		jPanel18 = new MyJPanel();
 		fixeLabel = new JLabel();
 		fixe = new JTextField();
-		jPanel19 = new JPanel();
+		jPanel19 = new MyJPanel();
 		faxLabel = new JLabel();
 		fax = new JTextField();
-		jPanel2 = new JPanel();
+		jPanel2 = new MyJPanel();
 		listOrdonnanceLabel = new JLabel();
 		jScrollPane2 = new JScrollPane();
 		listOrdonnance = new JList();
@@ -117,43 +117,51 @@ public class ClientManagementView extends JFrame {
 		tableOrdonnance = new JTable();
 		validate = new JButton();
 		cancel = new JButton();
-		jPanel6 = new JPanel();
-		jTabbedPane1 = new JTabbedPane();
-		jPanel7 = new JPanel();
-		jPanel21 = new JPanel();
+		jPanel6 = new MyJPanel();
+		adresseTabbedPane = new JTabbedPane();
+		jPanel7 = new MyJPanel();
+		jPanel21 = new MyJPanel();
 		jLabel2 = new JLabel();
 		jTextField4 = new JTextField();
-		jPanel22 = new JPanel();
+		jPanel22 = new MyJPanel();
 		jLabel5 = new JLabel();
 		jTextField5 = new JTextField();
-		jPanel23 = new JPanel();
+		jPanel23 = new MyJPanel();
 		jLabel11 = new JLabel();
 		jScrollPane4 = new JScrollPane();
 		jTextArea1 = new JTextArea();
-		jPanel24 = new JPanel();
-		jPanel25 = new JPanel();
+		jPanel24 = new MyJPanel();
+		jPanel25 = new MyJPanel();
 		jLabel18 = new JLabel();
 		jTextField9 = new JTextField();
-		jPanel26 = new JPanel();
+		jPanel26 = new MyJPanel();
 		jLabel19 = new JLabel();
 		jTextField11 = new JTextField();
-		jPanel27 = new JPanel();
+		jPanel27 = new MyJPanel();
 		jLabel20 = new JLabel();
 		jScrollPane5 = new JScrollPane();
 		jTextArea2 = new JTextArea();
-		jPanel28 = new JPanel();
-		jPanel29 = new JPanel();
+		jPanel28 = new MyJPanel();
+		jPanel29 = new MyJPanel();
 		jLabel21 = new JLabel();
 		jTextField18 = new JTextField();
-		jPanel30 = new JPanel();
+		jPanel30 = new MyJPanel();
 		jLabel22 = new JLabel();
 		jTextField19 = new JTextField();
-		jPanel31 = new JPanel();
-		jLabel23 = new JLabel();
-		jScrollPane6 = new JScrollPane();
-		jTextArea3 = new JTextArea();
+		panelLivraison = new MyJPanel();
+		panelFacturation = new MyJPanel();
+		panelPrincipal = new MyJPanel();
+		labelAddrLivraison = new JLabel();
+		labelAddrFacturation = new JLabel();
+		labelAddrPrincipal = new JLabel();
+		jSPAddrLivraison = new JScrollPane();
+		jSPAddrFacturation = new JScrollPane();
+		jSPAddrPrincipal = new JScrollPane();
+		addrLivraison = new JTextArea();
+		addrFacturation = new JTextArea();
+		addrPrincipal = new JTextArea();
 		assuranceTable = new JTable();
-		jPanel13 = new JPanel();
+		jPanel13 = new MyJPanel();
 		listAssurancesLabel = new JLabel();
 		jScrollPane7 = new JScrollPane();
 
@@ -231,6 +239,9 @@ public class ClientManagementView extends JFrame {
 					lastName.setText(client.getLastName());
 					dateOfBirth.setText(client.getLastName());
 					reference.setText(client.getReference());
+					addrPrincipal.setText(client.getAddrPrincipal());
+					addrFacturation.setText(client.getAddrFacturation());
+					addrLivraison.setText(client.getAddrLivraison());
 					hiddenId.setText(String.valueOf(client.getId()));
 					
 					
@@ -330,6 +341,7 @@ public class ClientManagementView extends JFrame {
 			}
 		});
 
+		
 		tableOrdonnance.setModel(new DefaultTableModel(
 				new Object [][] {
 						{null, null},
@@ -350,8 +362,7 @@ public class ClientManagementView extends JFrame {
 		});
 		jScrollPane3.setViewportView(tableOrdonnance);
 		jPanel2.setBorder(javax.swing.BorderFactory.createEtchedBorder());
-		jPanel2.setBackground(Color.WHITE);
-
+		
 		javax.swing.GroupLayout jPanel2Layout = new javax.swing.GroupLayout(jPanel2);
         jPanel2.setLayout(jPanel2Layout);
         jPanel2Layout.setHorizontalGroup(
@@ -390,324 +401,155 @@ public class ClientManagementView extends JFrame {
 			}
 		});
 
-		jLabel2.setText("Ville:");
+        labelAddrPrincipal.setText("Addresse: ");
 
-		GroupLayout jPanel21Layout = new GroupLayout(jPanel21);
-		jPanel21.setLayout(jPanel21Layout);
-		jPanel21Layout.setHorizontalGroup(
-				jPanel21Layout.createParallelGroup(GroupLayout.Alignment.LEADING)
-				.addGroup(jPanel21Layout.createSequentialGroup()
-						.addContainerGap()
-						.addComponent(jLabel2)
-						.addGap(18, 18, 18)
-						.addComponent(jTextField4)
-						.addContainerGap())
-				);
-		jPanel21Layout.setVerticalGroup(
-				jPanel21Layout.createParallelGroup(GroupLayout.Alignment.LEADING)
-				.addGroup(jPanel21Layout.createParallelGroup(GroupLayout.Alignment.BASELINE)
-						.addComponent(jLabel2, GroupLayout.DEFAULT_SIZE, 25, Short.MAX_VALUE)
-						.addComponent(jTextField4, GroupLayout.PREFERRED_SIZE, GroupLayout.DEFAULT_SIZE, GroupLayout.PREFERRED_SIZE))
-				);
+        addrPrincipal.setColumns(20);
+        addrPrincipal.setRows(5);
+        jSPAddrPrincipal.setViewportView(addrPrincipal);
 
-		jLabel5.setText("Code Postale: ");
+        GroupLayout panelPrincipalLayout = new GroupLayout(panelPrincipal);
+        panelPrincipal.setLayout(panelPrincipalLayout);
+        panelPrincipalLayout.setHorizontalGroup(
+            panelPrincipalLayout.createParallelGroup(GroupLayout.Alignment.LEADING)
+            .addGroup(panelPrincipalLayout.createSequentialGroup()
+                .addContainerGap()
+                .addComponent(labelAddrPrincipal)
+                .addGap(18, 18, 18)
+                .addComponent(jSPAddrPrincipal, GroupLayout.DEFAULT_SIZE, 407, Short.MAX_VALUE))
+        );
+        panelPrincipalLayout.setVerticalGroup(
+            panelPrincipalLayout.createParallelGroup(GroupLayout.Alignment.LEADING)
+            .addGroup(panelPrincipalLayout.createSequentialGroup()
+                .addGroup(panelPrincipalLayout.createParallelGroup(GroupLayout.Alignment.LEADING)
+                    .addComponent(labelAddrPrincipal, GroupLayout.PREFERRED_SIZE, 25, GroupLayout.PREFERRED_SIZE)
+                    .addComponent(jSPAddrPrincipal, GroupLayout.PREFERRED_SIZE, 71, GroupLayout.PREFERRED_SIZE))
+                .addContainerGap(GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+        );
 
-		GroupLayout jPanel22Layout = new GroupLayout(jPanel22);
-		jPanel22.setLayout(jPanel22Layout);
-		jPanel22Layout.setHorizontalGroup(
-				jPanel22Layout.createParallelGroup(GroupLayout.Alignment.LEADING)
-				.addGroup(jPanel22Layout.createSequentialGroup()
-						.addContainerGap()
-						.addComponent(jLabel5)
-						.addGap(18, 18, 18)
-						.addComponent(jTextField5, GroupLayout.DEFAULT_SIZE, 158, Short.MAX_VALUE)
-						.addContainerGap())
-				);
-		jPanel22Layout.setVerticalGroup(
-				jPanel22Layout.createParallelGroup(GroupLayout.Alignment.LEADING)
-				.addGroup(jPanel22Layout.createParallelGroup(GroupLayout.Alignment.BASELINE)
-						.addComponent(jLabel5, GroupLayout.DEFAULT_SIZE, 25, Short.MAX_VALUE)
-						.addComponent(jTextField5, GroupLayout.PREFERRED_SIZE, GroupLayout.DEFAULT_SIZE, GroupLayout.PREFERRED_SIZE))
-				);
-
-		jLabel11.setText("Addresse: ");
-
-		jTextArea1.setColumns(20);
-		jTextArea1.setRows(5);
-		jScrollPane4.setViewportView(jTextArea1);
-
-		GroupLayout jPanel23Layout = new GroupLayout(jPanel23);
-		jPanel23.setLayout(jPanel23Layout);
-		jPanel23Layout.setHorizontalGroup(
-				jPanel23Layout.createParallelGroup(GroupLayout.Alignment.LEADING)
-				.addGroup(jPanel23Layout.createSequentialGroup()
-						.addContainerGap()
-						.addComponent(jLabel11)
-						.addGap(18, 18, 18)
-						.addComponent(jScrollPane4, GroupLayout.DEFAULT_SIZE, 407, Short.MAX_VALUE))
-				);
-		jPanel23Layout.setVerticalGroup(
-				jPanel23Layout.createParallelGroup(GroupLayout.Alignment.LEADING)
-				.addGroup(jPanel23Layout.createSequentialGroup()
-						.addGroup(jPanel23Layout.createParallelGroup(GroupLayout.Alignment.LEADING)
-								.addComponent(jLabel11, GroupLayout.PREFERRED_SIZE, 25, GroupLayout.PREFERRED_SIZE)
-								.addComponent(jScrollPane4, GroupLayout.PREFERRED_SIZE, 53, GroupLayout.PREFERRED_SIZE))
-								.addContainerGap())
-				);
-
-		GroupLayout jPanel7Layout = new GroupLayout(jPanel7);
-		jPanel7.setLayout(jPanel7Layout);
-		jPanel7Layout.setHorizontalGroup(
-				jPanel7Layout.createParallelGroup(GroupLayout.Alignment.LEADING)
-				.addGroup(jPanel7Layout.createSequentialGroup()
-						.addContainerGap()
-						.addGroup(jPanel7Layout.createParallelGroup(GroupLayout.Alignment.LEADING)
-								.addGroup(jPanel7Layout.createSequentialGroup()
-										.addComponent(jPanel23, GroupLayout.PREFERRED_SIZE, GroupLayout.DEFAULT_SIZE, GroupLayout.PREFERRED_SIZE)
-										.addGap(0, 10, Short.MAX_VALUE))
-										.addGroup(jPanel7Layout.createSequentialGroup()
-												.addComponent(jPanel21, GroupLayout.DEFAULT_SIZE, GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-												.addGap(18, 18, 18)
-												.addComponent(jPanel22, GroupLayout.PREFERRED_SIZE, GroupLayout.DEFAULT_SIZE, GroupLayout.PREFERRED_SIZE)))
-												.addContainerGap())
-				);
-		jPanel7Layout.setVerticalGroup(
-				jPanel7Layout.createParallelGroup(GroupLayout.Alignment.LEADING)
-				.addGroup(jPanel7Layout.createSequentialGroup()
-						.addContainerGap()
-						.addGroup(jPanel7Layout.createParallelGroup(GroupLayout.Alignment.LEADING)
-								.addComponent(jPanel22, GroupLayout.PREFERRED_SIZE, GroupLayout.DEFAULT_SIZE, GroupLayout.PREFERRED_SIZE)
-								.addComponent(jPanel21, GroupLayout.PREFERRED_SIZE, GroupLayout.DEFAULT_SIZE, GroupLayout.PREFERRED_SIZE))
-								.addPreferredGap(ComponentPlacement.RELATED)
-								.addComponent(jPanel23, GroupLayout.PREFERRED_SIZE, GroupLayout.DEFAULT_SIZE, GroupLayout.PREFERRED_SIZE)
-								.addContainerGap(GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
-				);
-
-		jPanel21.setBackground(Color.WHITE);
-		jPanel22.setBackground(Color.WHITE);
-		jPanel23.setBackground(Color.WHITE);
-		jPanel7.setBackground(Color.WHITE);
+        GroupLayout jPanel7Layout = new GroupLayout(jPanel7);
+        jPanel7.setLayout(jPanel7Layout);
+        jPanel7Layout.setHorizontalGroup(
+            jPanel7Layout.createParallelGroup(GroupLayout.Alignment.LEADING)
+            .addGroup(jPanel7Layout.createSequentialGroup()
+                .addContainerGap()
+                .addComponent(panelPrincipal, GroupLayout.PREFERRED_SIZE, GroupLayout.DEFAULT_SIZE, GroupLayout.PREFERRED_SIZE)
+                .addContainerGap(15, Short.MAX_VALUE))
+        );
+        jPanel7Layout.setVerticalGroup(
+            jPanel7Layout.createParallelGroup(GroupLayout.Alignment.LEADING)
+            .addGroup(jPanel7Layout.createSequentialGroup()
+                .addContainerGap()
+                .addComponent(panelPrincipal, GroupLayout.PREFERRED_SIZE, GroupLayout.DEFAULT_SIZE, GroupLayout.PREFERRED_SIZE)
+                .addContainerGap(GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+        );
 		
-		jTabbedPane1.addTab("Addr. Principale", jPanel7);
+		adresseTabbedPane.addTab("Addr. Principale", jPanel7);
 
-		jLabel18.setText("Ville:");
+		labelAddrFacturation.setText("Addresse: ");
 
-		GroupLayout jPanel25Layout = new GroupLayout(jPanel25);
-		jPanel25.setLayout(jPanel25Layout);
-		jPanel25Layout.setHorizontalGroup(
-				jPanel25Layout.createParallelGroup(GroupLayout.Alignment.LEADING)
-				.addGroup(jPanel25Layout.createSequentialGroup()
-						.addContainerGap()
-						.addComponent(jLabel18)
-						.addGap(18, 18, 18)
-						.addComponent(jTextField9)
-						.addContainerGap())
-				);
-		jPanel25Layout.setVerticalGroup(
-				jPanel25Layout.createParallelGroup(GroupLayout.Alignment.LEADING)
-				.addGroup(jPanel25Layout.createParallelGroup(GroupLayout.Alignment.BASELINE)
-						.addComponent(jLabel18, GroupLayout.DEFAULT_SIZE, 25, Short.MAX_VALUE)
-						.addComponent(jTextField9, GroupLayout.PREFERRED_SIZE, GroupLayout.DEFAULT_SIZE, GroupLayout.PREFERRED_SIZE))
-				);
+        addrFacturation.setColumns(20);
+        addrFacturation.setRows(5);
+        jSPAddrFacturation.setViewportView(addrFacturation);
 
-		jLabel19.setText("Code Postale: ");
+        GroupLayout panelFacturationLayout = new GroupLayout(panelFacturation);
+        panelFacturation.setLayout(panelFacturationLayout);
+        panelFacturationLayout.setHorizontalGroup(
+            panelFacturationLayout.createParallelGroup(GroupLayout.Alignment.LEADING)
+            .addGroup(panelFacturationLayout.createSequentialGroup()
+                .addContainerGap()
+                .addComponent(labelAddrFacturation)
+                .addGap(18, 18, 18)
+                .addComponent(jSPAddrFacturation, GroupLayout.DEFAULT_SIZE, 407, Short.MAX_VALUE))
+        );
+        panelFacturationLayout.setVerticalGroup(
+            panelFacturationLayout.createParallelGroup(GroupLayout.Alignment.LEADING)
+            .addGroup(panelFacturationLayout.createSequentialGroup()
+                .addGroup(panelFacturationLayout.createParallelGroup(GroupLayout.Alignment.LEADING)
+                    .addComponent(labelAddrFacturation, GroupLayout.PREFERRED_SIZE, 25, GroupLayout.PREFERRED_SIZE)
+                    .addComponent(jSPAddrFacturation, GroupLayout.PREFERRED_SIZE, 71, GroupLayout.PREFERRED_SIZE))
+                .addContainerGap(GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+        );
 
-		GroupLayout jPanel26Layout = new GroupLayout(jPanel26);
-		jPanel26.setLayout(jPanel26Layout);
-		jPanel26Layout.setHorizontalGroup(
-				jPanel26Layout.createParallelGroup(GroupLayout.Alignment.LEADING)
-				.addGroup(jPanel26Layout.createSequentialGroup()
-						.addContainerGap()
-						.addComponent(jLabel19)
-						.addGap(18, 18, 18)
-						.addComponent(jTextField11, GroupLayout.DEFAULT_SIZE, 158, Short.MAX_VALUE)
-						.addContainerGap())
-				);
-		jPanel26Layout.setVerticalGroup(
-				jPanel26Layout.createParallelGroup(GroupLayout.Alignment.LEADING)
-				.addGroup(jPanel26Layout.createParallelGroup(GroupLayout.Alignment.BASELINE)
-						.addComponent(jLabel19, GroupLayout.DEFAULT_SIZE, 25, Short.MAX_VALUE)
-						.addComponent(jTextField11, GroupLayout.PREFERRED_SIZE, GroupLayout.DEFAULT_SIZE, GroupLayout.PREFERRED_SIZE))
-				);
+        GroupLayout jPanel24Layout = new GroupLayout(jPanel24);
+        jPanel24.setLayout(jPanel24Layout);
+        jPanel24Layout.setHorizontalGroup(
+            jPanel24Layout.createParallelGroup(GroupLayout.Alignment.LEADING)
+            .addGroup(jPanel24Layout.createSequentialGroup()
+                .addContainerGap()
+                .addComponent(panelFacturation, GroupLayout.PREFERRED_SIZE, GroupLayout.DEFAULT_SIZE, GroupLayout.PREFERRED_SIZE)
+                .addContainerGap(15, Short.MAX_VALUE))
+        );
+        jPanel24Layout.setVerticalGroup(
+            jPanel24Layout.createParallelGroup(GroupLayout.Alignment.LEADING)
+            .addGroup(jPanel24Layout.createSequentialGroup()
+                .addContainerGap()
+                .addComponent(panelFacturation, GroupLayout.PREFERRED_SIZE, GroupLayout.DEFAULT_SIZE, GroupLayout.PREFERRED_SIZE)
+                .addContainerGap(GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+        );
 
-		jLabel20.setText("Addresse: ");
+        adresseTabbedPane.addTab("Addr. Facturation", jPanel24);
 
-		jTextArea2.setColumns(20);
-		jTextArea2.setRows(5);
-		jScrollPane5.setViewportView(jTextArea2);
+        labelAddrLivraison.setText("Addresse: ");
 
-		GroupLayout jPanel27Layout = new GroupLayout(jPanel27);
-		jPanel27.setLayout(jPanel27Layout);
-		jPanel27Layout.setHorizontalGroup(
-				jPanel27Layout.createParallelGroup(GroupLayout.Alignment.LEADING)
-				.addGroup(jPanel27Layout.createSequentialGroup()
-						.addContainerGap()
-						.addComponent(jLabel20)
-						.addGap(18, 18, 18)
-						.addComponent(jScrollPane5, GroupLayout.DEFAULT_SIZE, 407, Short.MAX_VALUE))
-				);
-		jPanel27Layout.setVerticalGroup(
-				jPanel27Layout.createParallelGroup(GroupLayout.Alignment.LEADING)
-				.addGroup(jPanel27Layout.createSequentialGroup()
-						.addGroup(jPanel27Layout.createParallelGroup(GroupLayout.Alignment.LEADING)
-								.addComponent(jLabel20, GroupLayout.PREFERRED_SIZE, 25, GroupLayout.PREFERRED_SIZE)
-								.addComponent(jScrollPane5, GroupLayout.PREFERRED_SIZE, 53, GroupLayout.PREFERRED_SIZE))
-								.addContainerGap())
-				);
+        addrLivraison.setColumns(20);
+        addrLivraison.setRows(5);
+        jSPAddrLivraison.setViewportView(addrLivraison);
 
-		GroupLayout jPanel24Layout = new GroupLayout(jPanel24);
-		jPanel24.setLayout(jPanel24Layout);
-		jPanel24Layout.setHorizontalGroup(
-				jPanel24Layout.createParallelGroup(GroupLayout.Alignment.LEADING)
-				.addGroup(jPanel24Layout.createSequentialGroup()
-						.addContainerGap()
-						.addGroup(jPanel24Layout.createParallelGroup(GroupLayout.Alignment.LEADING)
-								.addGroup(jPanel24Layout.createSequentialGroup()
-										.addComponent(jPanel27, GroupLayout.PREFERRED_SIZE, GroupLayout.DEFAULT_SIZE, GroupLayout.PREFERRED_SIZE)
-										.addGap(0, 10, Short.MAX_VALUE))
-										.addGroup(jPanel24Layout.createSequentialGroup()
-												.addComponent(jPanel25, GroupLayout.DEFAULT_SIZE, GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-												.addGap(18, 18, 18)
-												.addComponent(jPanel26, GroupLayout.PREFERRED_SIZE, GroupLayout.DEFAULT_SIZE, GroupLayout.PREFERRED_SIZE)))
-												.addContainerGap())
-				);
-		jPanel24Layout.setVerticalGroup(
-				jPanel24Layout.createParallelGroup(GroupLayout.Alignment.LEADING)
-				.addGroup(jPanel24Layout.createSequentialGroup()
-						.addContainerGap()
-						.addGroup(jPanel24Layout.createParallelGroup(GroupLayout.Alignment.LEADING)
-								.addComponent(jPanel26, GroupLayout.PREFERRED_SIZE, GroupLayout.DEFAULT_SIZE, GroupLayout.PREFERRED_SIZE)
-								.addComponent(jPanel25, GroupLayout.PREFERRED_SIZE, GroupLayout.DEFAULT_SIZE, GroupLayout.PREFERRED_SIZE))
-								.addPreferredGap(ComponentPlacement.RELATED)
-								.addComponent(jPanel27, GroupLayout.PREFERRED_SIZE, GroupLayout.DEFAULT_SIZE, GroupLayout.PREFERRED_SIZE)
-								.addContainerGap(GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
-				);
+        GroupLayout panelLivraisonLayout = new GroupLayout(panelLivraison);
+        panelLivraison.setLayout(panelLivraisonLayout);
+        panelLivraisonLayout.setHorizontalGroup(
+            panelLivraisonLayout.createParallelGroup(GroupLayout.Alignment.LEADING)
+            .addGroup(panelLivraisonLayout.createSequentialGroup()
+                .addContainerGap()
+                .addComponent(labelAddrLivraison)
+                .addGap(18, 18, 18)
+                .addComponent(jSPAddrLivraison, GroupLayout.DEFAULT_SIZE, 407, Short.MAX_VALUE))
+        );
+        panelLivraisonLayout.setVerticalGroup(
+            panelLivraisonLayout.createParallelGroup(GroupLayout.Alignment.LEADING)
+            .addGroup(panelLivraisonLayout.createSequentialGroup()
+                .addGroup(panelLivraisonLayout.createParallelGroup(GroupLayout.Alignment.LEADING)
+                    .addComponent(labelAddrLivraison, GroupLayout.PREFERRED_SIZE, 25, GroupLayout.PREFERRED_SIZE)
+                    .addComponent(jSPAddrLivraison, GroupLayout.PREFERRED_SIZE, 71, GroupLayout.PREFERRED_SIZE))
+                .addContainerGap(GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+        );
 
-		jTabbedPane1.addTab("Addr. Facturation", jPanel24);
-		
-		jPanel24.setBackground(Color.WHITE);
-		jPanel25.setBackground(Color.WHITE);
-		jPanel26.setBackground(Color.WHITE);
-		jPanel27.setBackground(Color.WHITE);
-		
-		jLabel21.setText("Ville:");
+        GroupLayout jPanel28Layout = new GroupLayout(jPanel28);
+        jPanel28.setLayout(jPanel28Layout);
+        jPanel28Layout.setHorizontalGroup(
+            jPanel28Layout.createParallelGroup(GroupLayout.Alignment.LEADING)
+            .addGroup(jPanel28Layout.createSequentialGroup()
+                .addContainerGap()
+                .addComponent(panelLivraison, GroupLayout.PREFERRED_SIZE, GroupLayout.DEFAULT_SIZE, GroupLayout.PREFERRED_SIZE)
+                .addContainerGap(15, Short.MAX_VALUE))
+        );
+        jPanel28Layout.setVerticalGroup(
+            jPanel28Layout.createParallelGroup(GroupLayout.Alignment.LEADING)
+            .addGroup(jPanel28Layout.createSequentialGroup()
+                .addContainerGap()
+                .addComponent(panelLivraison, GroupLayout.PREFERRED_SIZE, GroupLayout.DEFAULT_SIZE, GroupLayout.PREFERRED_SIZE)
+                .addContainerGap(GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+        );
 
-		GroupLayout jPanel29Layout = new GroupLayout(jPanel29);
-		jPanel29.setLayout(jPanel29Layout);
-		jPanel29Layout.setHorizontalGroup(
-				jPanel29Layout.createParallelGroup(GroupLayout.Alignment.LEADING)
-				.addGroup(jPanel29Layout.createSequentialGroup()
-						.addContainerGap()
-						.addComponent(jLabel21)
-						.addGap(18, 18, 18)
-						.addComponent(jTextField18)
-						.addContainerGap())
-				);
-		jPanel29Layout.setVerticalGroup(
-				jPanel29Layout.createParallelGroup(GroupLayout.Alignment.LEADING)
-				.addGroup(jPanel29Layout.createParallelGroup(GroupLayout.Alignment.BASELINE)
-						.addComponent(jLabel21, GroupLayout.DEFAULT_SIZE, 25, Short.MAX_VALUE)
-						.addComponent(jTextField18, GroupLayout.PREFERRED_SIZE, GroupLayout.DEFAULT_SIZE, GroupLayout.PREFERRED_SIZE))
-				);
+        adresseTabbedPane.addTab("Addr. Livraison", jPanel28);
 
-		jLabel22.setText("Code Postale: ");
-
-		GroupLayout jPanel30Layout = new GroupLayout(jPanel30);
-		jPanel30.setLayout(jPanel30Layout);
-		jPanel30Layout.setHorizontalGroup(
-				jPanel30Layout.createParallelGroup(GroupLayout.Alignment.LEADING)
-				.addGroup(jPanel30Layout.createSequentialGroup()
-						.addContainerGap()
-						.addComponent(jLabel22)
-						.addGap(18, 18, 18)
-						.addComponent(jTextField19, GroupLayout.DEFAULT_SIZE, 158, Short.MAX_VALUE)
-						.addContainerGap())
-				);
-		jPanel30Layout.setVerticalGroup(
-				jPanel30Layout.createParallelGroup(GroupLayout.Alignment.LEADING)
-				.addGroup(jPanel30Layout.createParallelGroup(GroupLayout.Alignment.BASELINE)
-						.addComponent(jLabel22, GroupLayout.DEFAULT_SIZE, 25, Short.MAX_VALUE)
-						.addComponent(jTextField19, GroupLayout.PREFERRED_SIZE, GroupLayout.DEFAULT_SIZE, GroupLayout.PREFERRED_SIZE))
-				);
-
-		jLabel23.setText("Addresse: ");
-
-		jTextArea3.setColumns(20);
-		jTextArea3.setRows(5);
-		jScrollPane6.setViewportView(jTextArea3);
-
-		GroupLayout jPanel31Layout = new GroupLayout(jPanel31);
-		jPanel31.setLayout(jPanel31Layout);
-		jPanel31Layout.setHorizontalGroup(
-				jPanel31Layout.createParallelGroup(GroupLayout.Alignment.LEADING)
-				.addGroup(jPanel31Layout.createSequentialGroup()
-						.addContainerGap()
-						.addComponent(jLabel23)
-						.addGap(18, 18, 18)
-						.addComponent(jScrollPane6, GroupLayout.DEFAULT_SIZE, 407, Short.MAX_VALUE))
-				);
-		jPanel31Layout.setVerticalGroup(
-				jPanel31Layout.createParallelGroup(GroupLayout.Alignment.LEADING)
-				.addGroup(jPanel31Layout.createSequentialGroup()
-						.addGroup(jPanel31Layout.createParallelGroup(GroupLayout.Alignment.LEADING)
-								.addComponent(jLabel23, GroupLayout.PREFERRED_SIZE, 25, GroupLayout.PREFERRED_SIZE)
-								.addComponent(jScrollPane6, GroupLayout.PREFERRED_SIZE, 53, GroupLayout.PREFERRED_SIZE))
-								.addContainerGap())
-				);
-
-		GroupLayout jPanel28Layout = new GroupLayout(jPanel28);
-		jPanel28.setLayout(jPanel28Layout);
-		jPanel28Layout.setHorizontalGroup(
-				jPanel28Layout.createParallelGroup(GroupLayout.Alignment.LEADING)
-				.addGroup(jPanel28Layout.createSequentialGroup()
-						.addContainerGap()
-						.addGroup(jPanel28Layout.createParallelGroup(GroupLayout.Alignment.LEADING)
-								.addGroup(jPanel28Layout.createSequentialGroup()
-										.addComponent(jPanel31, GroupLayout.PREFERRED_SIZE, GroupLayout.DEFAULT_SIZE, GroupLayout.PREFERRED_SIZE)
-										.addGap(0, 10, Short.MAX_VALUE))
-										.addGroup(jPanel28Layout.createSequentialGroup()
-												.addComponent(jPanel29, GroupLayout.DEFAULT_SIZE, GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-												.addGap(18, 18, 18)
-												.addComponent(jPanel30, GroupLayout.PREFERRED_SIZE, GroupLayout.DEFAULT_SIZE, GroupLayout.PREFERRED_SIZE)))
-												.addContainerGap())
-				);
-		jPanel28Layout.setVerticalGroup(
-				jPanel28Layout.createParallelGroup(GroupLayout.Alignment.LEADING)
-				.addGroup(jPanel28Layout.createSequentialGroup()
-						.addContainerGap()
-						.addGroup(jPanel28Layout.createParallelGroup(GroupLayout.Alignment.LEADING)
-								.addComponent(jPanel30, GroupLayout.PREFERRED_SIZE, GroupLayout.DEFAULT_SIZE, GroupLayout.PREFERRED_SIZE)
-								.addComponent(jPanel29, GroupLayout.PREFERRED_SIZE, GroupLayout.DEFAULT_SIZE, GroupLayout.PREFERRED_SIZE))
-								.addPreferredGap(ComponentPlacement.RELATED)
-								.addComponent(jPanel31, GroupLayout.PREFERRED_SIZE, GroupLayout.DEFAULT_SIZE, GroupLayout.PREFERRED_SIZE)
-								.addContainerGap(GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
-				);
-
-		jTabbedPane1.addTab("Addr. Livraison", jPanel28);
-		
-		jPanel28.setBackground(Color.WHITE);
-		jPanel29.setBackground(Color.WHITE);
-		jPanel30.setBackground(Color.WHITE);
-		jPanel31.setBackground(Color.WHITE);
-		
-		GroupLayout jPanel6Layout = new GroupLayout(jPanel6);
-		jPanel6.setLayout(jPanel6Layout);
-		jPanel6.setBackground(Color.WHITE);
-		jPanel6Layout.setHorizontalGroup(
-				jPanel6Layout.createParallelGroup(GroupLayout.Alignment.LEADING)
-				.addComponent(jTabbedPane1)
-				);
-		jPanel6Layout.setVerticalGroup(
-				jPanel6Layout.createParallelGroup(GroupLayout.Alignment.LEADING)
-				.addGroup(jPanel6Layout.createSequentialGroup()
-						.addComponent(jTabbedPane1, GroupLayout.PREFERRED_SIZE, 131, GroupLayout.PREFERRED_SIZE)
-						.addGap(0, 0, Short.MAX_VALUE))
-				);
+        GroupLayout jPanel6Layout = new GroupLayout(jPanel6);
+        jPanel6.setLayout(jPanel6Layout);
+        jPanel6Layout.setHorizontalGroup(
+            jPanel6Layout.createParallelGroup(GroupLayout.Alignment.LEADING)
+            .addComponent(adresseTabbedPane)
+        );
+        jPanel6Layout.setVerticalGroup(
+            jPanel6Layout.createParallelGroup(GroupLayout.Alignment.LEADING)
+            .addGroup(jPanel6Layout.createSequentialGroup()
+                .addComponent(adresseTabbedPane, GroupLayout.PREFERRED_SIZE, 131, GroupLayout.PREFERRED_SIZE)
+                .addGap(0, 22, Short.MAX_VALUE))
+        );
 		
 		listAssurancesLabel.setText("Liste Assurances");
 		listAssurancesLabel.setFont(new java.awt.Font("Tahoma", 1, 11));
 		
-        assuranceTable.setModel(new javax.swing.table.DefaultTableModel(
+        assuranceTable.setModel(new DefaultTableModel(
             new Object [][] {
                 {null, null},
                 {null, null},
@@ -728,10 +570,9 @@ public class ClientManagementView extends JFrame {
 
         jScrollPane7.setViewportView(assuranceTable);
 
-        jPanel13.setBorder(javax.swing.BorderFactory.createEtchedBorder());
-        jPanel13.setBackground(Color.WHITE);
+        jPanel13.setBorder(BorderFactory.createEtchedBorder());
         
-        javax.swing.GroupLayout jPanel13Layout = new GroupLayout(jPanel13);
+        GroupLayout jPanel13Layout = new GroupLayout(jPanel13);
         jPanel13.setLayout(jPanel13Layout);
         jPanel13Layout.setHorizontalGroup(
             jPanel13Layout.createParallelGroup(GroupLayout.Alignment.LEADING)
@@ -750,9 +591,6 @@ public class ClientManagementView extends JFrame {
                 .addGap(10, 10, 10))
         );
 
-        
-        jPanel1.setBackground(Color.WHITE);
-        jPanel3.setBackground(Color.WHITE);
         
         GroupLayout layout = new GroupLayout(getContentPane());
         getContentPane().setLayout(layout);
@@ -838,59 +676,79 @@ public class ClientManagementView extends JFrame {
 				
 				ClientWidget clientWidget = ((ClientWidget) saleView.getClientWidget());
 				
+				
 				if(hiddenId.getText() != ""){
 					client = em.find(Client.class, Integer.valueOf(hiddenId.getText()));
-				}
-				
-				em.getTransaction().begin();
-				vente = em.find(Vente.class, vente.getId());
-				vente.setClient(client);
-				em.getTransaction().commit();
-				
-				saleView.getHeaderPanel().getClient().activateButton(true);
-				
-				clientWidget.getReference().setSelectedItem(client.getReference());
-				clientWidget.getFirstName().setText(client.getFirstName() + " " + client.getLastName());
-				clientWidget.getDateOfBirth().setText(DateFormat.getInstance().format(client.getBirthDate()));
-				clientWidget.getAge().setText(String.valueOf(client.getAge()));
-				clientWidget.getPhone().setText(client.getPhone());
-				
-				AssuranceWidget assuranceWidget = (AssuranceWidget) saleView.getAssuranceWidget();
-				JTextField assuranceField = null;
-				JTextField hiddenField = null;
-				JButton newAssurance = null;
-				
-				List<Assurance> assurances = service.getClientAssurances(client);
-				if(assurances != null && assurances.size() > 0){
-					for(Assurance assurance : assurances){
-						TypeAssurance type = assurance.getType();
-						switch (type) {
-						case OBLIGATOIRE:
-							assuranceField = assuranceWidget.getAssurance1();
-							hiddenField = assuranceWidget.getHiddenField1();
-							newAssurance = assuranceWidget.getNewAssur1();
-							break;
-						case ACCIDENT:
-							assuranceField = assuranceWidget.getAssurance2();
-							hiddenField = assuranceWidget.getHiddenField2();
-							newAssurance = assuranceWidget.getNewAssur2();
-							break;
-						case COMPLEMENTAIRE:
-							assuranceField = assuranceWidget.getAssurance3();
-							hiddenField = assuranceWidget.getHiddenField3();
-							newAssurance = assuranceWidget.getNewAssur3();
-							break;
-						default:
-							break;
+					
+					if(isEdit){
+						client.setFirstName(Utilities.isEmpty(firstName.getText()));
+						client.setLastName(Utilities.isEmpty(lastName.getText()));
+						client.setReference(Utilities.isEmpty(reference.getText()));
+						try {
+							client.setBirthDate(DateFormat.getInstance().parse(Utilities.isEmpty(dateOfBirth.getText())));
+						} catch (ParseException e) {
+							System.out.println("Error when parsing client date of birth");
 						}
-						
-						assuranceField.setText(assurance.getName());
-						hiddenField.setText(String.valueOf(assurance.getId()));
-						newAssurance.setEnabled(false);
+						client.setAge(Integer.valueOf(Utilities.isEmpty(age.getText())));
+						client.setEmail(Utilities.isEmpty(email.getText()));
+						client.setMpi(Integer.valueOf(Utilities.isEmpty(rpi.getText())));
+						client.setFix(Utilities.isEmpty(fixe.getText()));
+						client.setAvs(Integer.valueOf(Utilities.isEmpty(avs.getText())));
+						client.setFax(Utilities.isEmpty(fax.getText()));
+						client.setPhone(Utilities.isEmpty(mobile.getText()));
 					}
+					
+					em.getTransaction().begin();
+					vente = em.find(Vente.class, vente.getId());
+					vente.setClient(client);
+					em.getTransaction().commit();
+					
+					saleView.getHeaderPanel().getClient().activateButton(true);
+					
+					clientWidget.getReference().setSelectedItem(client.getReference());
+					clientWidget.getFirstName().setText(client.getFirstName() + " " + client.getLastName());
+					clientWidget.getDateOfBirth().setText(DateFormat.getInstance().format(client.getBirthDate()));
+					clientWidget.getAge().setText(String.valueOf(client.getAge()));
+					clientWidget.getPhone().setText(client.getPhone());
+					
+					AssuranceWidget assuranceWidget = (AssuranceWidget) saleView.getAssuranceWidget();
+					JTextField assuranceField = null;
+					JTextField hiddenField = null;
+					JButton newAssurance = null;
+					
+					List<Assurance> assurances = service.getClientAssurances(client);
+					if(assurances != null && assurances.size() > 0){
+						for(Assurance assurance : assurances){
+							TypeAssurance type = assurance.getType();
+							switch (type) {
+							case OBLIGATOIRE:
+								assuranceField = assuranceWidget.getAssurance1();
+								hiddenField = assuranceWidget.getHiddenField1();
+								newAssurance = assuranceWidget.getNewAssur1();
+								break;
+							case ACCIDENT:
+								assuranceField = assuranceWidget.getAssurance2();
+								hiddenField = assuranceWidget.getHiddenField2();
+								newAssurance = assuranceWidget.getNewAssur2();
+								break;
+							case COMPLEMENTAIRE:
+								assuranceField = assuranceWidget.getAssurance3();
+								hiddenField = assuranceWidget.getHiddenField3();
+								newAssurance = assuranceWidget.getNewAssur3();
+								break;
+							default:
+								break;
+							}
+							
+							assuranceField.setText(assurance.getName());
+							hiddenField.setText(String.valueOf(assurance.getId()));
+							newAssurance.setEnabled(false);
+						}
+					}
+					
+					saleView.setVisible(true);
 				}
 				
-				saleView.setVisible(true);
 			}
 		}
 		setVisible(false);
@@ -976,6 +834,48 @@ public class ClientManagementView extends JFrame {
 		return hiddenId;
 	}
 
+	public boolean isEdit() {
+		return isEdit;
+	}
+
+	public void setEdit(boolean isEdit) {
+		this.isEdit = isEdit;
+	}
+
+	public Client getClient() {
+		return client;
+	}
+
+	public void setClient(Client client) {
+		this.client = client;
+	}
+	
+	public JTextArea getAddrLivraison() {
+		return addrLivraison;
+	}
+
+	public void setAddrLivraison(JTextArea addrLivraison) {
+		this.addrLivraison = addrLivraison;
+	}
+
+	public JTextArea getAddrFacturation() {
+		return addrFacturation;
+	}
+
+	public void setAddrFacturation(JTextArea addrFacturation) {
+		this.addrFacturation = addrFacturation;
+	}
+
+	public JTextArea getAddrPrincipal() {
+		return addrPrincipal;
+	}
+
+	public void setAddrPrincipal(JTextArea addrPrincipal) {
+		this.addrPrincipal = addrPrincipal;
+	}
+
+
+
 
 
 	private JButton validate;
@@ -995,7 +895,9 @@ public class ClientManagementView extends JFrame {
 	private JLabel jLabel20;
 	private JLabel jLabel21;
 	private JLabel jLabel22;
-	private JLabel jLabel23;
+	private JLabel labelAddrLivraison;
+	private JLabel labelAddrPrincipal;
+	private JLabel labelAddrFacturation;
 	private JLabel listOrdonnanceLabel;
 	private JLabel lastNameLabel;
 	private JLabel jLabel5;
@@ -1003,34 +905,36 @@ public class ClientManagementView extends JFrame {
 	private JLabel referenceLabel;
 	private JLabel sexeLabel;
 	private JList listOrdonnance;
-	private JPanel jPanel1;
-	private JPanel jPanel10;
-	private JPanel sexePanel;
-	private JPanel jPanel12;
-	private JPanel jPanel14;
-	private JPanel jPanel15;
-	private JPanel jPanel16;
-	private JPanel jPanel17;
-	private JPanel jPanel18;
-	private JPanel jPanel19;
-	private JPanel jPanel2;
-	private JPanel jPanel21;
-	private JPanel jPanel22;
-	private JPanel jPanel23;
-	private JPanel jPanel24;
-	private JPanel jPanel25;
-	private JPanel jPanel26;
-	private JPanel jPanel27;
-	private JPanel jPanel28;
-	private JPanel jPanel29;
-	private JPanel jPanel3;
-	private JPanel jPanel30;
-	private JPanel jPanel31;
-	private JPanel jPanel4;
-	private JPanel jPanel5;
-	private JPanel jPanel6;
-	private JPanel jPanel7;
-	private JPanel jPanel9;
+	private MyJPanel jPanel1;
+	private MyJPanel jPanel10;
+	private MyJPanel sexePanel;
+	private MyJPanel jPanel12;
+	private MyJPanel jPanel14;
+	private MyJPanel jPanel15;
+	private MyJPanel jPanel16;
+	private MyJPanel jPanel17;
+	private MyJPanel jPanel18;
+	private MyJPanel jPanel19;
+	private MyJPanel jPanel2;
+	private MyJPanel jPanel21;
+	private MyJPanel jPanel22;
+	private MyJPanel jPanel23;
+	private MyJPanel jPanel24;
+	private MyJPanel jPanel25;
+	private MyJPanel jPanel26;
+	private MyJPanel jPanel27;
+	private MyJPanel jPanel28;
+	private MyJPanel jPanel29;
+	private MyJPanel jPanel3;
+	private MyJPanel jPanel30;
+	private MyJPanel panelLivraison;
+	private MyJPanel panelFacturation;
+	private MyJPanel panelPrincipal;
+	private MyJPanel jPanel4;
+	private MyJPanel jPanel5;
+	private MyJPanel jPanel6;
+	private MyJPanel jPanel7;
+	private MyJPanel jPanel9;
 	private JRadioButton sexeHomme;
 	private JRadioButton sexeFemme;
 	private JScrollPane jScrollPane1;
@@ -1038,13 +942,17 @@ public class ClientManagementView extends JFrame {
 	private JScrollPane jScrollPane3;
 	private JScrollPane jScrollPane4;
 	private JScrollPane jScrollPane5;
-	private JScrollPane jScrollPane6;
-	private JTabbedPane jTabbedPane1;
+	private JScrollPane jSPAddrLivraison;
+	private JScrollPane jSPAddrFacturation;
+	private JScrollPane jSPAddrPrincipal;
+	private JTabbedPane adresseTabbedPane;
 	private JTable searchTable;
 	private JTable tableOrdonnance;
 	private JTextArea jTextArea1;
 	private JTextArea jTextArea2;
-	private JTextArea jTextArea3;
+	private JTextArea addrLivraison;
+	private JTextArea addrFacturation;
+	private JTextArea addrPrincipal;
 	private JTextField searchField;
 	private JTextField age;
 	private JTextField jTextField11;
@@ -1065,7 +973,7 @@ public class ClientManagementView extends JFrame {
 	private JTextField jTextField9;
 	private JTextField hiddenId;
 	private JTable assuranceTable;
-	private JPanel jPanel13;
+	private MyJPanel jPanel13;
 	private JLabel listAssurancesLabel;
 	private JScrollPane jScrollPane7;
 }

@@ -50,7 +50,14 @@ public class Client implements Serializable {
 	private String reference;
 
 	private Boolean sexe;
-
+	
+	@Column(name="addr_principal")
+	private String addrPrincipal;
+	@Column(name="addr_facturation")
+	private String addrFacturation;
+	@Column(name="addr_livraison")
+	private String addrLivraison;
+	
 	@OneToMany(mappedBy="client", fetch= FetchType.LAZY)
 	private List<Vente> ventes;
 	
@@ -186,6 +193,41 @@ public class Client implements Serializable {
 
 	public void setCoverCard(String coverCard) {
 		this.coverCard = coverCard;
+	}
+	
+	public String getAddrPrincipal() {
+		return addrPrincipal;
+	}
+
+	public void setAddrPrincipal(String addrPrincipal) {
+		this.addrPrincipal = addrPrincipal;
+	}
+
+	public String getAddrFacturation() {
+		return addrFacturation;
+	}
+
+	public void setAddrFacturation(String addrFacturation) {
+		this.addrFacturation = addrFacturation;
+	}
+
+	public String getAddrLivraison() {
+		return addrLivraison;
+	}
+
+	public void setAddrLivraison(String addrLivraison) {
+		this.addrLivraison = addrLivraison;
+	}
+
+	@Override
+	public String toString() {
+		return "Client [id=" + id + ", age=" + age + ", avs=" + avs
+				+ ", coverCard=" + coverCard + ", birthDate=" + birthDate
+				+ ", email=" + email + ", fax=" + fax + ", firstName="
+				+ firstName + ", fix=" + fix + ", lastName=" + lastName
+				+ ", mpi=" + mpi + ", phone=" + phone + ", reference="
+				+ reference + ", sexe=" + sexe + ", ventes=" + ventes
+				+ ", assuranceClients=" + assuranceClients + "]";
 	}
 	
 }

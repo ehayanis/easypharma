@@ -29,11 +29,13 @@ public class Medecin implements Serializable {
 	private String nrcc;
 
 	private String phone;
-
+	private String email;
 	private String reference;
 
 	private String speciality;
-
+	
+	private String address;
+	
 	@OneToMany(mappedBy="medecin")
 	private List<Vente> ventes;
 	
@@ -112,5 +114,28 @@ public class Medecin implements Serializable {
 		this.speciality = speciality;
 	}
 
+	public String getAddress() {
+		return address;
+	}
+
+	public void setAddress(String address) {
+		this.address = address;
+	}
+
+	public List<Vente> getVentes() {
+		return ventes;
+	}
+
+	public void setVentes(List<Vente> ventes) {
+		this.ventes = ventes;
+	}
+
+	public String getEmail() {
+		return email;
+	}
+
+	public void setEmail(String email) {
+		this.email = email;
+	}
 	
 }
