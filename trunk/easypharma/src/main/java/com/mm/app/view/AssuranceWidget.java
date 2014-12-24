@@ -21,10 +21,13 @@ import javax.swing.JTextField;
 import org.omg.CORBA.COMM_FAILURE;
 
 import com.mm.app.model.Assurance;
+import com.mm.app.model.AssuranceClient;
 import com.mm.app.model.Client;
 import com.mm.app.model.Vente;
 import com.mm.app.service.AssuranceService;
+import com.mm.app.service.ClientService;
 import com.mm.app.service.impl.AssuranceServiceImpl;
+import com.mm.app.service.impl.ClientServiceImpl;
 import com.mm.app.utilities.Utilities;
 
 
@@ -48,6 +51,7 @@ public class AssuranceWidget extends JInternalFrame implements InternalFrameWidg
 	
 	private EntityManager em;
 	private AssuranceService service;
+	private ClientService clientService;
 	private Vente vente;
 	
 	public AssuranceWidget(EntityManager em, Vente vente) {
@@ -55,6 +59,7 @@ public class AssuranceWidget extends JInternalFrame implements InternalFrameWidg
 		this.vente = vente;
 		
 		service = new AssuranceServiceImpl(em);
+		clientService = new ClientServiceImpl(em);
 		initComponent();
 		
 		getContentPane().setBackground(Color.WHITE);
@@ -82,6 +87,10 @@ public class AssuranceWidget extends JInternalFrame implements InternalFrameWidg
 		newAssur1 = new HeaderButton("/img/add.gif", "newAssur1");
 		newAssur2 = new HeaderButton("/img/add.gif", "newAssur2");
 		newAssur3 = new HeaderButton("/img/add.gif", "newAssur3");
+		
+		newAssur1.setEnabled(false);
+		newAssur2.setEnabled(false);
+		newAssur3.setEnabled(false);
 		
 		assurance1.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent evt) {
@@ -231,65 +240,91 @@ public class AssuranceWidget extends JInternalFrame implements InternalFrameWidg
 	private void searchActionPerformed(ActionEvent evt, TypeAssurance typeAssurance) {
 		
 //		JTextField assuranceField = null;
+//		JTextField hiddenField = null;
 //		switch (typeAssurance) {
 //		case OBLIGATOIRE:
 //			assuranceField = assurance1;
+//			hiddenField = hiddenField1;
 //			break;
 //		case ACCIDENT:
 //			assuranceField = assurance2;
+//			hiddenField = hiddenField2;
 //			break;
 //		case COMPLEMENTAIRE:
 //			assuranceField = assurance3;
+//			hiddenField = hiddenField3;
 //			break;
 //		default:
 //			break;
 //		}
-//		
+		
 		String coverCard = ((JTextField) evt.getSource()).getText();
 		
 		if(!"".equals(coverCard)){
-			// CODE TO CALL THE WEB SERVICE TO RETREIVE BOTH THE CLIENT AND THE ASSURANCE
-			Client c = null;
-			Assurance a = null;
-			
-			// service to check if a client exists 
-				// if exists OK 
-				// if not, add it as new client
-			// service to check if an insurrance exists 
-				// if not exist, add assurance 
-				// if exists, check if it already associated 
-					// if not, associate it and then return the name and the assurance ID 
-					// Field the CLient widget fields 
-			
+			AssuranceClient assuranceClient = service.findAssuranceByCoverCard(coverCard);
+			if(assuranceClient != null){
+//				assuranceField.setText(assurance.getAssurance().getName());
+//				hiddenField.setText(String.valueOf(assurance.getAssurance().getId()));
+				
+				Client client = assuranceClient.getClient();
+				
+				if(client != null){
+					for (Frame frame : Frame.getFrames()) {
+						if (frame.getTitle().equals("EasyPharma: Gestion Pharmacies ")) {
+							SaleView saleView = (SaleView) frame;
+							ClientWidget clientWidget = (ClientWidget) saleView.getClientWidget();
+							clientWidget.getFirstName().setText(client.getFirstName() + " " + client.getLastName());
+							clientWidget.getReference().setSelectedItem(client.getReference());
+							clientWidget.getDateOfBirth().setText(DateFormat.getDateInstance().format(client.getBirthDate()));
+							clientWidget.getPhone().setText(client.getPhone());
+							clientWidget.getAge().setText(String.valueOf(client.getAge()));
+							
+
+							JTextField assuranceField = null;
+							JTextField hiddenField = null;
+							JButton newAssurance = null;
+							
+							List<Assurance> assurances = clientService.getClientAssurances(client);
+							if(assurances != null && assurances.size() > 0){
+								newAssur1.setEnabled(true);
+								newAssur2.setEnabled(true);
+								newAssur3.setEnabled(true);
+
+								for(Assurance assurance : assurances){
+									TypeAssurance type = assurance.getType();
+									
+									switch (type) {
+									case OBLIGATOIRE:
+										assuranceField = assurance1;
+										hiddenField = hiddenField1;
+										newAssurance = newAssur1;
+										break;
+									case ACCIDENT:
+										assuranceField = assurance2;
+										hiddenField = hiddenField2;
+										newAssurance = newAssur2;
+										break;
+									case COMPLEMENTAIRE:
+										assuranceField = assurance3;
+										hiddenField = hiddenField3;
+										newAssurance = newAssur3;
+										break;
+									default:
+										break;
+									}
+									
+									assuranceField.setText(assurance.getName());
+									hiddenField.setText(String.valueOf(assurance.getId()));
+									newAssurance.setEnabled(false);
+								}
+							}
+							
+							saleView.setVisible(true);
+						}
+					}
+				}
+			}
 		}
-		
-//		if(!"".equals(coverCard)){
-//			Assurance assurance = service.findAssuranceByCoverCard(coverCard);
-//			if(assurance != null){
-//				assurance1.setText(assurance.getName());
-//				hiddenField1.setText(String.valueOf(assurance.getId()));
-//				
-//				List<Client> clients = assurance.getClients();
-//				if(clients != null && clients.size() > 0){
-//					Client client = clients.get(0);
-//					
-//					for (Frame frame : Frame.getFrames()) {
-//						if (frame.getTitle().equals("EasyPharma: Gestion Pharmacies ")) {
-//							SaleView saleView = (SaleView) frame;
-//							ClientWidget clientWidget = (ClientWidget) saleView.getClientWidget();
-//							clientWidget.getFirstName().setText(client.getFirstName() + " " + client.getLastName());
-//							clientWidget.getReference().setSelectedItem(client.getReference());
-//							clientWidget.getDateOfBirth().setText(DateFormat.getDateInstance().format(client.getBirthDate()));
-//							clientWidget.getPhone().setText(client.getPhone());
-//							clientWidget.getAge().setText(String.valueOf(client.getAge()));
-//							
-//							
-//							saleView.setVisible(true);
-//						}
-//					}
-//				}
-//			}
-//		}
 	}
 	
 	private void editActionPerformed(ActionEvent evt, TypeAssurance typeAssurance) {                                         

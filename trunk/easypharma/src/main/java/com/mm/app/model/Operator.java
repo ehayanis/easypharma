@@ -39,5 +39,9 @@ public class Operator implements Serializable {
 	public void setLastname(String lastname) {
 		this.lastname = lastname;
 	}
+
+	public int getId() {
+		return id;
+	}
    
 }

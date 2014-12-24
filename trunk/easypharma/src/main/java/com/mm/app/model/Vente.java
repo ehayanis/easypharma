@@ -1,6 +1,7 @@
 package com.mm.app.model;
 
 import java.io.Serializable;
+import java.util.Date;
 import java.util.List;
 
 import javax.persistence.*;
@@ -32,6 +33,10 @@ public class Vente implements Serializable {
 	
 	@ManyToOne(cascade=CascadeType.ALL)
 	private Client client;
+	
+	@Temporal(TemporalType.DATE)
+	@Column(name="date_creation")
+	private Date dateCreation;
 	
 	@ManyToOne(cascade=CascadeType.ALL)
 	private Medecin medecin;
@@ -129,4 +134,13 @@ public class Vente implements Serializable {
 	public void setStatus(String status) {
 		this.status = status;
 	}
+
+	public Date getDateCreation() {
+		return dateCreation;
+	}
+
+	public void setDateCreation(Date dateCreation) {
+		this.dateCreation = dateCreation;
+	}
+
 }

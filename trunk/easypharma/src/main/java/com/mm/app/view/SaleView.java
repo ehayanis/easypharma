@@ -11,6 +11,7 @@ import java.awt.event.KeyAdapter;
 import java.awt.event.KeyEvent;
 import java.beans.PropertyVetoException;
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -84,6 +85,7 @@ public class SaleView extends JFrame {
     	vente = new Vente();
     	vente.setOperator(operator);
     	vente.setStatus("INIT");
+    	vente.setDateCreation(new Date());
     	vente = venteService.addVente(vente);
     	
     	products = new ArrayList<VenteProduit>();

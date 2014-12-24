@@ -67,7 +67,6 @@ CREATE TABLE client
   age integer,
   avs integer,
   birth_date date,
-  cover_card character varying(255),
   email character varying(255),
   fax character varying(255),
   first_name character varying(255),
@@ -98,6 +97,7 @@ CREATE TABLE assurance_client
   id integer NOT NULL,
   date_debut date,
   date_fin date,
+  cover_card character varying(255),
   client_id integer,
   assurance_id integer,
   CONSTRAINT assurance_client_pkey PRIMARY KEY (id ),
@@ -191,6 +191,7 @@ ALTER TABLE posologie
 CREATE TABLE vente
 (
   id integer NOT NULL,
+  date_creation date,
   paiement_assurance double precision,
   paiement_bvr double precision,
   paiement_carte double precision,
@@ -343,15 +344,15 @@ INSERT INTO product(
 	
 -- Client Table	
 INSERT INTO client(
-            id, age, avs, birth_date, cover_card, email, fax, first_name, 
+            id, age, avs, birth_date, email, fax, first_name, 
             fix, last_name, mpi, phone, reference, addr_principal, addr_facturation, addr_livraison)
-    VALUES (111, 27, 3398723, '1987-12-13', 'FG328D230', 'omar@gmail.com', '+33643233298', 'Omar', 
+    VALUES (111, 27, 3398723, '1987-12-13', 'omar@gmail.com', '+33643233298', 'Omar', 
             '+33598544746', 'Omari', 742244, '+33598544746', 'CD12345', '10 Rue Mohammed V', '11 Rue Mohammed V', '12 Rue Mohammed V');
 
 INSERT INTO client(
-            id, age, avs, birth_date, cover_card, email, fax, first_name, 
+            id, age, avs, birth_date, email, fax, first_name, 
             fix, last_name, mpi, phone, reference, addr_principal)
-    VALUES (222, 35, 3398723, '1980-06-06', '47FF9584', 'amine@gmail.com', '+33643233298', 'Amine', 
+    VALUES (222, 35, 3398723, '1980-06-06', 'amine@gmail.com', '+33643233298', 'Amine', 
             '+33598544746', 'Alaoui', 324123, '+33598544746', 'CD54321', '24 Arrodissement La Croix');
 			
 -- Medecin Table
@@ -381,3 +382,13 @@ INSERT INTO assurance(
             name, npa, ofas, phone, rcc, type, validation_date, validation_number)
     VALUES (333, 'Address 3', 'WAFA', 329632, '2017-04-04', '4234GD32', 
             'WAFA', 'NDFZH23', 'FH2349D3', '+33598544746', 'DF2323', 'COMPLEMENTAIRE', '2014-04-04', 3327);
+
+
+INSERT INTO assurance_client(id, cover_card, date_debut, date_fin, client_id, assurance_id)
+    VALUES (111, 'FDZF24DFZE', '2010-10-10', '2018-10-10', 111, 222);
+    
+INSERT INTO assurance_client(id, cover_card, date_debut, date_fin, client_id, assurance_id)
+    VALUES (222, '9U42HR2424', '2010-10-10', '2018-10-10', 111, 111);
+    
+INSERT INTO assurance_client(id, cover_card, date_debut, date_fin, client_id, assurance_id)
+    VALUES (333, 'DHOIUHZEOZ', '2010-10-10', '2018-10-10', 111, 333);

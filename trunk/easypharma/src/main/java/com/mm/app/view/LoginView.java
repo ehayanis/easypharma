@@ -3,18 +3,26 @@ package com.mm.app.view;
 import java.awt.Color;
 import java.awt.Cursor;
 import java.awt.Font;
+import java.awt.Frame;
 import java.awt.event.ActionEvent;
+import java.awt.event.KeyAdapter;
+import java.awt.event.KeyEvent;
+import java.text.DateFormat;
+import java.util.ArrayList;
+import java.util.List;
 
 import javax.persistence.EntityManager;
 import javax.persistence.EntityManagerFactory;
 import javax.persistence.Persistence;
 import javax.swing.GroupLayout;
 import javax.swing.ImageIcon;
+import javax.swing.JButton;
 import javax.swing.JFrame;
 import javax.swing.JLabel;
 import javax.swing.JMenu;
 import javax.swing.JMenuBar;
 import javax.swing.JOptionPane;
+import javax.swing.JPanel;
 import javax.swing.JTextField;
 import javax.swing.LayoutStyle.ComponentPlacement;
 import javax.swing.UIManager;
@@ -22,9 +30,13 @@ import javax.swing.WindowConstants;
 import javax.swing.border.BevelBorder;
 import javax.swing.border.SoftBevelBorder;
 
+import com.mm.app.model.Assurance;
+import com.mm.app.model.Client;
 import com.mm.app.model.Operator;
+import com.mm.app.model.Vente;
 import com.mm.app.service.OperatorService;
 import com.mm.app.service.impl.OperatorServiceImpl;
+import com.mm.app.utilities.Java2sAutoComboBox;
 
 /**
  *
@@ -52,9 +64,8 @@ public class LoginView extends JFrame {
     private void initComponents() {
 
         jPanel1 = new AdaptedPanel("/img/background.jpg");
-        jLabel1 = new JLabel();
-        jTextField1 = new JTextField();
-        jLabel2 = new JLabel();
+        idLabel = new JLabel();
+        welcomeLabel = new JLabel();
         jMenuBar1 = new JMenuBar();
         jMenu1 = new JMenu();
 
@@ -66,17 +77,45 @@ public class LoginView extends JFrame {
 
         jPanel1.setBorder(new SoftBevelBorder(BevelBorder.RAISED));
 
-        jLabel1.setFont(new Font("Tahoma", 0, 12)); // NOI18N
-        jLabel1.setText("Veuillez Entrer Votre Identifiant");
+        idLabel.setFont(new Font("Tahoma", 0, 12)); // NOI18N
+        idLabel.setText("Veuillez Entrer Votre Identifiant");
 
-        jLabel2.setFont(new Font("Tahoma", 1, 12)); // NOI18N
-        jLabel2.setText("BIENVENU");
+        welcomeLabel.setFont(new Font("Tahoma", 1, 12)); // NOI18N
+        welcomeLabel.setText("BIENVENU");
         
-        jTextField1.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                jTextField1ActionPerformed(evt);
-            }
+        ArrayList<String> data = new ArrayList<String>();   
+		data.add("");
+		List<Operator> result = service.getOperators();
+		if(result != null && result.size() > 0){
+			for(Operator o : result){
+				data.add(o.getFirstName() + " " + o.getLastname() + " (" + o.getId() + ")");
+			}
+		}
+		
+        operatorName = new Java2sAutoComboBox(data);
+        operatorName.setDataList(data);
+        operatorName.setMaximumRowCount(3);
+        
+        operatorName.getEditor().getEditorComponent().addKeyListener(new KeyAdapter() {
+        	@Override
+        	public void keyPressed(KeyEvent e) {
+        		if (e.getKeyChar() == KeyEvent.VK_ENTER) {
+        			String selectedValue = (String) operatorName.getSelectedItem();
+        			String identifer = selectedValue.substring(selectedValue.indexOf("(") + 1, selectedValue.indexOf(")"));
+        			if(!"".equals(identifer)){
+        				Operator operator = service.findOperator(Integer.valueOf(identifer));
+
+        				JFrame saleView = new SaleView(em, operator);
+        				saleView.setVisible(true);
+
+        				setVisible(false);
+        				dispose();
+        			}
+        		}
+
+        	}
         });
+        
         
         GroupLayout jPanel1Layout = new GroupLayout(jPanel1);
         jPanel1.setLayout(jPanel1Layout);
@@ -86,11 +125,11 @@ public class LoginView extends JFrame {
                 .addGap(114, 114, 114)
                 .addGroup(jPanel1Layout.createParallelGroup(GroupLayout.Alignment.LEADING)
                     .addGroup(jPanel1Layout.createParallelGroup(GroupLayout.Alignment.TRAILING)
-                        .addComponent(jLabel1, GroupLayout.PREFERRED_SIZE, 210, GroupLayout.PREFERRED_SIZE)
-                        .addComponent(jTextField1, GroupLayout.PREFERRED_SIZE, 257, GroupLayout.PREFERRED_SIZE))
+                        .addComponent(idLabel, GroupLayout.PREFERRED_SIZE, 210, GroupLayout.PREFERRED_SIZE)
+                        .addComponent(operatorName, GroupLayout.PREFERRED_SIZE, 257, GroupLayout.PREFERRED_SIZE))
                     .addGroup(GroupLayout.Alignment.TRAILING, jPanel1Layout.createSequentialGroup()
                         .addGap(106, 106, 106)
-                        .addComponent(jLabel2)
+                        .addComponent(welcomeLabel)
                         .addGap(92, 92, 92)))
                 .addContainerGap(123, Short.MAX_VALUE))
         );
@@ -98,11 +137,11 @@ public class LoginView extends JFrame {
             jPanel1Layout.createParallelGroup(GroupLayout.Alignment.LEADING)
             .addGroup(jPanel1Layout.createSequentialGroup()
                 .addGap(28, 28, 28)
-                .addComponent(jLabel2)
+                .addComponent(welcomeLabel)
                 .addGap(37, 37, 37)
-                .addComponent(jLabel1)
+                .addComponent(idLabel)
                 .addPreferredGap(ComponentPlacement.RELATED)
-                .addComponent(jTextField1, GroupLayout.PREFERRED_SIZE, GroupLayout.DEFAULT_SIZE, GroupLayout.PREFERRED_SIZE)
+                .addComponent(operatorName, GroupLayout.PREFERRED_SIZE, GroupLayout.DEFAULT_SIZE, GroupLayout.PREFERRED_SIZE)
                 .addContainerGap(62, Short.MAX_VALUE))
         );
 
@@ -133,23 +172,23 @@ public class LoginView extends JFrame {
         pack();
     }                       
     
-    private void jTextField1ActionPerformed(ActionEvent evt) {                                            
-        String id = jTextField1.getText();
-    	
-        if(id != null){
-        	Operator operator = service.findOperator(Integer.valueOf(id));
-        	if(operator == null){
-        		JOptionPane.showMessageDialog(this, "Veuillez saisir un identifiant valide!");
-        	}else{
-        		JFrame saleView = new SaleView(em, operator);
-        		saleView.setVisible(true);
-        		
-        		setVisible(false);
-        		dispose();
-        	}
-        }
-    	
-    }   
+//    private void jTextField1ActionPerformed(ActionEvent evt) {                                            
+//        String id = operatorName.getText();
+//    	
+//        if(id != null){
+//        	Operator operator = service.findOperator(Integer.valueOf(id));
+//        	if(operator == null){
+//        		JOptionPane.showMessageDialog(this, "Veuillez saisir un identifiant valide!");
+//        	}else{
+//        		JFrame saleView = new SaleView(em, operator);
+//        		saleView.setVisible(true);
+//        		
+//        		setVisible(false);
+//        		dispose();
+//        	}
+//        }
+//    	
+//    }   
 
             
     public static void main(String args[]) {
@@ -165,11 +204,11 @@ public class LoginView extends JFrame {
         });
     }
 
-    private javax.swing.JLabel jLabel1;
-    private javax.swing.JLabel jLabel2;
-    private javax.swing.JMenu jMenu1;
-    private javax.swing.JMenuBar jMenuBar1;
-    private javax.swing.JPanel jPanel1;
-    private javax.swing.JTextField jTextField1;
+    private JLabel idLabel;
+    private JLabel welcomeLabel;
+    private JMenu jMenu1;
+    private JMenuBar jMenuBar1;
+    private JPanel jPanel1;
+    private Java2sAutoComboBox operatorName;
 
 }

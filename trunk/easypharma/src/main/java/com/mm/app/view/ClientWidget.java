@@ -11,6 +11,7 @@ import java.awt.event.ActionListener;
 import java.awt.event.KeyAdapter;
 import java.awt.event.KeyEvent;
 import java.text.DateFormat;
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -132,6 +133,11 @@ public class ClientWidget extends JInternalFrame implements InternalFrameWidget{
 					if(assurances != null && assurances.size() > 0){
 						for(Assurance assurance : assurances){
 							TypeAssurance type = assurance.getType();
+						
+							assuranceWidget.getNewAssur1().setEnabled(true);
+							assuranceWidget.getNewAssur2().setEnabled(true);
+							assuranceWidget.getNewAssur3().setEnabled(true);
+							
 							switch (type) {
 							case OBLIGATOIRE:
 								assuranceField = assuranceWidget.getAssurance1();
@@ -266,12 +272,13 @@ public class ClientWidget extends JInternalFrame implements InternalFrameWidget{
 			clientManagementView.setEdit(true);
 			
 			List<Vente> ventes = client.getVentes();
-			String[] data = null;
-			if(ventes != null && ventes.size() > 0){
-				data = new String[ventes.size()];
-				int i  = 0;
-				for(Vente vente : ventes){
-					data[i] = vente.getId() + " (" + vente.getOperator().getFirstName() + ")";
+			
+			String[] data = new String[ventes.size()];
+			int i  = 0;
+			for(Vente vente : ventes){
+				if("COMPLETE".equals(vente.getStatus())){
+					DateFormat dateFormat = new SimpleDateFormat("yyyy/MM/dd");
+					data[i] = "(" + vente.getId() + ") -- " + dateFormat.format(vente.getDateCreation()) + " -- " + vente.getMedecin().getMedecinName();
 					i++;
 				}
 			}

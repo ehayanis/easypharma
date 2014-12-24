@@ -138,4 +138,7 @@ public class Medecin implements Serializable {
 		this.email = email;
 	}
 	
+	public String getMedecinName(){
+		return this.firstName + " " + this.lastName;
+	}
 }

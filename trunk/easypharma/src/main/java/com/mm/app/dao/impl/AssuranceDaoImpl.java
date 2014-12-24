@@ -7,6 +7,7 @@ import javax.persistence.TypedQuery;
 
 import com.mm.app.dao.AssuranceDao;
 import com.mm.app.model.Assurance;
+import com.mm.app.model.AssuranceClient;
 import com.mm.app.view.TypeAssurance;
 
 public class AssuranceDaoImpl implements AssuranceDao{
@@ -29,8 +30,8 @@ public class AssuranceDaoImpl implements AssuranceDao{
 	}
 
 	@Override
-	public Assurance findAssuranceByCoverCard(String name) {
-		Assurance c = (Assurance) em.createNamedQuery("findAssuranceByCoverCard").setParameter("name", name).getSingleResult();
+	public AssuranceClient findAssuranceByCoverCard(String coverCard) {
+		AssuranceClient c = (AssuranceClient) em.createNamedQuery("findAssuranceByCoverCard").setParameter("coverCard", coverCard).getSingleResult();
 		return c;
 	}
 

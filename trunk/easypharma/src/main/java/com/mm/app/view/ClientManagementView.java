@@ -7,6 +7,7 @@ import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.text.DateFormat;
 import java.text.ParseException;
+import java.text.SimpleDateFormat;
 import java.util.List;
 
 import javax.persistence.EntityManager;
@@ -35,6 +36,7 @@ import com.mm.app.model.Assurance;
 import com.mm.app.model.Client;
 import com.mm.app.model.Product;
 import com.mm.app.model.Vente;
+import com.mm.app.model.VenteProduit;
 import com.mm.app.service.ClientService;
 import com.mm.app.service.impl.ClientServiceImpl;
 import com.mm.app.utilities.ClientTableModel;
@@ -110,11 +112,11 @@ public class ClientManagementView extends JFrame {
 		faxLabel = new JLabel();
 		fax = new JTextField();
 		jPanel2 = new MyJPanel();
-		listOrdonnanceLabel = new JLabel();
+		listVenteLabel = new JLabel();
 		jScrollPane2 = new JScrollPane();
-		listOrdonnance = new JList();
+		listVente = new JList();
 		jScrollPane3 = new JScrollPane();
-		tableOrdonnance = new JTable();
+		tableProduct = new JTable();
 		validate = new JButton();
 		cancel = new JButton();
 		jPanel6 = new MyJPanel();
@@ -250,11 +252,14 @@ public class ClientManagementView extends JFrame {
 					String[] data = new String[ventes.size()];
 					int i  = 0;
 					for(Vente vente : ventes){
-						data[i] = vente.getId() + " (" + vente.getOperator().getFirstName() + ")";
-						i++;
+						if("COMPLETE".equals(vente.getStatus())){
+							DateFormat dateFormat = new SimpleDateFormat("yyyy/MM/dd");
+							data[i] = "(" + vente.getId() + ") -- " + dateFormat.format(vente.getDateCreation()) + " -- " + vente.getMedecin().getMedecinName();
+							i++;
+						}
 					}
 					
-					listOrdonnance.setListData(data);
+					listVente.setListData(data);
 
 					List<Assurance> assurances = service.getClientAssurances(client);
 					if(assurances != null && assurances.size() > 0){
@@ -331,18 +336,18 @@ public class ClientManagementView extends JFrame {
 //		jPanel3.add(Utilities.createFilledSimpleInnerPanel(sexeLabel, sexePanel));
 
 
-		listOrdonnanceLabel.setText("Liste Ordonnances");
-		listOrdonnanceLabel.setFont(new java.awt.Font("Tahoma", 1, 11));
-		jScrollPane2.setViewportView(listOrdonnance);
+		listVenteLabel.setText("Liste Ordonnances");
+		listVenteLabel.setFont(new java.awt.Font("Tahoma", 1, 11));
+		jScrollPane2.setViewportView(listVente);
 
-		listOrdonnance.addListSelectionListener(new ListSelectionListener() {
+		listVente.addListSelectionListener(new ListSelectionListener() {
 			public void valueChanged(ListSelectionEvent evt) {
-//				listOrdonnanceValueChanged(evt);
+				listVenteValueChanged(evt);
 			}
 		});
 
 		
-		tableOrdonnance.setModel(new DefaultTableModel(
+		tableProduct.setModel(new DefaultTableModel(
 				new Object [][] {
 						{null, null},
 						{null, null},
@@ -360,7 +365,7 @@ public class ClientManagementView extends JFrame {
 				return canEdit [columnIndex];
 			}
 		});
-		jScrollPane3.setViewportView(tableOrdonnance);
+		jScrollPane3.setViewportView(tableProduct);
 		jPanel2.setBorder(javax.swing.BorderFactory.createEtchedBorder());
 		
 		javax.swing.GroupLayout jPanel2Layout = new javax.swing.GroupLayout(jPanel2);
@@ -369,15 +374,15 @@ public class ClientManagementView extends JFrame {
             jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel2Layout.createSequentialGroup()
                 .addGap(0, 2, Short.MAX_VALUE)
-                .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addComponent(listOrdonnanceLabel)
-                    .addComponent(jScrollPane2, javax.swing.GroupLayout.PREFERRED_SIZE, 139, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(jScrollPane3, javax.swing.GroupLayout.PREFERRED_SIZE, 266, javax.swing.GroupLayout.PREFERRED_SIZE)))
+                .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
+                        .addComponent(listVenteLabel)
+                        .addComponent(jScrollPane3, javax.swing.GroupLayout.DEFAULT_SIZE, 266, Short.MAX_VALUE)
+                        .addComponent(jScrollPane2)))
         );
         jPanel2Layout.setVerticalGroup(
             jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(jPanel2Layout.createSequentialGroup()
-                .addComponent(listOrdonnanceLabel)
+                .addComponent(listVenteLabel)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addComponent(jScrollPane2, javax.swing.GroupLayout.PREFERRED_SIZE, 93, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
@@ -640,21 +645,21 @@ public class ClientManagementView extends JFrame {
 		setLocationRelativeTo(null);
 	}// </editor-fold>                        
 
-	private void listOrdonnanceValueChanged(ListSelectionEvent evt) {
-		String selected = listOrdonnance.getSelectedValue().toString();
-		String ordonnaceId = selected.substring(selected.indexOf("(") + 1, selected.indexOf(")"));
+	private void listVenteValueChanged(ListSelectionEvent evt) {
+		String selected = listVente.getSelectedValue().toString();
+		String venteId = selected.substring(selected.indexOf("(") + 1, selected.indexOf(")"));
 
-		System.out.println(ordonnaceId);
+		System.out.println(venteId);
 
-		List<Product> products = em.createQuery("SELECT o.products FROM Ordonnance o WHERE o.id = :id", Product.class).setParameter("id", Integer.valueOf(ordonnaceId)).getResultList();
+		List<VenteProduit> venteProduits = em.createQuery("SELECT p FROM Vente v JOIN v.produits p WHERE v.id = :id", VenteProduit.class).setParameter("id", Integer.valueOf(venteId)).getResultList();
 		Object[][] data = null;
 
-		if(products != null && products.size() > 0){
-			data = new Object[products.size()][2];
+		if(venteProduits != null && venteProduits.size() > 0){
+			data = new Object[venteProduits.size()][2];
 			int i = 0;
-			for(Product p : products){
-				data[i][0] = p.getDesignation();
-				data[i][1] = p.getPu();
+			for(VenteProduit vp : venteProduits){
+				data[i][0] = vp.getProduct().getDesignation();
+				data[i][1] = vp.getProduct().getPu();
 				i++;
 			}
 		}
@@ -666,7 +671,7 @@ public class ClientManagementView extends JFrame {
 				return getValueAt(0, c).getClass();
 			}
 		};
-		tableOrdonnance.setModel(dtm);
+		tableProduct.setModel(dtm);
 	}
 
 	private void validateActionPerformed(ActionEvent evt){
@@ -715,6 +720,10 @@ public class ClientManagementView extends JFrame {
 					JTextField assuranceField = null;
 					JTextField hiddenField = null;
 					JButton newAssurance = null;
+					
+					assuranceWidget.getNewAssur1().setEnabled(true);
+					assuranceWidget.getNewAssur2().setEnabled(true);
+					assuranceWidget.getNewAssur3().setEnabled(true);
 					
 					List<Assurance> assurances = service.getClientAssurances(client);
 					if(assurances != null && assurances.size() > 0){
@@ -771,7 +780,7 @@ public class ClientManagementView extends JFrame {
 	}
 
 	public JList getListOrdonnance() {
-		return listOrdonnance;
+		return listVente;
 	}
 	
 	public JTable getSearchTable() {
@@ -898,13 +907,13 @@ public class ClientManagementView extends JFrame {
 	private JLabel labelAddrLivraison;
 	private JLabel labelAddrPrincipal;
 	private JLabel labelAddrFacturation;
-	private JLabel listOrdonnanceLabel;
+	private JLabel listVenteLabel;
 	private JLabel lastNameLabel;
 	private JLabel jLabel5;
 	private JLabel dateOfBirthLabel;
 	private JLabel referenceLabel;
 	private JLabel sexeLabel;
-	private JList listOrdonnance;
+	private JList listVente;
 	private MyJPanel jPanel1;
 	private MyJPanel jPanel10;
 	private MyJPanel sexePanel;
@@ -947,7 +956,7 @@ public class ClientManagementView extends JFrame {
 	private JScrollPane jSPAddrPrincipal;
 	private JTabbedPane adresseTabbedPane;
 	private JTable searchTable;
-	private JTable tableOrdonnance;
+	private JTable tableProduct;
 	private JTextArea jTextArea1;
 	private JTextArea jTextArea2;
 	private JTextArea addrLivraison;
