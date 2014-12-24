@@ -24,8 +24,7 @@ public class Client implements Serializable {
 	private Integer age;
 
 	private Integer avs;
-	@Column(name="cover_card")
-	private String coverCard;
+	
 
     @Temporal( TemporalType.DATE)
 	@Column(name="birth_date")
@@ -187,14 +186,6 @@ public class Client implements Serializable {
 		this.assuranceClients = assuranceClients;
 	}
 	
-	public String getCoverCard() {
-		return this.coverCard;
-	}
-
-	public void setCoverCard(String coverCard) {
-		this.coverCard = coverCard;
-	}
-	
 	public String getAddrPrincipal() {
 		return addrPrincipal;
 	}
@@ -219,15 +210,4 @@ public class Client implements Serializable {
 		this.addrLivraison = addrLivraison;
 	}
 
-	@Override
-	public String toString() {
-		return "Client [id=" + id + ", age=" + age + ", avs=" + avs
-				+ ", coverCard=" + coverCard + ", birthDate=" + birthDate
-				+ ", email=" + email + ", fax=" + fax + ", firstName="
-				+ firstName + ", fix=" + fix + ", lastName=" + lastName
-				+ ", mpi=" + mpi + ", phone=" + phone + ", reference="
-				+ reference + ", sexe=" + sexe + ", ventes=" + ventes
-				+ ", assuranceClients=" + assuranceClients + "]";
-	}
-	
 }

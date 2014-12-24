@@ -7,6 +7,7 @@ import javax.persistence.EntityManager;
 import com.mm.app.dao.AssuranceDao;
 import com.mm.app.dao.impl.AssuranceDaoImpl;
 import com.mm.app.model.Assurance;
+import com.mm.app.model.AssuranceClient;
 import com.mm.app.service.AssuranceService;
 import com.mm.app.view.TypeAssurance;
 
@@ -31,7 +32,7 @@ public class AssuranceServiceImpl implements AssuranceService{
 	}
 
 	@Override
-	public Assurance findAssuranceByCoverCard(String coverCard) {
+	public AssuranceClient findAssuranceByCoverCard(String coverCard) {
 		return dao.findAssuranceByCoverCard(coverCard);
 	}
 

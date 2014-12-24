@@ -8,15 +8,14 @@ import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.Id;
 import javax.persistence.ManyToOne;
+import javax.persistence.NamedQuery;
 import javax.persistence.OneToOne;
 import javax.persistence.Table;
 import javax.persistence.Temporal;
 import javax.persistence.TemporalType;
 
-/**
- * Entity implementation class for Entity: AssuranceClient
- *
- */
+@NamedQuery(name="findAssuranceByCoverCard", query="SELECT c FROM AssuranceClient c WHERE c.coverCard = :coverCard")
+
 @Entity
 @Table(name="assurance_client")
 public class AssuranceClient implements Serializable {
@@ -37,6 +36,8 @@ public class AssuranceClient implements Serializable {
 	@OneToOne
 	private Assurance assurance;
 	
+	@Column(name="cover_card")
+	private String coverCard;
 	
 	private static final long serialVersionUID = 1L;
 
@@ -75,5 +76,13 @@ public class AssuranceClient implements Serializable {
 	public void setAssurance(Assurance assurance) {
 		this.assurance = assurance;
 	}
-   
+	
+	public String getCoverCard() {
+		return this.coverCard;
+	}
+
+	public void setCoverCard(String coverCard) {
+		this.coverCard = coverCard;
+	}
+	
 }
