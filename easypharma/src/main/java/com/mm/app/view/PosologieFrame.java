@@ -1,5 +1,6 @@
 package com.mm.app.view;
 
+import java.awt.Color;
 import java.awt.Font;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
@@ -15,7 +16,6 @@ import javax.swing.JButton;
 import javax.swing.JCheckBox;
 import javax.swing.JFrame;
 import javax.swing.JLabel;
-import javax.swing.JPanel;
 import javax.swing.JScrollPane;
 import javax.swing.JSpinner;
 import javax.swing.JTabbedPane;
@@ -65,16 +65,16 @@ public class PosologieFrame extends JFrame {
     // <editor-fold defaultstate="collapsed" desc="Generated Code">                          
     private void initComponents() {
 
-        jPanel1 = new JPanel();
+        jPanel1 = new MyJPanel();
         jTabbedPane1 = new JTabbedPane();
-        jPanel4 = new JPanel();
+        jPanel4 = new MyJPanel();
         jScrollPane3 = new JScrollPane();
         codexPosoologie = new JTextArea();
         jTabbedPane2 = new JTabbedPane();
         jScrollPane5 = new JScrollPane();
         tableProduit = new JTable();
-        jPanel2 = new JPanel();
-        jPanel6 = new JPanel();
+        jPanel2 = new MyJPanel();
+        jPanel6 = new MyJPanel();
         jLabel3 = new JLabel();
         qteJour = new JSpinner();
         jLabel4 = new JLabel();
@@ -99,7 +99,7 @@ public class PosologieFrame extends JFrame {
         jourSur = new JSpinner();
         duree = new JSpinner();
         jLabel15 = new JLabel();
-        jPanel7 = new JPanel();
+        jPanel7 = new MyJPanel();
         jLabel16 = new JLabel();
         dosage = new JTextField();
         jLabel17 = new JLabel();
@@ -117,13 +117,13 @@ public class PosologieFrame extends JFrame {
         jLabel23 = new JLabel();
         action = new JTextField();
         jTabbedPane3 = new JTabbedPane();
-        jPanel3 = new JPanel();
+        jPanel3 = new MyJPanel();
         jLabel1 = new JLabel();
         jLabel2 = new JLabel();
         jScrollPane1 = new JScrollPane();
         avertissement = new JTextArea();
         jTabbedPane4 = new JTabbedPane();
-        jPanel8 = new JPanel();
+        jPanel8 = new MyJPanel();
         jScrollPane2 = new JScrollPane();
         contreIndication = new JTextArea();
         print = new JButton();
@@ -253,7 +253,12 @@ public class PosologieFrame extends JFrame {
                 jCheckBoxItemStateChanged(evt);
             }
         });
-
+        
+        nuit.setBackground(Color.WHITE);
+        soir.setBackground(Color.WHITE);
+        matin.setBackground(Color.WHITE);
+        midi.setBackground(Color.WHITE);
+        
         jLabel10.setText("Repas:");
         jLabel11.setText("Conditions:");
         jLabel12.setText("Rythme:");
@@ -645,13 +650,13 @@ public class PosologieFrame extends JFrame {
     private JLabel nuitLabel;
     private JLabel soirLabel;
     private JLabel midiLabel;
-    private JPanel jPanel1;
-    private JPanel jPanel2;
-    private JPanel jPanel3;
-    private JPanel jPanel4;
-    private JPanel jPanel6;
-    private JPanel jPanel7;
-    private JPanel jPanel8;
+    private MyJPanel jPanel1;
+    private MyJPanel jPanel2;
+    private MyJPanel jPanel3;
+    private MyJPanel jPanel4;
+    private MyJPanel jPanel6;
+    private MyJPanel jPanel7;
+    private MyJPanel jPanel8;
     private JScrollPane jScrollPane1;
     private JScrollPane jScrollPane2;
     private JScrollPane jScrollPane3;

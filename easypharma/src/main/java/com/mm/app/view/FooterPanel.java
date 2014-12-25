@@ -1,20 +1,21 @@
 package com.mm.app.view;
 
+import java.awt.Color;
+
 import javax.swing.GroupLayout;
-import javax.swing.JButton;
 import javax.swing.JLabel;
 import javax.swing.JPanel;
 import javax.swing.LayoutStyle;
 
 public class FooterPanel extends JPanel{
 
-    private JButton paiement;
-    private JButton impression;
-    private JButton posologie;
-    private JButton assurance;
-    private JButton client;
-    private JButton medecin;
-    private JButton produit;
+    private MyJLabel paiement;
+    private MyJLabel impression;
+    private MyJLabel posologie;
+    private MyJLabel assurance;
+    private MyJLabel client;
+    private MyJLabel medecin;
+    private MyJLabel produit;
     private JLabel totalLabel;
     private JLabel totalValue;
     private JPanel totalPanel;
@@ -24,14 +25,15 @@ public class FooterPanel extends JPanel{
 	}
 	
 	private void initComponents() {
+		this.setBackground(Color.white);
 		totalLabel = new JLabel();
-        assurance = new JButton();
-        client = new JButton();
-        medecin = new JButton();
-        produit = new JButton();
-        paiement = new JButton();
-        impression = new JButton();
-        posologie = new JButton();
+        assurance = new MyJLabel("Assur... : F1");
+        client = new MyJLabel("Client : F2");
+        medecin = new MyJLabel("Medecin : F3");
+        produit = new MyJLabel("Produits : F4");
+        paiement = new MyJLabel("Paiement : Esc");
+        impression = new MyJLabel("Imprés... : F6");
+        posologie = new MyJLabel("Posologie : F9");
         totalPanel = new JPanel();
         totalValue = new JLabel();
         
@@ -39,26 +41,26 @@ public class FooterPanel extends JPanel{
         totalLabel.setFont(new java.awt.Font("Tahoma", 0, 14)); // NOI18N
         totalLabel.setText("TOTAL:");
 
-        assurance.setFont(new java.awt.Font("Tahoma", 0, 12)); // NOI18N
-        assurance.setText("Assur... : F1");
-
-        client.setFont(new java.awt.Font("Tahoma", 0, 12)); // NOI18N
-        client.setText("Client : F2");
-
-        medecin.setFont(new java.awt.Font("Tahoma", 0, 12)); // NOI18N
-        medecin.setText("Medecin : F3");
-
-        produit.setFont(new java.awt.Font("Tahoma", 0, 12)); // NOI18N
-        produit.setText("Produits : F4");
-
-        paiement.setFont(new java.awt.Font("Tahoma", 0, 12)); // NOI18N
-        paiement.setText("Paiement : Esc");
-
-        impression.setFont(new java.awt.Font("Tahoma", 0, 12)); // NOI18N
-        impression.setText("Imprés... : F6");
-
-        posologie.setFont(new java.awt.Font("Tahoma", 0, 12)); // NOI18N
-        posologie.setText("Posologie : F9");
+//        assurance.setFont(new java.awt.Font("Tahoma", 0, 12)); // NOI18N
+//        assurance.setText("Assur... : F1");
+//
+//        client.setFont(new java.awt.Font("Tahoma", 0, 12)); // NOI18N
+//        client.setText("Client : F2");
+//
+//        medecin.setFont(new java.awt.Font("Tahoma", 0, 12)); // NOI18N
+//        medecin.setText("Medecin : F3");
+//
+//        produit.setFont(new java.awt.Font("Tahoma", 0, 12)); // NOI18N
+//        produit.setText("Produits : F4");
+//
+//        paiement.setFont(new java.awt.Font("Tahoma", 0, 12)); // NOI18N
+//        paiement.setText("Paiement : Esc");
+//
+//        impression.setFont(new java.awt.Font("Tahoma", 0, 12)); // NOI18N
+//        impression.setText("Imprés... : F6");
+//
+//        posologie.setFont(new java.awt.Font("Tahoma", 0, 12)); // NOI18N
+//        posologie.setText("Posologie : F9");
 
         totalPanel.setBackground(new java.awt.Color(51, 51, 51));
 
@@ -126,59 +128,59 @@ public class FooterPanel extends JPanel{
 
 	}
 
-	public JButton getPaiement() {
+	public MyJLabel getPaiement() {
 		return paiement;
 	}
 
-	public void setPaiement(JButton paiement) {
+	public void setPaiement(MyJLabel paiement) {
 		this.paiement = paiement;
 	}
 
-	public JButton getImpression() {
+	public MyJLabel getImpression() {
 		return impression;
 	}
 
-	public void setImpression(JButton impression) {
+	public void setImpression(MyJLabel impression) {
 		this.impression = impression;
 	}
 
-	public JButton getPosologie() {
+	public MyJLabel getPosologie() {
 		return posologie;
 	}
 
-	public void setPosologie(JButton posologie) {
+	public void setPosologie(MyJLabel posologie) {
 		this.posologie = posologie;
 	}
 
-	public JButton getAssurance() {
+	public MyJLabel getAssurance() {
 		return assurance;
 	}
 
-	public void setAssurance(JButton assurance) {
+	public void setAssurance(MyJLabel assurance) {
 		this.assurance = assurance;
 	}
 
-	public JButton getClient() {
+	public MyJLabel getClient() {
 		return client;
 	}
 
-	public void setClient(JButton client) {
+	public void setClient(MyJLabel client) {
 		this.client = client;
 	}
 
-	public JButton getMedecin() {
+	public MyJLabel getMedecin() {
 		return medecin;
 	}
 
-	public void setMedecin(JButton medecin) {
+	public void setMedecin(MyJLabel medecin) {
 		this.medecin = medecin;
 	}
 
-	public JButton getProduit() {
+	public MyJLabel getProduit() {
 		return produit;
 	}
 
-	public void setProduit(JButton produit) {
+	public void setProduit(MyJLabel produit) {
 		this.produit = produit;
 	}
 
