@@ -386,6 +386,12 @@ public class SaleView extends JFrame {
         		if("".equals(footerPanel.getTotalValue().getText())){
         			JOptionPane.showMessageDialog(jTabbedPane1, "Veuillez séléctionner au moins un produit!");
         		}else{
+        			
+        			em.getTransaction().begin();
+        			vente = em.find(Vente.class, vente.getId());
+        			vente.setProduits(products);
+        			em.getTransaction().commit();
+        			
         			PosologieFrame posologieFrame = new PosologieFrame(em, vente);
         			posologieFrame.setVisible(true);
         		}
