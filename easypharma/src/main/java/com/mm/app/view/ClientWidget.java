@@ -128,16 +128,19 @@ public class ClientWidget extends JInternalFrame implements InternalFrameWidget{
 					JTextField assuranceField = null;
 					JTextField hiddenField = null;
 					JButton newAssurance = null;
+
+					assuranceWidget.getNewAssur1().setEnabled(true);
+					assuranceWidget.getNewAssur2().setEnabled(true);
+					assuranceWidget.getNewAssur3().setEnabled(true);
+					assuranceWidget.getAssurance1().setText("");
+					assuranceWidget.getAssurance2().setText("");
+					assuranceWidget.getAssurance3().setText("");
 					
 					List<Assurance> assurances = clientService.getClientAssurances(client);
 					if(assurances != null && assurances.size() > 0){
 						for(Assurance assurance : assurances){
 							TypeAssurance type = assurance.getType();
 						
-							assuranceWidget.getNewAssur1().setEnabled(true);
-							assuranceWidget.getNewAssur2().setEnabled(true);
-							assuranceWidget.getNewAssur3().setEnabled(true);
-							
 							switch (type) {
 							case OBLIGATOIRE:
 								assuranceField = assuranceWidget.getAssurance1();

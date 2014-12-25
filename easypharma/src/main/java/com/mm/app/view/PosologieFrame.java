@@ -202,7 +202,7 @@ public class PosologieFrame extends JFrame {
         });
         matin.addItemListener(new ItemListener() {
             public void itemStateChanged(ItemEvent evt) {
-                jCheckBoxItemStateChanged(evt);
+                jCheckBoxItemStateChanged(evt, matinLabel);
             }
         });
 
@@ -217,7 +217,7 @@ public class PosologieFrame extends JFrame {
         });
         midi.addItemListener(new ItemListener() {
             public void itemStateChanged(ItemEvent evt) {
-                jCheckBoxItemStateChanged(evt);
+                jCheckBoxItemStateChanged(evt, midiLabel);
             }
         });
 
@@ -232,7 +232,7 @@ public class PosologieFrame extends JFrame {
         });
         soir.addItemListener(new ItemListener() {
             public void itemStateChanged(ItemEvent evt) {
-                jCheckBoxItemStateChanged(evt);
+                jCheckBoxItemStateChanged(evt, soirLabel);
             }
         });
 
@@ -250,7 +250,7 @@ public class PosologieFrame extends JFrame {
         });
         nuit.addItemListener(new ItemListener() {
             public void itemStateChanged(ItemEvent evt) {
-                jCheckBoxItemStateChanged(evt);
+                jCheckBoxItemStateChanged(evt, nuitLabel);
             }
         });
         
@@ -602,15 +602,15 @@ public class PosologieFrame extends JFrame {
         setLocationRelativeTo(null);
     }// </editor-fold>                        
     
-    private void jCheckBoxItemStateChanged(java.awt.event.ItemEvent evt) {                                            
+    private void jCheckBoxItemStateChanged(ItemEvent evt, JLabel label) {                                            
         if (evt.getStateChange() == ItemEvent.SELECTED) {
-            midiLabel.setText(qteJour.getValue().toString() + ".00");
+        	label.setText(qteJour.getValue().toString() + ".00");
         } else {
-            midiLabel.setText("-----------");
+        	label.setText("-----------");
         }
     }       
     
-    private void jCheckBoxStateChanged(javax.swing.event.ChangeEvent evt) {                                        
+    private void jCheckBoxStateChanged(ChangeEvent evt) {                                        
         
     }                                       
     
