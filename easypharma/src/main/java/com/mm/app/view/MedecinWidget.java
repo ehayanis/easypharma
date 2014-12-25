@@ -185,6 +185,14 @@ public class MedecinWidget extends JInternalFrame implements InternalFrameWidget
 		this.nrcc = nrcc;
 	}
 	
+	public Vente getVente() {
+		return vente;
+	}
+
+	public void setVente(Vente vente) {
+		this.vente = vente;
+	}
+
 	private void editActionPerformed(ActionEvent evt) {                                         
 		MedecinManagementView medecinManagementView = new MedecinManagementView(em, vente);
         

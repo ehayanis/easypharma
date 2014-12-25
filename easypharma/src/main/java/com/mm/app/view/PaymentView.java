@@ -1,37 +1,43 @@
 package com.mm.app.view;
 
+import java.awt.Color;
+import java.awt.Frame;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.awt.event.KeyAdapter;
 import java.awt.event.KeyEvent;
-import java.text.NumberFormat;
+import java.util.ArrayList;
 import java.util.Collection;
+import java.util.Date;
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 import java.util.Set;
 import java.util.Vector;
 
 import javax.persistence.EntityManager;
-import javax.swing.AbstractAction;
+import javax.swing.DefaultCellEditor;
 import javax.swing.DefaultComboBoxModel;
-import javax.swing.DefaultListModel;
 import javax.swing.GroupLayout;
 import javax.swing.ImageIcon;
 import javax.swing.JButton;
 import javax.swing.JComboBox;
-import javax.swing.JComponent;
 import javax.swing.JFrame;
 import javax.swing.JLabel;
 import javax.swing.JList;
 import javax.swing.JOptionPane;
-import javax.swing.JPanel;
 import javax.swing.JScrollPane;
 import javax.swing.JTextField;
-import javax.swing.KeyStroke;
 import javax.swing.LayoutStyle;
 import javax.swing.WindowConstants;
+import javax.swing.table.DefaultTableCellRenderer;
+import javax.swing.table.DefaultTableModel;
+import javax.swing.table.TableColumn;
 
+import com.mm.app.model.Product;
 import com.mm.app.model.Vente;
+import com.mm.app.model.VenteProduit;
+import com.mm.app.utilities.Java2sAutoComboBox;
 
 public class PaymentView extends JFrame {
 
@@ -49,12 +55,13 @@ public class PaymentView extends JFrame {
     	initComponents();
         ImageIcon img = new ImageIcon(getClass().getResource("/img/logo.png"));
         setIconImage(img.getImage());
+        setBackground(Color.WHITE);
     }
 
     @SuppressWarnings("unchecked")
     private void initComponents() {
 
-        jPanel8 = new JPanel();
+        jPanel8 = new MyJPanel();
         jLabel6 = new JLabel();
         total = new JTextField();
         payed = new JTextField();
@@ -245,6 +252,134 @@ public class PaymentView extends JFrame {
 			}
 			vente.setStatus("COMPLETE");
 			em.getTransaction().commit();
+			for (Frame frame : Frame.getFrames()) {
+				if (frame.getTitle().equals("EasyPharma: Gestion Pharmacies ")) {
+					final SaleView saleView = (SaleView) frame;
+					
+					vente = new Vente();
+			    	vente.setOperator(saleView.getOperator());
+			    	vente.setStatus("INIT");
+			    	vente.setDateCreation(new Date());
+			    	vente = saleView.getVenteService().addVente(vente);
+			    	saleView.setVente(vente);
+			    	
+			    	saleView.getAssuranceWidget().getAssurance1().setText("");
+			    	saleView.getAssuranceWidget().getAssurance2().setText("");
+			    	saleView.getAssuranceWidget().getAssurance3().setText("");
+			    	saleView.getAssuranceWidget().getHiddenField1().setText("");
+			    	saleView.getAssuranceWidget().getHiddenField2().setText("");
+			    	saleView.getAssuranceWidget().getHiddenField3().setText("");
+			    	saleView.getAssuranceWidget().getNewAssur1().setEnabled(false);
+			    	saleView.getAssuranceWidget().getNewAssur2().setEnabled(false);
+			    	saleView.getAssuranceWidget().getNewAssur3().setEnabled(false);
+			    	saleView.getAssuranceWidget().setVente(vente);
+			    	
+			    	saleView.getClientWidget().getDateOfBirth().setText("");
+			    	saleView.getClientWidget().getReference().setSelectedItem("");
+			    	saleView.getClientWidget().getFirstName().setText("");
+			    	saleView.getClientWidget().getAge().setText("");
+			    	saleView.getClientWidget().getPhone().setText("");
+			    	saleView.getClientWidget().setVente(vente);
+			    	
+			    	saleView.getMedecinWidget().getFirstName().setSelectedItem("");
+			    	saleView.getMedecinWidget().getSpeciality().setText("");
+			    	saleView.getMedecinWidget().getReference().setText("");
+			    	saleView.getMedecinWidget().getPhone().setText("");
+			    	saleView.getMedecinWidget().getNrcc().setText("");
+			    	saleView.getMedecinWidget().setVente(vente);
+			    	
+			    	saleView.getHeaderPanel().getClient().activateButton(false);
+			    	saleView.getHeaderPanel().getProduit().activateButton(false);
+			    	saleView.getHeaderPanel().getPaiement().activateButton(false);
+			    	saleView.getHeaderPanel().getImpression().activateButton(false);
+			    	
+			    	saleView.getFooterPanel().getTotalValue().setText("");
+			    	
+			    	saleView.getjTable1().setModel(new DefaultTableModel(
+			                new Object [][] {
+			                        {null, null, null, null, null, null, null, null, null, null},
+			                        {null, null, null, null, null, null, null, null, null, null},
+			                        {null, null, null, null, null, null, null, null, null, null},
+			                        {null, null, null, null, null, null, null, null, null, null},
+			                        {null, null, null, null, null, null, null, null, null, null},
+			                        {null, null, null, null, null, null, null, null, null, null},
+			                        {null, null, null, null, null, null, null, null, null, null},
+			                        {null, null, null, null, null, null, null, null, null, null},
+			                        {null, null, null, null, null, null, null, null, null, null},
+			                        {null, null, null, null, null, null, null, null, null, null},
+			                        {null, null, null, null, null, null, null, null, null, null},
+			                        {null, null, null, null, null, null, null, null, null, null},
+			                        {null, null, null, null, null, null, null, null, null, null}
+			                    },
+			                    new String [] {
+			                    		"Libellé", "Facture", "Référence", "Taux", "Base", "PU TTC", "Qté", "Remise", "Part Client", "Total"
+			                    }
+			                ));
+			    	
+			    	saleView.setProducts(new ArrayList<VenteProduit>());
+			    	saleView.getjTable1().setRowHeight(22);
+			    	saleView.getjTable1().getColumnModel().getColumn(0).setPreferredWidth(230);
+			              
+			    	final Map<String, String> data = new HashMap<String, String>();
+			        data.put("", "");
+			        List<Product> result = saleView.getProductService().getProducts();
+					if(result != null && result.size() > 0){
+						for(Product p : result){
+							data.put(p.getDesignation(), p.getReference());
+						}
+					}
+			        
+			        final Java2sAutoComboBox comboBox = new Java2sAutoComboBox(data);
+			        comboBox.setDataList(data);
+			        comboBox.setMaximumRowCount(3);
+			        
+			        comboBox.getEditor().getEditorComponent().addKeyListener(new KeyAdapter() {
+			        	@Override
+			        	public void keyPressed(KeyEvent e) {
+			        		 if (e.getKeyChar() == KeyEvent.VK_ENTER) {
+			        			 int row = saleView.getjTable1().getSelectedRow();
+			        			 String selectedValue = (String) comboBox.getSelectedItem();
+			        			 Product product = saleView.getProductService().findProductByReference(data.get(selectedValue));
+			        			 saleView.getjTable1().setValueAt(product.getReference(), row, 2);
+			        			 saleView.getjTable1().setValueAt(product.getPu(), row, 5);
+			        			 saleView.getjTable1().setValueAt(product.getPu() + (product.getPu() * 0.2), row, 9);
+			                	 
+			                	 VenteProduit vp = new VenteProduit(product);
+			                	 vp.setVente(vente);
+			                	 saleView.getProducts().add(vp);
+			                	 
+			                	 saleView.getHeaderPanel().getProduit().activateButton(true);
+			                	 
+			                	 int rows = saleView.getjTable1().getRowCount();
+			                	 double total = 0;
+			                	 for(int i = 0; i < rows; i++){
+			                		 Object d = saleView.getjTable1().getValueAt(i, 9);
+			                		 if(d != null){
+			                			 total += (Double)d; 
+			                		 }
+			                		 
+			                	 }
+			                	 
+			                	 saleView.getFooterPanel().getTotalValue().setText(String.valueOf(total));
+			             }
+			        	}
+					});
+			        
+			        TableColumn column = saleView.getjTable1().getColumnModel().getColumn(0);
+			        column.setCellEditor(new DefaultCellEditor(comboBox));
+			        DefaultTableCellRenderer renderer = new DefaultTableCellRenderer();
+			        renderer.setToolTipText("Séléctionner un produit");
+			        column.setCellRenderer(renderer);
+			        
+			        
+			        TableColumn factureColumn = saleView.getjTable1().getColumnModel().getColumn(1);
+			        JComboBox<String> facture = new JComboBox<String>();
+			        facture.addItem("Comptoire");
+			        facture.addItem("Assurance");
+			        factureColumn.setCellEditor(new DefaultCellEditor(facture));
+			    	
+				}
+			}
 			
 			setVisible(false);
 			dispose();
@@ -258,7 +393,7 @@ public class PaymentView extends JFrame {
     private JLabel jLabel1;
     private JLabel jLabel6;
     private JList<String> jList1;
-    private JPanel jPanel8;
+    private MyJPanel jPanel8;
     private JScrollPane jScrollPane1;
     private JTextField payed;
     private JTextField rendre;

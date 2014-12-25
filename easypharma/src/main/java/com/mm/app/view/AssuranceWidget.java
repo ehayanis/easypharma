@@ -227,6 +227,14 @@ public class AssuranceWidget extends JInternalFrame implements InternalFrameWidg
 		this.newAssur3 = newAssur3;
 	}
 
+	public Vente getVente() {
+		return vente;
+	}
+
+	public void setVente(Vente vente) {
+		this.vente = vente;
+	}
+
 	@Override
 	public void activateComponents(){
 		assurance1.setEnabled(true);
