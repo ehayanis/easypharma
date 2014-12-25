@@ -479,6 +479,49 @@ public class SaleView extends JFrame {
 		this.headerPanel = headerPanel;
 	}
 
+	public Vente getVente() {
+		return vente;
+	}
+
+	public void setVente(Vente vente) {
+		this.vente = vente;
+	}
+
+	public FooterPanel getFooterPanel() {
+		return footerPanel;
+	}
+
+	public JTable getjTable1() {
+		return jTable1;
+	}
+
+	public Operator getOperator() {
+		return operator;
+	}
+	
+
+	public VenteService getVenteService() {
+		return venteService;
+	}
+
+	public void setVenteService(VenteService venteService) {
+		this.venteService = venteService;
+	}
+
+	public ProductService getProductService() {
+		return productService;
+	}
+
+	public List<VenteProduit> getProducts() {
+		return products;
+	}
+
+	public void setProducts(List<VenteProduit> products) {
+		this.products = products;
+	}
+
+
+
 
 	private ClientWidget clientWidget;
     private AssuranceWidget assuranceWidget;

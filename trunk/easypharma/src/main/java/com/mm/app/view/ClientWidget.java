@@ -246,6 +246,14 @@ public class ClientWidget extends JInternalFrame implements InternalFrameWidget{
 		this.age = age;
 	}
 	
+	public Vente getVente() {
+		return vente;
+	}
+
+	public void setVente(Vente vente) {
+		this.vente = vente;
+	}
+
 	private void editActionPerformed(ActionEvent evt) {
 		String ref = (String) reference.getSelectedItem();
 		ClientManagementView clientManagementView = new ClientManagementView(em, vente);

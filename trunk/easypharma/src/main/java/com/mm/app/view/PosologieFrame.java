@@ -59,6 +59,7 @@ public class PosologieFrame extends JFrame {
         initComponents();
         ImageIcon img = new ImageIcon(getClass().getResource("/img/logo.png"));
         setIconImage(img.getImage());
+        setBackground(Color.WHITE);
     }
 
     @SuppressWarnings("unchecked")
