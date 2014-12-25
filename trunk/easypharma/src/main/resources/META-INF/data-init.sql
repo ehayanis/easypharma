@@ -333,15 +333,6 @@ INSERT INTO sequence(
 -- Operator Table
 INSERT INTO operator(id, firstname, lastname) VALUES (111, 'MEHDI', 'HAYANI');
 INSERT INTO operator(id, firstname, lastname) VALUES (222, 'MOHAMED', 'EL JAI');
-
--- Product Table
-INSERT INTO product(
-            id, designation, pu, quantity, reference, thresholdalert)
-    VALUES (111, 'DOLIPRANE', 12, 12, '42HD0234YD2', 2);
-
-INSERT INTO product(
-            id, designation, pu, quantity, reference, thresholdalert)
-    VALUES (222, 'CURACNE', 40, 10, '32D3423', 4);
 	
 -- Client Table	
 INSERT INTO client(
@@ -393,3 +384,20 @@ INSERT INTO assurance_client(id, cover_card, date_debut, date_fin, client_id, as
     
 INSERT INTO assurance_client(id, cover_card, date_debut, date_fin, client_id, assurance_id)
     VALUES (333, 'DHOIUHZEOZ', '2010-10-10', '2018-10-10', 111, 333);
+
+    
+INSERT INTO posologie(id, action, codex, contre_indication, forme)
+    VALUES (111, 'AVALER', 'Pour toutes les formes qaléniques', 'Trouble sévére de la fonction 1', 'COMPRIME');
+INSERT INTO posologie(id, action, codex, contre_indication, forme)
+    VALUES (222, 'AVALER', 'Pour toutes les formes qaléniques', 'Trouble sévére de la fonction 2', 'COMPRIME');
+    
+-- Product Table
+INSERT INTO product(
+            id, designation, pu, quantity, reference, thresholdalert, posologie_id)
+    VALUES (111, 'DOLIPRANE', 12, 12, '42HD0234YD2', 2, 111);
+
+INSERT INTO product(
+            id, designation, pu, quantity, reference, thresholdalert, posologie_id)
+    VALUES (222, 'CURACNE', 40, 10, '32D3423', 4, 222);
+    
+

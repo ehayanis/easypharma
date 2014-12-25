@@ -1,6 +1,8 @@
 package com.mm.app.view;
 
 import java.awt.Font;
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
 import java.awt.event.ItemEvent;
 import java.awt.event.ItemListener;
 import java.util.ArrayList;
@@ -22,10 +24,10 @@ import javax.swing.JTextArea;
 import javax.swing.JTextField;
 import javax.swing.LayoutStyle;
 import javax.swing.WindowConstants;
-import javax.swing.event.ChangeEvent;
-import javax.swing.event.ChangeListener;
+import javax.swing.event.*;
 import javax.swing.table.AbstractTableModel;
 
+import com.mm.app.model.Posologie;
 import com.mm.app.model.Product;
 import com.mm.app.model.Vente;
 import com.mm.app.model.VenteProduit;
@@ -154,6 +156,23 @@ public class PosologieFrame extends JFrame {
         AbstractTableModel model = new SubProductTableModel(products);
         tableProduit.setModel(model);
         
+        tableProduit.getSelectionModel().addListSelectionListener(new ListSelectionListener(){
+            public void valueChanged(ListSelectionEvent event) {
+                String productIdentifier = tableProduit.getValueAt(tableProduit.getSelectedRow(), 0).toString();
+                
+                Product product = em.find(Product.class, Integer.valueOf(productIdentifier));
+                if(product != null){
+                	Posologie posologie = product.getPosologie();
+                	
+                	action.setText(posologie.getAction());
+                	codexPosoologie.setText(posologie.getCodex());
+                	contreIndication.setText(posologie.getContreIndication());
+                	forme.setText(posologie.getForme());
+                }
+                
+            }
+        });
+        
 //        tableProduit.setModel(new DefaultTableModel(
 //            new Object [][] {
 //                {null, null},
@@ -236,15 +255,10 @@ public class PosologieFrame extends JFrame {
         });
 
         jLabel10.setText("Repas:");
-
         jLabel11.setText("Conditions:");
-
         jLabel12.setText("Rythme:");
-
         jLabel13.setText("Durée:");
-
         jLabel14.setText("Jours sur: ");
-
         jLabel15.setText("Jours");
 
         GroupLayout jPanel6Layout = new GroupLayout(jPanel6);
@@ -374,24 +388,13 @@ public class PosologieFrame extends JFrame {
         );
 
         jLabel16.setText("Dosage: ");
-
         jLabel17.setText("Forme: ");
-
-//        forme.setText("COMPRIME");
-
         jLabel18.setText("Unité: ");
-
         jLabel19.setText("Préparation: ");
-
         jLabel20.setText("Recommand.: ");
-
         jLabel21.setText("Avertissement:");
-
         jLabel22.setText("Applications: ");
-
         jLabel23.setText("Action: ");
-
-//        action.setText("AVALER");
 
         GroupLayout jPanel7Layout = new GroupLayout(jPanel7);
         jPanel7.setLayout(jPanel7Layout);
@@ -531,6 +534,11 @@ public class PosologieFrame extends JFrame {
         print.setText("Imprimer");
 
         validate.setText("Valider");
+        validate.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent evt) {
+				validatePosologieView(evt);
+			}
+		});
 
         GroupLayout jPanel1Layout = new GroupLayout(jPanel1);
         jPanel1.setLayout(jPanel1Layout);
@@ -600,7 +608,11 @@ public class PosologieFrame extends JFrame {
     private void jCheckBoxStateChanged(javax.swing.event.ChangeEvent evt) {                                        
         
     }                                       
-
+    
+    private void validatePosologieView(ActionEvent evt) {
+    	setVisible(false);
+		dispose();
+	}
     
 
     // Variables declaration - do not modify                     
