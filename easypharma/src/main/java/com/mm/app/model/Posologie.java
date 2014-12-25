@@ -1,7 +1,11 @@
 package com.mm.app.model;
 
 import java.io.Serializable;
-import javax.persistence.*;
+
+import javax.persistence.Column;
+import javax.persistence.Entity;
+import javax.persistence.GeneratedValue;
+import javax.persistence.Id;
 
 /**
  * Entity implementation class for Entity: Posologie
@@ -15,6 +19,8 @@ public class Posologie implements Serializable {
 	@GeneratedValue
 	private int id;
 	private String codex;
+	@Column(name="contre_indication")
+	private String contreIndication;
 	private String dosage;
 	private String forme;
 	private String unite;
@@ -101,5 +107,13 @@ public class Posologie implements Serializable {
 	public void setRecommendation(String recommendation) {
 		this.recommendation = recommendation;
 	}
-   
+
+	public String getContreIndication() {
+		return contreIndication;
+	}
+
+	public void setContreIndication(String contreIndication) {
+		this.contreIndication = contreIndication;
+	}
+    
 }

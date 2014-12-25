@@ -170,6 +170,7 @@ CREATE TABLE posologie
   applications character varying(255),
   avertissement character varying(255),
   codex character varying(255),
+  contre_indication character varying(255),
   dosage character varying(255),
   forme character varying(255),
   preparation character varying(255),

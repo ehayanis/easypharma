@@ -3,7 +3,6 @@ package com.mm.app.view;
 import java.awt.Color;
 import java.awt.Component;
 import java.awt.Cursor;
-import java.awt.Desktop;
 import java.awt.Font;
 import java.awt.GridLayout;
 import java.awt.event.ActionEvent;
@@ -18,17 +17,14 @@ import java.util.Map;
 
 import javax.persistence.EntityManager;
 import javax.swing.AbstractAction;
+import javax.swing.Action;
 import javax.swing.DefaultCellEditor;
-import javax.swing.DesktopManager;
 import javax.swing.GroupLayout;
 import javax.swing.ImageIcon;
-import javax.swing.JButton;
 import javax.swing.JComboBox;
 import javax.swing.JComponent;
 import javax.swing.JDesktopPane;
 import javax.swing.JFrame;
-import javax.swing.JInternalFrame;
-import javax.swing.JLabel;
 import javax.swing.JMenu;
 import javax.swing.JMenuBar;
 import javax.swing.JMenuItem;
@@ -364,7 +360,7 @@ public class SaleView extends JFrame {
         
         
         KeyStroke escapeKeyStroke = KeyStroke.getKeyStroke(KeyEvent.VK_ESCAPE, 0, false);
-        javax.swing.Action escapeAction = new AbstractAction() {
+        Action escapeAction = new AbstractAction() {
         	public void actionPerformed(ActionEvent e) {
         		PaymentView paymentView = new PaymentView(em, vente);
         		
@@ -385,36 +381,40 @@ public class SaleView extends JFrame {
         };
         
         KeyStroke f9KeyStroke = KeyStroke.getKeyStroke(KeyEvent.VK_F9, 0, false);
-        javax.swing.Action f9Action = new AbstractAction() {
+        Action f9Action = new AbstractAction() {
         	public void actionPerformed(ActionEvent e) {
-        		PosologieFrame posologieFrame = new PosologieFrame();
-        		posologieFrame.setVisible(true);
+        		if("".equals(footerPanel.getTotalValue().getText())){
+        			JOptionPane.showMessageDialog(jTabbedPane1, "Veuillez séléctionner au moins un produit!");
+        		}else{
+        			PosologieFrame posologieFrame = new PosologieFrame(em, vente);
+        			posologieFrame.setVisible(true);
+        		}
         	}
         };
         
         KeyStroke f1KeyStroke = KeyStroke.getKeyStroke(KeyEvent.VK_F1, 0, false);
-        javax.swing.Action f1Action = new AbstractAction() {
+        Action f1Action = new AbstractAction() {
         	public void actionPerformed(ActionEvent e) {
         		assuranceWidget.getAssurance1().requestFocus();
         	}
         };
         
         KeyStroke f2KeyStroke = KeyStroke.getKeyStroke(KeyEvent.VK_F2, 0, false);
-        javax.swing.Action f2Action = new AbstractAction() {
+        Action f2Action = new AbstractAction() {
         	public void actionPerformed(ActionEvent e) {
         		clientWidget.getReference().requestFocus();
         	}
         };
         
         KeyStroke f3KeyStroke = KeyStroke.getKeyStroke(KeyEvent.VK_F3, 0, false);
-        javax.swing.Action f3Action = new AbstractAction() {
+        Action f3Action = new AbstractAction() {
         	public void actionPerformed(ActionEvent e) {
         		medecinWidget.getFirstName().requestFocus();
         	}
         };
         
         KeyStroke f4KeyStroke = KeyStroke.getKeyStroke(KeyEvent.VK_F4, 0, false);
-        javax.swing.Action f4Action = new AbstractAction() {
+        Action f4Action = new AbstractAction() {
         	public void actionPerformed(ActionEvent e) {
         		jTable1.requestFocus();
         		jTable1.editCellAt(0, 0);

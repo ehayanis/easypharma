@@ -1,11 +1,12 @@
 package com.mm.app.view;
 
-import java.awt.Color;
 import java.awt.Font;
-import java.awt.event.ActionEvent;
-import java.awt.event.ActionListener;
+import java.awt.event.ItemEvent;
 import java.awt.event.ItemListener;
+import java.util.ArrayList;
+import java.util.List;
 
+import javax.persistence.EntityManager;
 import javax.swing.GroupLayout;
 import javax.swing.ImageIcon;
 import javax.swing.JButton;
@@ -21,93 +22,119 @@ import javax.swing.JTextArea;
 import javax.swing.JTextField;
 import javax.swing.LayoutStyle;
 import javax.swing.WindowConstants;
-import javax.swing.table.DefaultTableModel;
+import javax.swing.event.ChangeEvent;
+import javax.swing.event.ChangeListener;
+import javax.swing.table.AbstractTableModel;
 
+import com.mm.app.model.Product;
+import com.mm.app.model.Vente;
+import com.mm.app.model.VenteProduit;
+import com.mm.app.utilities.SubProductTableModel;
 
+/**
+ *
+ * @author A574266
+ */
 public class PosologieFrame extends JFrame {
-
-    public PosologieFrame() {
+	
+	private EntityManager em;
+	private Vente vente;
+	private List<VenteProduit> venteProduits;
+	private List<Product> products;
+	
+    public PosologieFrame(EntityManager em, Vente vente) {
+    	this.em = em;
+    	this.vente = vente;
+    	products = new ArrayList<Product>();
+    	
+    	vente = em.find(Vente.class, vente.getId());
+    	venteProduits = vente.getProduits();
+    	
+    	for(VenteProduit venteProduit : venteProduits){
+    		products.add(venteProduit.getProduct());
+    	}
+    	
         initComponents();
         ImageIcon img = new ImageIcon(getClass().getResource("/img/logo.png"));
         setIconImage(img.getImage());
     }
 
     @SuppressWarnings("unchecked")
+    // <editor-fold defaultstate="collapsed" desc="Generated Code">                          
     private void initComponents() {
 
         jPanel1 = new JPanel();
         jTabbedPane1 = new JTabbedPane();
         jPanel4 = new JPanel();
         jScrollPane3 = new JScrollPane();
-        jTextArea3 = new JTextArea();
+        codexPosoologie = new JTextArea();
         jTabbedPane2 = new JTabbedPane();
         jScrollPane5 = new JScrollPane();
-        jTable1 = new JTable();
+        tableProduit = new JTable();
         jPanel2 = new JPanel();
         jPanel6 = new JPanel();
         jLabel3 = new JLabel();
-        jSpinner1 = new JSpinner();
+        qteJour = new JSpinner();
         jLabel4 = new JLabel();
-        jSpinner2 = new JSpinner();
+        qteHeur = new JSpinner();
         jLabel5 = new JLabel();
-        jCheckBox1 = new JCheckBox();
-        jLabel6 = new JLabel();
-        jCheckBox2 = new JCheckBox();
-        jLabel7 = new JLabel();
-        jCheckBox3 = new JCheckBox();
-        jLabel8 = new JLabel();
-        jLabel9 = new JLabel();
-        jCheckBox4 = new JCheckBox();
+        matin = new JCheckBox();
+        matinLabel = new JLabel();
+        midi = new JCheckBox();
+        nuitLabel = new JLabel();
+        soir = new JCheckBox();
+        soirLabel = new JLabel();
+        midiLabel = new JLabel();
+        nuit = new JCheckBox();
         jLabel10 = new JLabel();
         jLabel11 = new JLabel();
         jLabel12 = new JLabel();
         jLabel13 = new JLabel();
-        jTextField3 = new JTextField();
-        jTextField4 = new JTextField();
-        jSpinner3 = new JSpinner();
+        repos = new JTextField();
+        condition = new JTextField();
+        rithme = new JSpinner();
         jLabel14 = new JLabel();
-        jSpinner4 = new JSpinner();
-        jSpinner5 = new JSpinner();
+        jourSur = new JSpinner();
+        duree = new JSpinner();
         jLabel15 = new JLabel();
         jPanel7 = new JPanel();
         jLabel16 = new JLabel();
-        jTextField5 = new JTextField();
+        dosage = new JTextField();
         jLabel17 = new JLabel();
-        jTextField6 = new JTextField();
+        forme = new JTextField();
         jLabel18 = new JLabel();
-        jTextField7 = new JTextField();
+        unite = new JTextField();
         jLabel19 = new JLabel();
-        jTextField8 = new JTextField();
-        jTextField9 = new JTextField();
+        preparation = new JTextField();
+        recommand = new JTextField();
         jLabel20 = new JLabel();
         jLabel21 = new JLabel();
-        jTextField10 = new JTextField();
-        jTextField11 = new JTextField();
+        avertissementField = new JTextField();
+        application = new JTextField();
         jLabel22 = new JLabel();
         jLabel23 = new JLabel();
-        jTextField12 = new JTextField();
+        action = new JTextField();
         jTabbedPane3 = new JTabbedPane();
         jPanel3 = new JPanel();
         jLabel1 = new JLabel();
         jLabel2 = new JLabel();
         jScrollPane1 = new JScrollPane();
-        jTextArea1 = new JTextArea();
+        avertissement = new JTextArea();
         jTabbedPane4 = new JTabbedPane();
         jPanel8 = new JPanel();
         jScrollPane2 = new JScrollPane();
-        jTextArea2 = new JTextArea();
-        jTextField1 = new JTextField();
-        jButton2 = new JButton();
-        jButton1 = new JButton();
+        contreIndication = new JTextArea();
+        print = new JButton();
+        validate = new JButton();
 
         setDefaultCloseOperation(WindowConstants.DISPOSE_ON_CLOSE);
         setTitle("Posologie");
         setResizable(false);
 
-        jTextArea3.setColumns(20);
-        jTextArea3.setRows(3);
-        jTextArea3.setText("Pour toutes les formes qaléniques, \nRespecter un interval");
-        jScrollPane3.setViewportView(jTextArea3);
+        codexPosoologie.setColumns(20);
+        codexPosoologie.setRows(3);
+//        codexPosoologie.setText("Pour toutes les formes qaléniques, \nRespecter un interval");
+        jScrollPane3.setViewportView(codexPosoologie);
 
         GroupLayout jPanel4Layout = new GroupLayout(jPanel4);
         jPanel4.setLayout(jPanel4Layout);
@@ -119,24 +146,27 @@ public class PosologieFrame extends JFrame {
             jPanel4Layout.createParallelGroup(GroupLayout.Alignment.LEADING)
             .addGroup(jPanel4Layout.createSequentialGroup()
                 .addContainerGap()
-                .addComponent(jScrollPane3, GroupLayout.DEFAULT_SIZE, 71, Short.MAX_VALUE)
-                .addContainerGap())
+                .addComponent(jScrollPane3, GroupLayout.DEFAULT_SIZE, 82, Short.MAX_VALUE))
         );
 
         jTabbedPane1.addTab("Codex-Posologie", jPanel4);
-
-        jTable1.setModel(new DefaultTableModel(
-            new Object [][] {
-                {null, null},
-                {null, null},
-                {null, null}
-            },
-            new String [] {
-                "Référence", "Libellé"
-            }
-        ));
-        jScrollPane5.setViewportView(jTable1);
-
+        
+        AbstractTableModel model = new SubProductTableModel(products);
+        tableProduit.setModel(model);
+        
+//        tableProduit.setModel(new DefaultTableModel(
+//            new Object [][] {
+//                {null, null},
+//                {null, null},
+//                {null, null},
+//                {null, null}
+//            },
+//            new String [] {
+//                "Référence", "Libellé"
+//            }
+//        ));
+        jScrollPane5.setViewportView(tableProduit);
+        
         jTabbedPane2.addTab("Liste Produits", jScrollPane5);
 
         jLabel3.setText("Qté (/jour):");
@@ -145,25 +175,65 @@ public class PosologieFrame extends JFrame {
 
         jLabel5.setText("Heures");
 
-        jCheckBox1.setText("Matin");
+        matin.setText("Matin");
+        matin.addChangeListener(new ChangeListener() {
+            public void stateChanged(ChangeEvent evt) {
+                jCheckBoxStateChanged(evt);
+            }
+        });
+        matin.addItemListener(new ItemListener() {
+            public void itemStateChanged(ItemEvent evt) {
+                jCheckBoxItemStateChanged(evt);
+            }
+        });
 
-        jLabel6.setFont(new Font("Tahoma", 0, 14)); // NOI18N
-        jLabel6.setText("-----------");
+        matinLabel.setFont(new java.awt.Font("Tahoma", 0, 14)); // NOI18N
+        matinLabel.setText("-----------");
 
-        jCheckBox2.setText("Midi");
+        midi.setText("Midi");
+        midi.addChangeListener(new ChangeListener() {
+            public void stateChanged(ChangeEvent evt) {
+                jCheckBoxStateChanged(evt);
+            }
+        });
+        midi.addItemListener(new ItemListener() {
+            public void itemStateChanged(ItemEvent evt) {
+                jCheckBoxItemStateChanged(evt);
+            }
+        });
 
-        jLabel7.setFont(new Font("Tahoma", 0, 14)); // NOI18N
-        jLabel7.setText("-----------");
+        nuitLabel.setFont(new Font("Tahoma", 0, 14)); // NOI18N
+        nuitLabel.setText("-----------");
 
-        jCheckBox3.setText("Soir");
+        soir.setText("Soir");
+        soir.addChangeListener(new ChangeListener() {
+            public void stateChanged(ChangeEvent evt) {
+                jCheckBoxStateChanged(evt);
+            }
+        });
+        soir.addItemListener(new ItemListener() {
+            public void itemStateChanged(ItemEvent evt) {
+                jCheckBoxItemStateChanged(evt);
+            }
+        });
 
-        jLabel8.setFont(new Font("Tahoma", 0, 14)); // NOI18N
-        jLabel8.setText("-----------");
+        soirLabel.setFont(new Font("Tahoma", 0, 14)); // NOI18N
+        soirLabel.setText("-----------");
 
-        jLabel9.setFont(new Font("Tahoma", 0, 14)); // NOI18N
-        jLabel9.setText("-----------");
+        midiLabel.setFont(new Font("Tahoma", 0, 14)); // NOI18N
+        midiLabel.setText("-----------");
 
-        jCheckBox4.setText("Nuit");
+        nuit.setText("Nuit");
+        nuit.addChangeListener(new ChangeListener() {
+            public void stateChanged(ChangeEvent evt) {
+                jCheckBoxStateChanged(evt);
+            }
+        });
+        nuit.addItemListener(new ItemListener() {
+            public void itemStateChanged(ItemEvent evt) {
+                jCheckBoxItemStateChanged(evt);
+            }
+        });
 
         jLabel10.setText("Repas:");
 
@@ -187,9 +257,9 @@ public class PosologieFrame extends JFrame {
                     .addGroup(jPanel6Layout.createSequentialGroup()
                         .addGroup(jPanel6Layout.createParallelGroup(GroupLayout.Alignment.LEADING)
                             .addGroup(jPanel6Layout.createParallelGroup(GroupLayout.Alignment.TRAILING, false)
-                                .addComponent(jLabel6, GroupLayout.Alignment.LEADING, GroupLayout.DEFAULT_SIZE, GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                                .addComponent(matinLabel, GroupLayout.Alignment.LEADING, GroupLayout.DEFAULT_SIZE, GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                                 .addComponent(jLabel3, GroupLayout.Alignment.LEADING, GroupLayout.DEFAULT_SIZE, 60, Short.MAX_VALUE))
-                            .addComponent(jCheckBox1)
+                            .addComponent(matin)
                             .addComponent(jLabel10))
                         .addGroup(jPanel6Layout.createParallelGroup(GroupLayout.Alignment.LEADING)
                             .addGroup(jPanel6Layout.createSequentialGroup()
@@ -197,40 +267,40 @@ public class PosologieFrame extends JFrame {
                                 .addGroup(jPanel6Layout.createParallelGroup(GroupLayout.Alignment.LEADING)
                                     .addGroup(jPanel6Layout.createSequentialGroup()
                                         .addGroup(jPanel6Layout.createParallelGroup(GroupLayout.Alignment.TRAILING, false)
-                                            .addComponent(jSpinner3, GroupLayout.DEFAULT_SIZE, 44, Short.MAX_VALUE)
-                                            .addComponent(jSpinner5))
+                                            .addComponent(rithme, GroupLayout.DEFAULT_SIZE, 44, Short.MAX_VALUE)
+                                            .addComponent(duree))
                                         .addGroup(jPanel6Layout.createParallelGroup(GroupLayout.Alignment.LEADING)
                                             .addGroup(jPanel6Layout.createSequentialGroup()
                                                 .addGap(12, 12, 12)
                                                 .addComponent(jLabel14)
                                                 .addPreferredGap(LayoutStyle.ComponentPlacement.UNRELATED)
-                                                .addComponent(jSpinner4, GroupLayout.PREFERRED_SIZE, 43, GroupLayout.PREFERRED_SIZE))
+                                                .addComponent(jourSur, GroupLayout.PREFERRED_SIZE, 43, GroupLayout.PREFERRED_SIZE))
                                             .addGroup(jPanel6Layout.createSequentialGroup()
                                                 .addPreferredGap(LayoutStyle.ComponentPlacement.UNRELATED)
                                                 .addComponent(jLabel15))))
                                     .addGroup(jPanel6Layout.createSequentialGroup()
                                         .addGroup(jPanel6Layout.createParallelGroup(GroupLayout.Alignment.LEADING)
                                             .addGroup(jPanel6Layout.createSequentialGroup()
-                                                .addComponent(jSpinner1, GroupLayout.PREFERRED_SIZE, 43, GroupLayout.PREFERRED_SIZE)
+                                                .addComponent(qteJour, GroupLayout.PREFERRED_SIZE, 43, GroupLayout.PREFERRED_SIZE)
                                                 .addGap(18, 18, 18)
                                                 .addComponent(jLabel4))
                                             .addGroup(jPanel6Layout.createSequentialGroup()
                                                 .addGap(20, 20, 20)
                                                 .addGroup(jPanel6Layout.createParallelGroup(GroupLayout.Alignment.LEADING)
-                                                    .addComponent(jCheckBox4)
-                                                    .addComponent(jLabel7, GroupLayout.PREFERRED_SIZE, 66, GroupLayout.PREFERRED_SIZE))))
+                                                    .addComponent(nuit)
+                                                    .addComponent(nuitLabel, GroupLayout.PREFERRED_SIZE, 66, GroupLayout.PREFERRED_SIZE))))
                                         .addPreferredGap(LayoutStyle.ComponentPlacement.UNRELATED)
                                         .addGroup(jPanel6Layout.createParallelGroup(GroupLayout.Alignment.LEADING)
                                             .addGroup(jPanel6Layout.createSequentialGroup()
                                                 .addGroup(jPanel6Layout.createParallelGroup(GroupLayout.Alignment.LEADING)
-                                                    .addComponent(jLabel9, GroupLayout.PREFERRED_SIZE, 66, GroupLayout.PREFERRED_SIZE)
-                                                    .addComponent(jCheckBox2))
+                                                    .addComponent(midiLabel, GroupLayout.PREFERRED_SIZE, 66, GroupLayout.PREFERRED_SIZE)
+                                                    .addComponent(midi))
                                                 .addPreferredGap(LayoutStyle.ComponentPlacement.RELATED, GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                                                 .addGroup(jPanel6Layout.createParallelGroup(GroupLayout.Alignment.LEADING)
-                                                    .addComponent(jCheckBox3)
-                                                    .addComponent(jLabel8, GroupLayout.PREFERRED_SIZE, 66, GroupLayout.PREFERRED_SIZE)))
+                                                    .addComponent(soir)
+                                                    .addComponent(soirLabel, GroupLayout.PREFERRED_SIZE, 66, GroupLayout.PREFERRED_SIZE)))
                                             .addGroup(jPanel6Layout.createSequentialGroup()
-                                                .addComponent(jSpinner2, GroupLayout.PREFERRED_SIZE, 43, GroupLayout.PREFERRED_SIZE)
+                                                .addComponent(qteHeur, GroupLayout.PREFERRED_SIZE, 43, GroupLayout.PREFERRED_SIZE)
                                                 .addPreferredGap(LayoutStyle.ComponentPlacement.RELATED)
                                                 .addComponent(jLabel5)))))
                                 .addContainerGap())
@@ -244,9 +314,9 @@ public class PosologieFrame extends JFrame {
                             .addComponent(jLabel13))
                         .addGap(0, 0, Short.MAX_VALUE))
                     .addGroup(GroupLayout.Alignment.TRAILING, jPanel6Layout.createSequentialGroup()
-                        .addComponent(jTextField3, GroupLayout.PREFERRED_SIZE, 185, GroupLayout.PREFERRED_SIZE)
+                        .addComponent(repos, GroupLayout.PREFERRED_SIZE, 185, GroupLayout.PREFERRED_SIZE)
                         .addPreferredGap(LayoutStyle.ComponentPlacement.UNRELATED)
-                        .addComponent(jTextField4, GroupLayout.PREFERRED_SIZE, 185, GroupLayout.PREFERRED_SIZE)
+                        .addComponent(condition, GroupLayout.PREFERRED_SIZE, 185, GroupLayout.PREFERRED_SIZE)
                         .addContainerGap())))
         );
         jPanel6Layout.setVerticalGroup(
@@ -254,51 +324,51 @@ public class PosologieFrame extends JFrame {
             .addGroup(jPanel6Layout.createSequentialGroup()
                 .addGroup(jPanel6Layout.createParallelGroup(GroupLayout.Alignment.BASELINE)
                     .addComponent(jLabel3)
-                    .addComponent(jSpinner1, GroupLayout.PREFERRED_SIZE, GroupLayout.DEFAULT_SIZE, GroupLayout.PREFERRED_SIZE)
+                    .addComponent(qteJour, GroupLayout.PREFERRED_SIZE, GroupLayout.DEFAULT_SIZE, GroupLayout.PREFERRED_SIZE)
                     .addComponent(jLabel4)
-                    .addComponent(jSpinner2, GroupLayout.PREFERRED_SIZE, GroupLayout.DEFAULT_SIZE, GroupLayout.PREFERRED_SIZE)
+                    .addComponent(qteHeur, GroupLayout.PREFERRED_SIZE, GroupLayout.DEFAULT_SIZE, GroupLayout.PREFERRED_SIZE)
                     .addComponent(jLabel5))
                 .addGroup(jPanel6Layout.createParallelGroup(GroupLayout.Alignment.LEADING)
                     .addGroup(jPanel6Layout.createSequentialGroup()
                         .addGap(7, 7, 7)
                         .addGroup(jPanel6Layout.createParallelGroup(GroupLayout.Alignment.BASELINE)
-                            .addComponent(jCheckBox4)
-                            .addComponent(jCheckBox2))
+                            .addComponent(nuit)
+                            .addComponent(midi))
                         .addPreferredGap(LayoutStyle.ComponentPlacement.RELATED)
-                        .addComponent(jLabel7))
+                        .addComponent(nuitLabel))
                     .addGroup(jPanel6Layout.createSequentialGroup()
                         .addPreferredGap(LayoutStyle.ComponentPlacement.UNRELATED)
                         .addGroup(jPanel6Layout.createParallelGroup(GroupLayout.Alignment.LEADING)
                             .addGroup(jPanel6Layout.createSequentialGroup()
                                 .addGap(25, 25, 25)
-                                .addComponent(jLabel9))
+                                .addComponent(midiLabel))
                             .addGroup(jPanel6Layout.createParallelGroup(GroupLayout.Alignment.CENTER)
                                 .addGroup(GroupLayout.Alignment.TRAILING, jPanel6Layout.createSequentialGroup()
-                                    .addComponent(jCheckBox3)
+                                    .addComponent(soir)
                                     .addPreferredGap(LayoutStyle.ComponentPlacement.RELATED)
-                                    .addComponent(jLabel8))
+                                    .addComponent(soirLabel))
                                 .addGroup(jPanel6Layout.createSequentialGroup()
-                                    .addComponent(jCheckBox1)
+                                    .addComponent(matin)
                                     .addPreferredGap(LayoutStyle.ComponentPlacement.RELATED)
-                                    .addComponent(jLabel6))))))
+                                    .addComponent(matinLabel))))))
                 .addGap(18, 18, 18)
                 .addGroup(jPanel6Layout.createParallelGroup(GroupLayout.Alignment.BASELINE)
                     .addComponent(jLabel10)
                     .addComponent(jLabel11))
                 .addPreferredGap(LayoutStyle.ComponentPlacement.RELATED)
                 .addGroup(jPanel6Layout.createParallelGroup(GroupLayout.Alignment.BASELINE)
-                    .addComponent(jTextField4, GroupLayout.PREFERRED_SIZE, GroupLayout.DEFAULT_SIZE, GroupLayout.PREFERRED_SIZE)
-                    .addComponent(jTextField3, GroupLayout.PREFERRED_SIZE, GroupLayout.DEFAULT_SIZE, GroupLayout.PREFERRED_SIZE))
+                    .addComponent(condition, GroupLayout.PREFERRED_SIZE, GroupLayout.DEFAULT_SIZE, GroupLayout.PREFERRED_SIZE)
+                    .addComponent(repos, GroupLayout.PREFERRED_SIZE, GroupLayout.DEFAULT_SIZE, GroupLayout.PREFERRED_SIZE))
                 .addPreferredGap(LayoutStyle.ComponentPlacement.UNRELATED)
                 .addGroup(jPanel6Layout.createParallelGroup(GroupLayout.Alignment.BASELINE)
                     .addComponent(jLabel12)
-                    .addComponent(jSpinner3, GroupLayout.PREFERRED_SIZE, GroupLayout.DEFAULT_SIZE, GroupLayout.PREFERRED_SIZE)
+                    .addComponent(rithme, GroupLayout.PREFERRED_SIZE, GroupLayout.DEFAULT_SIZE, GroupLayout.PREFERRED_SIZE)
                     .addComponent(jLabel14)
-                    .addComponent(jSpinner4, GroupLayout.PREFERRED_SIZE, GroupLayout.DEFAULT_SIZE, GroupLayout.PREFERRED_SIZE))
+                    .addComponent(jourSur, GroupLayout.PREFERRED_SIZE, GroupLayout.DEFAULT_SIZE, GroupLayout.PREFERRED_SIZE))
                 .addPreferredGap(LayoutStyle.ComponentPlacement.UNRELATED)
                 .addGroup(jPanel6Layout.createParallelGroup(GroupLayout.Alignment.BASELINE)
                     .addComponent(jLabel13)
-                    .addComponent(jSpinner5, GroupLayout.PREFERRED_SIZE, GroupLayout.DEFAULT_SIZE, GroupLayout.PREFERRED_SIZE)
+                    .addComponent(duree, GroupLayout.PREFERRED_SIZE, GroupLayout.DEFAULT_SIZE, GroupLayout.PREFERRED_SIZE)
                     .addComponent(jLabel15))
                 .addContainerGap(GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
         );
@@ -307,7 +377,7 @@ public class PosologieFrame extends JFrame {
 
         jLabel17.setText("Forme: ");
 
-        jTextField6.setText("COMPRIME");
+//        forme.setText("COMPRIME");
 
         jLabel18.setText("Unité: ");
 
@@ -321,7 +391,7 @@ public class PosologieFrame extends JFrame {
 
         jLabel23.setText("Action: ");
 
-        jTextField12.setText("AVALER");
+//        action.setText("AVALER");
 
         GroupLayout jPanel7Layout = new GroupLayout(jPanel7);
         jPanel7.setLayout(jPanel7Layout);
@@ -340,53 +410,50 @@ public class PosologieFrame extends JFrame {
                     .addComponent(jLabel20))
                 .addPreferredGap(LayoutStyle.ComponentPlacement.RELATED, 31, Short.MAX_VALUE)
                 .addGroup(jPanel7Layout.createParallelGroup(GroupLayout.Alignment.LEADING)
-                    .addGroup(GroupLayout.Alignment.TRAILING, jPanel7Layout.createSequentialGroup()
-                        .addComponent(jTextField5, GroupLayout.PREFERRED_SIZE, 208, GroupLayout.PREFERRED_SIZE)
-                        .addGap(58, 58, 58))
-                    .addGroup(jPanel7Layout.createSequentialGroup()
-                        .addGroup(jPanel7Layout.createParallelGroup(GroupLayout.Alignment.LEADING, false)
-                            .addComponent(jTextField6, GroupLayout.DEFAULT_SIZE, 208, Short.MAX_VALUE)
-                            .addComponent(jTextField7)
-                            .addComponent(jTextField8)
-                            .addComponent(jTextField12)
-                            .addComponent(jTextField11)
-                            .addComponent(jTextField10)
-                            .addComponent(jTextField9))
-                        .addContainerGap())))
+                    .addGroup(GroupLayout.Alignment.TRAILING, jPanel7Layout.createParallelGroup(GroupLayout.Alignment.TRAILING, false)
+                        .addComponent(avertissementField)
+                        .addComponent(application, GroupLayout.Alignment.LEADING)
+                        .addComponent(action, GroupLayout.Alignment.LEADING)
+                        .addComponent(preparation, GroupLayout.Alignment.LEADING)
+                        .addComponent(unite, GroupLayout.Alignment.LEADING)
+                        .addComponent(forme, GroupLayout.Alignment.LEADING, GroupLayout.DEFAULT_SIZE, 243, Short.MAX_VALUE)
+                        .addComponent(dosage, GroupLayout.Alignment.LEADING))
+                    .addComponent(recommand, GroupLayout.Alignment.TRAILING, GroupLayout.PREFERRED_SIZE, 243, GroupLayout.PREFERRED_SIZE))
+                .addGap(23, 23, 23))
         );
         jPanel7Layout.setVerticalGroup(
             jPanel7Layout.createParallelGroup(GroupLayout.Alignment.LEADING)
             .addGroup(jPanel7Layout.createSequentialGroup()
                 .addGroup(jPanel7Layout.createParallelGroup(GroupLayout.Alignment.LEADING)
                     .addComponent(jLabel16)
-                    .addComponent(jTextField5, GroupLayout.Alignment.TRAILING, GroupLayout.PREFERRED_SIZE, GroupLayout.DEFAULT_SIZE, GroupLayout.PREFERRED_SIZE))
+                    .addComponent(dosage, GroupLayout.Alignment.TRAILING, GroupLayout.PREFERRED_SIZE, GroupLayout.DEFAULT_SIZE, GroupLayout.PREFERRED_SIZE))
                 .addGap(9, 9, 9)
                 .addGroup(jPanel7Layout.createParallelGroup(GroupLayout.Alignment.BASELINE)
                     .addComponent(jLabel17)
-                    .addComponent(jTextField6, GroupLayout.PREFERRED_SIZE, GroupLayout.DEFAULT_SIZE, GroupLayout.PREFERRED_SIZE))
+                    .addComponent(forme, GroupLayout.PREFERRED_SIZE, GroupLayout.DEFAULT_SIZE, GroupLayout.PREFERRED_SIZE))
                 .addPreferredGap(LayoutStyle.ComponentPlacement.RELATED)
                 .addGroup(jPanel7Layout.createParallelGroup(GroupLayout.Alignment.BASELINE)
-                    .addComponent(jTextField7, GroupLayout.PREFERRED_SIZE, GroupLayout.DEFAULT_SIZE, GroupLayout.PREFERRED_SIZE)
+                    .addComponent(unite, GroupLayout.PREFERRED_SIZE, GroupLayout.DEFAULT_SIZE, GroupLayout.PREFERRED_SIZE)
                     .addComponent(jLabel18))
                 .addPreferredGap(LayoutStyle.ComponentPlacement.RELATED)
                 .addGroup(jPanel7Layout.createParallelGroup(GroupLayout.Alignment.BASELINE)
-                    .addComponent(jTextField8, GroupLayout.PREFERRED_SIZE, GroupLayout.DEFAULT_SIZE, GroupLayout.PREFERRED_SIZE)
+                    .addComponent(preparation, GroupLayout.PREFERRED_SIZE, GroupLayout.DEFAULT_SIZE, GroupLayout.PREFERRED_SIZE)
                     .addComponent(jLabel19))
                 .addPreferredGap(LayoutStyle.ComponentPlacement.RELATED)
                 .addGroup(jPanel7Layout.createParallelGroup(GroupLayout.Alignment.BASELINE)
-                    .addComponent(jTextField12, GroupLayout.PREFERRED_SIZE, GroupLayout.DEFAULT_SIZE, GroupLayout.PREFERRED_SIZE)
+                    .addComponent(action, GroupLayout.PREFERRED_SIZE, GroupLayout.DEFAULT_SIZE, GroupLayout.PREFERRED_SIZE)
                     .addComponent(jLabel23))
                 .addGap(9, 9, 9)
                 .addGroup(jPanel7Layout.createParallelGroup(GroupLayout.Alignment.BASELINE)
                     .addComponent(jLabel22)
-                    .addComponent(jTextField11, GroupLayout.PREFERRED_SIZE, GroupLayout.DEFAULT_SIZE, GroupLayout.PREFERRED_SIZE))
+                    .addComponent(application, GroupLayout.PREFERRED_SIZE, GroupLayout.DEFAULT_SIZE, GroupLayout.PREFERRED_SIZE))
                 .addPreferredGap(LayoutStyle.ComponentPlacement.RELATED)
                 .addGroup(jPanel7Layout.createParallelGroup(GroupLayout.Alignment.BASELINE)
-                    .addComponent(jTextField10, GroupLayout.PREFERRED_SIZE, GroupLayout.DEFAULT_SIZE, GroupLayout.PREFERRED_SIZE)
+                    .addComponent(avertissementField, GroupLayout.PREFERRED_SIZE, GroupLayout.DEFAULT_SIZE, GroupLayout.PREFERRED_SIZE)
                     .addComponent(jLabel21))
                 .addPreferredGap(LayoutStyle.ComponentPlacement.RELATED)
                 .addGroup(jPanel7Layout.createParallelGroup(GroupLayout.Alignment.BASELINE)
-                    .addComponent(jTextField9, GroupLayout.PREFERRED_SIZE, GroupLayout.DEFAULT_SIZE, GroupLayout.PREFERRED_SIZE)
+                    .addComponent(recommand, GroupLayout.PREFERRED_SIZE, GroupLayout.DEFAULT_SIZE, GroupLayout.PREFERRED_SIZE)
                     .addComponent(jLabel20))
                 .addGap(0, 2, Short.MAX_VALUE))
         );
@@ -410,11 +477,11 @@ public class PosologieFrame extends JFrame {
 
         jLabel1.setText("Date Naiss.:");
 
-        jLabel2.setText("13/06/1987");
+//        jLabel2.setText("13/06/1987");
 
-        jTextArea1.setColumns(20);
-        jTextArea1.setRows(2);
-        jScrollPane1.setViewportView(jTextArea1);
+        avertissement.setColumns(20);
+        avertissement.setRows(2);
+        jScrollPane1.setViewportView(avertissement);
 
         GroupLayout jPanel3Layout = new GroupLayout(jPanel3);
         jPanel3.setLayout(jPanel3Layout);
@@ -425,7 +492,7 @@ public class PosologieFrame extends JFrame {
                 .addComponent(jLabel1)
                 .addGap(18, 18, 18)
                 .addComponent(jLabel2)
-                .addContainerGap(245, Short.MAX_VALUE))
+                .addContainerGap(247, Short.MAX_VALUE))
             .addComponent(jScrollPane1, GroupLayout.Alignment.TRAILING)
         );
         jPanel3Layout.setVerticalGroup(
@@ -436,68 +503,54 @@ public class PosologieFrame extends JFrame {
                     .addComponent(jLabel1)
                     .addComponent(jLabel2))
                 .addPreferredGap(LayoutStyle.ComponentPlacement.UNRELATED)
-                .addComponent(jScrollPane1, GroupLayout.PREFERRED_SIZE, 55, GroupLayout.PREFERRED_SIZE)
-                .addContainerGap())
+                .addComponent(jScrollPane1, GroupLayout.DEFAULT_SIZE, 66, Short.MAX_VALUE))
         );
 
         jTabbedPane3.addTab("Avertissement Client", jPanel3);
 
-        jTextArea2.setColumns(20);
-        jTextArea2.setLineWrap(true);
-        jTextArea2.setRows(4);
-        jScrollPane2.setViewportView(jTextArea2);
-
-        jTextField1.setText("Hayani Mehdi");
+        contreIndication.setColumns(20);
+        contreIndication.setLineWrap(true);
+        contreIndication.setRows(4);
+        jScrollPane2.setViewportView(contreIndication);
 
         GroupLayout jPanel8Layout = new GroupLayout(jPanel8);
         jPanel8.setLayout(jPanel8Layout);
         jPanel8Layout.setHorizontalGroup(
             jPanel8Layout.createParallelGroup(GroupLayout.Alignment.LEADING)
-            .addGroup(GroupLayout.Alignment.TRAILING, jPanel8Layout.createSequentialGroup()
-                .addGap(8, 8, 8)
-                .addComponent(jTextField1, GroupLayout.DEFAULT_SIZE, 99, Short.MAX_VALUE)
-                .addPreferredGap(LayoutStyle.ComponentPlacement.UNRELATED)
-                .addComponent(jScrollPane2, GroupLayout.PREFERRED_SIZE, 273, GroupLayout.PREFERRED_SIZE))
+            .addComponent(jScrollPane2, GroupLayout.Alignment.TRAILING, GroupLayout.DEFAULT_SIZE, 390, Short.MAX_VALUE)
         );
         jPanel8Layout.setVerticalGroup(
             jPanel8Layout.createParallelGroup(GroupLayout.Alignment.LEADING)
             .addGroup(GroupLayout.Alignment.TRAILING, jPanel8Layout.createSequentialGroup()
                 .addGap(0, 13, Short.MAX_VALUE)
-                .addGroup(jPanel8Layout.createParallelGroup(GroupLayout.Alignment.LEADING)
-                    .addComponent(jTextField1, GroupLayout.PREFERRED_SIZE, GroupLayout.DEFAULT_SIZE, GroupLayout.PREFERRED_SIZE)
-                    .addComponent(jScrollPane2, GroupLayout.PREFERRED_SIZE, 78, GroupLayout.PREFERRED_SIZE))
-                .addContainerGap())
+                .addComponent(jScrollPane2, GroupLayout.PREFERRED_SIZE, 89, GroupLayout.PREFERRED_SIZE))
         );
 
-        jTabbedPane4.addTab("Etiquette", jPanel8);
+        jTabbedPane4.addTab("Codex-Contreindications", jPanel8);
 
-        jButton2.setText("Imprimer");
+        print.setText("Imprimer");
 
-        jButton1.setText("Valider");
+        validate.setText("Valider");
 
         GroupLayout jPanel1Layout = new GroupLayout(jPanel1);
         jPanel1.setLayout(jPanel1Layout);
         jPanel1Layout.setHorizontalGroup(
             jPanel1Layout.createParallelGroup(GroupLayout.Alignment.LEADING)
-            .addGroup(jPanel1Layout.createSequentialGroup()
-                .addComponent(jTabbedPane4, GroupLayout.PREFERRED_SIZE, 395, GroupLayout.PREFERRED_SIZE)
-                .addPreferredGap(LayoutStyle.ComponentPlacement.UNRELATED)
-                .addComponent(jTabbedPane3)
-                .addGap(4, 4, 4))
-            .addGroup(jPanel1Layout.createSequentialGroup()
-                .addComponent(jPanel2, GroupLayout.DEFAULT_SIZE, GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                .addGap(0, 0, 0))
+            .addComponent(jPanel2, GroupLayout.DEFAULT_SIZE, GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
             .addGroup(GroupLayout.Alignment.TRAILING, jPanel1Layout.createSequentialGroup()
                 .addGap(0, 0, Short.MAX_VALUE)
-                .addComponent(jButton2, GroupLayout.PREFERRED_SIZE, 110, GroupLayout.PREFERRED_SIZE)
+                .addComponent(print, GroupLayout.PREFERRED_SIZE, 110, GroupLayout.PREFERRED_SIZE)
                 .addGap(18, 18, 18)
-                .addComponent(jButton1, GroupLayout.PREFERRED_SIZE, 110, GroupLayout.PREFERRED_SIZE)
+                .addComponent(validate, GroupLayout.PREFERRED_SIZE, 110, GroupLayout.PREFERRED_SIZE)
                 .addContainerGap())
             .addGroup(jPanel1Layout.createSequentialGroup()
-                .addComponent(jTabbedPane1, GroupLayout.PREFERRED_SIZE, 397, GroupLayout.PREFERRED_SIZE)
+                .addGroup(jPanel1Layout.createParallelGroup(GroupLayout.Alignment.TRAILING)
+                    .addComponent(jTabbedPane1, GroupLayout.PREFERRED_SIZE, 397, GroupLayout.PREFERRED_SIZE)
+                    .addComponent(jTabbedPane4, GroupLayout.PREFERRED_SIZE, 395, GroupLayout.PREFERRED_SIZE))
                 .addPreferredGap(LayoutStyle.ComponentPlacement.UNRELATED)
-                .addComponent(jTabbedPane2, GroupLayout.PREFERRED_SIZE, 0, Short.MAX_VALUE)
-                .addGap(0, 0, 0))
+                .addGroup(jPanel1Layout.createParallelGroup(GroupLayout.Alignment.LEADING)
+                    .addComponent(jTabbedPane3)
+                    .addComponent(jTabbedPane2, GroupLayout.PREFERRED_SIZE, 0, Short.MAX_VALUE)))
         );
         jPanel1Layout.setVerticalGroup(
             jPanel1Layout.createParallelGroup(GroupLayout.Alignment.LEADING)
@@ -505,16 +558,16 @@ public class PosologieFrame extends JFrame {
                 .addGroup(jPanel1Layout.createParallelGroup(GroupLayout.Alignment.LEADING, false)
                     .addComponent(jTabbedPane2, GroupLayout.PREFERRED_SIZE, 0, Short.MAX_VALUE)
                     .addComponent(jTabbedPane1))
-                .addGap(18, 18, Short.MAX_VALUE)
-                .addComponent(jPanel2, GroupLayout.PREFERRED_SIZE, GroupLayout.DEFAULT_SIZE, GroupLayout.PREFERRED_SIZE)
-                .addPreferredGap(LayoutStyle.ComponentPlacement.UNRELATED)
+                .addPreferredGap(LayoutStyle.ComponentPlacement.RELATED)
                 .addGroup(jPanel1Layout.createParallelGroup(GroupLayout.Alignment.LEADING)
                     .addComponent(jTabbedPane3, GroupLayout.PREFERRED_SIZE, 130, GroupLayout.PREFERRED_SIZE)
                     .addComponent(jTabbedPane4, GroupLayout.PREFERRED_SIZE, 130, GroupLayout.PREFERRED_SIZE))
-                .addGap(11, 11, 11)
+                .addPreferredGap(LayoutStyle.ComponentPlacement.UNRELATED, GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                .addComponent(jPanel2, GroupLayout.PREFERRED_SIZE, GroupLayout.DEFAULT_SIZE, GroupLayout.PREFERRED_SIZE)
+                .addPreferredGap(LayoutStyle.ComponentPlacement.RELATED)
                 .addGroup(jPanel1Layout.createParallelGroup(GroupLayout.Alignment.LEADING)
-                    .addComponent(jButton2, GroupLayout.PREFERRED_SIZE, 34, GroupLayout.PREFERRED_SIZE)
-                    .addComponent(jButton1, GroupLayout.PREFERRED_SIZE, 34, GroupLayout.PREFERRED_SIZE)))
+                    .addComponent(print, GroupLayout.PREFERRED_SIZE, 34, GroupLayout.PREFERRED_SIZE)
+                    .addComponent(validate, GroupLayout.PREFERRED_SIZE, 34, GroupLayout.PREFERRED_SIZE)))
         );
 
         GroupLayout layout = new GroupLayout(getContentPane());
@@ -531,32 +584,32 @@ public class PosologieFrame extends JFrame {
                 .addComponent(jPanel1, GroupLayout.DEFAULT_SIZE, GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                 .addContainerGap())
         );
-        
-        jPanel1.setBackground(Color.WHITE);
-        jPanel2.setBackground(Color.WHITE);
-        jPanel3.setBackground(Color.WHITE);
-        jPanel4.setBackground(Color.WHITE);
-        jPanel6.setBackground(Color.WHITE);
-        jPanel7.setBackground(Color.WHITE);
-        jPanel8.setBackground(Color.WHITE);
-        jCheckBox1.setBackground(Color.WHITE);
-        jCheckBox2.setBackground(Color.WHITE);
-        jCheckBox3.setBackground(Color.WHITE);
-        jCheckBox4.setBackground(Color.WHITE);
-        setBackground(Color.WHITE);
-        
-        
+
         pack();
         setLocationRelativeTo(null);
     }// </editor-fold>                        
+    
+    private void jCheckBoxItemStateChanged(java.awt.event.ItemEvent evt) {                                            
+        if (evt.getStateChange() == ItemEvent.SELECTED) {
+            midiLabel.setText(qteJour.getValue().toString() + ".00");
+        } else {
+            midiLabel.setText("-----------");
+        }
+    }       
+    
+    private void jCheckBoxStateChanged(javax.swing.event.ChangeEvent evt) {                                        
+        
+    }                                       
 
+    
 
-    private JButton jButton1;
-    private JButton jButton2;
-    private JCheckBox jCheckBox1;
-    private JCheckBox jCheckBox2;
-    private JCheckBox jCheckBox3;
-    private JCheckBox jCheckBox4;
+    // Variables declaration - do not modify                     
+    private JButton validate;
+    private JButton print;
+    private JCheckBox matin;
+    private JCheckBox midi;
+    private JCheckBox soir;
+    private JCheckBox nuit;
     private JLabel jLabel1;
     private JLabel jLabel10;
     private JLabel jLabel11;
@@ -576,10 +629,10 @@ public class PosologieFrame extends JFrame {
     private JLabel jLabel3;
     private JLabel jLabel4;
     private JLabel jLabel5;
-    private JLabel jLabel6;
-    private JLabel jLabel7;
-    private JLabel jLabel8;
-    private JLabel jLabel9;
+    private JLabel matinLabel;
+    private JLabel nuitLabel;
+    private JLabel soirLabel;
+    private JLabel midiLabel;
     private JPanel jPanel1;
     private JPanel jPanel2;
     private JPanel jPanel3;
@@ -591,29 +644,27 @@ public class PosologieFrame extends JFrame {
     private JScrollPane jScrollPane2;
     private JScrollPane jScrollPane3;
     private JScrollPane jScrollPane5;
-    private JSpinner jSpinner1;
-    private JSpinner jSpinner2;
-    private JSpinner jSpinner3;
-    private JSpinner jSpinner4;
-    private JSpinner jSpinner5;
+    private JSpinner qteJour;
+    private JSpinner qteHeur;
+    private JSpinner rithme;
+    private JSpinner jourSur;
+    private JSpinner duree;
     private JTabbedPane jTabbedPane1;
     private JTabbedPane jTabbedPane2;
     private JTabbedPane jTabbedPane3;
     private JTabbedPane jTabbedPane4;
-    private JTable jTable1;
-    private JTextArea jTextArea1;
-    private JTextArea jTextArea2;
-    private JTextArea jTextArea3;
-    private JTextField jTextField1;
-    private JTextField jTextField10;
-    private JTextField jTextField11;
-    private JTextField jTextField12;
-    private JTextField jTextField3;
-    private JTextField jTextField4;
-    private JTextField jTextField5;
-    private JTextField jTextField6;
-    private JTextField jTextField7;
-    private JTextField jTextField8;
-    private JTextField jTextField9;
-    // End of variables declaration                   
+    private JTable tableProduit;
+    private JTextArea avertissement;
+    private JTextArea contreIndication;
+    private JTextArea codexPosoologie;
+    private JTextField avertissementField;
+    private JTextField application;
+    private JTextField action;
+    private JTextField repos;
+    private JTextField condition;
+    private JTextField dosage;
+    private JTextField forme;
+    private JTextField unite;
+    private JTextField preparation;
+    private JTextField recommand;
 }
