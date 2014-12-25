@@ -279,6 +279,9 @@ public class AssuranceWidget extends JInternalFrame implements InternalFrameWidg
 							clientWidget.getPhone().setText(client.getPhone());
 							clientWidget.getAge().setText(String.valueOf(client.getAge()));
 							
+							newAssur1.setEnabled(true);
+							newAssur2.setEnabled(true);
+							newAssur3.setEnabled(true);
 
 							JTextField assuranceField = null;
 							JTextField hiddenField = null;
@@ -286,9 +289,6 @@ public class AssuranceWidget extends JInternalFrame implements InternalFrameWidg
 							
 							List<Assurance> assurances = clientService.getClientAssurances(client);
 							if(assurances != null && assurances.size() > 0){
-								newAssur1.setEnabled(true);
-								newAssur2.setEnabled(true);
-								newAssur3.setEnabled(true);
 
 								for(Assurance assurance : assurances){
 									TypeAssurance type = assurance.getType();

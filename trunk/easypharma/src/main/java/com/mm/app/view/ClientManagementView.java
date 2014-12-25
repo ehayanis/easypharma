@@ -724,6 +724,9 @@ public class ClientManagementView extends JFrame {
 					assuranceWidget.getNewAssur1().setEnabled(true);
 					assuranceWidget.getNewAssur2().setEnabled(true);
 					assuranceWidget.getNewAssur3().setEnabled(true);
+					assuranceWidget.getAssurance1().setText("");
+					assuranceWidget.getAssurance2().setText("");
+					assuranceWidget.getAssurance3().setText("");
 					
 					List<Assurance> assurances = service.getClientAssurances(client);
 					if(assurances != null && assurances.size() > 0){
