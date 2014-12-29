@@ -3,11 +3,8 @@ package com.mm.app.view;
 import java.awt.Color;
 import java.awt.Cursor;
 import java.awt.Font;
-import java.awt.Frame;
-import java.awt.event.ActionEvent;
 import java.awt.event.KeyAdapter;
 import java.awt.event.KeyEvent;
-import java.text.DateFormat;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -16,24 +13,18 @@ import javax.persistence.EntityManagerFactory;
 import javax.persistence.Persistence;
 import javax.swing.GroupLayout;
 import javax.swing.ImageIcon;
-import javax.swing.JButton;
 import javax.swing.JFrame;
 import javax.swing.JLabel;
 import javax.swing.JMenu;
 import javax.swing.JMenuBar;
-import javax.swing.JOptionPane;
 import javax.swing.JPanel;
-import javax.swing.JTextField;
 import javax.swing.LayoutStyle.ComponentPlacement;
 import javax.swing.UIManager;
 import javax.swing.WindowConstants;
 import javax.swing.border.BevelBorder;
 import javax.swing.border.SoftBevelBorder;
 
-import com.mm.app.model.Assurance;
-import com.mm.app.model.Client;
 import com.mm.app.model.Operator;
-import com.mm.app.model.Vente;
 import com.mm.app.service.OperatorService;
 import com.mm.app.service.impl.OperatorServiceImpl;
 import com.mm.app.utilities.Java2sAutoComboBox;
@@ -53,8 +44,8 @@ public class LoginView extends JFrame {
     	em = emf.createEntityManager();
 		
     	service = new OperatorServiceImpl(em);
-    	
-		initComponents();
+
+    	initComponents();
         getContentPane().setBackground(Color.WHITE);
         this.setExtendedState(JFrame.MAXIMIZED_BOTH);
         ImageIcon img = new ImageIcon(getClass().getResource("/img/logo.png"));
@@ -105,7 +96,7 @@ public class LoginView extends JFrame {
         			if(!"".equals(identifer)){
         				Operator operator = service.findOperator(Integer.valueOf(identifer));
 
-        				JFrame saleView = new SaleView(em, operator);
+        				SaleView saleView = new SaleView(em, operator);
         				saleView.setVisible(true);
 
         				setVisible(false);
@@ -172,25 +163,6 @@ public class LoginView extends JFrame {
         pack();
     }                       
     
-//    private void jTextField1ActionPerformed(ActionEvent evt) {                                            
-//        String id = operatorName.getText();
-//    	
-//        if(id != null){
-//        	Operator operator = service.findOperator(Integer.valueOf(id));
-//        	if(operator == null){
-//        		JOptionPane.showMessageDialog(this, "Veuillez saisir un identifiant valide!");
-//        	}else{
-//        		JFrame saleView = new SaleView(em, operator);
-//        		saleView.setVisible(true);
-//        		
-//        		setVisible(false);
-//        		dispose();
-//        	}
-//        }
-//    	
-//    }   
-
-            
     public static void main(String args[]) {
         try {
         	UIManager.setLookAndFeel("com.jtattoo.plaf.smart.SmartLookAndFeel");
@@ -203,7 +175,7 @@ public class LoginView extends JFrame {
             }
         });
     }
-
+    
     private JLabel idLabel;
     private JLabel welcomeLabel;
     private JMenu jMenu1;
