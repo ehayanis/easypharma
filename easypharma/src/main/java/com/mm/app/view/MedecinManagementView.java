@@ -7,9 +7,7 @@ import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.util.List;
 
-import javax.persistence.CascadeType;
 import javax.persistence.EntityManager;
-import javax.persistence.ManyToOne;
 import javax.swing.GroupLayout;
 import javax.swing.ImageIcon;
 import javax.swing.JButton;
@@ -28,6 +26,7 @@ import javax.swing.event.ListSelectionListener;
 import javax.swing.table.AbstractTableModel;
 import javax.swing.table.DefaultTableModel;
 
+import com.mm.app.model.Client;
 import com.mm.app.model.Medecin;
 import com.mm.app.model.Vente;
 import com.mm.app.service.MedecinService;
@@ -47,6 +46,7 @@ public class MedecinManagementView extends JFrame {
 	private Medecin medecin = null;
 	private Vente vente; 
 	private boolean isEdit = false;
+	private boolean isNew = false;
 	private int idMedecin = 0;
 	
 	private static final long serialVersionUID = 5336224759833199368L;
@@ -107,6 +107,7 @@ public class MedecinManagementView extends JFrame {
         labelAddress = new JLabel();
         scrollPaneAddress = new JScrollPane();
         address = new JTextArea();
+        hiddenId = new JTextField();
 
         setDefaultCloseOperation(WindowConstants.DISPOSE_ON_CLOSE);
         setTitle("Gestion des Médecins");
@@ -183,14 +184,16 @@ public class MedecinManagementView extends JFrame {
         	  speciality.setText(Utilities.isEmpty(medecin.getSpeciality()));
         	  address.setText(Utilities.isEmpty(medecin.getAddress()));
         	  email.setText(Utilities.isEmpty(medecin.getEmail()));
+        	  hiddenId.setText(String.valueOf(medecin.getId()));
+        	  isNew = false;
             		  
             }
         });
         
-        labelFirstName.setText("Nom:");
-        labelLastName.setText("Prénom: ");
+        labelFirstName.setText("Nom*:");
+        labelLastName.setText("Prénom*: ");
         labelNrcc.setText("N° NRCC:");
-        labelReference.setText("Réference:");
+        labelReference.setText("Réference*:");
         labelSpeciality.setText("Spécialité: ");
         labelEmail.setText("Email: ");
         labelNumNc.setText("N° NC:");
@@ -427,27 +430,38 @@ public class MedecinManagementView extends JFrame {
 				SaleView saleView = (SaleView) frame;
 				
 				MedecinWidget medecinWidget = saleView.getMedecinWidget();
+				if(!hiddenId.getText().equals("")){
+					medecin = em.find(Medecin.class, Integer.valueOf(hiddenId.getText()));
+				}else{
+					medecin = new Medecin();
+				}
+				
+				
+//				if(isEdit){
+				medecin.setNc(Utilities.isEmpty(numNC.getText()));
+				medecin.setFax(Utilities.isEmpty(fax.getText()));
+				medecin.setPhone(Utilities.isEmpty(fixe.getText()));
+				medecin.setFirstName(Utilities.isEmpty(firstName.getText()));
+				medecin.setLastName(Utilities.isEmpty(lastName.getText()));
+				medecin.setNrcc(Utilities.isEmpty(nrcc.getText()));
+				medecin.setReference(Utilities.isEmpty(reference.getText()));
+				medecin.setSpeciality(Utilities.isEmpty(speciality.getText()));
+				medecin.setAddress(Utilities.isEmpty(address.getText()));
+				medecin.setEmail(Utilities.isEmpty(email.getText()));
+//				}
+
 				em.getTransaction().begin();
 				vente = em.find(Vente.class, vente.getId());
-				medecin = vente.getMedecin();
-				
-				if(isEdit){
-					medecin.setNc(Utilities.isEmpty(numNC.getText()));
-					medecin.setFax(Utilities.isEmpty(fax.getText()));
-					medecin.setPhone(Utilities.isEmpty(fixe.getText()));
-					medecin.setFirstName(Utilities.isEmpty(firstName.getText()));
-					medecin.setLastName(Utilities.isEmpty(lastName.getText()));
-					medecin.setNrcc(Utilities.isEmpty(nrcc.getText()));
-					medecin.setReference(Utilities.isEmpty(reference.getText()));
-					medecin.setSpeciality(Utilities.isEmpty(speciality.getText()));
-					medecin.setAddress(Utilities.isEmpty(address.getText()));
-					medecin.setEmail(Utilities.isEmpty(email.getText()));
-				}
-
 				vente.setMedecin(medecin);
 				em.getTransaction().commit();
 				
+				medecin = em.find(Vente.class, vente.getId()).getMedecin();
 				
+				if(isNew){
+					medecinWidget.getData().put(medecin.getFirstName() + " " + medecin.getLastName(), String.valueOf(medecin.getId()));
+					medecinWidget.getFirstName().setDataList(medecinWidget.getData());
+				}	
+			
 				medecinWidget.getReference().setText(Utilities.isEmpty(medecin.getId()));
 				medecinWidget.getFirstName().setSelectedItem(Utilities.isEmpty(medecin.getFirstName() + " " + medecin.getLastName()));
 				medecinWidget.getSpeciality().setText(Utilities.isEmpty(medecin.getSpeciality()));
@@ -472,6 +486,14 @@ public class MedecinManagementView extends JFrame {
 
 	public void setIdMedecin(int idMedecin) {
 		this.idMedecin = idMedecin;
+	}
+
+	public boolean isNew() {
+		return isNew;
+	}
+
+	public void setNew(boolean isNew) {
+		this.isNew = isNew;
 	}
 
 
@@ -518,4 +540,5 @@ public class MedecinManagementView extends JFrame {
     private JTextField lastName;
     private JTextField nrcc;
     private JTextField reference;
+    private JTextField hiddenId;
 }

@@ -372,7 +372,7 @@ public class PaymentView extends JFrame {
 			    				int row = saleView.getjTable1().getSelectedRow();
 			    				String selectedValue = (String) comboBox.getSelectedItem();
 			    				Product product = saleView.getProductService().findProductByReference(data.get(selectedValue));
-			    				saleView.getjTable1().setValueAt(product.getReference(), row, 2);
+			    				saleView.getjTable1().setValueAt(product.getReference(), row, 1);
 			    				saleView.getjTable1().setValueAt(product.getPu(), row, 5);
 			    				saleView.getjTable1().setValueAt(decimalFormat.format(product.getPu() + (product.getPu() * 0.2)), row, 9);
 

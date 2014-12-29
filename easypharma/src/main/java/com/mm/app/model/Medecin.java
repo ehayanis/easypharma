@@ -5,8 +5,11 @@ import javax.persistence.*;
 
 import java.util.List;
 
+@NamedQueries({
+	@NamedQuery(name="findMedecinByReference", query="SELECT m FROM Medecin m WHERE m.reference = :reference"),
+	@NamedQuery(name="findMedecinByCriteria", query="SELECT m FROM Medecin m WHERE m.reference LIKE :criteria OR m.firstName LIKE :criteria OR m.lastName LIKE :criteria")	
+})
 
-@NamedQuery(name="findMedecinByReference", query="SELECT m FROM Medecin m WHERE m.reference = :reference")
 
 @Entity
 public class Medecin implements Serializable {
