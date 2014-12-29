@@ -275,8 +275,8 @@ public class PaymentView extends JFrame {
 			    	saleView.getAssuranceWidget().setVente(vente);
 			    	
 			    	saleView.getClientWidget().getDateOfBirth().setText("");
-			    	saleView.getClientWidget().getReference().setSelectedItem("");
-			    	saleView.getClientWidget().getFirstName().setText("");
+			    	saleView.getClientWidget().getReference().setText("");
+			    	saleView.getClientWidget().getFirstName().setSelectedItem("");
 			    	saleView.getClientWidget().getAge().setText("");
 			    	saleView.getClientWidget().getPhone().setText("");
 			    	saleView.getClientWidget().setVente(vente);

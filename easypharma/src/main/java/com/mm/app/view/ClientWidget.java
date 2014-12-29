@@ -14,6 +14,8 @@ import java.text.DateFormat;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.SortedMap;
+import java.util.TreeMap;
 
 import javax.persistence.EntityManager;
 import javax.swing.BoxLayout;
@@ -44,8 +46,8 @@ public class ClientWidget extends JInternalFrame implements InternalFrameWidget{
 
 	private static final long serialVersionUID = -1528594567776851222L;
 
-	private JTextField firstName;
-	private Java2sAutoComboBox reference;
+	private JTextField reference;
+	private Java2sAutoComboBox firstName;
 	private JTextField dateOfBirth;
 	private JTextField phone;
 	private JTextField age;
@@ -78,37 +80,45 @@ public class ClientWidget extends JInternalFrame implements InternalFrameWidget{
 	private void initComponent() {
 		getContentPane().setLayout(new BoxLayout(getContentPane(), BoxLayout.Y_AXIS));
 
-		firstName = new JTextField();
+		reference = new JTextField();
 		dateOfBirth = new JTextField();
 		age = new JTextField();
 		phone = new JTextField();
 
-		ArrayList<String> data = new ArrayList<String>();   
-		data.add("");
+		final SortedMap<String, String> data = new TreeMap<String, String>();
+		data.put("", "");
 		List<Client> result = clientService.getClients();
 		if(result != null && result.size() > 0){
 			for(Client c : result){
-				data.add(c.getReference());
+				data.put(c.getFirstName() + " " + c.getLastName(), c.getReference());
 			}
 		}
 
-		reference = new Java2sAutoComboBox(data);
-		reference.setDataList(data);
-		reference.setMaximumRowCount(3);
-
-		reference.getEditor().getEditorComponent().addKeyListener(new KeyAdapter() {
+		firstName = new Java2sAutoComboBox(data);
+		firstName.setDataList(data);
+		
+		firstName.setMaximumRowCount(3);
+		firstName.getEditor().getEditorComponent().addKeyListener(new KeyAdapter() {
+			@SuppressWarnings("unchecked")
 			@Override
 			public void keyPressed(KeyEvent e) {
+				String referencePram = null;
 				if (e.getKeyChar() == KeyEvent.VK_ENTER) {
-					String selectedValue = (String) reference.getSelectedItem();
-					Client client = clientService.findClientByReference(selectedValue);
+					String selectedValue = (String) firstName.getSelectedItem();
+					for (String key : data.keySet()) {
+						if (key.equals(selectedValue)) {
+							referencePram = data.get(key);
+							break;
+						}
+					}
+					Client client = clientService.findClientByReference(referencePram);
 
 					em.getTransaction().begin();
 					vente = em.find(Vente.class, vente.getId());
 					vente.setClient(client);
 					em.getTransaction().commit();
 
-					firstName.setText(client.getFirstName() + " " + client.getLastName());
+					reference.setText(client.getReference());
 					dateOfBirth.setText(DateFormat.getInstance().format(client.getBirthDate()));
 					age.setText(String.valueOf(client.getAge()));
 					phone.setText(client.getPhone());
@@ -192,34 +202,36 @@ public class ClientWidget extends JInternalFrame implements InternalFrameWidget{
             }
         });
 		
-		reference.setPreferredSize(new Dimension(203, 20));
-		buttonPanel.add(reference);
+		firstName.setPreferredSize(new Dimension(203, 20));
+		buttonPanel.add(firstName);
 		buttonPanel.add(editButton);
 		buttonPanel.add(newButton);
 		
 		
-		add(Utilities.createFilledSimplePanel("Référence", buttonPanel));
-		add(Utilities.createFilledSimplePanel("Nom & Prénom", firstName));
+		//add(Utilities.createFilledSimplePanel("Référence", buttonPanel));
+		//add(Utilities.createFilledSimplePanel("Nom & Prénom", firstName));
+		add(Utilities.createFilledSimplePanel("Nom & Prénom", buttonPanel));
+		add(Utilities.createFilledSimplePanel("Référence", reference));
 		add(Utilities.createFilledSimplePanel("Date de Naissance", dateOfBirth));
 		add(Utilities.createFilledSimplePanel("Age", age));
 		add(Utilities.createFilledSimplePanel("Tél.", phone));
 
 	}
 
-	public JTextField getFirstName() {
-		return firstName;
-	}
-
-	public void setFirstName(JTextField firstName) {
-		this.firstName = firstName;
-	}
-
-	public Java2sAutoComboBox getReference() {
+	public JTextField getReference() {
 		return reference;
 	}
 
-	public void setReference(Java2sAutoComboBox reference) {
+	public void setReference(JTextField reference) {
 		this.reference = reference;
+	}
+
+	public Java2sAutoComboBox getFirstName() {
+		return firstName;
+	}
+
+	public void setFirstName(Java2sAutoComboBox firstName) {
+		this.firstName = firstName;
 	}
 
 	public JTextField getDateOfBirth() {
@@ -255,7 +267,7 @@ public class ClientWidget extends JInternalFrame implements InternalFrameWidget{
 	}
 
 	private void editActionPerformed(ActionEvent evt) {
-		String ref = (String) reference.getSelectedItem();
+		String ref = (String) firstName.getSelectedItem();
 		ClientManagementView clientManagementView = new ClientManagementView(em, vente);
         
 		if(!"".equals(ref)){

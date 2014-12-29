@@ -18,8 +18,8 @@ public class ProductDaoImpl implements ProductDao{
 
 	@Override
 	public List<Product> getProducts() {
-		TypedQuery<Product> query = em.createQuery("SELECT p FROM Product p", Product.class);
-		return query.getResultList();
+		TypedQuery<Product> query = em.createQuery("SELECT p FROM Product p ORDER BY p.designation", Product.class);
+		return query.getResultList(); 
 	}
 
 	@Override
