@@ -99,18 +99,13 @@ public class ClientWidget extends JInternalFrame implements InternalFrameWidget{
 		
 		firstName.setMaximumRowCount(3);
 		firstName.getEditor().getEditorComponent().addKeyListener(new KeyAdapter() {
-			@SuppressWarnings("unchecked")
 			@Override
 			public void keyPressed(KeyEvent e) {
 				String referencePram = null;
 				if (e.getKeyChar() == KeyEvent.VK_ENTER) {
+					
 					String selectedValue = (String) firstName.getSelectedItem();
-					for (String key : data.keySet()) {
-						if (key.equals(selectedValue)) {
-							referencePram = data.get(key);
-							break;
-						}
-					}
+					referencePram = data.get(selectedValue);
 					Client client = clientService.findClientByReference(referencePram);
 
 					em.getTransaction().begin();

@@ -212,7 +212,7 @@ public class SaleView extends JFrame {
                 	 for(int i = 0; i < rows; i++){
                 		 Object d = jTable1.getValueAt(i, 9);
                 		 if(d != null){
-                			 total += (Double)d; 
+                			 total += Double.parseDouble(((String) d).replace(",", "."));
                 		 }
                 		 
                 	 }
