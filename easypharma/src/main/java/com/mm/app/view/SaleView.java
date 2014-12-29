@@ -180,8 +180,6 @@ public class SaleView extends JFrame {
 		if(result != null && result.size() > 0){
 			for(Product p : result){
 				data.put(p.getDesignation(), p.getReference());
-			}
-			for(Product p : result){
 				data.put(p.getReference(), p.getReference());
 			}
 		}
@@ -200,7 +198,7 @@ public class SaleView extends JFrame {
         			 int row = jTable1.getSelectedRow();
         			 String selectedValue = (String) comboBox.getSelectedItem();
         			 Product product = productService.findProductByReference(data.get(selectedValue));
-                	 jTable1.setValueAt(product.getReference(), row, 2);
+                	 jTable1.setValueAt(product.getReference(), row, 1);
                 	 jTable1.setValueAt(product.getPu(), row, 5);
                 	 jTable1.setValueAt(decimalFormat.format(product.getPu() + (product.getPu() * 0.2)), row, 9);
                 	 // Mettre la désignation au cas ou c'est le code bare qui est saisi
