@@ -326,23 +326,23 @@ public class PaymentView extends JFrame {
 			    	
 			    	saleView.getjTable1().setModel(new DefaultTableModel(
 			    	            new Object [][] {
-			    	                {null, null, null, null, null, null, null, null, null, null},
-			    	                {null, null, null, null, null, null, null, null, null, null},
-			    	                {null, null, null, null, null, null, null, null, null, null},
-			    	                {null, null, null, null, null, null, null, null, null, null},
-			    	                {null, null, null, null, null, null, null, null, null, null},
-			    	                {null, null, null, null, null, null, null, null, null, null},
-			    	                {null, null, null, null, null, null, null, null, null, null},
-			    	                {null, null, null, null, null, null, null, null, null, null},
-			    	                {null, null, null, null, null, null, null, null, null, null},
-			    	                {null, null, null, null, null, null, null, null, null, null},
-			    	                {null, null, null, null, null, null, null, null, null, null},
-			    	                {null, null, null, null, null, null, null, null, null, null},
-			    	                {null, null, null, null, null, null, null, null, null, null}
+			    	            		{null, null, null, null, null, null, null, null, null},
+			    	                    {null, null, null, null, null, null, null, null, null},
+			    	                    {null, null, null, null, null, null, null, null, null},
+			    	                    {null, null, null, null, null, null, null, null, null},
+			    	                    {null, null, null, null, null, null, null, null, null},
+			    	                    {null, null, null, null, null, null, null, null, null},
+			    	                    {null, null, null, null, null, null, null, null, null},
+			    	                    {null, null, null, null, null, null, null, null, null},
+			    	                    {null, null, null, null, null, null, null, null, null},
+			    	                    {null, null, null, null, null, null, null, null, null},
+			    	                    {null, null, null, null, null, null, null, null, null},
+			    	                    {null, null, null, null, null, null, null, null, null},
+			    	                    {null, null, null, null, null, null, null, null, null}
 			    	            },
 
 			    	            new String [] {
-			    	            		"Désignation", "Code Barre", "Facture", "Taux", "Base", "PU TTC", "Qté", "Remise", "Part Client", "Total"
+			    	            		"Désignation", "Facture", "Taux", "Base", "PU TTC", "Qté", "Remise", "Part Client", "Total"
 			    	            }
 			    	        ));
 
@@ -373,9 +373,8 @@ public class PaymentView extends JFrame {
 			    				int row = saleView.getjTable1().getSelectedRow();
 			    				String selectedValue = (String) comboBox.getSelectedItem();
 			    				Product product = saleView.getProductService().findProductByReference(data.get(selectedValue));
-			    				saleView.getjTable1().setValueAt(product.getReference(), row, 1);
-			    				saleView.getjTable1().setValueAt(product.getPu(), row, 5);
-			    				saleView.getjTable1().setValueAt(decimalFormat.format(product.getPu() + (product.getPu() * 0.2)), row, 9);
+			    				saleView.getjTable1().setValueAt(product.getPu(), row, 4);
+			    				saleView.getjTable1().setValueAt(decimalFormat.format(product.getPu() + (product.getPu() * 0.2)), row, 8);
 			                	 // Mettre la désignation au cas ou c'est le code bare qui est saisi
 			                	 comboBox.setSelectedItem(product.getDesignation());
 
@@ -388,7 +387,7 @@ public class PaymentView extends JFrame {
 			    				int rows = saleView.getjTable1().getRowCount();
 			    				double total = 0;
 			    				for(int i = 0; i < rows; i++){
-			    					Object d = saleView.getjTable1().getValueAt(i, 9);
+			    					Object d = saleView.getjTable1().getValueAt(i, 8);
 			    					if(d != null){
 			    						total += Double.parseDouble(((String) d).replace(",", "."));
 			    					}
@@ -408,7 +407,7 @@ public class PaymentView extends JFrame {
 			    	renderer.setToolTipText("Séléctionner un produit");
 			    	column.setCellRenderer(renderer);
 
-			    	TableColumn factureColumn = saleView.getjTable1().getColumnModel().getColumn(2);
+			    	TableColumn factureColumn = saleView.getjTable1().getColumnModel().getColumn(1);
 			    	JComboBox<String> facture = new JComboBox<String>();
 			    	facture.addItem("Comptoire");
 			    	facture.addItem("Assurance");

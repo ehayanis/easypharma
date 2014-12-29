@@ -152,22 +152,22 @@ public class SaleView extends JFrame {
         
         jTable1.setModel(new DefaultTableModel(
             new Object [][] {
-                {null, null, null, null, null, null, null, null, null, null},
-                {null, null, null, null, null, null, null, null, null, null},
-                {null, null, null, null, null, null, null, null, null, null},
-                {null, null, null, null, null, null, null, null, null, null},
-                {null, null, null, null, null, null, null, null, null, null},
-                {null, null, null, null, null, null, null, null, null, null},
-                {null, null, null, null, null, null, null, null, null, null},
-                {null, null, null, null, null, null, null, null, null, null},
-                {null, null, null, null, null, null, null, null, null, null},
-                {null, null, null, null, null, null, null, null, null, null},
-                {null, null, null, null, null, null, null, null, null, null},
-                {null, null, null, null, null, null, null, null, null, null},
-                {null, null, null, null, null, null, null, null, null, null}
+                {null, null, null, null, null, null, null, null, null},
+                {null, null, null, null, null, null, null, null, null},
+                {null, null, null, null, null, null, null, null, null},
+                {null, null, null, null, null, null, null, null, null},
+                {null, null, null, null, null, null, null, null, null},
+                {null, null, null, null, null, null, null, null, null},
+                {null, null, null, null, null, null, null, null, null},
+                {null, null, null, null, null, null, null, null, null},
+                {null, null, null, null, null, null, null, null, null},
+                {null, null, null, null, null, null, null, null, null},
+                {null, null, null, null, null, null, null, null, null},
+                {null, null, null, null, null, null, null, null, null},
+                {null, null, null, null, null, null, null, null, null}
             },
             new String [] {
-            		"Désignation", "Code Barre", "Facture", "Taux", "Base", "PU TTC", "Qté", "Remise", "Part Client", "Total"
+            		"Désignation", "Facture", "Taux", "Base", "PU TTC", "Qté", "Remise", "Part Client", "Total"
             }
         ));
         jTable1.setRowHeight(22);
@@ -198,9 +198,8 @@ public class SaleView extends JFrame {
         			 int row = jTable1.getSelectedRow();
         			 String selectedValue = (String) comboBox.getSelectedItem();
         			 Product product = productService.findProductByReference(data.get(selectedValue));
-                	 jTable1.setValueAt(product.getReference(), row, 1);
-                	 jTable1.setValueAt(product.getPu(), row, 5);
-                	 jTable1.setValueAt(decimalFormat.format(product.getPu() + (product.getPu() * 0.2)), row, 9);
+                	 jTable1.setValueAt(product.getPu(), row, 4);
+                	 jTable1.setValueAt(decimalFormat.format(product.getPu() + (product.getPu() * 0.2)), row, 8);
                 	 // Mettre la désignation au cas ou c'est le code bare qui est saisi
                 	 comboBox.setSelectedItem(product.getDesignation());
                 	 
@@ -214,7 +213,7 @@ public class SaleView extends JFrame {
                 	 int rows = jTable1.getRowCount();
                 	 double total = 0;
                 	 for(int i = 0; i < rows; i++){
-                		 Object d = jTable1.getValueAt(i, 9);
+                		 Object d = jTable1.getValueAt(i, 8);
                 		 if(d != null){
                 			 total += Double.parseDouble(((String) d).replace(",", "."));
                 		 }
@@ -232,7 +231,7 @@ public class SaleView extends JFrame {
         column.setCellRenderer(renderer);
         
         
-        TableColumn factureColumn = jTable1.getColumnModel().getColumn(2);
+        TableColumn factureColumn = jTable1.getColumnModel().getColumn(1);
         JComboBox<String> facture = new JComboBox<String>();
         facture.addItem("Comptoire");
         facture.addItem("Assurance");
