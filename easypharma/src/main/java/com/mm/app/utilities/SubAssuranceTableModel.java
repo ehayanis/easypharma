@@ -1,12 +1,15 @@
 package com.mm.app.utilities;
 
 import java.util.List;
+
 import javax.swing.table.AbstractTableModel;
+
 import com.mm.app.model.Assurance;
+import com.mm.app.model.AssuranceClient;
 
 public class SubAssuranceTableModel extends AbstractTableModel{
 
-	List<Assurance> assurancesList;
+	List<AssuranceClient> assurancesList;
 	String headerList[] = new String[]{"Réference", "Assurance"};
 
 	public SubAssuranceTableModel(List list) {
@@ -25,14 +28,14 @@ public class SubAssuranceTableModel extends AbstractTableModel{
 
 	@Override
 	public Object getValueAt(int row, int column) {
-		Assurance entity = null;
+		AssuranceClient entity = null;
 		entity= assurancesList.get(row);
 
 		switch (column) {
 		case 0:
-			return entity.getId();
+			return entity.getAssurance().getId();
 		case 1:
-			return entity.getName();
+			return entity.getAssurance().getName();
 		default:
 			return ""; 
 		}

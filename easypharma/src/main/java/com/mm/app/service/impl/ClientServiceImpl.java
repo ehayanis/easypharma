@@ -7,6 +7,7 @@ import javax.persistence.EntityManager;
 import com.mm.app.dao.ClientDao;
 import com.mm.app.dao.impl.ClientDaoImpl;
 import com.mm.app.model.Assurance;
+import com.mm.app.model.AssuranceClient;
 import com.mm.app.model.Client;
 import com.mm.app.model.Vente;
 import com.mm.app.service.ClientService;
@@ -42,7 +43,7 @@ public class ClientServiceImpl implements ClientService{
 	}
 
 	@Override
-	public List<Assurance> getClientAssurances(Client client) {
+	public List<AssuranceClient> getClientAssurances(Client client) {
 		return dao.getClientAssurances(client);
 	}
 

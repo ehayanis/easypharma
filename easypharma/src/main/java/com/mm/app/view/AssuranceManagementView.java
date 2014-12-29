@@ -441,6 +441,7 @@ public class AssuranceManagementView extends javax.swing.JFrame {
 					
 					AssuranceClient assuranceClient = new AssuranceClient();
 					assuranceClient.setAssurance(assurance);
+					assuranceClient.setType(typeAssurance);
 					assuranceClient.setClient(client);
 					
 					em.persist(assuranceClient);

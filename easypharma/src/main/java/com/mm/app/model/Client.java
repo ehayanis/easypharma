@@ -11,7 +11,10 @@ enum AssuranceType{
 	OBLIGATOIRE, COMPLEMENTAIRE, ACCIDENT
 }
 
-@NamedQuery(name="findClientByReference", query="SELECT c FROM Client c WHERE c.reference = :reference")
+@NamedQueries({
+	@NamedQuery(name="findClientByReference", query="SELECT c FROM Client c WHERE c.reference = :reference"),
+	@NamedQuery(name="findClientByCriteria", query="SELECT c FROM Client c WHERE c.reference LIKE :criteria OR c.firstName LIKE :criteria OR c.lastName LIKE :criteria")
+})
 
 @Entity
 public class Client implements Serializable {

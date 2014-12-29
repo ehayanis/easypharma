@@ -6,6 +6,7 @@ import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.awt.event.KeyAdapter;
 import java.awt.event.KeyEvent;
+import java.text.DecimalFormat;
 import java.util.ArrayList;
 import java.util.Collection;
 import java.util.Date;
@@ -96,7 +97,7 @@ public class PaymentView extends JFrame {
 		});
 
         rendre.setFont(new java.awt.Font("Tahoma", 0, 12)); // NOI18N
-
+        rendre.setText("0");
         jLabel1.setText("A rendre:");
 
         annuler.setText("Annuler");
@@ -113,7 +114,11 @@ public class PaymentView extends JFrame {
         		if(ke.getKeyCode()==KeyEvent.VK_DELETE){
         			String selectedValue = jList1.getSelectedValue(); 
         			String key = selectedValue.substring(selectedValue.indexOf("(") + 1, selectedValue.indexOf(")"));
-
+        			
+        			if(selectedValue.contains("Comptant")){
+        				rendre.setText("0");
+        			}
+        			
         			listData.remove(selectedValue);
         			result.remove(key);
         			
@@ -207,12 +212,28 @@ public class PaymentView extends JFrame {
     private void addPaiementTypeAction(ActionEvent evt) {
     	String montant = payed.getText();
     	if(!"".equals(montant)){
+    		final DecimalFormat decimalFormat = new DecimalFormat("0.00");
     		String selectedItem = (String) jComboBox1.getSelectedItem();
     		Set<String> types = result.keySet();
     		
     		if(types.contains(selectedItem)){
     			JOptionPane.showMessageDialog(this, "Le type " + selectedItem + " est déjà séléctionné");
     		}else{
+    			if("Comptant".equalsIgnoreCase(selectedItem)){
+    				Collection<Float> values = result.values();
+    		    	Float currentTotal = 0f;
+    		    	for(Float d : values){
+    		    		currentTotal = d + currentTotal;
+    		    	}
+    		    	
+    		    	Float sum = Float.valueOf(total.getText().replace(",", "."));
+    		    	currentTotal += Float.valueOf(montant);
+    		    	if(currentTotal > sum){
+    		    		float arendre = currentTotal - sum;
+    		    		rendre.setText(decimalFormat.format(arendre));
+    		    	}
+    		    	
+    			}
     			listData.add(montant + " (" + selectedItem + ")");
     			result.put(selectedItem, Float.valueOf(montant.replace(",", ".")));
     			

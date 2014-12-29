@@ -141,9 +141,9 @@ public class ClientWidget extends JInternalFrame implements InternalFrameWidget{
 					assuranceWidget.getAssurance2().setText("");
 					assuranceWidget.getAssurance3().setText("");
 					
-					List<Assurance> assurances = clientService.getClientAssurances(client);
+					List<AssuranceClient> assurances = clientService.getClientAssurances(client);
 					if(assurances != null && assurances.size() > 0){
-						for(Assurance assurance : assurances){
+						for(AssuranceClient assurance : assurances){
 							TypeAssurance type = assurance.getType();
 						
 							switch (type) {
@@ -166,8 +166,8 @@ public class ClientWidget extends JInternalFrame implements InternalFrameWidget{
 								break;
 							}
 							
-							assuranceField.setText(assurance.getName());
-							hiddenField.setText(String.valueOf(assurance.getId()));
+							assuranceField.setText(assurance.getAssurance().getName());
+							hiddenField.setText(String.valueOf(assurance.getAssurance().getId()));
 							newAssurance.setEnabled(false);
 						}
 					}
@@ -262,7 +262,7 @@ public class ClientWidget extends JInternalFrame implements InternalFrameWidget{
 	}
 
 	private void editActionPerformed(ActionEvent evt) {
-		String ref = (String) firstName.getSelectedItem();
+		String ref = (String) reference.getText();
 		ClientManagementView clientManagementView = new ClientManagementView(em, vente);
         
 		if(!"".equals(ref)){
@@ -301,7 +301,7 @@ public class ClientWidget extends JInternalFrame implements InternalFrameWidget{
 				}
 			}
 			
-			List<Assurance> assurances = clientService.getClientAssurances(client);
+			List<AssuranceClient> assurances = clientService.getClientAssurances(client);
 			if(assurances != null && assurances.size() > 0){
 				AbstractTableModel model = new SubAssuranceTableModel(assurances);
 				clientManagementView.getAssuranceTable().setModel(model);

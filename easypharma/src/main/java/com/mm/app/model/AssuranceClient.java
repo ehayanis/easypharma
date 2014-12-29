@@ -5,6 +5,8 @@ import java.util.Date;
 
 import javax.persistence.Column;
 import javax.persistence.Entity;
+import javax.persistence.EnumType;
+import javax.persistence.Enumerated;
 import javax.persistence.GeneratedValue;
 import javax.persistence.Id;
 import javax.persistence.ManyToOne;
@@ -13,6 +15,8 @@ import javax.persistence.OneToOne;
 import javax.persistence.Table;
 import javax.persistence.Temporal;
 import javax.persistence.TemporalType;
+
+import com.mm.app.view.TypeAssurance;
 
 @NamedQuery(name="findAssuranceByCoverCard", query="SELECT c FROM AssuranceClient c WHERE c.coverCard = :coverCard")
 
@@ -38,6 +42,9 @@ public class AssuranceClient implements Serializable {
 	
 	@Column(name="cover_card")
 	private String coverCard;
+	
+	@Enumerated(EnumType.STRING)
+	private TypeAssurance type;
 	
 	private static final long serialVersionUID = 1L;
 
@@ -83,6 +90,14 @@ public class AssuranceClient implements Serializable {
 
 	public void setCoverCard(String coverCard) {
 		this.coverCard = coverCard;
+	}
+
+	public TypeAssurance getType() {
+		return type;
+	}
+
+	public void setType(TypeAssurance type) {
+		this.type = type;
 	}
 	
 }
