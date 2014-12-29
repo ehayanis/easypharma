@@ -181,6 +181,9 @@ public class SaleView extends JFrame {
 			for(Product p : result){
 				data.put(p.getDesignation(), p.getReference());
 			}
+			for(Product p : result){
+				data.put(p.getReference(), p.getReference());
+			}
 		}
         
         final Java2sAutoComboBox comboBox = new Java2sAutoComboBox(data);
@@ -200,12 +203,15 @@ public class SaleView extends JFrame {
                 	 jTable1.setValueAt(product.getReference(), row, 2);
                 	 jTable1.setValueAt(product.getPu(), row, 5);
                 	 jTable1.setValueAt(decimalFormat.format(product.getPu() + (product.getPu() * 0.2)), row, 9);
+                	 // Mettre la désignation au cas ou c'est le code bare qui est saisi
+                	 comboBox.setSelectedItem(product.getDesignation());
                 	 
                 	 VenteProduit vp = new VenteProduit(product);
                 	 vp.setVente(vente);
                 	 products.add(vp);
                 	 
                 	 headerPanel.getProduit().activateButton(true);
+                	 
                 	 
                 	 int rows = jTable1.getRowCount();
                 	 double total = 0;
