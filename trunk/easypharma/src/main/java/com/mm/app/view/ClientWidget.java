@@ -55,6 +55,7 @@ public class ClientWidget extends JInternalFrame implements InternalFrameWidget{
 	private VenteService venteService;
 	private Vente vente;
 	private EntityManager em;
+	private SortedMap<String, String> data;
 	
 	public ClientWidget(EntityManager em, Vente vente) {
 		this.em = em;
@@ -80,7 +81,7 @@ public class ClientWidget extends JInternalFrame implements InternalFrameWidget{
 		age = new JTextField();
 		phone = new JTextField();
 
-		final SortedMap<String, String> data = new TreeMap<String, String>();
+		data = new TreeMap<String, String>();
 		data.put("", "");
 		List<Client> result = clientService.getClients();
 		if(result != null && result.size() > 0){
@@ -256,6 +257,15 @@ public class ClientWidget extends JInternalFrame implements InternalFrameWidget{
 		this.vente = vente;
 	}
 
+	public SortedMap<String, String> getData() {
+		return data;
+	}
+
+	public void setData(SortedMap<String, String> data) {
+		this.data = data;
+	}
+
+	
 	private void editActionPerformed(ActionEvent evt) {
 		String ref = (String) reference.getText();
 		ClientManagementView clientManagementView = new ClientManagementView(em, vente);
@@ -314,7 +324,7 @@ public class ClientWidget extends JInternalFrame implements InternalFrameWidget{
 	
 	private void newActionPerformed(ActionEvent evt) {                                         
 		ClientManagementView clientManagementView = new ClientManagementView(em, vente);
-		clientManagementView.setEdit(true);
+		clientManagementView.setNew(true);
 	    clientManagementView.setVisible(true);
     }
 

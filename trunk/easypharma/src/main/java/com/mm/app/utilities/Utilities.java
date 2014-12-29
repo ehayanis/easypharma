@@ -115,7 +115,7 @@ public class Utilities {
 	}
 	
 	public static String isEmpty(String o){
-		if (!"".equals(o) || o != null){
+		if (o != null && !o.equals("")){
 			return String.valueOf(o);
 		}
 		
@@ -127,7 +127,15 @@ public class Utilities {
 			return String.valueOf(n);
 		}
 		
-		return "";
+		return "0";
+	}
+	
+	public static String isNumberEmpty(String n){
+		if (n != null && !n.equals("")){
+			return String.valueOf(n);
+		}
+		
+		return "0";
 	}
 	
 	public static String isEmpty(Date d){
@@ -135,7 +143,7 @@ public class Utilities {
 			return DateFormat.getInstance().format(d);
 		}
 		
-		return "";
+		return "0";
 	}
 	
 	

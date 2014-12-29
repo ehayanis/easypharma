@@ -54,6 +54,7 @@ public class ClientManagementView extends JFrame {
 	private Client client = null;
 	private Vente vente;
 	private boolean isEdit = false;
+	private boolean isNew = false;
 	
 	public ClientManagementView(EntityManager em, Vente vente) {
 		this.em = em;
@@ -244,7 +245,7 @@ public class ClientManagementView extends JFrame {
 					addrFacturation.setText(client.getAddrFacturation());
 					addrLivraison.setText(client.getAddrLivraison());
 					hiddenId.setText(String.valueOf(client.getId()));
-					
+					isNew = false;
 					
 					List<Vente> ventes = client.getVentes();
 					
@@ -277,11 +278,11 @@ public class ClientManagementView extends JFrame {
 			}
 		});
 
-		firstNameLabel.setText("Nom:");
-		lastNameLabel.setText("Prénom: ");
+		firstNameLabel.setText("Nom*:");
+		lastNameLabel.setText("Prénom*: ");
 		dateOfBirthLabel.setText("Date de naissance:");
-		referenceLabel.setText("Réference:");
-		ageLabel.setText("Age:");
+		referenceLabel.setText("Réference*:");
+		ageLabel.setText("Age*:");
 		rpiLabel.setText("N° RPI: ");
 		avsLabel.setText("N° AVS: ");
 		mobileLabel.setText("Mobile:");
@@ -679,88 +680,96 @@ public class ClientManagementView extends JFrame {
 		for (Frame frame : Frame.getFrames()) {
 			if (frame.getTitle().equals("EasyPharma: Gestion Pharmacies ")) {
 				SaleView saleView = (SaleView) frame;
-				
+
 				ClientWidget clientWidget = ((ClientWidget) saleView.getClientWidget());
 				if(!hiddenId.getText().equals("")){
 					client = em.find(Client.class, Integer.valueOf(hiddenId.getText()));
-					
-					if(isEdit){
-						client.setFirstName(Utilities.isEmpty(firstName.getText()));
-						client.setLastName(Utilities.isEmpty(lastName.getText()));
-						client.setReference(Utilities.isEmpty(reference.getText()));
-						try {
-							client.setBirthDate(DateFormat.getInstance().parse(Utilities.isEmpty(dateOfBirth.getText())));
-						} catch (ParseException e) {
-							System.out.println("Error when parsing client date of birth");
-						}
-						client.setAge(Integer.valueOf(Utilities.isEmpty(age.getText())));
-						client.setEmail(Utilities.isEmpty(email.getText()));
-						client.setMpi(Integer.valueOf(Utilities.isEmpty(rpi.getText())));
-						client.setFix(Utilities.isEmpty(fixe.getText()));
-						client.setAvs(Integer.valueOf(Utilities.isEmpty(avs.getText())));
-						client.setFax(Utilities.isEmpty(fax.getText()));
-						client.setPhone(Utilities.isEmpty(mobile.getText()));
-					}
-					
-					em.getTransaction().begin();
-					vente = em.find(Vente.class, vente.getId());
-					vente.setClient(client);
-					em.getTransaction().commit();
-					
-					saleView.getHeaderPanel().getClient().activateButton(true);
-					
-					clientWidget.getReference().setText(client.getReference());
-					clientWidget.getFirstName().setSelectedItem(client.getFirstName() + " " + client.getLastName());
-					clientWidget.getDateOfBirth().setText(DateFormat.getInstance().format(client.getBirthDate()));
-					clientWidget.getAge().setText(String.valueOf(client.getAge()));
-					clientWidget.getPhone().setText(client.getPhone());
-					
-					AssuranceWidget assuranceWidget = (AssuranceWidget) saleView.getAssuranceWidget();
-					JTextField assuranceField = null;
-					JTextField hiddenField = null;
-					JButton newAssurance = null;
-					
-					assuranceWidget.getNewAssur1().setEnabled(true);
-					assuranceWidget.getNewAssur2().setEnabled(true);
-					assuranceWidget.getNewAssur3().setEnabled(true);
-					assuranceWidget.getAssurance1().setText("");
-					assuranceWidget.getAssurance2().setText("");
-					assuranceWidget.getAssurance3().setText("");
-					
-					List<AssuranceClient> assurances = service.getClientAssurances(client);
-					if(assurances != null && assurances.size() > 0){
-						for(AssuranceClient assurance : assurances){
-							TypeAssurance type = assurance.getType();
-							switch (type) {
-							case OBLIGATOIRE:
-								assuranceField = assuranceWidget.getAssurance1();
-								hiddenField = assuranceWidget.getHiddenField1();
-								newAssurance = assuranceWidget.getNewAssur1();
-								break;
-							case ACCIDENT:
-								assuranceField = assuranceWidget.getAssurance2();
-								hiddenField = assuranceWidget.getHiddenField2();
-								newAssurance = assuranceWidget.getNewAssur2();
-								break;
-							case COMPLEMENTAIRE:
-								assuranceField = assuranceWidget.getAssurance3();
-								hiddenField = assuranceWidget.getHiddenField3();
-								newAssurance = assuranceWidget.getNewAssur3();
-								break;
-							default:
-								break;
-							}
-							
-							assuranceField.setText(assurance.getAssurance().getName());
-							hiddenField.setText(String.valueOf(assurance.getAssurance().getId()));
-							newAssurance.setEnabled(false);
-						}
-					}
-					
-					saleView.setVisible(true);
+				}else{
+					client = new Client();
 				}
 				
+//				if(isEdit){
+					client.setFirstName(Utilities.isEmpty(firstName.getText()));
+					client.setLastName(Utilities.isEmpty(lastName.getText()));
+					client.setReference(Utilities.isEmpty(reference.getText()));
+					try {
+						client.setBirthDate(DateFormat.getInstance().parse(Utilities.isEmpty(dateOfBirth.getText())));
+					} catch (ParseException e) {
+						System.out.println("Error when parsing client date of birth");
+					}
+					client.setAge(Integer.valueOf(Utilities.isNumberEmpty(age.getText())));
+					client.setEmail(Utilities.isEmpty(email.getText()));
+					client.setMpi(Integer.valueOf(Utilities.isNumberEmpty(rpi.getText())));
+					client.setFix(Utilities.isEmpty(fixe.getText()));
+					client.setAvs(Integer.valueOf(Utilities.isNumberEmpty(avs.getText())));
+					client.setFax(Utilities.isEmpty(fax.getText()));
+					client.setPhone(Utilities.isEmpty(mobile.getText()));
+//				}
+
+				em.getTransaction().begin();
+				vente = em.find(Vente.class, vente.getId());
+				vente.setClient(client);
+				em.getTransaction().commit();
+
+				saleView.getHeaderPanel().getClient().activateButton(true);
+				
+				if(isNew){
+					clientWidget.getData().put(client.getFirstName() + " " + client.getLastName(), client.getReference());
+					clientWidget.getFirstName().setDataList(clientWidget.getData());
+				}
+				clientWidget.getReference().setText(Utilities.isEmpty(client.getReference()));
+				clientWidget.getFirstName().setSelectedItem(client.getFirstName() + " " + client.getLastName());
+				if(client.getBirthDate() != null){
+					clientWidget.getDateOfBirth().setText(DateFormat.getInstance().format(client.getBirthDate()));
+				}
+				clientWidget.getAge().setText(Utilities.isEmpty(client.getAge()));
+				clientWidget.getPhone().setText(Utilities.isEmpty(client.getPhone()));
+
+				AssuranceWidget assuranceWidget = (AssuranceWidget) saleView.getAssuranceWidget();
+				JTextField assuranceField = null;
+				JTextField hiddenField = null;
+				JButton newAssurance = null;
+
+				assuranceWidget.getNewAssur1().setEnabled(true);
+				assuranceWidget.getNewAssur2().setEnabled(true);
+				assuranceWidget.getNewAssur3().setEnabled(true);
+				assuranceWidget.getAssurance1().setText("");
+				assuranceWidget.getAssurance2().setText("");
+				assuranceWidget.getAssurance3().setText("");
+
+				List<AssuranceClient> assurances = service.getClientAssurances(client);
+				if(assurances != null && assurances.size() > 0){
+					for(AssuranceClient assurance : assurances){
+						TypeAssurance type = assurance.getType();
+						switch (type) {
+						case OBLIGATOIRE:
+							assuranceField = assuranceWidget.getAssurance1();
+							hiddenField = assuranceWidget.getHiddenField1();
+							newAssurance = assuranceWidget.getNewAssur1();
+							break;
+						case ACCIDENT:
+							assuranceField = assuranceWidget.getAssurance2();
+							hiddenField = assuranceWidget.getHiddenField2();
+							newAssurance = assuranceWidget.getNewAssur2();
+							break;
+						case COMPLEMENTAIRE:
+							assuranceField = assuranceWidget.getAssurance3();
+							hiddenField = assuranceWidget.getHiddenField3();
+							newAssurance = assuranceWidget.getNewAssur3();
+							break;
+						default:
+							break;
+						}
+
+						assuranceField.setText(assurance.getAssurance().getName());
+						hiddenField.setText(String.valueOf(assurance.getAssurance().getId()));
+						newAssurance.setEnabled(false);
+					}
+				}
+
+				saleView.setVisible(true);
 			}
+
 		}
 		setVisible(false);
 		dispose();
@@ -885,8 +894,13 @@ public class ClientManagementView extends JFrame {
 		this.addrPrincipal = addrPrincipal;
 	}
 
+	public boolean isNew() {
+		return isNew;
+	}
 
-
+	public void setNew(boolean isNew) {
+		this.isNew = isNew;
+	}
 
 
 	private JButton validate;

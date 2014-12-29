@@ -46,6 +46,7 @@ public class MedecinWidget extends JInternalFrame implements InternalFrameWidget
 	private MedecinService medecinService;
 	private EntityManager em;
 	private Vente vente;
+	private SortedMap<String, String> data;
 	
 	public MedecinWidget(EntityManager em, Vente vente) {
 		this.em = em;
@@ -72,7 +73,7 @@ public class MedecinWidget extends JInternalFrame implements InternalFrameWidget
 		nrcc = new JTextField();
 		speciality = new JTextField();
 		
-		final SortedMap<String, String> data = new TreeMap<String, String>();
+		data = new TreeMap<String, String>();
 		data.put("", "");
 		List<Medecin> result = medecinService.getMedecins();
 		if(result != null && result.size() > 0){
@@ -196,6 +197,14 @@ public class MedecinWidget extends JInternalFrame implements InternalFrameWidget
 		this.vente = vente;
 	}
 
+	public SortedMap<String, String> getData() {
+		return data;
+	}
+
+	public void setData(SortedMap<String, String> data) {
+		this.data = data;
+	}
+
 	private void editActionPerformed(ActionEvent evt) {                                         
 		MedecinManagementView medecinManagementView = new MedecinManagementView(em, vente);
         
@@ -231,7 +240,8 @@ public class MedecinWidget extends JInternalFrame implements InternalFrameWidget
     } 
 	
 	private void newActionPerformed(ActionEvent evt) {                                         
-		 JFrame medecinManagementView = new MedecinManagementView(em, vente);
+		MedecinManagementView medecinManagementView = new MedecinManagementView(em, vente);
+		medecinManagementView.setNew(true);
 		 medecinManagementView.setVisible(true);
     }
 	

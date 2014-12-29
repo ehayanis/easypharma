@@ -36,7 +36,7 @@ public class MedecinDaoImpl implements MedecinDao{
 
 	@Override
 	public List<Medecin> findMedecinsByCriteria(String criteria) {
-		List<Medecin> result = em.createNamedQuery("findMedecinByReference").setParameter("reference", criteria).getResultList();
+		List<Medecin> result = em.createNamedQuery("findMedecinByCriteria").setParameter("criteria", criteria).getResultList();
 		return result;
 	}
 	
