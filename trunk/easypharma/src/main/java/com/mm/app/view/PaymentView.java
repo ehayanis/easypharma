@@ -214,7 +214,7 @@ public class PaymentView extends JFrame {
     			JOptionPane.showMessageDialog(this, "Le type " + selectedItem + " est déjà séléctionné");
     		}else{
     			listData.add(montant + " (" + selectedItem + ")");
-    			result.put(selectedItem, Float.valueOf(montant));
+    			result.put(selectedItem, Float.valueOf(montant.replace(",", ".")));
     			
     			jList1.setListData(listData);
     		}
@@ -227,13 +227,11 @@ public class PaymentView extends JFrame {
     	Float currentTotal = 0f;
     	for(Float d : values){
     		currentTotal = d + currentTotal;
-    		System.out.println("currentTotal " + currentTotal);
-    		System.out.println("TOTAL "  + Float.valueOf(total.getText()));
     	}
     	
-    	if(currentTotal > Float.valueOf(total.getText())){
+    	if(currentTotal > Float.valueOf(total.getText().replace(",", "."))){
     		JOptionPane.showMessageDialog(this, "Le total saisi est suppérieure à ce qui doit être payé");
-    	}else if(currentTotal < Float.valueOf(total.getText())){
+    	}else if(currentTotal < Float.valueOf(total.getText().replace(",", "."))){
     		JOptionPane.showMessageDialog(this, "Le total saisi est inférieure à ce qui doit être payé");
     	}else{
     		em.getTransaction().begin();
