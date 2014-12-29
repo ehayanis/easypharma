@@ -681,9 +681,7 @@ public class ClientManagementView extends JFrame {
 				SaleView saleView = (SaleView) frame;
 				
 				ClientWidget clientWidget = ((ClientWidget) saleView.getClientWidget());
-				
-				
-				if(hiddenId.getText() != ""){
+				if(!hiddenId.getText().equals("")){
 					client = em.find(Client.class, Integer.valueOf(hiddenId.getText()));
 					
 					if(isEdit){
