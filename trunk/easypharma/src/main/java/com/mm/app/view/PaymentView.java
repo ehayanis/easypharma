@@ -262,9 +262,7 @@ public class PaymentView extends JFrame {
     		currentTotal = d + currentTotal;
     	}
     	
-    	if(currentTotal > Float.valueOf(total.getText().replace(",", "."))){
-    		JOptionPane.showMessageDialog(this, "Le total saisi est suppérieure à ce qui doit être payé");
-    	}else if(currentTotal < Float.valueOf(total.getText().replace(",", "."))){
+    	if(currentTotal < Float.valueOf(total.getText().replace(",", "."))){
     		JOptionPane.showMessageDialog(this, "Le total saisi est inférieure à ce qui doit être payé");
     	}else{
     		em.getTransaction().begin();
@@ -344,7 +342,7 @@ public class PaymentView extends JFrame {
 			    	            },
 
 			    	            new String [] {
-			    	            		"Libellé", "Facture", "Référence", "Taux", "Base", "PU TTC", "Qté", "Remise", "Part Client", "Total"
+			    	            		"Désignation", "Code Barre", "Facture", "Taux", "Base", "PU TTC", "Qté", "Remise", "Part Client", "Total"
 			    	            }
 			    	        ));
 
@@ -408,7 +406,7 @@ public class PaymentView extends JFrame {
 			    	renderer.setToolTipText("Séléctionner un produit");
 			    	column.setCellRenderer(renderer);
 
-			    	TableColumn factureColumn = saleView.getjTable1().getColumnModel().getColumn(1);
+			    	TableColumn factureColumn = saleView.getjTable1().getColumnModel().getColumn(2);
 			    	JComboBox<String> facture = new JComboBox<String>();
 			    	facture.addItem("Comptoire");
 			    	facture.addItem("Assurance");

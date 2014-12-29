@@ -27,6 +27,7 @@ import javax.swing.table.AbstractTableModel;
 
 import com.mm.app.model.AssuranceClient;
 import com.mm.app.model.Client;
+import com.mm.app.model.Medecin;
 import com.mm.app.model.Vente;
 import com.mm.app.service.ClientService;
 import com.mm.app.service.VenteService;
@@ -290,7 +291,9 @@ public class ClientWidget extends JInternalFrame implements InternalFrameWidget{
 			for(Vente vente : ventes){
 				if("COMPLETE".equals(vente.getStatus())){
 					DateFormat dateFormat = new SimpleDateFormat("yyyy/MM/dd");
-					data[i] = "(" + vente.getId() + ") -- " + dateFormat.format(vente.getDateCreation()) + " -- " + vente.getMedecin().getMedecinName();
+					Medecin tempMedecin = vente.getMedecin();
+					String medecinName = tempMedecin == null?"Aucun Médecin":tempMedecin.getMedecinName();
+					data[i] = "(" + vente.getId() + ") -- " + dateFormat.format(vente.getDateCreation()) + " -- " + medecinName;
 					i++;
 				}
 			}
