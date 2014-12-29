@@ -14,6 +14,8 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 import java.util.Set;
+import java.util.SortedMap;
+import java.util.TreeMap;
 import java.util.Vector;
 
 import javax.persistence.EntityManager;
@@ -227,7 +229,7 @@ public class PaymentView extends JFrame {
     		    	}
     		    	
     		    	Float sum = Float.valueOf(total.getText().replace(",", "."));
-    		    	currentTotal += Float.valueOf(montant);
+    		    	currentTotal += Float.valueOf(montant.replace(",", "."));
     		    	if(currentTotal > sum){
     		    		float arendre = currentTotal - sum;
     		    		rendre.setText(decimalFormat.format(arendre));
@@ -315,88 +317,93 @@ public class PaymentView extends JFrame {
 			    	saleView.getFooterPanel().getTotalValue().setText("");
 			    	
 			    	saleView.getjTable1().setModel(new DefaultTableModel(
-			                new Object [][] {
-			                        {null, null, null, null, null, null, null, null, null, null},
-			                        {null, null, null, null, null, null, null, null, null, null},
-			                        {null, null, null, null, null, null, null, null, null, null},
-			                        {null, null, null, null, null, null, null, null, null, null},
-			                        {null, null, null, null, null, null, null, null, null, null},
-			                        {null, null, null, null, null, null, null, null, null, null},
-			                        {null, null, null, null, null, null, null, null, null, null},
-			                        {null, null, null, null, null, null, null, null, null, null},
-			                        {null, null, null, null, null, null, null, null, null, null},
-			                        {null, null, null, null, null, null, null, null, null, null},
-			                        {null, null, null, null, null, null, null, null, null, null},
-			                        {null, null, null, null, null, null, null, null, null, null},
-			                        {null, null, null, null, null, null, null, null, null, null}
-			                    },
-			                    new String [] {
-			                    		"Libellé", "Facture", "Référence", "Taux", "Base", "PU TTC", "Qté", "Remise", "Part Client", "Total"
-			                    }
-			                ));
-			    	
-			    	saleView.setProducts(new ArrayList<VenteProduit>());
+			    	            new Object [][] {
+			    	                {null, null, null, null, null, null, null, null, null, null},
+			    	                {null, null, null, null, null, null, null, null, null, null},
+			    	                {null, null, null, null, null, null, null, null, null, null},
+			    	                {null, null, null, null, null, null, null, null, null, null},
+			    	                {null, null, null, null, null, null, null, null, null, null},
+			    	                {null, null, null, null, null, null, null, null, null, null},
+			    	                {null, null, null, null, null, null, null, null, null, null},
+			    	                {null, null, null, null, null, null, null, null, null, null},
+			    	                {null, null, null, null, null, null, null, null, null, null},
+			    	                {null, null, null, null, null, null, null, null, null, null},
+			    	                {null, null, null, null, null, null, null, null, null, null},
+			    	                {null, null, null, null, null, null, null, null, null, null},
+			    	                {null, null, null, null, null, null, null, null, null, null}
+			    	            },
+
+			    	            new String [] {
+			    	            		"Libellé", "Facture", "Référence", "Taux", "Base", "PU TTC", "Qté", "Remise", "Part Client", "Total"
+			    	            }
+			    	        ));
+
 			    	saleView.getjTable1().setRowHeight(22);
 			    	saleView.getjTable1().getColumnModel().getColumn(0).setPreferredWidth(230);
-			              
-			    	final Map<String, String> data = new HashMap<String, String>();
-			        data.put("", "");
-			        List<Product> result = saleView.getProductService().getProducts();
-					if(result != null && result.size() > 0){
-						for(Product p : result){
-							data.put(p.getDesignation(), p.getReference());
-						}
-					}
-			        
-			        final Java2sAutoComboBox comboBox = new Java2sAutoComboBox(data);
-			        comboBox.setDataList(data);
-			        comboBox.setMaximumRowCount(3);
-			        
-			        comboBox.getEditor().getEditorComponent().addKeyListener(new KeyAdapter() {
-			        	@Override
-			        	public void keyPressed(KeyEvent e) {
-			        		 if (e.getKeyChar() == KeyEvent.VK_ENTER) {
-			        			 int row = saleView.getjTable1().getSelectedRow();
-			        			 String selectedValue = (String) comboBox.getSelectedItem();
-			        			 Product product = saleView.getProductService().findProductByReference(data.get(selectedValue));
-			        			 saleView.getjTable1().setValueAt(product.getReference(), row, 2);
-			        			 saleView.getjTable1().setValueAt(product.getPu(), row, 5);
-			        			 saleView.getjTable1().setValueAt(product.getPu() + (product.getPu() * 0.2), row, 9);
-			                	 
-			                	 VenteProduit vp = new VenteProduit(product);
-			                	 vp.setVente(vente);
-			                	 saleView.getProducts().add(vp);
-			                	 
-			                	 saleView.getHeaderPanel().getProduit().activateButton(true);
-			                	 
-			                	 int rows = saleView.getjTable1().getRowCount();
-			                	 double total = 0;
-			                	 for(int i = 0; i < rows; i++){
-			                		 Object d = saleView.getjTable1().getValueAt(i, 9);
-			                		 if(d != null){
-			                			 total += (Double)d; 
-			                		 }
-			                		 
-			                	 }
-			                	 
-			                	 saleView.getFooterPanel().getTotalValue().setText(String.valueOf(total));
-			             }
-			        	}
-					});
-			        
-			        TableColumn column = saleView.getjTable1().getColumnModel().getColumn(0);
-			        column.setCellEditor(new DefaultCellEditor(comboBox));
-			        DefaultTableCellRenderer renderer = new DefaultTableCellRenderer();
-			        renderer.setToolTipText("Séléctionner un produit");
-			        column.setCellRenderer(renderer);
-			        
-			        
-			        TableColumn factureColumn = saleView.getjTable1().getColumnModel().getColumn(1);
-			        JComboBox<String> facture = new JComboBox<String>();
-			        facture.addItem("Comptoire");
-			        facture.addItem("Assurance");
-			        factureColumn.setCellEditor(new DefaultCellEditor(facture));
-			    	
+
+			    	final SortedMap<String, String> data = new TreeMap<String, String>();
+			    	data.put("", "");
+			    	List<Product> result = saleView.getProductService().getProducts();
+			    	if(result != null && result.size() > 0){
+			    		for(Product p : result){
+			    			data.put(p.getDesignation(), p.getReference());
+			    		}
+			    	}
+
+			    	final Java2sAutoComboBox comboBox = new Java2sAutoComboBox(data);
+			    	comboBox.setSelectedItem("");
+			    	comboBox.setDataList(data);
+			    	comboBox.setMaximumRowCount(3);
+			    	comboBox.setStrict(true);
+			    	final DecimalFormat decimalFormat = new DecimalFormat("0.00");
+
+			    	comboBox.getEditor().getEditorComponent().addKeyListener(new KeyAdapter() {
+			    		@Override
+			    		public void keyPressed(KeyEvent e) {
+			    			if (e.getKeyChar() == KeyEvent.VK_ENTER) {
+			    				int row = saleView.getjTable1().getSelectedRow();
+			    				String selectedValue = (String) comboBox.getSelectedItem();
+			    				Product product = saleView.getProductService().findProductByReference(data.get(selectedValue));
+			    				saleView.getjTable1().setValueAt(product.getReference(), row, 2);
+			    				saleView.getjTable1().setValueAt(product.getPu(), row, 5);
+			    				saleView.getjTable1().setValueAt(decimalFormat.format(product.getPu() + (product.getPu() * 0.2)), row, 9);
+
+
+			    				VenteProduit vp = new VenteProduit(product);
+			    				vp.setVente(vente);
+			    				saleView.getProducts().add(vp);
+
+			    				saleView.getHeaderPanel().getProduit().activateButton(true);
+
+			    				int rows = saleView.getjTable1().getRowCount();
+			    				double total = 0;
+			    				for(int i = 0; i < rows; i++){
+			    					Object d = saleView.getjTable1().getValueAt(i, 9);
+			    					if(d != null){
+			    						total += Double.parseDouble(((String) d).replace(",", "."));
+			    					}
+
+			    				}
+
+			    				saleView.getFooterPanel().getTotalValue().setText(decimalFormat.format(total));
+			    			}
+			    		}
+
+			    	});
+
+
+			    	TableColumn column = saleView.getjTable1().getColumnModel().getColumn(0);
+			    	column.setCellEditor(new DefaultCellEditor(comboBox));
+			    	DefaultTableCellRenderer renderer = new DefaultTableCellRenderer();
+			    	renderer.setToolTipText("Séléctionner un produit");
+			    	column.setCellRenderer(renderer);
+
+			    	TableColumn factureColumn = saleView.getjTable1().getColumnModel().getColumn(1);
+			    	JComboBox<String> facture = new JComboBox<String>();
+			    	facture.addItem("Comptoire");
+			    	facture.addItem("Assurance");
+			    	factureColumn.setCellEditor(new DefaultCellEditor(facture));
+
 				}
 			}
 			
