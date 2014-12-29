@@ -355,6 +355,7 @@ public class PaymentView extends JFrame {
 			    	if(result != null && result.size() > 0){
 			    		for(Product p : result){
 			    			data.put(p.getDesignation(), p.getReference());
+			    			data.put(p.getReference(), p.getReference());
 			    		}
 			    	}
 
@@ -375,7 +376,8 @@ public class PaymentView extends JFrame {
 			    				saleView.getjTable1().setValueAt(product.getReference(), row, 1);
 			    				saleView.getjTable1().setValueAt(product.getPu(), row, 5);
 			    				saleView.getjTable1().setValueAt(decimalFormat.format(product.getPu() + (product.getPu() * 0.2)), row, 9);
-
+			                	 // Mettre la désignation au cas ou c'est le code bare qui est saisi
+			                	 comboBox.setSelectedItem(product.getDesignation());
 
 			    				VenteProduit vp = new VenteProduit(product);
 			    				vp.setVente(vente);
