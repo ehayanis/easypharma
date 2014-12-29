@@ -1,6 +1,7 @@
 package com.mm.app.view;
 
 import java.awt.Color;
+import java.awt.Font;
 import java.awt.Frame;
 import java.awt.GridLayout;
 import java.awt.event.ActionEvent;
@@ -32,10 +33,8 @@ import javax.swing.event.ListSelectionListener;
 import javax.swing.table.AbstractTableModel;
 import javax.swing.table.DefaultTableModel;
 
-import com.mm.app.model.Assurance;
 import com.mm.app.model.AssuranceClient;
 import com.mm.app.model.Client;
-import com.mm.app.model.Product;
 import com.mm.app.model.Vente;
 import com.mm.app.model.VenteProduit;
 import com.mm.app.service.ClientService;
@@ -68,7 +67,6 @@ public class ClientManagementView extends JFrame {
 
 	@SuppressWarnings({ "unchecked", "serial", "rawtypes" })
 	private void initComponents() {
-
 		jPanel1 = new MyJPanel();
 		searchField = new JTextField();
 		jScrollPane1 = new JScrollPane();
@@ -214,7 +212,6 @@ public class ClientManagementView extends JFrame {
 		ListSelectionModel cellSelectionModel = searchTable.getSelectionModel();
 		cellSelectionModel.setSelectionMode(ListSelectionModel.SINGLE_SELECTION);
 
-
 		cellSelectionModel.addListSelectionListener(new ListSelectionListener() {
 			public void valueChanged(ListSelectionEvent e) {
 				Integer selectedData = 0;
@@ -261,7 +258,7 @@ public class ClientManagementView extends JFrame {
 					}
 					
 					listVente.setListData(data);
-
+					
 					List<AssuranceClient> assurances = service.getClientAssurances(client);
 					if(assurances != null && assurances.size() > 0){
 						AbstractTableModel model = new SubAssuranceTableModel(assurances);
@@ -338,7 +335,7 @@ public class ClientManagementView extends JFrame {
 
 
 		listVenteLabel.setText("Liste Ordonnances");
-		listVenteLabel.setFont(new java.awt.Font("Tahoma", 1, 11));
+		listVenteLabel.setFont(new Font("Tahoma", 1, 11));
 		jScrollPane2.setViewportView(listVente);
 
 		listVente.addListSelectionListener(new ListSelectionListener() {

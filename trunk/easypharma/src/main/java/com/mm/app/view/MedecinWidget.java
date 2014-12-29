@@ -135,6 +135,7 @@ public class MedecinWidget extends JInternalFrame implements InternalFrameWidget
 		
 		
 		firstName.setPreferredSize(new Dimension(203, 20));
+		firstName.setPrototypeDisplayValue("XXXXXXXXXXXXXXX");
 		buttonPanel.add(firstName);
 		buttonPanel.add(editButton);
 		buttonPanel.add(newButton);
