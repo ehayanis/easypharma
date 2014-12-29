@@ -18,7 +18,8 @@ import javax.persistence.TemporalType;
 import com.mm.app.view.TypeAssurance;
 
 @NamedQueries({
-	@NamedQuery(name="findAssurancesByCriteria", query="SELECT a FROM Assurance a WHERE a.name LIKE :name AND a.type = :type")
+//	@NamedQuery(name="findAssurancesByCriteria", query="SELECT a FROM Assurance a WHERE a.name LIKE :name AND a.type = :type")
+	@NamedQuery(name="findAssurancesByCriteria", query="SELECT a FROM Assurance a WHERE a.name LIKE :name")
 })
 
 
@@ -63,8 +64,6 @@ public class Assurance implements Serializable {
 	@Column(name="validation_number")
 	private Integer validationNumber;
 	
-	@Enumerated(EnumType.STRING)
-	private TypeAssurance type;
 
 	public Assurance() {
     }
@@ -187,14 +186,6 @@ public class Assurance implements Serializable {
 
 	public void setValidationNumber(Integer validationNumber) {
 		this.validationNumber = validationNumber;
-	}
-
-	public TypeAssurance getType() {
-		return type;
-	}
-
-	public void setType(TypeAssurance type) {
-		this.type = type;
 	}
 
 }

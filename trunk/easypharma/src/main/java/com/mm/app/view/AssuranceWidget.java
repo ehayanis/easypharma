@@ -295,10 +295,10 @@ public class AssuranceWidget extends JInternalFrame implements InternalFrameWidg
 							JTextField hiddenField = null;
 							JButton newAssurance = null;
 							
-							List<Assurance> assurances = clientService.getClientAssurances(client);
+							List<AssuranceClient> assurances = clientService.getClientAssurances(client);
 							if(assurances != null && assurances.size() > 0){
 
-								for(Assurance assurance : assurances){
+								for(AssuranceClient assurance : assurances){
 									TypeAssurance type = assurance.getType();
 									
 									switch (type) {
@@ -321,8 +321,8 @@ public class AssuranceWidget extends JInternalFrame implements InternalFrameWidg
 										break;
 									}
 									
-									assuranceField.setText(assurance.getName());
-									hiddenField.setText(String.valueOf(assurance.getId()));
+									assuranceField.setText(assurance.getAssurance().getName());
+									hiddenField.setText(String.valueOf(assurance.getAssurance().getId()));
 									newAssurance.setEnabled(false);
 								}
 							}

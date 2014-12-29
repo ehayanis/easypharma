@@ -33,6 +33,7 @@ import javax.swing.table.AbstractTableModel;
 import javax.swing.table.DefaultTableModel;
 
 import com.mm.app.model.Assurance;
+import com.mm.app.model.AssuranceClient;
 import com.mm.app.model.Client;
 import com.mm.app.model.Product;
 import com.mm.app.model.Vente;
@@ -261,7 +262,7 @@ public class ClientManagementView extends JFrame {
 					
 					listVente.setListData(data);
 
-					List<Assurance> assurances = service.getClientAssurances(client);
+					List<AssuranceClient> assurances = service.getClientAssurances(client);
 					if(assurances != null && assurances.size() > 0){
 						AbstractTableModel model = new SubAssuranceTableModel(assurances);
 						assuranceTable.setModel(model);
@@ -728,9 +729,9 @@ public class ClientManagementView extends JFrame {
 					assuranceWidget.getAssurance2().setText("");
 					assuranceWidget.getAssurance3().setText("");
 					
-					List<Assurance> assurances = service.getClientAssurances(client);
+					List<AssuranceClient> assurances = service.getClientAssurances(client);
 					if(assurances != null && assurances.size() > 0){
-						for(Assurance assurance : assurances){
+						for(AssuranceClient assurance : assurances){
 							TypeAssurance type = assurance.getType();
 							switch (type) {
 							case OBLIGATOIRE:
@@ -752,8 +753,8 @@ public class ClientManagementView extends JFrame {
 								break;
 							}
 							
-							assuranceField.setText(assurance.getName());
-							hiddenField.setText(String.valueOf(assurance.getId()));
+							assuranceField.setText(assurance.getAssurance().getName());
+							hiddenField.setText(String.valueOf(assurance.getAssurance().getId()));
 							newAssurance.setEnabled(false);
 						}
 					}

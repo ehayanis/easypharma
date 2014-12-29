@@ -413,7 +413,7 @@ public class SaleView extends JFrame {
         KeyStroke f2KeyStroke = KeyStroke.getKeyStroke(KeyEvent.VK_F2, 0, false);
         Action f2Action = new AbstractAction() {
         	public void actionPerformed(ActionEvent e) {
-        		clientWidget.getReference().requestFocus();
+        		clientWidget.getFirstName().requestFocus();
         	}
         };
         

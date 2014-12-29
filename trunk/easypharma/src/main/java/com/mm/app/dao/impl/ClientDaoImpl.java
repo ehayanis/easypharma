@@ -38,13 +38,13 @@ public class ClientDaoImpl implements ClientDao {
 
 	@Override
 	public List<Client> findClientsByCriteria(String criteria) {
-		List<Client> clients = em.createNamedQuery("findClientByReference").setParameter("reference", criteria).getResultList();
+		List<Client> clients = em.createNamedQuery("findClientByCriteria").setParameter("criteria", criteria).getResultList();
 		return clients;
 	}
 
 	@Override
-	public List<Assurance> getClientAssurances(Client client) {
-		List<Assurance> assurances = em.createQuery("SELECT s FROM Client c JOIN c.assuranceClients a JOIN a.assurance s WHERE c.id = :id", Assurance.class).setParameter("id", client.getId()).getResultList();
+	public List<AssuranceClient> getClientAssurances(Client client) {
+		List<AssuranceClient> assurances = em.createQuery("SELECT a FROM Client c JOIN c.assuranceClients a JOIN a.assurance s WHERE c.id = :id", AssuranceClient.class).setParameter("id", client.getId()).getResultList();
 		return assurances;
 	}
 
