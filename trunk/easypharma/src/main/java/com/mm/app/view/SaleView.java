@@ -9,11 +9,15 @@ import java.awt.event.ActionEvent;
 import java.awt.event.KeyAdapter;
 import java.awt.event.KeyEvent;
 import java.beans.PropertyVetoException;
+import java.text.DecimalFormat;
 import java.util.ArrayList;
+import java.util.Collection;
 import java.util.Date;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+import java.util.SortedMap;
+import java.util.TreeMap;
 
 import javax.persistence.EntityManager;
 import javax.swing.AbstractAction;
@@ -170,8 +174,7 @@ public class SaleView extends JFrame {
         jTable1.getColumnModel().getColumn(0).setPreferredWidth(230);
       
         
-//        ArrayList<String> data = new ArrayList<String>();
-        final Map<String, String> data = new HashMap<String, String>();
+        final SortedMap<String, String> data = new TreeMap<String, String>();
         data.put("", "");
         List<Product> result = productService.getProducts();
 		if(result != null && result.size() > 0){
@@ -181,8 +184,11 @@ public class SaleView extends JFrame {
 		}
         
         final Java2sAutoComboBox comboBox = new Java2sAutoComboBox(data);
+        comboBox.setSelectedItem("");
         comboBox.setDataList(data);
         comboBox.setMaximumRowCount(3);
+        comboBox.setStrict(true);
+        final DecimalFormat decimalFormat = new DecimalFormat("0.00");
         
         comboBox.getEditor().getEditorComponent().addKeyListener(new KeyAdapter() {
         	@Override
@@ -193,7 +199,7 @@ public class SaleView extends JFrame {
         			 Product product = productService.findProductByReference(data.get(selectedValue));
                 	 jTable1.setValueAt(product.getReference(), row, 2);
                 	 jTable1.setValueAt(product.getPu(), row, 5);
-                	 jTable1.setValueAt(product.getPu() + (product.getPu() * 0.2), row, 9);
+                	 jTable1.setValueAt(decimalFormat.format(product.getPu() + (product.getPu() * 0.2)), row, 9);
                 	 
                 	 VenteProduit vp = new VenteProduit(product);
                 	 vp.setVente(vente);
@@ -210,8 +216,7 @@ public class SaleView extends JFrame {
                 		 }
                 		 
                 	 }
-                	 
-                	 footerPanel.getTotalValue().setText(String.valueOf(total));
+                	 footerPanel.getTotalValue().setText(decimalFormat.format(total));
              }
         	}
 		});

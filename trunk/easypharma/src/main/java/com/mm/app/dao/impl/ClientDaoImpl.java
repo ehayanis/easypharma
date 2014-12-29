@@ -21,7 +21,7 @@ public class ClientDaoImpl implements ClientDao {
 
 	@Override
 	public List<Client> getClients() {
-		TypedQuery<Client> query = em.createQuery("SELECT c FROM Client c", Client.class);
+		TypedQuery<Client> query = em.createQuery("SELECT c FROM Client c ORDER BY c.firstName", Client.class);
 		return query.getResultList();
 	}
 

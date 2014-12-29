@@ -8,9 +8,9 @@ import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.awt.event.KeyAdapter;
 import java.awt.event.KeyEvent;
-import java.util.HashMap;
 import java.util.List;
-import java.util.Map;
+import java.util.SortedMap;
+import java.util.TreeMap;
 
 import javax.persistence.EntityManager;
 import javax.swing.BoxLayout;
@@ -72,19 +72,21 @@ public class MedecinWidget extends JInternalFrame implements InternalFrameWidget
 		nrcc = new JTextField();
 		speciality = new JTextField();
 		
-		final Map<String, String> data = new HashMap<String, String>();
+		final SortedMap<String, String> data = new TreeMap<String, String>();
 		data.put("", "");
 		List<Medecin> result = medecinService.getMedecins();
 		if(result != null && result.size() > 0){
+			
 			for(Medecin m : result){
-				System.out.println(m.getFirstName() + " " + m.getLastName() + " " + String.valueOf(m.getId()));
-				data.put(m.getFirstName() + " " + m.getLastName(), String.valueOf(m.getId()));
+				data.put(m.getFirstName() + " " + m.getLastName(), String.valueOf(m.getId())); 
 			}
 		}
 		
 		firstName = new Java2sAutoComboBox(data);
 		firstName.setDataList(data);
 		firstName.setMaximumRowCount(3);
+		firstName.setStrict(true);
+		firstName.setSelectedItem("");
 
 		firstName.getEditor().getEditorComponent().addKeyListener(new KeyAdapter() {
 			@Override

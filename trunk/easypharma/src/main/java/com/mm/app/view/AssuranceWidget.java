@@ -281,8 +281,8 @@ public class AssuranceWidget extends JInternalFrame implements InternalFrameWidg
 						if (frame.getTitle().equals("EasyPharma: Gestion Pharmacies ")) {
 							SaleView saleView = (SaleView) frame;
 							ClientWidget clientWidget = (ClientWidget) saleView.getClientWidget();
-							clientWidget.getFirstName().setText(client.getFirstName() + " " + client.getLastName());
-							clientWidget.getReference().setSelectedItem(client.getReference());
+							clientWidget.getFirstName().setSelectedItem(client.getFirstName() + " " + client.getLastName());
+							clientWidget.getReference().setText(client.getReference());
 							clientWidget.getDateOfBirth().setText(DateFormat.getDateInstance().format(client.getBirthDate()));
 							clientWidget.getPhone().setText(client.getPhone());
 							clientWidget.getAge().setText(String.valueOf(client.getAge()));

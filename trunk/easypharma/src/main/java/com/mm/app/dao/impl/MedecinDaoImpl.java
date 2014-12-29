@@ -19,7 +19,7 @@ public class MedecinDaoImpl implements MedecinDao{
 
 	@Override
 	public List<Medecin> getMedecins() {
-		TypedQuery<Medecin> query = em.createQuery("SELECT m FROM Medecin m", Medecin.class);
+		TypedQuery<Medecin> query = em.createQuery("SELECT m FROM Medecin m ORDER BY m.firstName", Medecin.class);
 		return query.getResultList();
 	}
 

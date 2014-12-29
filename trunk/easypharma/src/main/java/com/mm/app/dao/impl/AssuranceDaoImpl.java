@@ -37,8 +37,11 @@ public class AssuranceDaoImpl implements AssuranceDao{
 
 	@Override
 	public List<Assurance> getAssurancesByCriteria(String criteria, TypeAssurance typeAssurance) {
-		List<Assurance> result = em.createNamedQuery("findAssurancesByCriteria").setParameter("name", "%" + criteria + "%").setParameter("type", typeAssurance).getResultList();
-		return result;
+		//List<Assurance> result = em.createNamedQuery("findAssurancesByCriteria").setParameter("name", "%" + criteria + "%").setParameter("type", typeAssurance).getResultList();
+		Object result = em.createNamedQuery("findAssurancesByCriteria").setParameter("name", "%" + criteria + "%").getResultList();
+		System.err.println("############# : " + result.getClass().getName());
+		return (List<Assurance>) result;
+		//return result;
 	}
 	
 	
