@@ -103,6 +103,11 @@ public class PaymentView extends JFrame {
         jLabel1.setText("A rendre:");
 
         annuler.setText("Annuler");
+        annuler.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent evt) {
+				cancelActionPerformed(evt);	
+			}
+		});
 
         valider.setText("Valider");
         valider.addActionListener(new ActionListener() {
@@ -243,6 +248,11 @@ public class PaymentView extends JFrame {
     		}
 
     	}
+	}
+    
+    private void cancelActionPerformed(ActionEvent evt){
+		setVisible(false);
+		dispose();
 	}
      
     private void validatePayementAction(ActionEvent evt) {

@@ -1,6 +1,7 @@
 package com.mm.app.view;
 
 import java.awt.Color;
+import java.awt.Dimension;
 import java.awt.Font;
 import java.awt.Frame;
 import java.awt.GridLayout;
@@ -365,6 +366,8 @@ public class ClientManagementView extends JFrame {
 		});
 		jScrollPane3.setViewportView(tableProduct);
 		jPanel2.setBorder(javax.swing.BorderFactory.createEtchedBorder());
+		
+		jScrollPane2.setPreferredSize(new Dimension(266, 93));
 		
 		javax.swing.GroupLayout jPanel2Layout = new javax.swing.GroupLayout(jPanel2);
         jPanel2.setLayout(jPanel2Layout);
