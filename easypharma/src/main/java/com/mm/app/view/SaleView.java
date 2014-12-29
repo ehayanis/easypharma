@@ -167,7 +167,7 @@ public class SaleView extends JFrame {
                 {null, null, null, null, null, null, null, null, null, null}
             },
             new String [] {
-            		"Libellé", "Facture", "Référence", "Taux", "Base", "PU TTC", "Qté", "Remise", "Part Client", "Total"
+            		"Désignation", "Code Barre", "Facture", "Taux", "Base", "PU TTC", "Qté", "Remise", "Part Client", "Total"
             }
         ));
         jTable1.setRowHeight(22);
@@ -228,7 +228,7 @@ public class SaleView extends JFrame {
         column.setCellRenderer(renderer);
         
         
-        TableColumn factureColumn = jTable1.getColumnModel().getColumn(1);
+        TableColumn factureColumn = jTable1.getColumnModel().getColumn(2);
         JComboBox<String> facture = new JComboBox<String>();
         facture.addItem("Comptoire");
         facture.addItem("Assurance");
