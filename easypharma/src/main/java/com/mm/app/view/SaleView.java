@@ -11,11 +11,8 @@ import java.awt.event.KeyEvent;
 import java.beans.PropertyVetoException;
 import java.text.DecimalFormat;
 import java.util.ArrayList;
-import java.util.Collection;
 import java.util.Date;
-import java.util.HashMap;
 import java.util.List;
-import java.util.Map;
 import java.util.SortedMap;
 import java.util.TreeMap;
 
@@ -72,6 +69,7 @@ public class SaleView extends JFrame {
 	private List<VenteProduit> products;
 	private MyDesktopManager desktopManager;
 	private JDesktopPane m_desktop;
+	private SortedMap<String, String> data;
     
 	public SaleView(EntityManager em, Operator operator) {
 		desktopManager = new MyDesktopManager();
@@ -174,7 +172,7 @@ public class SaleView extends JFrame {
         jTable1.getColumnModel().getColumn(0).setPreferredWidth(230);
       
         
-        final SortedMap<String, String> data = new TreeMap<String, String>();
+    	data = new TreeMap<String, String>();
         data.put("", "");
         List<Product> result = productService.getProducts();
 		if(result != null && result.size() > 0){
@@ -217,7 +215,6 @@ public class SaleView extends JFrame {
                 		 if(d != null){
                 			 total += Double.parseDouble(((String) d).replace(",", "."));
                 		 }
-                		 
                 	 }
                 	 footerPanel.getTotalValue().setText(decimalFormat.format(total));
              }
@@ -236,7 +233,7 @@ public class SaleView extends JFrame {
         facture.addItem("Comptoire");
         facture.addItem("Assurance");
         factureColumn.setCellEditor(new DefaultCellEditor(facture));
-
+        
 		JPopupMenu popupMenu = new JPopupMenu();
 //		JMenuItem posologieItem = new JMenuItem("Posologie");
 //		posologieItem.setIcon(new ImageIcon(getClass().getResource("/img/view.gif")));
@@ -528,7 +525,13 @@ public class SaleView extends JFrame {
 		this.products = products;
 	}
 
+	public SortedMap<String, String> getData() {
+		return data;
+	}
 
+	public void setData(SortedMap<String, String> data) {
+		this.data = data;
+	}
 
 
 	private ClientWidget clientWidget;

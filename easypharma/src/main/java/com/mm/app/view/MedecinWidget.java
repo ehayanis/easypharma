@@ -16,7 +16,6 @@ import javax.persistence.EntityManager;
 import javax.swing.BoxLayout;
 import javax.swing.ImageIcon;
 import javax.swing.JButton;
-import javax.swing.JFrame;
 import javax.swing.JInternalFrame;
 import javax.swing.JOptionPane;
 import javax.swing.JPanel;
@@ -53,11 +52,9 @@ public class MedecinWidget extends JInternalFrame implements InternalFrameWidget
 		this.vente = vente;
 		
 		medecinService = new MedecinServiceImpl(em);
-		
 		initComponent();
 		
 		getContentPane().setBackground(Color.WHITE);
-		
 		setFrameIcon(new ImageIcon(getClass().getResource("/img/graphite.png")));
 		setTitle("Médecin");
 		setBorder(javax.swing.BorderFactory.createEtchedBorder());
