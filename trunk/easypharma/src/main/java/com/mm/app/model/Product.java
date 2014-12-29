@@ -29,7 +29,7 @@ public class Product implements Serializable {
 	@OneToMany(mappedBy="product")
 	private List<VenteProduit> venteProduits;
 	
-	@OneToOne
+	@OneToOne(fetch=FetchType.LAZY)
 	private Posologie posologie;
 		
     public Product() {
