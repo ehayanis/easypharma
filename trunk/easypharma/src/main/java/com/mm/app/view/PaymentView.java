@@ -338,6 +338,16 @@ public class PaymentView extends JFrame {
 			    	                    {null, null, null, null, null, null, null, null, null},
 			    	                    {null, null, null, null, null, null, null, null, null},
 			    	                    {null, null, null, null, null, null, null, null, null},
+			    	                    {null, null, null, null, null, null, null, null, null},
+			    	                    {null, null, null, null, null, null, null, null, null},
+			    	                    {null, null, null, null, null, null, null, null, null},
+			    	                    {null, null, null, null, null, null, null, null, null},
+			    	                    {null, null, null, null, null, null, null, null, null},
+			    	                    {null, null, null, null, null, null, null, null, null},
+			    	                    {null, null, null, null, null, null, null, null, null},
+			    	                    {null, null, null, null, null, null, null, null, null},
+			    	                    {null, null, null, null, null, null, null, null, null},
+			    	                    {null, null, null, null, null, null, null, null, null},
 			    	                    {null, null, null, null, null, null, null, null, null}
 			    	            },
 
