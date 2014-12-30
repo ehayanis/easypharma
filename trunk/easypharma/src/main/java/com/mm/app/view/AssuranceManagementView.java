@@ -28,6 +28,10 @@ import javax.swing.event.ListSelectionListener;
 import javax.swing.table.AbstractTableModel;
 import javax.swing.table.DefaultTableModel;
 
+import net.sourceforge.jdatepicker.impl.JDatePanelImpl;
+import net.sourceforge.jdatepicker.impl.JDatePickerImpl;
+import net.sourceforge.jdatepicker.impl.UtilDateModel;
+
 import com.mm.app.model.Assurance;
 import com.mm.app.model.AssuranceClient;
 import com.mm.app.model.Client;
@@ -89,9 +93,9 @@ public class AssuranceManagementView extends javax.swing.JFrame {
         labelEmail = new JLabel();
         email = new JTextField();
         labelCardValidity = new JLabel();
-        cardValidity = new JTextField();
+        cardValidity = new UtilDateModel();
         labelValidationDate = new JLabel();
-        validationDate = new JTextField();
+        validationDate = new UtilDateModel();
         labelMobile = new JLabel();
         mobile = new JTextField();
         labelPhone = new JLabel();
@@ -193,8 +197,8 @@ public class AssuranceManagementView extends javax.swing.JFrame {
 //            	  coverCard.setText(assurance.getCoverCard());
             	  npa.setText(Utilities.isEmpty(assurance.getNpa()));
             	  phone.setText(Utilities.isEmpty(assurance.getPhone()));
-            	  validationDate.setText(Utilities.isEmpty(assurance.getValidationDate()));
-            	  cardValidity.setText(Utilities.isEmpty(assurance.getCardValidity()));
+            	  validationDate.setValue(assurance.getValidationDate());
+            	  cardValidity.setValue(assurance.getCardValidity());
             	  validationNumber.setText(Utilities.isEmpty(assurance.getValidationNumber()));
             	  address.setText(Utilities.isEmpty(assurance.getAddress()));
               }
@@ -226,8 +230,12 @@ public class AssuranceManagementView extends javax.swing.JFrame {
         jPanel3.add(Utilities.createFilledSimpleInnerPanel(labelOfas, ofas));
 //        jPanel3.add(Utilities.createFilledSimpleInnerPanel(labelCoverCard, coverCard));
 //        jPanel3.add(Utilities.createFilledSimpleInnerPanel(labelEmail, email));
-        jPanel3.add(Utilities.createFilledSimpleInnerPanel(labelCardValidity, cardValidity));
-        jPanel3.add(Utilities.createFilledSimpleInnerPanel(labelValidationDate, validationDate));
+        JDatePanelImpl datePanel2 = new JDatePanelImpl(cardValidity);
+        JDatePickerImpl au2 = new JDatePickerImpl(datePanel2);
+        jPanel3.add(Utilities.createFilledSimpleInnerPanel(labelCardValidity, au2));
+        JDatePanelImpl datePanel = new JDatePanelImpl(validationDate);
+        JDatePickerImpl au = new JDatePickerImpl(datePanel);
+        jPanel3.add(Utilities.createFilledSimpleInnerPanel(labelValidationDate, au));
         jPanel3.add(Utilities.createFilledSimpleInnerPanel(labelMobile, mobile));
         jPanel3.add(Utilities.createFilledSimpleInnerPanel(labelPhone, phone));
         jPanel3.add(Utilities.createFilledSimpleInnerPanel(labelValidationNumber, validationNumber));
@@ -421,12 +429,8 @@ public class AssuranceManagementView extends javax.swing.JFrame {
 					assurance.setRcc(Utilities.isEmpty(rcc.getText()));
 					assurance.setNpa(Utilities.isEmpty(npa.getText()));
 					assurance.setPhone(Utilities.isEmpty(phone.getText()));
-//					try {
-//						assurance.setValidationDate(DateFormat.getInstance().parse(Utilities.isEmpty(validationDate.getText())));
-//						assurance.setCardValidity(DateFormat.getInstance().parse(Utilities.isEmpty(cardValidity.getText())));
-//					} catch (ParseException e) {
-//						e.printStackTrace();
-//					}
+					assurance.setValidationDate(validationDate.getValue());
+					assurance.setCardValidity(cardValidity.getValue());
 					assurance.setValidationNumber(Integer.valueOf(Utilities.isEmpty(validationNumber.getText())));
 					assurance.setAddress(Utilities.isEmpty(address.getText()));
 					
@@ -484,11 +488,11 @@ public class AssuranceManagementView extends javax.swing.JFrame {
 		return npa;
 	}
 
-	public JTextField getCardValidity() {
+	public UtilDateModel getCardValidity() {
 		return cardValidity;
 	}
 
-	public JTextField getValidationDate() {
+	public UtilDateModel getValidationDate() {
 		return validationDate;
 	}
 
@@ -598,8 +602,8 @@ public class AssuranceManagementView extends javax.swing.JFrame {
     private JTextField coverCard;
     private JTextField npa;
     private JTextField email;
-    private JTextField cardValidity;
-    private JTextField validationDate;
+    private UtilDateModel cardValidity;
+    private UtilDateModel validationDate;
     private JTextField mobile;
     private JTextField phone;
     private JTextField validationNumber;
