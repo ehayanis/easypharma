@@ -366,8 +366,8 @@ public class AssuranceWidget extends JInternalFrame implements InternalFrameWidg
 //        		assuranceManagementView.getCoverCard().setText(assurance.getCoverCard());
         		assuranceManagementView.getNpa().setText(Utilities.isEmpty(assurance.getNpa()));
         		assuranceManagementView.getPhone().setText(Utilities.isEmpty(assurance.getPhone()));
-        		assuranceManagementView.getValidationDate().setText(Utilities.isEmpty(assurance.getValidationDate()));
-        		assuranceManagementView.getCardValidity().setText(Utilities.isEmpty(assurance.getCardValidity()));
+        		assuranceManagementView.getValidationDate().setValue(assurance.getValidationDate());
+        		assuranceManagementView.getCardValidity().setValue(assurance.getCardValidity());
         		assuranceManagementView.getValidationNumber().setText(Utilities.isEmpty(assurance.getValidationNumber()));
         		assuranceManagementView.getAddress().setText(Utilities.isEmpty(assurance.getAddress()));
 //        		assuranceManagementView.getAos().setText(assurance.getAos());
