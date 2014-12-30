@@ -39,6 +39,8 @@ import javax.swing.JTable;
 import javax.swing.KeyStroke;
 import javax.swing.LayoutStyle;
 import javax.swing.WindowConstants;
+import javax.swing.event.TableModelEvent;
+import javax.swing.event.TableModelListener;
 import javax.swing.table.DefaultTableCellRenderer;
 import javax.swing.table.DefaultTableModel;
 import javax.swing.table.TableColumn;
@@ -234,25 +236,54 @@ public class SaleView extends JFrame {
         facture.addItem("Assurance");
         factureColumn.setCellEditor(new DefaultCellEditor(facture));
         
+        jTable1.getModel().addTableModelListener(new TableModelListener() {
+        	public void tableChanged(TableModelEvent evt) {
+        		if (evt.getType() == TableModelEvent.UPDATE){
+        			int column = evt.getColumn();
+        			int  row = 0;
+        			if (column == 5){
+        				row = jTable1.getSelectedRow();
+        				String qte = (String) jTable1.getValueAt(row, column);
+        				try{
+        					Double q = Double.valueOf(qte);
+        					String designation = (String) jTable1.getValueAt(row, 0);
+        					if(designation != null && !designation.equals("")){
+        						String total = (String) jTable1.getValueAt(row, 8);
+        						if(total != null && !total.equals("")){
+        							Double t = Double.parseDouble(((String) total).replace(",", "."));
+        							jTable1.setValueAt(decimalFormat.format(t * q), row, 8);
+        						}
+        						
+        						int rows = jTable1.getRowCount();
+        						double sum = 0;
+        						for(int i = 0; i < rows; i++){
+        							Object d = jTable1.getValueAt(i, 8);
+        							if(d != null){
+        								sum += Double.parseDouble(((String) d).replace(",", "."));
+        							}
+        						}
+        						footerPanel.getTotalValue().setText(decimalFormat.format(sum));
+        					}
+        				}catch(NumberFormatException exception){
+        					System.out.println(exception.getStackTrace());
+
+        				}
+
+        				System.out.println(jTable1.getValueAt(row, column));
+        			}
+        		}
+			}
+		});
+        
 		JPopupMenu popupMenu = new JPopupMenu();
-//		JMenuItem posologieItem = new JMenuItem("Posologie");
-//		posologieItem.setIcon(new ImageIcon(getClass().getResource("/img/view.gif")));
 		JMenuItem deleteItem = new JMenuItem("Supprimer");
 		deleteItem.setIcon(new ImageIcon(getClass().getResource("/img/delete.gif")));
 		
 		Separator jSeparator12 = new Separator();
 		
-//		popupMenu.add(posologieItem);
 		popupMenu.add(jSeparator12);
 		popupMenu.add(deleteItem);
 		
-//		posologieItem.addActionListener(new ActionListener() {
-//			public void actionPerformed(ActionEvent event) {
-//				JFrame posologieFrame = new PosologieFrame();
-//		        posologieFrame.setVisible(true);	
-//			}
-//		});
-
 		jTable1.setComponentPopupMenu(popupMenu);
 
         
@@ -391,7 +422,6 @@ public class SaleView extends JFrame {
         		if("".equals(footerPanel.getTotalValue().getText())){
         			JOptionPane.showMessageDialog(jTabbedPane1, "Veuillez séléctionner au moins un produit!");
         		}else{
-        			
         			em.getTransaction().begin();
         			vente = em.find(Vente.class, vente.getId());
         			vente.setProduits(products);

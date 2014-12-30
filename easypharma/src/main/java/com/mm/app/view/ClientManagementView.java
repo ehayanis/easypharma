@@ -20,6 +20,7 @@ import javax.swing.JButton;
 import javax.swing.JFrame;
 import javax.swing.JLabel;
 import javax.swing.JList;
+import javax.swing.JOptionPane;
 import javax.swing.JRadioButton;
 import javax.swing.JScrollPane;
 import javax.swing.JTabbedPane;
@@ -680,6 +681,12 @@ public class ClientManagementView extends JFrame {
 		for (Frame frame : Frame.getFrames()) {
 			if (frame.getTitle().equals("EasyPharma: Gestion Pharmacies ")) {
 				SaleView saleView = (SaleView) frame;
+				if(isNew || isEdit){
+					if(Utilities.isEmptyString(firstName.getText()) || Utilities.isEmptyString(firstName.getText()) || Utilities.isEmptyString(firstName.getText())){
+						JOptionPane.showMessageDialog(this, "Veuillez remplir les champs obligatoires (*)!");
+						return;
+					}
+				}
 
 				ClientWidget clientWidget = ((ClientWidget) saleView.getClientWidget());
 				if(!hiddenId.getText().equals("")){
