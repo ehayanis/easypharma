@@ -13,6 +13,7 @@ import javax.swing.ImageIcon;
 import javax.swing.JButton;
 import javax.swing.JFrame;
 import javax.swing.JLabel;
+import javax.swing.JOptionPane;
 import javax.swing.JScrollPane;
 import javax.swing.JTabbedPane;
 import javax.swing.JTable;
@@ -428,6 +429,13 @@ public class MedecinManagementView extends JFrame {
 		for (Frame frame : Frame.getFrames()) {
 			if (frame.getTitle().equals("EasyPharma: Gestion Pharmacies ")) {
 				SaleView saleView = (SaleView) frame;
+				
+				if(isNew || isEdit){
+					if(Utilities.isEmptyString(firstName.getText()) || Utilities.isEmptyString(firstName.getText()) || Utilities.isEmptyString(firstName.getText())){
+						JOptionPane.showMessageDialog(this, "Veuillez remplir les champs obligatoires (*)!");
+						return;
+					}
+				}
 				
 				MedecinWidget medecinWidget = saleView.getMedecinWidget();
 				if(!hiddenId.getText().equals("")){

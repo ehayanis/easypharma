@@ -146,5 +146,13 @@ public class Utilities {
 		return "0";
 	}
 	
+	public static boolean isEmptyString(String s){
+		if (s != null && !s.equals("")){
+			return false;
+		}
+		
+		return true;
+	}
+	
 	
 }
