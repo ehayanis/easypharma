@@ -7,6 +7,7 @@ import java.awt.event.ActionListener;
 import java.awt.event.ItemEvent;
 import java.awt.event.ItemListener;
 import java.util.ArrayList;
+import java.util.Collection;
 import java.util.List;
 
 import javax.persistence.EntityManager;
@@ -41,7 +42,7 @@ public class PosologieFrame extends JFrame {
 	
 	private EntityManager em;
 	private Vente vente;
-	private List<VenteProduit> venteProduits;
+	private Collection<VenteProduit> venteProduits;
 	private List<Product> products;
 	
     public PosologieFrame(EntityManager em, Vente vente) {

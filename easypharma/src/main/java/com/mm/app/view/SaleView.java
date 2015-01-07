@@ -12,7 +12,9 @@ import java.beans.PropertyVetoException;
 import java.text.DecimalFormat;
 import java.util.ArrayList;
 import java.util.Date;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 import java.util.SortedMap;
 import java.util.TreeMap;
 
@@ -68,7 +70,7 @@ public class SaleView extends JFrame {
 	private ProductService productService;
 	private VenteService venteService;
 	private Vente vente;
-	private List<VenteProduit> products;
+	private Map<Integer, VenteProduit> products;
 	private MyDesktopManager desktopManager;
 	private JDesktopPane m_desktop;
 	private SortedMap<String, String> data;
@@ -88,7 +90,7 @@ public class SaleView extends JFrame {
     	vente.setDateCreation(new Date());
     	vente = venteService.addVente(vente);
     	
-    	products = new ArrayList<VenteProduit>();
+    	products = new HashMap<Integer, VenteProduit>();
     	
     	initComponents();
         getContentPane().setBackground(Color.WHITE);
@@ -180,6 +182,7 @@ public class SaleView extends JFrame {
             		"Désignation", "Facture", "Taux", "Base", "PU TTC", "Qté", "Remise", "Part Client", "Total"
             }
         ));
+        
         jTable1.setRowHeight(22);
         jTable1.getColumnModel().getColumn(0).setPreferredWidth(230);
       
@@ -208,14 +211,21 @@ public class SaleView extends JFrame {
         			 int row = jTable1.getSelectedRow();
         			 String selectedValue = (String) comboBox.getSelectedItem();
         			 Product product = productService.findProductByReference(data.get(selectedValue));
+        			 
                 	 jTable1.setValueAt(product.getPu(), row, 4);
                 	 jTable1.setValueAt(decimalFormat.format(product.getPu() + (product.getPu() * 0.2)), row, 8);
                 	 // Mettre la désignation au cas ou c'est le code bare qui est saisi
                 	 comboBox.setSelectedItem(product.getDesignation());
                 	 
-                	 VenteProduit vp = new VenteProduit(product);
-                	 vp.setVente(vente);
-                	 products.add(vp);
+                	 VenteProduit vp = null;
+                	 if(products.get(row) != null){
+                		 vp = products.get(row);
+                		 vp.setProduct(product);
+                	 }else{
+                		 vp = new VenteProduit(product);
+                		 vp.setVente(vente);
+                		 products.put(row, vp);
+                	 }
                 	 
                 	 headerPanel.getProduit().activateButton(true);
                 	 
@@ -224,7 +234,7 @@ public class SaleView extends JFrame {
                 	 double total = 0;
                 	 for(int i = 0; i < rows; i++){
                 		 Object d = jTable1.getValueAt(i, 8);
-                		 if(d != null){
+                		 if(d != null && !d.toString().equals("")){
                 			 total += Double.parseDouble(((String) d).replace(",", "."));
                 		 }
                 	 }
@@ -268,7 +278,7 @@ public class SaleView extends JFrame {
         						double sum = 0;
         						for(int i = 0; i < rows; i++){
         							Object d = jTable1.getValueAt(i, 8);
-        							if(d != null){
+        							if(d != null && !d.toString().equals("")){
         								sum += Double.parseDouble(((String) d).replace(",", "."));
         							}
         						}
@@ -285,17 +295,35 @@ public class SaleView extends JFrame {
 			}
 		});
         
-		JPopupMenu popupMenu = new JPopupMenu();
-		JMenuItem deleteItem = new JMenuItem("Supprimer");
-		deleteItem.setIcon(new ImageIcon(getClass().getResource("/img/delete.gif")));
-		
-		Separator jSeparator12 = new Separator();
-		
-		popupMenu.add(jSeparator12);
-		popupMenu.add(deleteItem);
-		
-		jTable1.setComponentPopupMenu(popupMenu);
+        jTable1.addKeyListener(new KeyAdapter() {         
+            public void keyPressed(KeyEvent e) {
+                System.out.println("pressed");
+                
+                if (e.getKeyChar() == KeyEvent.VK_DELETE) {
+                	int row = jTable1.getSelectedRow();
+                	if(products.get(row) != null){
 
+                		products.remove(row);
+                		for (int i = 0; i <= 8; i++) {
+                			jTable1.setValueAt("", row, i);
+                		}
+
+                		int rows = jTable1.getRowCount();
+						double sum = 0;
+						for(int i = 0; i < rows; i++){
+							Object d = jTable1.getValueAt(i, 8);
+							if(d != null && !d.toString().equals("")){
+								sum += Double.parseDouble(((String) d).replace(",", "."));
+							}
+						}
+						
+						if(sum == 0d){ footerPanel.getTotalValue().setText(""); }
+						else { footerPanel.getTotalValue().setText(decimalFormat.format(sum)); }
+                	}
+                }
+            }
+       });
+   
         
         jScrollPane1.setViewportView(jTable1);
         jTabbedPane1.addTab("Produits", jScrollPane1);
@@ -398,7 +426,7 @@ public class SaleView extends JFrame {
                     .addPreferredGap(LayoutStyle.ComponentPlacement.RELATED)
                     .addComponent(jPanel1, GroupLayout.PREFERRED_SIZE, 219, GroupLayout.PREFERRED_SIZE)
                     .addPreferredGap(LayoutStyle.ComponentPlacement.RELATED)
-                    .addComponent(jTabbedPane1, GroupLayout.PREFERRED_SIZE, 580, GroupLayout.PREFERRED_SIZE)
+                    .addComponent(jTabbedPane1, GroupLayout.PREFERRED_SIZE, 351, GroupLayout.PREFERRED_SIZE)
                     .addPreferredGap(LayoutStyle.ComponentPlacement.RELATED)
                     .addComponent(footerPanel, GroupLayout.PREFERRED_SIZE, GroupLayout.DEFAULT_SIZE, GroupLayout.PREFERRED_SIZE)
                     .addContainerGap())
@@ -415,7 +443,7 @@ public class SaleView extends JFrame {
         		}else{
         			em.getTransaction().begin();
         			vente = em.find(Vente.class, vente.getId());
-        			vente.setProduits(products);
+        			vente.setProduits(products.values());
         			em.getTransaction().commit();
         			
         			headerPanel.getPaiement().activateButton(true);
@@ -434,7 +462,7 @@ public class SaleView extends JFrame {
         		}else{
         			em.getTransaction().begin();
         			vente = em.find(Vente.class, vente.getId());
-        			vente.setProduits(products);
+        			vente.setProduits(products.values());
         			em.getTransaction().commit();
         			
         			PosologieFrame posologieFrame = new PosologieFrame(em, vente);
@@ -557,11 +585,11 @@ public class SaleView extends JFrame {
 		return productService;
 	}
 
-	public List<VenteProduit> getProducts() {
+	public Map<Integer, VenteProduit> getProducts() {
 		return products;
 	}
 
-	public void setProducts(List<VenteProduit> products) {
+	public void setProducts(Map<Integer, VenteProduit> products) {
 		this.products = products;
 	}
 

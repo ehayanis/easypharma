@@ -1,6 +1,7 @@
 package com.mm.app.model;
 
 import java.io.Serializable;
+import java.util.Collection;
 import java.util.Date;
 import java.util.List;
 
@@ -42,7 +43,7 @@ public class Vente implements Serializable {
 	private Medecin medecin;
 	
 	@OneToMany(mappedBy="vente", cascade=CascadeType.ALL)
-	private List<VenteProduit> produits;
+	private Collection<VenteProduit> produits;
 	
 	
 	private static final long serialVersionUID = 1L;
@@ -119,11 +120,11 @@ public class Vente implements Serializable {
 		this.medecin = medecin;
 	}
 
-	public List<VenteProduit> getProduits() {
+	public Collection<VenteProduit> getProduits() {
 		return produits;
 	}
 
-	public void setProduits(List<VenteProduit> produits) {
+	public void setProduits(Collection<VenteProduit> produits) {
 		this.produits = produits;
 	}
 
