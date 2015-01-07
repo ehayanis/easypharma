@@ -33,6 +33,8 @@ import javax.swing.JScrollPane;
 import javax.swing.JTextField;
 import javax.swing.LayoutStyle;
 import javax.swing.WindowConstants;
+import javax.swing.event.TableModelEvent;
+import javax.swing.event.TableModelListener;
 import javax.swing.table.DefaultTableCellRenderer;
 import javax.swing.table.DefaultTableModel;
 import javax.swing.table.TableColumn;
@@ -387,18 +389,23 @@ public class PaymentView extends JFrame {
 			    				saleView.getjTable1().setValueAt(decimalFormat.format(product.getPu() + (product.getPu() * 0.2)), row, 8);
 			                	 // Mettre la désignation au cas ou c'est le code bare qui est saisi
 			                	 comboBox.setSelectedItem(product.getDesignation());
-
-			    				VenteProduit vp = new VenteProduit(product);
-			    				vp.setVente(vente);
-			    				saleView.getProducts().add(vp);
-
+			                	
+			                	 VenteProduit vp = null;
+			                	 if(saleView.getProducts().get(row) != null){
+			                		 vp = saleView.getProducts().get(row);
+			                		 vp.setProduct(product);
+			                	 }else{
+			                		 vp = new VenteProduit(product);
+			                		 vp.setVente(vente);
+			                	 }
+			                	 
 			    				saleView.getHeaderPanel().getProduit().activateButton(true);
 
 			    				int rows = saleView.getjTable1().getRowCount();
 			    				double total = 0;
 			    				for(int i = 0; i < rows; i++){
 			    					Object d = saleView.getjTable1().getValueAt(i, 8);
-			    					if(d != null){
+			    					if(d != null && !d.toString().equals("")){
 			    						total += Double.parseDouble(((String) d).replace(",", "."));
 			    					}
 
@@ -422,7 +429,75 @@ public class PaymentView extends JFrame {
 			    	facture.addItem("Comptoire");
 			    	facture.addItem("Assurance");
 			    	factureColumn.setCellEditor(new DefaultCellEditor(facture));
+			    	
+			    	saleView.getjTable1().getModel().addTableModelListener(new TableModelListener() {
+			        	public void tableChanged(TableModelEvent evt) {
+			        		if (evt.getType() == TableModelEvent.UPDATE){
+			        			int column = evt.getColumn();
+			        			int  row = 0;
+			        			if (column == 5){
+			        				row = saleView.getjTable1().getSelectedRow();
+			        				String qte = (String) saleView.getjTable1().getValueAt(row, column);
+			        				try{
+			        					Double q = Double.valueOf(qte);
+			        					String designation = (String) saleView.getjTable1().getValueAt(row, 0);
+			        					if(designation != null && !designation.equals("")){
+			        						String total = (String) saleView.getjTable1().getValueAt(row, 8);
+			        						if(total != null && !total.equals("")){
+			        							Double t = Double.parseDouble(((String) total).replace(",", "."));
+			        							saleView.getjTable1().setValueAt(decimalFormat.format(t * q), row, 8);
+			        						}
+			        						
+			        						int rows = saleView.getjTable1().getRowCount();
+			        						double sum = 0;
+			        						for(int i = 0; i < rows; i++){
+			        							Object d = saleView.getjTable1().getValueAt(i, 8);
+			        							if(d != null && !d.toString().equals("")){
+			        								sum += Double.parseDouble(((String) d).replace(",", "."));
+			        							}
+			        						}
+			        						saleView.getFooterPanel().getTotalValue().setText(decimalFormat.format(sum));
+			        					}
+			        				}catch(NumberFormatException exception){
+			        					System.out.println(exception.getStackTrace());
 
+			        				}
+
+			        				System.out.println(saleView.getjTable1().getValueAt(row, column));
+			        			}
+			        		}
+						}
+					});
+			        
+			    	saleView.getjTable1().addKeyListener(new KeyAdapter() {         
+			            public void keyPressed(KeyEvent e) {
+			                System.out.println("pressed");
+			                
+			                if (e.getKeyChar() == KeyEvent.VK_DELETE) {
+			                	int row = saleView.getjTable1().getSelectedRow();
+			                	if(saleView.getProducts().get(row) != null){
+
+			                		saleView.getProducts().remove(row);
+			                		for (int i = 0; i <= 8; i++) {
+			                			saleView.getjTable1().setValueAt("", row, i);
+			                		}
+
+			                		int rows = saleView.getjTable1().getRowCount();
+									double sum = 0;
+									for(int i = 0; i < rows; i++){
+										Object d = saleView.getjTable1().getValueAt(i, 8);
+										if(d != null && !d.toString().equals("")){
+											sum += Double.parseDouble(((String) d).replace(",", "."));
+										}
+									}
+									
+									if(sum == 0d){ saleView.getFooterPanel().getTotalValue().setText(""); }
+									else { saleView.getFooterPanel().getTotalValue().setText(decimalFormat.format(sum)); }
+			                	}
+			                }
+			            }
+			       });
+			        
 				}
 			}
 			
