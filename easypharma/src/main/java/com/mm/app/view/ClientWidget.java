@@ -7,6 +7,8 @@ import java.awt.Font;
 import java.awt.Frame;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.awt.event.FocusEvent;
+import java.awt.event.FocusListener;
 import java.awt.event.KeyAdapter;
 import java.awt.event.KeyEvent;
 import java.text.DateFormat;
@@ -20,7 +22,6 @@ import javax.swing.BoxLayout;
 import javax.swing.ImageIcon;
 import javax.swing.JButton;
 import javax.swing.JInternalFrame;
-import javax.swing.JOptionPane;
 import javax.swing.JPanel;
 import javax.swing.JTextField;
 import javax.swing.table.AbstractTableModel;
@@ -48,11 +49,9 @@ public class ClientWidget extends JInternalFrame implements InternalFrameWidget{
 	private JTextField age;
 	
 	private JPanel buttonPanel;
-	private JButton editButton;
-	private JButton newButton;
+	private HeaderButton editButton;
 	
 	private ClientService clientService;
-	private VenteService venteService;
 	private Vente vente;
 	private EntityManager em;
 	private SortedMap<String, String> data;
@@ -61,7 +60,6 @@ public class ClientWidget extends JInternalFrame implements InternalFrameWidget{
 		this.em = em;
 		this.vente = vente;
 		clientService = new ClientServiceImpl(em);
-		venteService = new VenteServiceImpl(em);
 		
 		initComponent();
 		getContentPane().setBackground(Color.WHITE);
@@ -128,11 +126,10 @@ public class ClientWidget extends JInternalFrame implements InternalFrameWidget{
 					
 					JTextField assuranceField = null;
 					JTextField hiddenField = null;
-					JButton newAssurance = null;
 
-					assuranceWidget.getNewAssur1().setEnabled(true);
-					assuranceWidget.getNewAssur2().setEnabled(true);
-					assuranceWidget.getNewAssur3().setEnabled(true);
+					assuranceWidget.getEditAssur1().setEnabled(true);
+					assuranceWidget.getEditAssur2().setEnabled(true);
+					assuranceWidget.getEditAssur3().setEnabled(true);
 					assuranceWidget.getAssurance1().setText("");
 					assuranceWidget.getAssurance2().setText("");
 					assuranceWidget.getAssurance3().setText("");
@@ -146,17 +143,14 @@ public class ClientWidget extends JInternalFrame implements InternalFrameWidget{
 							case OBLIGATOIRE:
 								assuranceField = assuranceWidget.getAssurance1();
 								hiddenField = assuranceWidget.getHiddenField1();
-								newAssurance = assuranceWidget.getNewAssur1();
 								break;
 							case ACCIDENT:
 								assuranceField = assuranceWidget.getAssurance2();
 								hiddenField = assuranceWidget.getHiddenField2();
-								newAssurance = assuranceWidget.getNewAssur2();
 								break;
 							case COMPLEMENTAIRE:
 								assuranceField = assuranceWidget.getAssurance3();
 								hiddenField = assuranceWidget.getHiddenField3();
-								newAssurance = assuranceWidget.getNewAssur3();
 								break;
 							default:
 								break;
@@ -164,7 +158,6 @@ public class ClientWidget extends JInternalFrame implements InternalFrameWidget{
 							
 							assuranceField.setText(assurance.getAssurance().getName());
 							hiddenField.setText(String.valueOf(assurance.getAssurance().getId()));
-							newAssurance.setEnabled(false);
 						}
 					}
 
@@ -179,25 +172,29 @@ public class ClientWidget extends JInternalFrame implements InternalFrameWidget{
 		buttonPanel = new JPanel(gl);
 		buttonPanel.setBackground(Color.WHITE);
 		
-		editButton = new HeaderButton("/img/edit.gif", "editButton");
-		newButton = new HeaderButton("/img/add.gif", "newButton");
+		editButton = new HeaderButton("/img/edit.png", "Edit Button");
 		
 		editButton.addActionListener(new ActionListener() {
             public void actionPerformed(ActionEvent evt) {
                 editActionPerformed(evt);
             }
         });
-		newButton.addActionListener(new ActionListener() {
-            public void actionPerformed(ActionEvent evt) {
-                newActionPerformed(evt);
-            }
-        });
 		
-		firstName.setPreferredSize(new Dimension(203, 20));
+		editButton.addFocusListener(new FocusListener() {
+			@Override
+			public void focusLost(FocusEvent evt) {
+					((JButton) evt.getSource()).setIcon(new ImageIcon(getClass().getResource("/img/edit.png")));
+			}
+			
+			@Override
+			public void focusGained(FocusEvent evt) {
+				((JButton) evt.getSource()).setIcon(new ImageIcon(getClass().getResource("/img/edit-hover.png")));
+			}
+		});
+		
+		firstName.setPreferredSize(new Dimension(216, 20));
 		buttonPanel.add(firstName);
 		buttonPanel.add(editButton);
-		buttonPanel.add(newButton);
-		
 		
 		//add(Utilities.createFilledSimplePanel("Référence", buttonPanel));
 		//add(Utilities.createFilledSimplePanel("Nom & Prénom", firstName));
@@ -318,15 +315,11 @@ public class ClientWidget extends JInternalFrame implements InternalFrameWidget{
 			clientManagementView.setVisible(true);
 		}
 		else{
-			JOptionPane.showMessageDialog(this, "Veuillez séléctionner un client pour pouvoir le modifier!");
+			clientManagementView.setNew(true);
+		    clientManagementView.setVisible(true);
 		}
     } 
 	
-	private void newActionPerformed(ActionEvent evt) {                                         
-		ClientManagementView clientManagementView = new ClientManagementView(em, vente);
-		clientManagementView.setNew(true);
-	    clientManagementView.setVisible(true);
-    }
 
 	@Override
 	public void activateComponents(){

@@ -5,6 +5,8 @@ import java.awt.Font;
 import java.awt.Frame;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.awt.event.FocusEvent;
+import java.awt.event.FocusListener;
 import java.text.DateFormat;
 import java.util.List;
 
@@ -31,7 +33,7 @@ import com.mm.app.service.impl.ClientServiceImpl;
 import com.mm.app.utilities.Utilities;
 
 
-public class AssuranceWidget extends JInternalFrame implements InternalFrameWidget{
+public class AssuranceWidget extends JInternalFrame implements InternalFrameWidget, FocusListener{
 
 	private static final long serialVersionUID = -1528594567776851222L;
 	
@@ -45,10 +47,7 @@ public class AssuranceWidget extends JInternalFrame implements InternalFrameWidg
 	private JButton editAssur1;
 	private JButton editAssur2; 
 	private JButton editAssur3;
-	private JButton newAssur1;
-	private JButton newAssur2;
-	private JButton newAssur3;
-	
+
 	private EntityManager em;
 	private AssuranceService service;
 	private ClientService clientService;
@@ -81,16 +80,16 @@ public class AssuranceWidget extends JInternalFrame implements InternalFrameWidg
 		assurance3 = new JTextField();
 		hiddenField3 = new JTextField();
 		
-		editAssur1 = new HeaderButton("/img/edit.gif", "editAssur1");
-		editAssur2 = new HeaderButton("/img/edit.gif", "editAssur2");
-		editAssur3 = new HeaderButton("/img/edit.gif", "editAssur3");
-		newAssur1 = new HeaderButton("/img/add.gif", "newAssur1");
-		newAssur2 = new HeaderButton("/img/add.gif", "newAssur2");
-		newAssur3 = new HeaderButton("/img/add.gif", "newAssur3");
+		editAssur1 = new HeaderButton("/img/edit.png", "Edit Assur1");
+		editAssur1.addFocusListener(this);
+		editAssur2 = new HeaderButton("/img/edit.png", "Edit Assur2");
+		editAssur2.addFocusListener(this);
+		editAssur3 = new HeaderButton("/img/edit.png", "Edit Assur3");
+		editAssur3.addFocusListener(this);
 		
-		newAssur1.setEnabled(false);
-		newAssur2.setEnabled(false);
-		newAssur3.setEnabled(false);
+		editAssur1.setEnabled(false);
+		editAssur2.setEnabled(false);
+		editAssur3.setEnabled(false);
 		
 		assurance1.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent evt) {
@@ -126,39 +125,19 @@ public class AssuranceWidget extends JInternalFrame implements InternalFrameWidg
             }
         });
 		
-		newAssur1.addActionListener(new ActionListener() {
-            public void actionPerformed(ActionEvent evt) {
-                newActionPerformed(evt, TypeAssurance.OBLIGATOIRE);
-            }
-        });
-		newAssur2.addActionListener(new ActionListener() {
-            public void actionPerformed(ActionEvent evt) {
-                newActionPerformed(evt, TypeAssurance.ACCIDENT);
-            }
-        });
-		newAssur3.addActionListener(new ActionListener() {
-            public void actionPerformed(ActionEvent evt) {
-                newActionPerformed(evt, TypeAssurance.COMPLEMENTAIRE);
-            }
-        });
-		
 		///////////// TO BE REMOVED ///////////////////
 		///////////////////////////////////////////////
 		JButton hiddenBtn1 = new JButton();
 		hiddenBtn1.setVisible(false);
-		JButton hiddenBtn2 = new JButton();
-		hiddenBtn2.setVisible(false);
 		JButton hiddenBtn3 = new JButton();
 		hiddenBtn3.setVisible(false);
-		JButton hiddenBtn4 = new JButton();
-		hiddenBtn4.setVisible(false);
 		
 		
-		add(Utilities.createFilledAdvancedPanel("Assurance Obligatoire", assurance1, editAssur1, newAssur1));
-		add(Utilities.createFilledAdvancedPanel("Assurance Accident", assurance2, editAssur2, newAssur2));
-		add(Utilities.createFilledAdvancedPanel("Assurance Complémentaire", assurance3, editAssur3, newAssur3));
-		add(Utilities.createFilledAdvancedPanel(" ", new JLabel(), hiddenBtn1, hiddenBtn2));
-		add(Utilities.createFilledAdvancedPanel(" ", new JLabel(), hiddenBtn3, hiddenBtn4));
+		add(Utilities.createFilledAdvancedPanel("Assurance Obligatoire", assurance1, editAssur1));
+		add(Utilities.createFilledAdvancedPanel("Assurance Accident", assurance2, editAssur2));
+		add(Utilities.createFilledAdvancedPanel("Assurance Complémentaire", assurance3, editAssur3));
+		add(Utilities.createFilledAdvancedPanel(" ", new JLabel(), hiddenBtn1));
+		add(Utilities.createFilledAdvancedPanel(" ", new JLabel(), hiddenBtn3));
 		
 		hiddenField1.setVisible(false);
 		add(hiddenField1);
@@ -203,29 +182,6 @@ public class AssuranceWidget extends JInternalFrame implements InternalFrameWidg
 	public void setAssurance3(JTextField assurance) {
 		this.assurance3 = assurance;
 	}
-	public JButton getNewAssur1() {
-		return newAssur1;
-	}
-
-	public void setNewAssur1(JButton newAssur1) {
-		this.newAssur1 = newAssur1;
-	}
-
-	public JButton getNewAssur2() {
-		return newAssur2;
-	}
-
-	public void setNewAssur2(JButton newAssur2) {
-		this.newAssur2 = newAssur2;
-	}
-
-	public JButton getNewAssur3() {
-		return newAssur3;
-	}
-
-	public void setNewAssur3(JButton newAssur3) {
-		this.newAssur3 = newAssur3;
-	}
 
 	public Vente getVente() {
 		return vente;
@@ -233,6 +189,30 @@ public class AssuranceWidget extends JInternalFrame implements InternalFrameWidg
 
 	public void setVente(Vente vente) {
 		this.vente = vente;
+	}
+	
+	public JButton getEditAssur1() {
+		return editAssur1;
+	}
+
+	public void setEditAssur1(JButton editAssur1) {
+		this.editAssur1 = editAssur1;
+	}
+
+	public JButton getEditAssur2() {
+		return editAssur2;
+	}
+
+	public void setEditAssur2(JButton editAssur2) {
+		this.editAssur2 = editAssur2;
+	}
+
+	public JButton getEditAssur3() {
+		return editAssur3;
+	}
+
+	public void setEditAssur3(JButton editAssur3) {
+		this.editAssur3 = editAssur3;
 	}
 
 	@Override
@@ -287,13 +267,12 @@ public class AssuranceWidget extends JInternalFrame implements InternalFrameWidg
 							clientWidget.getPhone().setText(client.getPhone());
 							clientWidget.getAge().setText(String.valueOf(client.getAge()));
 							
-							newAssur1.setEnabled(true);
-							newAssur2.setEnabled(true);
-							newAssur3.setEnabled(true);
+							editAssur1.setEnabled(true);
+							editAssur1.setEnabled(true);
+							editAssur1.setEnabled(true);
 
 							JTextField assuranceField = null;
 							JTextField hiddenField = null;
-							JButton newAssurance = null;
 							
 							List<AssuranceClient> assurances = clientService.getClientAssurances(client);
 							if(assurances != null && assurances.size() > 0){
@@ -305,17 +284,14 @@ public class AssuranceWidget extends JInternalFrame implements InternalFrameWidg
 									case OBLIGATOIRE:
 										assuranceField = assurance1;
 										hiddenField = hiddenField1;
-										newAssurance = newAssur1;
 										break;
 									case ACCIDENT:
 										assuranceField = assurance2;
 										hiddenField = hiddenField2;
-										newAssurance = newAssur2;
 										break;
 									case COMPLEMENTAIRE:
 										assuranceField = assurance3;
 										hiddenField = hiddenField3;
-										newAssurance = newAssur3;
 										break;
 									default:
 										break;
@@ -323,7 +299,6 @@ public class AssuranceWidget extends JInternalFrame implements InternalFrameWidg
 									
 									assuranceField.setText(assurance.getAssurance().getName());
 									hiddenField.setText(String.valueOf(assurance.getAssurance().getId()));
-									newAssurance.setEnabled(false);
 								}
 							}
 							
@@ -377,15 +352,20 @@ public class AssuranceWidget extends JInternalFrame implements InternalFrameWidg
         		assuranceManagementView.setVisible(true);
         	}
         }else{
-			JOptionPane.showMessageDialog(this, "Veuillez séléctionner une assurance pour pouvoir la modifier!");
+        	assuranceManagementView.setTypeAssurance(typeAssurance);
+            assuranceManagementView.setVisible(true);
         }
         
     } 
 	
-	private void newActionPerformed(ActionEvent evt, TypeAssurance assurance) {                                         
-		AssuranceManagementView assuranceManagementView = new AssuranceManagementView(em, vente);
-        assuranceManagementView.setTypeAssurance(assurance);
-        assuranceManagementView.setVisible(true);
-    } 
-
+	@Override
+	public void focusLost(FocusEvent evt) {
+			((JButton) evt.getSource()).setIcon(new ImageIcon(getClass().getResource("/img/edit.png")));
+	}
+	
+	@Override
+	public void focusGained(FocusEvent evt) {
+		((JButton) evt.getSource()).setIcon(new ImageIcon(getClass().getResource("/img/edit-hover.png")));
+	}
+	
 }

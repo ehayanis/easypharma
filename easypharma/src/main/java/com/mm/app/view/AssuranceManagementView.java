@@ -395,23 +395,19 @@ public class AssuranceManagementView extends javax.swing.JFrame {
 				AssuranceWidget assuranceWidget = ((AssuranceWidget) saleView.getAssuranceWidget());
 				JTextField assuranceField = null;
 				JTextField hiddenField = null;
-				JButton newAssurance = null;
 				
 				switch (typeAssurance) {
 				case OBLIGATOIRE:
 					assuranceField = assuranceWidget.getAssurance1();
 					hiddenField = assuranceWidget.getHiddenField1();
-					newAssurance = assuranceWidget.getNewAssur1();
 					break;
 				case ACCIDENT:
 					assuranceField = assuranceWidget.getAssurance2();
 					hiddenField = assuranceWidget.getHiddenField2();
-					newAssurance = assuranceWidget.getNewAssur2();
 					break;
 				case COMPLEMENTAIRE:
 					assuranceField = assuranceWidget.getAssurance3();
 					hiddenField = assuranceWidget.getHiddenField3();
-					newAssurance = assuranceWidget.getNewAssur3();
 					break;
 				default:
 					break;
@@ -457,7 +453,6 @@ public class AssuranceManagementView extends javax.swing.JFrame {
 				
 				assuranceField.setText(Utilities.isEmpty(assurance.getName()));
 				hiddenField.setText(Utilities.isEmpty(assurance.getId()));
-				newAssurance.setEnabled(false);
 				
 				
 				saleView.setVisible(true);

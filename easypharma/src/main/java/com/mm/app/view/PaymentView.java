@@ -300,9 +300,9 @@ public class PaymentView extends JFrame {
 			    	saleView.getAssuranceWidget().getHiddenField1().setText("");
 			    	saleView.getAssuranceWidget().getHiddenField2().setText("");
 			    	saleView.getAssuranceWidget().getHiddenField3().setText("");
-			    	saleView.getAssuranceWidget().getNewAssur1().setEnabled(false);
-			    	saleView.getAssuranceWidget().getNewAssur2().setEnabled(false);
-			    	saleView.getAssuranceWidget().getNewAssur3().setEnabled(false);
+			    	saleView.getAssuranceWidget().getEditAssur1().setEnabled(false);
+			    	saleView.getAssuranceWidget().getEditAssur2().setEnabled(false);
+			    	saleView.getAssuranceWidget().getEditAssur3().setEnabled(false);
 			    	saleView.getAssuranceWidget().setVente(vente);
 			    	
 			    	saleView.getClientWidget().getDateOfBirth().setText("");

@@ -732,11 +732,10 @@ public class ClientManagementView extends JFrame {
 				AssuranceWidget assuranceWidget = (AssuranceWidget) saleView.getAssuranceWidget();
 				JTextField assuranceField = null;
 				JTextField hiddenField = null;
-				JButton newAssurance = null;
 
-				assuranceWidget.getNewAssur1().setEnabled(true);
-				assuranceWidget.getNewAssur2().setEnabled(true);
-				assuranceWidget.getNewAssur3().setEnabled(true);
+				assuranceWidget.getEditAssur1().setEnabled(true);
+				assuranceWidget.getEditAssur2().setEnabled(true);
+				assuranceWidget.getEditAssur3().setEnabled(true);
 				assuranceWidget.getAssurance1().setText("");
 				assuranceWidget.getAssurance2().setText("");
 				assuranceWidget.getAssurance3().setText("");
@@ -749,17 +748,14 @@ public class ClientManagementView extends JFrame {
 						case OBLIGATOIRE:
 							assuranceField = assuranceWidget.getAssurance1();
 							hiddenField = assuranceWidget.getHiddenField1();
-							newAssurance = assuranceWidget.getNewAssur1();
 							break;
 						case ACCIDENT:
 							assuranceField = assuranceWidget.getAssurance2();
 							hiddenField = assuranceWidget.getHiddenField2();
-							newAssurance = assuranceWidget.getNewAssur2();
 							break;
 						case COMPLEMENTAIRE:
 							assuranceField = assuranceWidget.getAssurance3();
 							hiddenField = assuranceWidget.getHiddenField3();
-							newAssurance = assuranceWidget.getNewAssur3();
 							break;
 						default:
 							break;
@@ -767,7 +763,6 @@ public class ClientManagementView extends JFrame {
 
 						assuranceField.setText(assurance.getAssurance().getName());
 						hiddenField.setText(String.valueOf(assurance.getAssurance().getId()));
-						newAssurance.setEnabled(false);
 					}
 				}
 

@@ -6,6 +6,8 @@ import java.awt.FlowLayout;
 import java.awt.Font;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.awt.event.FocusEvent;
+import java.awt.event.FocusListener;
 import java.awt.event.KeyAdapter;
 import java.awt.event.KeyEvent;
 import java.util.List;
@@ -116,27 +118,31 @@ public class MedecinWidget extends JInternalFrame implements InternalFrameWidget
 		buttonPanel = new JPanel(gl);
 		buttonPanel.setBackground(Color.WHITE);
 		
-		editButton = new HeaderButton("/img/edit.gif", "editButton");
-		newButton = new HeaderButton("/img/add.gif", "newButton");
+		editButton = new HeaderButton("/img/edit.png", "Edit Button");
 		
+		editButton.addFocusListener(new FocusListener() {
+			@Override
+			public void focusLost(FocusEvent evt) {
+					((JButton) evt.getSource()).setIcon(new ImageIcon(getClass().getResource("/img/edit.png")));
+			}
+			
+			@Override
+			public void focusGained(FocusEvent evt) {
+				((JButton) evt.getSource()).setIcon(new ImageIcon(getClass().getResource("/img/edit-hover.png")));
+			}
+		});
 		
 		editButton.addActionListener(new ActionListener() {
             public void actionPerformed(ActionEvent evt) {
                 editActionPerformed(evt);
             }
         });
-		newButton.addActionListener(new ActionListener() {
-            public void actionPerformed(ActionEvent evt) {
-                newActionPerformed(evt);
-            }
-        });
 		
 		
-		firstName.setPreferredSize(new Dimension(203, 20));
+		firstName.setPreferredSize(new Dimension(216, 20));
 		firstName.setPrototypeDisplayValue("XXXXXXXXXXXXXXX");
 		buttonPanel.add(firstName);
 		buttonPanel.add(editButton);
-		buttonPanel.add(newButton);
 		
 		add(Utilities.createFilledSimplePanel("Nom & Prénom", buttonPanel));
 		add(Utilities.createFilledSimplePanel("Spécialité", speciality));
@@ -231,16 +237,11 @@ public class MedecinWidget extends JInternalFrame implements InternalFrameWidget
         	}
         
         }else{
-        	JOptionPane.showMessageDialog(this, "Veuillez séléctionner un médecin pour pouvoir le modifier!");
+        	medecinManagementView.setNew(true);
+   		 	medecinManagementView.setVisible(true);
         }
         
     } 
-	
-	private void newActionPerformed(ActionEvent evt) {                                         
-		MedecinManagementView medecinManagementView = new MedecinManagementView(em, vente);
-		medecinManagementView.setNew(true);
-		 medecinManagementView.setVisible(true);
-    }
 	
 	@Override
 	public void activateComponents(){
