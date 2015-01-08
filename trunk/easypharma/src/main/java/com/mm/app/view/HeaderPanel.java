@@ -2,6 +2,7 @@ package com.mm.app.view;
 
 import java.awt.Color;
 import java.awt.Component;
+import java.awt.Cursor;
 import java.awt.Font;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
@@ -23,7 +24,7 @@ public class HeaderPanel extends JPanel {
 	 */
 	private static final long serialVersionUID = -4803295226273222399L;
 	private HeaderButton client;
-    private JLabel op;
+    private HeaderButton op;
     private HeaderButton produit;
     private HeaderButton impression;
     private HeaderButton paiement;
@@ -37,8 +38,11 @@ public class HeaderPanel extends JPanel {
 	}
 	
 	private void initComponents() {
-        op = new JLabel("Operateur: " + operator.getFirstName() + " " + operator.getLastname());
-        op.setFont(new Font("Arial", 1, 12));
+//        op = new JLabel("Operateur: " + operator.getFirstName() + " " + operator.getLastname());
+        op = new HeaderButton(" " + operator.getFirstName() + " " + operator.getLastname(), "/img/user.png", "Operateur");
+        op.setFocusable(false);
+        op.setCursor(new Cursor(Cursor.DEFAULT_CURSOR));
+//        op.setFont(new Font("Arial", 1, 12));
         client = new HeaderButton("Client", "/img/jbutton1.png", "Client");
         produit = new HeaderButton("Médicaments", "/img/jbutton3.png", "Médicaments");
         paiement = new HeaderButton("Payement", "/img/jbutton5.png", "Paiement");
