@@ -64,7 +64,6 @@ public class HeaderButton extends JButton{
 	
 	public HeaderButton(String imgPath, String action){
 		this(imgPath);
-		
 		setActionCommand(action);
 	}
 	
