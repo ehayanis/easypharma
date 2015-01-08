@@ -337,7 +337,7 @@ public class ClientManagementView extends JFrame {
 //		jPanel3.add(Utilities.createFilledSimpleInnerPanel(sexeLabel, sexePanel));
 
 
-		listVenteLabel.setText("Liste Ordonnances");
+		listVenteLabel.setText("Liste Ventes");
 		listVenteLabel.setFont(new Font("Tahoma", 1, 11));
 		jScrollPane2.setViewportView(listVente);
 
@@ -350,16 +350,16 @@ public class ClientManagementView extends JFrame {
 		
 		tableProduct.setModel(new DefaultTableModel(
 				new Object [][] {
-						{null, null},
-						{null, null},
-						{null, null}
+						{null},
+						{null},
+						{null}
 				},
 				new String [] {
-						"Designation", "PU"
+						"Designation"
 				}
 				) {
 			boolean[] canEdit = new boolean [] {
-					false, false
+					false
 			};
 
 			public boolean isCellEditable(int rowIndex, int columnIndex) {
@@ -652,22 +652,19 @@ public class ClientManagementView extends JFrame {
 		String selected = listVente.getSelectedValue().toString();
 		String venteId = selected.substring(selected.indexOf("(") + 1, selected.indexOf(")"));
 
-		System.out.println(venteId);
-
 		List<VenteProduit> venteProduits = em.createQuery("SELECT p FROM Vente v JOIN v.produits p WHERE v.id = :id", VenteProduit.class).setParameter("id", Integer.valueOf(venteId)).getResultList();
 		Object[][] data = null;
 
 		if(venteProduits != null && venteProduits.size() > 0){
-			data = new Object[venteProduits.size()][2];
+			data = new Object[venteProduits.size()][1];
 			int i = 0;
 			for(VenteProduit vp : venteProduits){
 				data[i][0] = vp.getProduct().getDesignation();
-				data[i][1] = vp.getProduct().getPu();
 				i++;
 			}
 		}
 
-		String[] columnNames =  {"Designation", "PU"};
+		String[] columnNames =  {"Designation"};
 
 		DefaultTableModel dtm = new DefaultTableModel(data, columnNames){
 			public Class getColumnClass(int c) {
