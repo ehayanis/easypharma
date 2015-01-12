@@ -6,33 +6,44 @@ import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.awt.event.ItemEvent;
 import java.awt.event.ItemListener;
+import java.awt.event.KeyEvent;
 import java.util.ArrayList;
 import java.util.Collection;
 import java.util.List;
 
 import javax.persistence.EntityManager;
+import javax.swing.AbstractAction;
+import javax.swing.Action;
 import javax.swing.GroupLayout;
 import javax.swing.ImageIcon;
 import javax.swing.JButton;
 import javax.swing.JCheckBox;
+import javax.swing.JComponent;
 import javax.swing.JFrame;
 import javax.swing.JLabel;
+import javax.swing.JOptionPane;
 import javax.swing.JScrollPane;
 import javax.swing.JSpinner;
 import javax.swing.JTabbedPane;
 import javax.swing.JTable;
 import javax.swing.JTextArea;
 import javax.swing.JTextField;
+import javax.swing.KeyStroke;
 import javax.swing.LayoutStyle;
 import javax.swing.WindowConstants;
-import javax.swing.event.*;
+import javax.swing.event.ChangeEvent;
+import javax.swing.event.ChangeListener;
+import javax.swing.event.ListSelectionEvent;
+import javax.swing.event.ListSelectionListener;
 import javax.swing.table.AbstractTableModel;
 
 import com.mm.app.model.Posologie;
+import com.mm.app.model.PosologieSpecifique;
 import com.mm.app.model.Product;
 import com.mm.app.model.Vente;
 import com.mm.app.model.VenteProduit;
 import com.mm.app.utilities.SubProductTableModel;
+import com.mm.app.utilities.Utilities;
 
 /**
  *
@@ -44,6 +55,7 @@ public class PosologieFrame extends JFrame {
 	private Vente vente;
 	private Collection<VenteProduit> venteProduits;
 	private List<Product> products;
+	String productIdentifier = "";
 	
     public PosologieFrame(EntityManager em, Vente vente) {
     	this.em = em;
@@ -101,6 +113,9 @@ public class PosologieFrame extends JFrame {
         jourSur = new JSpinner();
         duree = new JSpinner();
         jLabel15 = new JLabel();
+        jScrollPane4 = new JScrollPane();
+        etiquette = new JTextArea();
+        jLabel24 = new JLabel();
         jPanel7 = new MyJPanel();
         jLabel16 = new JLabel();
         dosage = new JTextField();
@@ -130,6 +145,7 @@ public class PosologieFrame extends JFrame {
         contreIndication = new JTextArea();
         print = new JButton();
         validate = new JButton();
+        jLabel25 = new JLabel();
 
         setDefaultCloseOperation(WindowConstants.DISPOSE_ON_CLOSE);
         setTitle("Posologie");
@@ -160,40 +176,27 @@ public class PosologieFrame extends JFrame {
         
         tableProduit.getSelectionModel().addListSelectionListener(new ListSelectionListener(){
             public void valueChanged(ListSelectionEvent event) {
-                String productIdentifier = tableProduit.getValueAt(tableProduit.getSelectedRow(), 0).toString();
+                productIdentifier = tableProduit.getValueAt(tableProduit.getSelectedRow(), 0).toString();
                 
                 Product product = em.find(Product.class, Integer.valueOf(productIdentifier));
                 if(product != null){
                 	Posologie posologie = product.getPosologie();
-                	
-                	action.setText(posologie.getAction());
-                	codexPosoologie.setText(posologie.getCodex());
-                	contreIndication.setText(posologie.getContreIndication());
-                	forme.setText(posologie.getForme());
+                	initFields();
+                	if(posologie != null){
+                		action.setText(Utilities.isEmpty(posologie.getAction()));
+                		codexPosoologie.setText(Utilities.isEmpty(posologie.getCodex()));
+                		contreIndication.setText(Utilities.isEmpty(posologie.getContreIndication()));
+                		forme.setText(Utilities.isEmpty(posologie.getForme()));
+                	}
                 }
                 
             }
         });
         
-//        tableProduit.setModel(new DefaultTableModel(
-//            new Object [][] {
-//                {null, null},
-//                {null, null},
-//                {null, null},
-//                {null, null}
-//            },
-//            new String [] {
-//                "Référence", "Libellé"
-//            }
-//        ));
         jScrollPane5.setViewportView(tableProduit);
-        
         jTabbedPane2.addTab("Liste Produits", jScrollPane5);
-
         jLabel3.setText("Qté (/jour):");
-
         jLabel4.setText("Toutes les:");
-
         jLabel5.setText("Heures");
 
         matin.setText("Matin");
@@ -204,7 +207,7 @@ public class PosologieFrame extends JFrame {
         });
         matin.addItemListener(new ItemListener() {
             public void itemStateChanged(ItemEvent evt) {
-                jCheckBoxItemStateChanged(evt, matinLabel);
+                jCheckBoxItemStateChanged(evt, matinLabel, "Matin");
             }
         });
 
@@ -219,7 +222,7 @@ public class PosologieFrame extends JFrame {
         });
         midi.addItemListener(new ItemListener() {
             public void itemStateChanged(ItemEvent evt) {
-                jCheckBoxItemStateChanged(evt, midiLabel);
+                jCheckBoxItemStateChanged(evt, midiLabel, "Midi");
             }
         });
 
@@ -234,7 +237,7 @@ public class PosologieFrame extends JFrame {
         });
         soir.addItemListener(new ItemListener() {
             public void itemStateChanged(ItemEvent evt) {
-                jCheckBoxItemStateChanged(evt, soirLabel);
+                jCheckBoxItemStateChanged(evt, soirLabel, "Soir");
             }
         });
 
@@ -252,7 +255,7 @@ public class PosologieFrame extends JFrame {
         });
         nuit.addItemListener(new ItemListener() {
             public void itemStateChanged(ItemEvent evt) {
-                jCheckBoxItemStateChanged(evt, nuitLabel);
+                jCheckBoxItemStateChanged(evt, nuitLabel, "Nuit");
             }
         });
         
@@ -267,7 +270,12 @@ public class PosologieFrame extends JFrame {
         jLabel13.setText("Durée:");
         jLabel14.setText("Jours sur: ");
         jLabel15.setText("Jours");
-
+        
+        etiquette.setColumns(20);
+        etiquette.setRows(5);
+        jScrollPane4.setViewportView(etiquette);
+        jLabel24.setText("Etiquette:");
+        
         GroupLayout jPanel6Layout = new GroupLayout(jPanel6);
         jPanel6.setLayout(jPanel6Layout);
         jPanel6Layout.setHorizontalGroup(
@@ -284,21 +292,28 @@ public class PosologieFrame extends JFrame {
                             .addComponent(jLabel10))
                         .addGroup(jPanel6Layout.createParallelGroup(GroupLayout.Alignment.LEADING)
                             .addGroup(jPanel6Layout.createSequentialGroup()
-                                .addGap(18, 18, 18)
                                 .addGroup(jPanel6Layout.createParallelGroup(GroupLayout.Alignment.LEADING)
                                     .addGroup(jPanel6Layout.createSequentialGroup()
-                                        .addGroup(jPanel6Layout.createParallelGroup(GroupLayout.Alignment.TRAILING, false)
-                                            .addComponent(rithme, GroupLayout.DEFAULT_SIZE, 44, Short.MAX_VALUE)
-                                            .addComponent(duree))
-                                        .addGroup(jPanel6Layout.createParallelGroup(GroupLayout.Alignment.LEADING)
-                                            .addGroup(jPanel6Layout.createSequentialGroup()
-                                                .addGap(12, 12, 12)
-                                                .addComponent(jLabel14)
+                                            .addGap(56, 56, 56)
+                                            .addComponent(jLabel14)
+                                            .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                                            .addComponent(jourSur, GroupLayout.PREFERRED_SIZE, 43, GroupLayout.PREFERRED_SIZE)
+                                            .addGap(18, 18, 18)
+                                            .addComponent(jLabel13)
+                                            .addGap(18, 18, 18)
+//                                        .addGroup(jPanel6Layout.createParallelGroup(GroupLayout.Alignment.TRAILING, false)
+//                                            .addComponent(rithme, GroupLayout.DEFAULT_SIZE, 44, Short.MAX_VALUE)
+//                                            .addComponent(duree))
+//                                        .addGroup(jPanel6Layout.createParallelGroup(GroupLayout.Alignment.LEADING)
+//                                            .addGroup(jPanel6Layout.createSequentialGroup()
+//                                                .addGap(12, 12, 12)
+//                                                .addComponent(jLabel14)
+//                                                .addPreferredGap(LayoutStyle.ComponentPlacement.UNRELATED)
+                                                .addComponent(duree, GroupLayout.PREFERRED_SIZE, 43, GroupLayout.PREFERRED_SIZE)
+//                                            .addGroup(jPanel6Layout.createSequentialGroup()
                                                 .addPreferredGap(LayoutStyle.ComponentPlacement.UNRELATED)
-                                                .addComponent(jourSur, GroupLayout.PREFERRED_SIZE, 43, GroupLayout.PREFERRED_SIZE))
-                                            .addGroup(jPanel6Layout.createSequentialGroup()
-                                                .addPreferredGap(LayoutStyle.ComponentPlacement.UNRELATED)
-                                                .addComponent(jLabel15))))
+                                                .addComponent(jLabel15)
+                                                .addGap(0, 0, Short.MAX_VALUE))
                                     .addGroup(jPanel6Layout.createSequentialGroup()
                                         .addGroup(jPanel6Layout.createParallelGroup(GroupLayout.Alignment.LEADING)
                                             .addGroup(jPanel6Layout.createSequentialGroup()
@@ -330,16 +345,23 @@ public class PosologieFrame extends JFrame {
                                 .addComponent(jLabel11)
                                 .addContainerGap(GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))))
                     .addGroup(jPanel6Layout.createSequentialGroup()
-                        .addGroup(jPanel6Layout.createParallelGroup(GroupLayout.Alignment.LEADING)
-                            .addComponent(jLabel12)
-                            .addComponent(jLabel13))
-                        .addGap(0, 0, Short.MAX_VALUE))
-                    .addGroup(GroupLayout.Alignment.TRAILING, jPanel6Layout.createSequentialGroup()
-                        .addComponent(repos, GroupLayout.PREFERRED_SIZE, 185, GroupLayout.PREFERRED_SIZE)
-                        .addPreferredGap(LayoutStyle.ComponentPlacement.UNRELATED)
-                        .addComponent(condition, GroupLayout.PREFERRED_SIZE, 185, GroupLayout.PREFERRED_SIZE)
-                        .addContainerGap())))
-        );
+                    		.addComponent(jLabel12)
+                            .addGap(18, 18, 18)
+                            .addComponent(rithme, GroupLayout.PREFERRED_SIZE, 44, GroupLayout.PREFERRED_SIZE)
+                            .addGap(0, 0, Short.MAX_VALUE))
+                            .addGroup(GroupLayout.Alignment.TRAILING, jPanel6Layout.createSequentialGroup()
+                                .addGroup(jPanel6Layout.createParallelGroup(GroupLayout.Alignment.LEADING)
+                                    .addGroup(GroupLayout.Alignment.TRAILING, jPanel6Layout.createSequentialGroup()
+                                        .addGap(0, 0, Short.MAX_VALUE)
+                                        .addComponent(repos, GroupLayout.PREFERRED_SIZE, 185, GroupLayout.PREFERRED_SIZE)
+                                        .addPreferredGap(LayoutStyle.ComponentPlacement.UNRELATED)
+                                        .addComponent(condition, GroupLayout.PREFERRED_SIZE, 185, GroupLayout.PREFERRED_SIZE))
+                                    .addGroup(GroupLayout.Alignment.TRAILING, jPanel6Layout.createSequentialGroup()
+                                        .addComponent(jLabel24)
+                                        .addPreferredGap(LayoutStyle.ComponentPlacement.RELATED, GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                                        .addComponent(jScrollPane4, GroupLayout.PREFERRED_SIZE, 311, GroupLayout.PREFERRED_SIZE)))
+                                .addContainerGap())))
+                );
         jPanel6Layout.setVerticalGroup(
             jPanel6Layout.createParallelGroup(GroupLayout.Alignment.LEADING)
             .addGroup(jPanel6Layout.createSequentialGroup()
@@ -372,7 +394,7 @@ public class PosologieFrame extends JFrame {
                                     .addComponent(matin)
                                     .addPreferredGap(LayoutStyle.ComponentPlacement.RELATED)
                                     .addComponent(matinLabel))))))
-                .addGap(18, 18, 18)
+                .addGap(0, 0, 0)
                 .addGroup(jPanel6Layout.createParallelGroup(GroupLayout.Alignment.BASELINE)
                     .addComponent(jLabel10)
                     .addComponent(jLabel11))
@@ -385,12 +407,14 @@ public class PosologieFrame extends JFrame {
                     .addComponent(jLabel12)
                     .addComponent(rithme, GroupLayout.PREFERRED_SIZE, GroupLayout.DEFAULT_SIZE, GroupLayout.PREFERRED_SIZE)
                     .addComponent(jLabel14)
-                    .addComponent(jourSur, GroupLayout.PREFERRED_SIZE, GroupLayout.DEFAULT_SIZE, GroupLayout.PREFERRED_SIZE))
-                .addPreferredGap(LayoutStyle.ComponentPlacement.UNRELATED)
-                .addGroup(jPanel6Layout.createParallelGroup(GroupLayout.Alignment.BASELINE)
+                    .addComponent(jourSur, GroupLayout.PREFERRED_SIZE, GroupLayout.DEFAULT_SIZE, GroupLayout.PREFERRED_SIZE)
                     .addComponent(jLabel13)
                     .addComponent(duree, GroupLayout.PREFERRED_SIZE, GroupLayout.DEFAULT_SIZE, GroupLayout.PREFERRED_SIZE)
                     .addComponent(jLabel15))
+                    .addGap(18, 18, 18)
+                .addGroup(jPanel6Layout.createParallelGroup(GroupLayout.Alignment.LEADING)
+                    .addComponent(jLabel24)
+                    .addComponent(jScrollPane4, GroupLayout.PREFERRED_SIZE, 55, GroupLayout.PREFERRED_SIZE))
                 .addContainerGap(GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
         );
 
@@ -465,7 +489,7 @@ public class PosologieFrame extends JFrame {
                 .addGroup(jPanel7Layout.createParallelGroup(GroupLayout.Alignment.BASELINE)
                     .addComponent(recommand, GroupLayout.PREFERRED_SIZE, GroupLayout.DEFAULT_SIZE, GroupLayout.PREFERRED_SIZE)
                     .addComponent(jLabel20))
-                .addGap(0, 2, Short.MAX_VALUE))
+                    .addGap(0, 0, Short.MAX_VALUE))
         );
 
         GroupLayout jPanel2Layout = new GroupLayout(jPanel2);
@@ -481,7 +505,7 @@ public class PosologieFrame extends JFrame {
             jPanel2Layout.createParallelGroup(GroupLayout.Alignment.LEADING)
             .addGroup(jPanel2Layout.createSequentialGroup()
                 .addComponent(jPanel6, GroupLayout.PREFERRED_SIZE, GroupLayout.DEFAULT_SIZE, GroupLayout.PREFERRED_SIZE)
-                .addGap(0, 10, Short.MAX_VALUE))
+                .addGap(0, 0, Short.MAX_VALUE))
             .addComponent(jPanel7, GroupLayout.DEFAULT_SIZE, GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
         );
 
@@ -546,14 +570,20 @@ public class PosologieFrame extends JFrame {
 				validatePosologieView(evt);
 			}
 		});
-
+        
+        jLabel25.setText("F1 pour sauvegarder une etiquette");
+        jLabel25.setFont(new java.awt.Font("Tahoma", 1, 13));
+        jLabel25.setForeground(Color.RED);
+        
         GroupLayout jPanel1Layout = new GroupLayout(jPanel1);
         jPanel1.setLayout(jPanel1Layout);
         jPanel1Layout.setHorizontalGroup(
             jPanel1Layout.createParallelGroup(GroupLayout.Alignment.LEADING)
             .addComponent(jPanel2, GroupLayout.DEFAULT_SIZE, GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
             .addGroup(GroupLayout.Alignment.TRAILING, jPanel1Layout.createSequentialGroup()
-                .addGap(0, 0, Short.MAX_VALUE)
+            		.addContainerGap()
+                    .addComponent(jLabel25)
+                    .addPreferredGap(LayoutStyle.ComponentPlacement.RELATED, GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                 .addComponent(print, GroupLayout.PREFERRED_SIZE, 110, GroupLayout.PREFERRED_SIZE)
                 .addGap(18, 18, 18)
                 .addComponent(validate, GroupLayout.PREFERRED_SIZE, 110, GroupLayout.PREFERRED_SIZE)
@@ -581,8 +611,10 @@ public class PosologieFrame extends JFrame {
                 .addComponent(jPanel2, GroupLayout.PREFERRED_SIZE, GroupLayout.DEFAULT_SIZE, GroupLayout.PREFERRED_SIZE)
                 .addPreferredGap(LayoutStyle.ComponentPlacement.RELATED)
                 .addGroup(jPanel1Layout.createParallelGroup(GroupLayout.Alignment.LEADING)
-                    .addComponent(print, GroupLayout.PREFERRED_SIZE, 34, GroupLayout.PREFERRED_SIZE)
-                    .addComponent(validate, GroupLayout.PREFERRED_SIZE, 34, GroupLayout.PREFERRED_SIZE)))
+                        .addGroup(jPanel1Layout.createParallelGroup(GroupLayout.Alignment.BASELINE)
+                                .addComponent(print, GroupLayout.PREFERRED_SIZE, 34, GroupLayout.PREFERRED_SIZE)
+                                .addComponent(jLabel25))
+                            .addComponent(validate, GroupLayout.PREFERRED_SIZE, 34, GroupLayout.PREFERRED_SIZE)))
         );
 
         GroupLayout layout = new GroupLayout(getContentPane());
@@ -599,14 +631,70 @@ public class PosologieFrame extends JFrame {
                 .addComponent(jPanel1, GroupLayout.DEFAULT_SIZE, GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                 .addContainerGap())
         );
-
+        
+        KeyStroke f1KeyStroke = KeyStroke.getKeyStroke(KeyEvent.VK_F1, 0, false);
+        Action f1Action = new AbstractAction() {
+        	public void actionPerformed(ActionEvent e) {
+        		if(Utilities.isEmptyString(productIdentifier)){
+        			JOptionPane.showMessageDialog(getContentPane(), "Veuillez séléctionner un produit!");
+        		}
+        		
+        		if(!em.getTransaction().isActive()){
+        			em.getTransaction().begin();
+        		}
+        		PosologieSpecifique ps = new PosologieSpecifique();
+        		ps.setEtiquette(Utilities.isEmpty(etiquette.getText()));
+        		System.out.println("productIdentifier" + productIdentifier);
+        		VenteProduit vp = null;
+        		
+        		vente = em.find(Vente.class, vente.getId());
+            	venteProduits = vente.getProduits();
+            	
+        		for(VenteProduit venteProduit : venteProduits){
+            		if(Integer.valueOf(productIdentifier) == venteProduit.getProduct().getId()){
+            			vp = venteProduit;
+            			break;
+            		}
+            	}
+        		
+        		vp.setSpecifique(ps);
+        		em.persist(ps);
+        		em.getTransaction().commit();
+        		
+        		JOptionPane.showMessageDialog(getContentPane(), "Etiquette enregistrée!");
+        		
+        	}
+        };
+        
+        getRootPane().getInputMap(JComponent.WHEN_IN_FOCUSED_WINDOW).put(f1KeyStroke, "F1");
+        getRootPane().getActionMap().put("F1", f1Action);
+        
+        
         pack();
         setLocationRelativeTo(null);
     }// </editor-fold>                        
     
-    private void jCheckBoxItemStateChanged(ItemEvent evt, JLabel label) {                                            
+    private void initFields(){
+    	matin.setSelected(false);
+    	matinLabel.setText("-----------");
+    	midi.setSelected(false);
+    	midiLabel.setText("-----------");
+    	nuit.setSelected(false);
+    	nuitLabel.setText("-----------");
+    	soir.setSelected(false);
+    	soirLabel.setText("-----------");
+    	
+    	
+    	etiquette.setText("");
+    }
+    
+    private void jCheckBoxItemStateChanged(ItemEvent evt, JLabel label, String type) {                                            
         if (evt.getStateChange() == ItemEvent.SELECTED) {
         	label.setText(qteJour.getValue().toString() + ".00");
+        	if(Utilities.isEmptyString(etiquette.getText())){
+        		etiquette.setText("Avaler " + qteJour.getValue().toString() + "  Comprimé ");
+        	}
+        	etiquette.setText(etiquette.getText() + " " + type);
         } else {
         	label.setText("-----------");
         }
@@ -621,7 +709,6 @@ public class PosologieFrame extends JFrame {
 		dispose();
 	}
     
-
     // Variables declaration - do not modify                     
     private JButton validate;
     private JButton print;
@@ -652,6 +739,8 @@ public class PosologieFrame extends JFrame {
     private JLabel nuitLabel;
     private JLabel soirLabel;
     private JLabel midiLabel;
+    private JLabel jLabel24;
+    private JLabel jLabel25;
     private MyJPanel jPanel1;
     private MyJPanel jPanel2;
     private MyJPanel jPanel3;
@@ -662,6 +751,7 @@ public class PosologieFrame extends JFrame {
     private JScrollPane jScrollPane1;
     private JScrollPane jScrollPane2;
     private JScrollPane jScrollPane3;
+    private JScrollPane jScrollPane4;
     private JScrollPane jScrollPane5;
     private JSpinner qteJour;
     private JSpinner qteHeur;
@@ -676,6 +766,7 @@ public class PosologieFrame extends JFrame {
     private JTextArea avertissement;
     private JTextArea contreIndication;
     private JTextArea codexPosoologie;
+    private JTextArea etiquette;
     private JTextField avertissementField;
     private JTextField application;
     private JTextField action;

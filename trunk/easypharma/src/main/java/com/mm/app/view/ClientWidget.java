@@ -261,8 +261,15 @@ public class ClientWidget extends JInternalFrame implements InternalFrameWidget{
 	public void setData(SortedMap<String, String> data) {
 		this.data = data;
 	}
-
 	
+	public HeaderButton getEditButton() {
+		return editButton;
+	}
+
+	public void setEditButton(HeaderButton editButton) {
+		this.editButton = editButton;
+	}
+
 	private void editActionPerformed(ActionEvent evt) {
 		String ref = (String) reference.getText();
 		ClientManagementView clientManagementView = new ClientManagementView(em, vente);

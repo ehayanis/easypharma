@@ -42,8 +42,15 @@ public class MedecinWidget extends JInternalFrame implements InternalFrameWidget
 	
 	private JPanel buttonPanel;
 	private JButton editButton;
-	private JButton newButton;
 	
+	public JButton getEditButton() {
+		return editButton;
+	}
+
+	public void setEditButton(JButton editButton) {
+		this.editButton = editButton;
+	}
+
 	private MedecinService medecinService;
 	private EntityManager em;
 	private Vente vente;

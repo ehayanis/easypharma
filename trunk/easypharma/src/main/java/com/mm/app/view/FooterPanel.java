@@ -29,10 +29,10 @@ public class FooterPanel extends JPanel{
 		totalLabel = new JLabel();
         assurance = new MyJLabel("Assur... : F1");
         client = new MyJLabel("Client : F2");
-        medecin = new MyJLabel("Medecin : F3");
-        produit = new MyJLabel("Produits : F4");
+        medecin = new MyJLabel("Medecin : F4");
+        produit = new MyJLabel("Produits : F6");
         paiement = new MyJLabel("Paiement : Esc");
-        impression = new MyJLabel("Imprés... : F6");
+        impression = new MyJLabel("Imprés... : F7");
         posologie = new MyJLabel("Posologie : F9");
         totalPanel = new JPanel();
         totalValue = new JLabel();

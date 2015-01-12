@@ -10,7 +10,6 @@ import java.awt.event.KeyAdapter;
 import java.awt.event.KeyEvent;
 import java.beans.PropertyVetoException;
 import java.text.DecimalFormat;
-import java.util.ArrayList;
 import java.util.Date;
 import java.util.HashMap;
 import java.util.List;
@@ -34,7 +33,6 @@ import javax.swing.JMenuItem;
 import javax.swing.JOptionPane;
 import javax.swing.JPanel;
 import javax.swing.JPopupMenu;
-import javax.swing.JPopupMenu.Separator;
 import javax.swing.JScrollPane;
 import javax.swing.JTabbedPane;
 import javax.swing.JTable;
@@ -488,12 +486,26 @@ public class SaleView extends JFrame {
         KeyStroke f3KeyStroke = KeyStroke.getKeyStroke(KeyEvent.VK_F3, 0, false);
         Action f3Action = new AbstractAction() {
         	public void actionPerformed(ActionEvent e) {
-        		medecinWidget.getFirstName().requestFocus();
+        		clientWidget.getEditButton().requestFocus();
         	}
         };
         
         KeyStroke f4KeyStroke = KeyStroke.getKeyStroke(KeyEvent.VK_F4, 0, false);
         Action f4Action = new AbstractAction() {
+        	public void actionPerformed(ActionEvent e) {
+        		medecinWidget.getFirstName().requestFocus();
+        	}
+        };
+        
+        KeyStroke f5KeyStroke = KeyStroke.getKeyStroke(KeyEvent.VK_F5, 0, false);
+        Action f5Action = new AbstractAction() {
+        	public void actionPerformed(ActionEvent e) {
+        		medecinWidget.getEditButton().requestFocus();
+        	}
+        };
+        
+        KeyStroke f6KeyStroke = KeyStroke.getKeyStroke(KeyEvent.VK_F6, 0, false);
+        Action f6Action = new AbstractAction() {
         	public void actionPerformed(ActionEvent e) {
         		jTable1.requestFocus();
         		jTable1.editCellAt(0, 0);
@@ -508,13 +520,16 @@ public class SaleView extends JFrame {
         getRootPane().getInputMap(JComponent.WHEN_IN_FOCUSED_WINDOW).put(f2KeyStroke, "F2");
         getRootPane().getInputMap(JComponent.WHEN_IN_FOCUSED_WINDOW).put(f3KeyStroke, "F3");
         getRootPane().getInputMap(JComponent.WHEN_IN_FOCUSED_WINDOW).put(f4KeyStroke, "F4");
+        getRootPane().getInputMap(JComponent.WHEN_IN_FOCUSED_WINDOW).put(f5KeyStroke, "F5");
+        getRootPane().getInputMap(JComponent.WHEN_IN_FOCUSED_WINDOW).put(f6KeyStroke, "F6");
         getRootPane().getActionMap().put("ESCAPE", escapeAction);
         getRootPane().getActionMap().put("F9", f9Action);
         getRootPane().getActionMap().put("F1", f1Action);
         getRootPane().getActionMap().put("F2", f2Action);
         getRootPane().getActionMap().put("F3", f3Action);
         getRootPane().getActionMap().put("F4", f4Action);
-        
+        getRootPane().getActionMap().put("F5", f5Action);
+        getRootPane().getActionMap().put("F6", f6Action);
         
         pack();
         setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
