@@ -19,22 +19,18 @@ public class MedecinServiceImpl implements MedecinService{
 		dao = new MedecinDaoImpl(em);
 	}
 
-	@Override
 	public List<Medecin> getMedecins() {
 		return dao.getMedecins();
 	}
 
-	@Override
 	public Medecin findMedecin(int id) {
 		return dao.findMedecin(id);
 	}
 
-	@Override
 	public Medecin findMedecinByName(String name) {
 		return dao.findMedecinByName(name);
 	}
 
-	@Override
 	public List<Medecin> findMedecinsByCriteria(String criteria) {
 		return dao.findMedecinsByCriteria(criteria);
 	}

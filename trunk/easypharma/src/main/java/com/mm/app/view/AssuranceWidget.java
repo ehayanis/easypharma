@@ -215,7 +215,6 @@ public class AssuranceWidget extends JInternalFrame implements InternalFrameWidg
 		this.editAssur3 = editAssur3;
 	}
 
-	@Override
 	public void activateComponents(){
 		assurance1.setEnabled(true);
 		assurance1.setEditable(true);
@@ -324,6 +323,7 @@ public class AssuranceWidget extends JInternalFrame implements InternalFrameWidg
         	HiddenId = hiddenField3.getText();
         }
         
+        System.out.println("HiddenId " + HiddenId);
         
         if(!"".equals(HiddenId)){
         	Assurance assurance = service.findAssurance(Integer.valueOf(HiddenId));
@@ -358,12 +358,10 @@ public class AssuranceWidget extends JInternalFrame implements InternalFrameWidg
         
     } 
 	
-	@Override
 	public void focusLost(FocusEvent evt) {
 			((JButton) evt.getSource()).setIcon(new ImageIcon(getClass().getResource("/img/edit.png")));
 	}
 	
-	@Override
 	public void focusGained(FocusEvent evt) {
 		((JButton) evt.getSource()).setIcon(new ImageIcon(getClass().getResource("/img/edit-hover.png")));
 	}

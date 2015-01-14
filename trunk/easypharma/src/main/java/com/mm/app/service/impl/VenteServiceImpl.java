@@ -28,63 +28,51 @@ public class VenteServiceImpl implements VenteService{
 		dao = new VenteDaoImpl(em);
 	}
 
-	@Override
 	public List<Vente> getVentes() {
 		return dao.getVentes();
 	}
 
-	@Override
 	public Vente findVente(int id) {
 		return dao.findVente(id);
 	}
 
-	@Override
 	public Vente addVente(Vente vente) {
 		return dao.addVente(vente);
 		
 	}
 
-	@Override
 	public void deleteVente(Vente vente) {
 		dao.deleteVente(vente);
 		
 	}
 
-	@Override
 	public void addProduit(Product product) {
 		dao.addProduit(product);
 	}
 
-	@Override
 	public List<VenteProduit> getProduits() {
 		return dao.getProduits();
 	}
 
-	@Override
 	public void addMedecin(Medecin medecin) {
 		dao.addMedecin(medecin);
 		
 	}
 
-	@Override
 	public void deleteMedecin(Medecin medecin) {
 		dao.deleteMedecin(medecin);
 	}
 
-	@Override
 	public void addClient(Client client) {
 		dao.addClient(client);
 	}
 
-	@Override
 	public void deleteClient(Client client) {
 		dao.deleteClient(client);
 	}
 
-	@Override
 	public void addOperator(Operator operator) {
 		dao.addOperator(operator);
-		
 	}
 
 }

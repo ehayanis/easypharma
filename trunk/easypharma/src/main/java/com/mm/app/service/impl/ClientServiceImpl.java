@@ -22,32 +22,26 @@ public class ClientServiceImpl implements ClientService{
 		dao = new ClientDaoImpl(em);
 	}
 
-	@Override
 	public List<Client> getClients() {
 		return dao.getClients();
 	}
 
-	@Override
 	public Client findClient(int id) {
 		return dao.findClient(id);
 	}
 
-	@Override
 	public Client findClientByReference(String reference) {
 		return dao.findClientByReference(reference);
 	}
 
-	@Override
 	public List<Client> findClientsByCriteria(String criteria) {
 		return dao.findClientsByCriteria(criteria);
 	}
 
-	@Override
 	public List<AssuranceClient> getClientAssurances(Client client) {
 		return dao.getClientAssurances(client);
 	}
 
-	@Override
 	public List<Vente> getClientVentes(Client client) {
 		return dao.getClientVentes(client);
 	}
