@@ -7,6 +7,7 @@ import javax.persistence.TypedQuery;
 
 import com.mm.app.dao.ProductDao;
 import com.mm.app.model.Product;
+import com.mm.app.model.VenteProduit;
 
 public class ProductDaoImpl implements ProductDao{
 	
@@ -31,6 +32,12 @@ public class ProductDaoImpl implements ProductDao{
 	public Product findProductByReference(String selectedValue) {
 		Product p = (Product) em.createNamedQuery("findProductByReference").setParameter("reference", selectedValue).getSingleResult();
 		return p;
+	}
+
+	@Override
+	public VenteProduit getVenteProduitByClientAndProduitId(Integer venteId, Integer produitId) {
+		VenteProduit vp = (VenteProduit) em.createNamedQuery("findVenteProduitByClientProduit").setParameter("venteId", venteId).setParameter("produitId", produitId).getSingleResult();
+		return vp;
 	}
 
 }

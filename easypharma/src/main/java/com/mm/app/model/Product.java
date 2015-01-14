@@ -5,8 +5,10 @@ import java.util.List;
 
 import javax.persistence.*;
 
-
-@NamedQuery(name="findProductByReference", query="SELECT p FROM Product p WHERE p.reference = :reference")
+@NamedQueries({
+	@NamedQuery(name="findProductByReference", query="SELECT p FROM Product p WHERE p.reference = :reference"),
+	@NamedQuery(name="findVenteProduitByClientProduit", query="SELECT vp FROM Vente v JOIN v.produits vp JOIN vp.product p WHERE v.id = :venteId AND p.id = :produitId")
+})
 
 @Entity
 public class Product implements Serializable {

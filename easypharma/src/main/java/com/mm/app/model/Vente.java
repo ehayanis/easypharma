@@ -7,12 +7,7 @@ import java.util.List;
 
 import javax.persistence.*;
 
-/**
- * Entity implementation class for Entity: Vente
- *
- */
 @Entity
-
 public class Vente implements Serializable {
 	
 	@Id
