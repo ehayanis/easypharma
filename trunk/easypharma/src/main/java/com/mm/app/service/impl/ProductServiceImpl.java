@@ -7,6 +7,7 @@ import javax.persistence.EntityManager;
 import com.mm.app.dao.ProductDao;
 import com.mm.app.dao.impl.ProductDaoImpl;
 import com.mm.app.model.Product;
+import com.mm.app.model.VenteProduit;
 import com.mm.app.service.ProductService;
 
 public class ProductServiceImpl implements ProductService{
@@ -32,6 +33,11 @@ public class ProductServiceImpl implements ProductService{
 	@Override
 	public Product findProductByReference(String selectedValue) {
 		return dao.findProductByReference(selectedValue);
+	}
+
+	@Override
+	public VenteProduit getVenteProduitByClientAndProduitId(Integer venteId, Integer produitId) {
+		return dao.getVenteProduitByClientAndProduitId(venteId, produitId);
 	}
 
 }

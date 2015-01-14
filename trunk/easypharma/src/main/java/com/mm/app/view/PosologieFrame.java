@@ -42,6 +42,8 @@ import com.mm.app.model.PosologieSpecifique;
 import com.mm.app.model.Product;
 import com.mm.app.model.Vente;
 import com.mm.app.model.VenteProduit;
+import com.mm.app.service.ProductService;
+import com.mm.app.service.impl.ProductServiceImpl;
 import com.mm.app.utilities.SubProductTableModel;
 import com.mm.app.utilities.Utilities;
 
@@ -55,12 +57,14 @@ public class PosologieFrame extends JFrame {
 	private Vente vente;
 	private Collection<VenteProduit> venteProduits;
 	private List<Product> products;
+	private ProductService service;
 	String productIdentifier = "";
 	
     public PosologieFrame(EntityManager em, Vente vente) {
     	this.em = em;
     	this.vente = vente;
     	products = new ArrayList<Product>();
+    	service = new ProductServiceImpl(em);
     	
     	vente = em.find(Vente.class, vente.getId());
     	venteProduits = vente.getProduits();
@@ -639,23 +643,11 @@ public class PosologieFrame extends JFrame {
         			JOptionPane.showMessageDialog(getContentPane(), "Veuillez séléctionner un produit!");
         		}
         		
-        		if(!em.getTransaction().isActive()){
-        			em.getTransaction().begin();
-        		}
-        		PosologieSpecifique ps = new PosologieSpecifique();
+    			em.getTransaction().begin();
+    			PosologieSpecifique ps = new PosologieSpecifique();
         		ps.setEtiquette(Utilities.isEmpty(etiquette.getText()));
-        		System.out.println("productIdentifier" + productIdentifier);
-        		VenteProduit vp = null;
-        		
-        		vente = em.find(Vente.class, vente.getId());
-            	venteProduits = vente.getProduits();
-            	
-        		for(VenteProduit venteProduit : venteProduits){
-            		if(Integer.valueOf(productIdentifier) == venteProduit.getProduct().getId()){
-            			vp = venteProduit;
-            			break;
-            		}
-            	}
+
+        		VenteProduit vp = service.getVenteProduitByClientAndProduitId(vente.getId(), Integer.valueOf(productIdentifier));
         		
         		vp.setSpecifique(ps);
         		em.persist(ps);
