@@ -18,18 +18,15 @@ public class OperatorDaoImpl implements OperatorDao{
 		this.em = em;
 	}
 
-	@Override
 	public List<Operator> getOperators() {
 		TypedQuery<Operator> query = em.createQuery("SELECT o FROM Operator o", Operator.class);
 		return query.getResultList();
 	}
 
-	@Override
 	public Operator findOperator(int id) {
 		return em.find(Operator.class, id);
 	}
 
-	@Override
 	public void addOperator(Operator operator) {
 		em.persist(operator);
 	}

@@ -20,17 +20,14 @@ public class OperatorServiceImpl implements OperatorService{
 		dao = new OperatorDaoImpl(em);
 	}
 
-	@Override
 	public List<Operator> getOperators() {
 		return dao.getOperators();
 	}
 
-	@Override
 	public Operator findOperator(int id) {
 		return dao.findOperator(id);
 	}
 
-	@Override
 	public void addOperator(Operator operator) {
 		dao.addOperator(operator);
 		

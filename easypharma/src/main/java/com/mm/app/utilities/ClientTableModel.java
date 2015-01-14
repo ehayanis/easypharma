@@ -15,17 +15,14 @@ public class ClientTableModel extends AbstractTableModel{
 		clientsList = list;
 	}
 
-	@Override
 	public int getColumnCount() {
 		return 6;
 	}
 
-	@Override
 	public int getRowCount() {
 		return clientsList.size();
 	}
 
-	@Override
 	public Object getValueAt(int row, int column) {
 		Client entity = null;
 		entity= clientsList.get(row);

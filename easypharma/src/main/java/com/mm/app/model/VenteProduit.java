@@ -1,6 +1,8 @@
 package com.mm.app.model;
 
 import java.io.Serializable;
+import java.util.Date;
+
 import javax.persistence.*;
 
 @Entity
@@ -16,6 +18,10 @@ public class VenteProduit implements Serializable {
 	private float remise;
 	@Column(name="type_paiement")
 	private String typePaiement;
+	
+	@Temporal(TemporalType.DATE)
+	@Column(name="date_creation")
+	private Date dateCreation;
 	
 	@ManyToOne
 	private Vente vente;
@@ -82,6 +88,14 @@ public class VenteProduit implements Serializable {
 
 	public void setSpecifique(PosologieSpecifique specifique) {
 		this.specifique = specifique;
+	}
+
+	public Date getDateCreation() {
+		return dateCreation;
+	}
+
+	public void setDateCreation(Date dateCreation) {
+		this.dateCreation = dateCreation;
 	}
 	
 }

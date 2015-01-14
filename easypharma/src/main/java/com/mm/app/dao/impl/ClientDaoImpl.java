@@ -19,36 +19,30 @@ public class ClientDaoImpl implements ClientDao {
 		this.em = em;
 	}
 
-	@Override
 	public List<Client> getClients() {
 		TypedQuery<Client> query = em.createQuery("SELECT c FROM Client c ORDER BY c.firstName", Client.class);
 		return query.getResultList();
 	}
 
-	@Override
 	public Client findClient(int id) {
 		return em.find(Client.class, id);
 	}
 
-	@Override
 	public Client findClientByReference(String reference) {
 		Client c = (Client) em.createNamedQuery("findClientByReference").setParameter("reference", reference).getSingleResult();
 		return c;
 	}
 
-	@Override
 	public List<Client> findClientsByCriteria(String criteria) {
 		List<Client> clients = em.createNamedQuery("findClientByCriteria").setParameter("criteria", criteria).getResultList();
 		return clients;
 	}
 
-	@Override
 	public List<AssuranceClient> getClientAssurances(Client client) {
 		List<AssuranceClient> assurances = em.createQuery("SELECT a FROM Client c JOIN c.assuranceClients a JOIN a.assurance s WHERE c.id = :id", AssuranceClient.class).setParameter("id", client.getId()).getResultList();
 		return assurances;
 	}
 
-	@Override
 	public List<Vente> getClientVentes(Client client) {
 		List<Vente> ventes = em.createQuery("SELECT v FROM Client c FETCH JOIN c.ventes v WHERE c.id = :id", Vente.class).setParameter("id", client.getId()).getResultList();
 		return ventes;

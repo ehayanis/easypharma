@@ -10,6 +10,7 @@ import java.awt.event.KeyAdapter;
 import java.awt.event.KeyEvent;
 import java.beans.PropertyVetoException;
 import java.text.DecimalFormat;
+import java.util.Calendar;
 import java.util.Date;
 import java.util.HashMap;
 import java.util.List;
@@ -219,9 +220,11 @@ public class SaleView extends JFrame {
                 	 if(products.get(row) != null){
                 		 vp = products.get(row);
                 		 vp.setProduct(product);
+                		 vp.setDateCreation(new Date());
                 	 }else{
                 		 vp = new VenteProduit(product);
                 		 vp.setVente(vente);
+                		 vp.setDateCreation(new Date());
                 		 products.put(row, vp);
                 	 }
                 	 
@@ -514,6 +517,14 @@ public class SaleView extends JFrame {
         	}
         };
         
+        KeyStroke f8KeyStroke = KeyStroke.getKeyStroke(KeyEvent.VK_F8, 0, false);
+        Action f8Action = new AbstractAction() {
+        	public void actionPerformed(ActionEvent e) {
+        		SearchProduct searchProduct = new SearchProduct(em, vente);
+        		searchProduct.setVisible(true);
+        	}
+        };
+        
         
         getRootPane().getInputMap(JComponent.WHEN_IN_FOCUSED_WINDOW).put(escapeKeyStroke, "ESCAPE");
         getRootPane().getInputMap(JComponent.WHEN_IN_FOCUSED_WINDOW).put(f9KeyStroke, "F9");
@@ -523,6 +534,7 @@ public class SaleView extends JFrame {
         getRootPane().getInputMap(JComponent.WHEN_IN_FOCUSED_WINDOW).put(f4KeyStroke, "F4");
         getRootPane().getInputMap(JComponent.WHEN_IN_FOCUSED_WINDOW).put(f5KeyStroke, "F5");
         getRootPane().getInputMap(JComponent.WHEN_IN_FOCUSED_WINDOW).put(f6KeyStroke, "F6");
+        getRootPane().getInputMap(JComponent.WHEN_IN_FOCUSED_WINDOW).put(f8KeyStroke, "F8");
         getRootPane().getActionMap().put("ESCAPE", escapeAction);
         getRootPane().getActionMap().put("F9", f9Action);
         getRootPane().getActionMap().put("F1", f1Action);
@@ -531,6 +543,7 @@ public class SaleView extends JFrame {
         getRootPane().getActionMap().put("F4", f4Action);
         getRootPane().getActionMap().put("F5", f5Action);
         getRootPane().getActionMap().put("F6", f6Action);
+        getRootPane().getActionMap().put("F8", f8Action);
         
         pack();
         setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);

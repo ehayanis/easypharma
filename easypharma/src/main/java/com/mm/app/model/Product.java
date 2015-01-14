@@ -1,13 +1,16 @@
 package com.mm.app.model;
 
 import java.io.Serializable;
+import java.util.Date;
 import java.util.List;
 
 import javax.persistence.*;
 
 @NamedQueries({
 	@NamedQuery(name="findProductByReference", query="SELECT p FROM Product p WHERE p.reference = :reference"),
-	@NamedQuery(name="findVenteProduitByClientProduit", query="SELECT vp FROM Vente v JOIN v.produits vp JOIN vp.product p WHERE v.id = :venteId AND p.id = :produitId")
+	@NamedQuery(name="findVenteProduitByClientProduit", query="SELECT vp FROM Vente v JOIN v.produits vp JOIN vp.product p WHERE v.id = :venteId AND p.id = :produitId"),
+	@NamedQuery(name="findProductByCriteria", query="SELECT p FROM Product p WHERE p.designation LIKE :criteria"),
+	@NamedQuery(name="findHistoriqueProductForClient", query="SELECT vp FROM Vente v JOIN v.client c JOIN v.produits vp JOIN vp.product p WHERE c.id = :clientId AND p.id = :productId")
 })
 
 @Entity
@@ -33,7 +36,17 @@ public class Product implements Serializable {
 	
 	@OneToOne(fetch=FetchType.LAZY)
 	private Posologie posologie;
-		
+	
+	@Column(name="list_remb")
+	private String listRemb;
+	private String reglement;
+	@Column(name="prix_usine")
+	private double prixUsine;
+	
+	@Temporal(TemporalType.DATE)
+	@Column(name="date_permeption")
+	private Date datePermeption;
+	
     public Product() {
     }
 
@@ -100,5 +113,36 @@ public class Product implements Serializable {
 	public void setPosologie(Posologie posologie) {
 		this.posologie = posologie;
 	}
-	
+
+	public String getListRemb() {
+		return listRemb;
+	}
+
+	public void setListRemb(String listRemb) {
+		this.listRemb = listRemb;
+	}
+
+	public String getReglement() {
+		return reglement;
+	}
+
+	public void setReglement(String reglement) {
+		this.reglement = reglement;
+	}
+
+	public double getPrixUsine() {
+		return prixUsine;
+	}
+
+	public void setPrixUsine(double prixUsine) {
+		this.prixUsine = prixUsine;
+	}
+
+	public Date getDatePermeption() {
+		return datePermeption;
+	}
+
+	public void setDatePermeption(Date datePermeption) {
+		this.datePermeption = datePermeption;
+	}
 }

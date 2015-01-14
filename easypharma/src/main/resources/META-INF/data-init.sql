@@ -401,3 +401,11 @@ INSERT INTO product(
     VALUES (222, 'CURACNE', 40, 10, '32D3423', 4, 222);
     
 
+ALTER TABLE vente_produit ADD date_creation date;
+ALTER TABLE product ADD list_remb character varying(30);
+ALTER TABLE product ADD reglement character varying(30);
+ALTER TABLE product ADD prix_usine double precision;
+ALTER TABLE product ADD date_permeption date;
+ALTER TABLE assurance_client ADD type character varying(40);
+
+

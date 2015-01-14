@@ -21,17 +21,14 @@ public class AssuranceServiceImpl implements AssuranceService{
 		dao = new AssuranceDaoImpl(em);
 	}
 
-	@Override
 	public List<Assurance> getAssurances() {
 		return dao.getAssurances();
 	}
 
-	@Override
 	public Assurance findAssurance(int id) {
 		return dao.findAssurance(id);
 	}
 
-	@Override
 	public AssuranceClient findAssuranceByCoverCard(String coverCard) {
 		return dao.findAssuranceByCoverCard(coverCard);
 	}

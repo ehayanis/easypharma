@@ -16,17 +16,14 @@ public class SubAssuranceTableModel extends AbstractTableModel{
 		assurancesList = list;
 	}
 
-	@Override
 	public int getColumnCount() {
 		return 2;
 	}
 
-	@Override
 	public int getRowCount() {
 		return assurancesList.size();
 	}
 
-	@Override
 	public Object getValueAt(int row, int column) {
 		AssuranceClient entity = null;
 		entity= assurancesList.get(row);

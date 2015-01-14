@@ -14,17 +14,14 @@ public class MedecinTableModel extends AbstractTableModel{
 		medecinsList = list;
 	}
 
-	@Override
 	public int getColumnCount() {
 		return 6;
 	}
 
-	@Override
 	public int getRowCount() {
 		return medecinsList.size();
 	}
 
-	@Override
 	public Object getValueAt(int row, int column) {
 		Medecin entity = null;
 		entity= medecinsList.get(row);

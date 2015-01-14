@@ -1,36 +1,42 @@
 package com.mm.app.utilities;
 
 import java.util.List;
+
 import javax.swing.table.AbstractTableModel;
-import com.mm.app.model.Assurance;
+
+import com.mm.app.model.Client;
 import com.mm.app.model.Product;
 
-public class SubProductTableModel extends AbstractTableModel{
+public class ProductTableModel extends AbstractTableModel{
 
-	List<Product> produitsTable;
-	String headerList[] = new String[]{"Réference", "Libellé"};
+	List<Product> productList;
+	String headerList[] = new String[]{"Identifiant", "Désignation", "Réference", "Prix"};
 
-	public SubProductTableModel(List list) {
-		produitsTable = list;
+	public ProductTableModel(List list) {
+		productList = list;
 	}
 
 	public int getColumnCount() {
-		return 2;
+		return 4;
 	}
 
 	public int getRowCount() {
-		return produitsTable.size();
+		return productList.size();
 	}
 
 	public Object getValueAt(int row, int column) {
 		Product entity = null;
-		entity= produitsTable.get(row);
+		entity= productList.get(row);
 
 		switch (column) {
 		case 0:
 			return entity.getId();
 		case 1:
 			return entity.getDesignation();
+		case 2:
+			return entity.getReference();
+		case 3:
+			return entity.getPu();
 		default:
 			return ""; 
 		}
@@ -40,5 +46,5 @@ public class SubProductTableModel extends AbstractTableModel{
 	public String getColumnName(int col) {
 		return headerList[col];
 	}
-
+	
 }

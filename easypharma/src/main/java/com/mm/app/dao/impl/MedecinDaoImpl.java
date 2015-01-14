@@ -17,24 +17,20 @@ public class MedecinDaoImpl implements MedecinDao{
 		this.em = em;
 	}
 
-	@Override
 	public List<Medecin> getMedecins() {
 		TypedQuery<Medecin> query = em.createQuery("SELECT m FROM Medecin m ORDER BY m.firstName", Medecin.class);
 		return query.getResultList();
 	}
 
-	@Override
 	public Medecin findMedecin(int id) {
 		return em.find(Medecin.class, id);
 	}
 
-	@Override
 	public Medecin findMedecinByName(String name) {
 		Medecin m = (Medecin) em.createNamedQuery("findMedecinByName").setParameter("firstName", name).getSingleResult();
 		return m;
 	}
 
-	@Override
 	public List<Medecin> findMedecinsByCriteria(String criteria) {
 		List<Medecin> result = em.createNamedQuery("findMedecinByCriteria").setParameter("criteria", criteria).getResultList();
 		return result;

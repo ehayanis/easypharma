@@ -119,47 +119,50 @@ public class ClientWidget extends JInternalFrame implements InternalFrameWidget{
 							SaleView saleView = (SaleView) frame;
 							assuranceWidget = (AssuranceWidget) saleView.getAssuranceWidget();
 							headerPanel = saleView.getHeaderPanel();
-						}
-					}
-					
-					headerPanel.getClient().activateButton(true);
-					
-					JTextField assuranceField = null;
-					JTextField hiddenField = null;
-
-					assuranceWidget.getEditAssur1().setEnabled(true);
-					assuranceWidget.getEditAssur2().setEnabled(true);
-					assuranceWidget.getEditAssur3().setEnabled(true);
-					assuranceWidget.getAssurance1().setText("");
-					assuranceWidget.getAssurance2().setText("");
-					assuranceWidget.getAssurance3().setText("");
-					
-					List<AssuranceClient> assurances = clientService.getClientAssurances(client);
-					if(assurances != null && assurances.size() > 0){
-						for(AssuranceClient assurance : assurances){
-							TypeAssurance type = assurance.getType();
-						
-							switch (type) {
-							case OBLIGATOIRE:
-								assuranceField = assuranceWidget.getAssurance1();
-								hiddenField = assuranceWidget.getHiddenField1();
-								break;
-							case ACCIDENT:
-								assuranceField = assuranceWidget.getAssurance2();
-								hiddenField = assuranceWidget.getHiddenField2();
-								break;
-							case COMPLEMENTAIRE:
-								assuranceField = assuranceWidget.getAssurance3();
-								hiddenField = assuranceWidget.getHiddenField3();
-								break;
-							default:
-								break;
-							}
 							
-							assuranceField.setText(assurance.getAssurance().getName());
-							hiddenField.setText(String.valueOf(assurance.getAssurance().getId()));
+							headerPanel.getClient().activateButton(true);
+							
+							JTextField assuranceField = null;
+							JTextField hiddenField = null;
+							
+							assuranceWidget.getEditAssur1().setEnabled(true);
+							assuranceWidget.getEditAssur2().setEnabled(true);
+							assuranceWidget.getEditAssur3().setEnabled(true);
+							assuranceWidget.getAssurance1().setText("");
+							assuranceWidget.getAssurance2().setText("");
+							assuranceWidget.getAssurance3().setText("");
+							
+							List<AssuranceClient> assurances = clientService.getClientAssurances(client);
+							if(assurances != null && assurances.size() > 0){
+								for(AssuranceClient assurance : assurances){
+									TypeAssurance type = assurance.getType();
+									
+									switch (type) {
+									case OBLIGATOIRE:
+										assuranceField = assuranceWidget.getAssurance1();
+										hiddenField = assuranceWidget.getHiddenField1();
+										break;
+									case ACCIDENT:
+										assuranceField = assuranceWidget.getAssurance2();
+										hiddenField = assuranceWidget.getHiddenField2();
+										break;
+									case COMPLEMENTAIRE:
+										assuranceField = assuranceWidget.getAssurance3();
+										hiddenField = assuranceWidget.getHiddenField3();
+										break;
+									default:
+										break;
+									}
+									
+									System.out.println(String.valueOf(assurance.getAssurance().getId()));
+									
+									assuranceField.setText(assurance.getAssurance().getName());
+									hiddenField.setText(String.valueOf(assurance.getAssurance().getId()));
+								}
+							}
 						}
 					}
+					
 
 				}
 			}
@@ -181,12 +184,10 @@ public class ClientWidget extends JInternalFrame implements InternalFrameWidget{
         });
 		
 		editButton.addFocusListener(new FocusListener() {
-			@Override
 			public void focusLost(FocusEvent evt) {
 					((JButton) evt.getSource()).setIcon(new ImageIcon(getClass().getResource("/img/edit.png")));
 			}
 			
-			@Override
 			public void focusGained(FocusEvent evt) {
 				((JButton) evt.getSource()).setIcon(new ImageIcon(getClass().getResource("/img/edit-hover.png")));
 			}
@@ -328,7 +329,6 @@ public class ClientWidget extends JInternalFrame implements InternalFrameWidget{
     } 
 	
 
-	@Override
 	public void activateComponents(){
 		firstName.setEnabled(true);
 		firstName.setEditable(false);

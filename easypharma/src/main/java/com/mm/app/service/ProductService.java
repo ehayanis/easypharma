@@ -14,7 +14,11 @@ public interface ProductService {
 
 	public Product findProductByReference(String selectedValue);
 	
+	public List<Product> findProductByCriteria(String criteria);
+	
 	public VenteProduit getVenteProduitByClientAndProduitId(Integer venteId, Integer produitId);
+
+	public List<VenteProduit> findHistoriqueProductForClient(Integer productId, Integer id);
 
 }
 

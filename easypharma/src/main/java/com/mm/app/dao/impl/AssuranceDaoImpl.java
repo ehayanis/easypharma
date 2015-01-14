@@ -18,24 +18,20 @@ public class AssuranceDaoImpl implements AssuranceDao{
 		this.em = em;
 	}
 
-	@Override
 	public List<Assurance> getAssurances() {
 		TypedQuery<Assurance> query = em.createQuery("SELECT c FROM Assurance c", Assurance.class);
 		return query.getResultList();
 	}
 
-	@Override
 	public Assurance findAssurance(int id) {
 		return em.find(Assurance.class, id);
 	}
 
-	@Override
 	public AssuranceClient findAssuranceByCoverCard(String coverCard) {
 		AssuranceClient c = (AssuranceClient) em.createNamedQuery("findAssuranceByCoverCard").setParameter("coverCard", coverCard).getSingleResult();
 		return c;
 	}
 
-	@Override
 	public List<Assurance> getAssurancesByCriteria(String criteria, TypeAssurance typeAssurance) {
 		//List<Assurance> result = em.createNamedQuery("findAssurancesByCriteria").setParameter("name", "%" + criteria + "%").setParameter("type", typeAssurance).getResultList();
 		Object result = em.createNamedQuery("findAssurancesByCriteria").setParameter("name", "%" + criteria + "%").getResultList();

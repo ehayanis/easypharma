@@ -128,12 +128,10 @@ public class MedecinWidget extends JInternalFrame implements InternalFrameWidget
 		editButton = new HeaderButton("/img/edit.png", "Edit Button");
 		
 		editButton.addFocusListener(new FocusListener() {
-			@Override
 			public void focusLost(FocusEvent evt) {
 					((JButton) evt.getSource()).setIcon(new ImageIcon(getClass().getResource("/img/edit.png")));
 			}
 			
-			@Override
 			public void focusGained(FocusEvent evt) {
 				((JButton) evt.getSource()).setIcon(new ImageIcon(getClass().getResource("/img/edit-hover.png")));
 			}
@@ -250,7 +248,6 @@ public class MedecinWidget extends JInternalFrame implements InternalFrameWidget
         
     } 
 	
-	@Override
 	public void activateComponents(){
 		firstName.setEnabled(true);
 		reference.setEnabled(true);

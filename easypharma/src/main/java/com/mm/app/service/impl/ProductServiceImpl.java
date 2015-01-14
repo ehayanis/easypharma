@@ -20,24 +20,28 @@ public class ProductServiceImpl implements ProductService{
 		dao = new ProductDaoImpl(em);
 	}
 
-	@Override
 	public List<Product> getProducts() {
 		return dao.getProducts();
 	}
 
-	@Override
 	public Product findProduct(int id) {
 		return dao.findProduct(id);
 	}
 
-	@Override
 	public Product findProductByReference(String selectedValue) {
 		return dao.findProductByReference(selectedValue);
 	}
 
-	@Override
 	public VenteProduit getVenteProduitByClientAndProduitId(Integer venteId, Integer produitId) {
 		return dao.getVenteProduitByClientAndProduitId(venteId, produitId);
+	}
+
+	public List<Product> findProductByCriteria(String criteria) {
+		return dao.findProductByCriteria(criteria);
+	}
+
+	public List<VenteProduit> findHistoriqueProductForClient(Integer productId, Integer id) {
+		return dao.findHistoriqueProductForClient(productId, id);
 	}
 
 }
