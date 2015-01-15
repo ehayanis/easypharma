@@ -16,6 +16,7 @@ public class FooterPanel extends JPanel{
     private MyJLabel client;
     private MyJLabel medecin;
     private MyJLabel produit;
+    private MyJLabel recherche;
     private JLabel totalLabel;
     private JLabel totalValue;
     private JPanel totalPanel;
@@ -34,6 +35,7 @@ public class FooterPanel extends JPanel{
         paiement = new MyJLabel("Paiement : Esc");
         impression = new MyJLabel("Imprés... : F7");
         posologie = new MyJLabel("Posologie : F9");
+        recherche = new MyJLabel("Rech. Prod. : F8");
         totalPanel = new JPanel();
         totalValue = new JLabel();
         
@@ -98,6 +100,8 @@ public class FooterPanel extends JPanel{
                 .addGap(18, 18, 18)
                 .addComponent(paiement, javax.swing.GroupLayout.PREFERRED_SIZE, 109, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addGap(18, 18, 18)
+                .addComponent(recherche, javax.swing.GroupLayout.PREFERRED_SIZE, 109, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addGap(18, 18, 18)
                 .addComponent(impression, javax.swing.GroupLayout.PREFERRED_SIZE, 109, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addGap(18, 18, 18)
                 .addComponent(posologie, javax.swing.GroupLayout.PREFERRED_SIZE, 109, javax.swing.GroupLayout.PREFERRED_SIZE)
@@ -118,6 +122,7 @@ public class FooterPanel extends JPanel{
                         .addComponent(medecin, javax.swing.GroupLayout.PREFERRED_SIZE, 37, javax.swing.GroupLayout.PREFERRED_SIZE)
                         .addComponent(produit, javax.swing.GroupLayout.PREFERRED_SIZE, 37, javax.swing.GroupLayout.PREFERRED_SIZE)
                         .addComponent(paiement, javax.swing.GroupLayout.PREFERRED_SIZE, 36, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addComponent(recherche, javax.swing.GroupLayout.PREFERRED_SIZE, 36, javax.swing.GroupLayout.PREFERRED_SIZE)
                         .addComponent(impression, javax.swing.GroupLayout.PREFERRED_SIZE, 37, javax.swing.GroupLayout.PREFERRED_SIZE)
                         .addComponent(posologie, javax.swing.GroupLayout.PREFERRED_SIZE, 36, javax.swing.GroupLayout.PREFERRED_SIZE)
                         .addComponent(totalLabel)))
@@ -189,6 +194,14 @@ public class FooterPanel extends JPanel{
 
 	public void setTotalValue(JLabel totalValue) {
 		this.totalValue = totalValue;
+	}
+
+	public MyJLabel getRecherche() {
+		return recherche;
+	}
+
+	public void setRecherche(MyJLabel recherche) {
+		this.recherche = recherche;
 	}
 	
 }

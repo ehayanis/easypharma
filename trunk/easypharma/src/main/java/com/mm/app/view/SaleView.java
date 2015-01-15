@@ -10,6 +10,7 @@ import java.awt.event.KeyAdapter;
 import java.awt.event.KeyEvent;
 import java.beans.PropertyVetoException;
 import java.text.DecimalFormat;
+import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.Date;
 import java.util.HashMap;
@@ -153,32 +154,32 @@ public class SaleView extends JFrame {
         
         jTable1.setModel(new DefaultTableModel(
             new Object [][] {
-                {null, null, null, null, null, null, null, null, null},
-                {null, null, null, null, null, null, null, null, null},
-                {null, null, null, null, null, null, null, null, null},
-                {null, null, null, null, null, null, null, null, null},
-                {null, null, null, null, null, null, null, null, null},
-                {null, null, null, null, null, null, null, null, null},
-                {null, null, null, null, null, null, null, null, null},
-                {null, null, null, null, null, null, null, null, null},
-                {null, null, null, null, null, null, null, null, null},
-                {null, null, null, null, null, null, null, null, null},
-                {null, null, null, null, null, null, null, null, null},
-                {null, null, null, null, null, null, null, null, null},
-                {null, null, null, null, null, null, null, null, null},
-                {null, null, null, null, null, null, null, null, null},
-                {null, null, null, null, null, null, null, null, null},
-                {null, null, null, null, null, null, null, null, null},
-                {null, null, null, null, null, null, null, null, null},
-                {null, null, null, null, null, null, null, null, null},
-                {null, null, null, null, null, null, null, null, null},
-                {null, null, null, null, null, null, null, null, null},
-                {null, null, null, null, null, null, null, null, null},
-                {null, null, null, null, null, null, null, null, null},
-                {null, null, null, null, null, null, null, null, null}
+                {null, null, null, null, null, null},
+                {null, null, null, null, null, null},
+                {null, null, null, null, null, null},
+                {null, null, null, null, null, null},
+                {null, null, null, null, null, null},
+                {null, null, null, null, null, null},
+                {null, null, null, null, null, null},
+                {null, null, null, null, null, null},
+                {null, null, null, null, null, null},
+                {null, null, null, null, null, null},
+                {null, null, null, null, null, null},
+                {null, null, null, null, null, null},
+                {null, null, null, null, null, null},
+                {null, null, null, null, null, null},
+                {null, null, null, null, null, null},
+                {null, null, null, null, null, null},
+                {null, null, null, null, null, null},
+                {null, null, null, null, null, null},
+                {null, null, null, null, null, null},
+                {null, null, null, null, null, null},
+                {null, null, null, null, null, null},
+                {null, null, null, null, null, null},
+                {null, null, null, null, null, null}
             },
             new String [] {
-            		"Désignation", "Facture", "Taux", "Base", "PU TTC", "Qté", "Remise", "Part Client", "Total"
+            		"Désignation", "Liste Remb.", "PU TTC", "Qté", "Remise", "Total"
             }
         ));
         
@@ -189,6 +190,7 @@ public class SaleView extends JFrame {
     	data = new TreeMap<String, String>();
         data.put("", "");
         List<Product> result = productService.getProducts();
+        
 		if(result != null && result.size() > 0){
 			for(Product p : result){
 				data.put(p.getDesignation(), p.getReference());
@@ -199,8 +201,8 @@ public class SaleView extends JFrame {
         final Java2sAutoComboBox comboBox = new Java2sAutoComboBox(data);
         comboBox.setSelectedItem("");
         comboBox.setDataList(data);
-        comboBox.setMaximumRowCount(3);
-        comboBox.setStrict(true);
+        comboBox.setMaximumRowCount(5);
+        comboBox.setStrict(false);
         final DecimalFormat decimalFormat = new DecimalFormat("0.00");
         
         comboBox.getEditor().getEditorComponent().addKeyListener(new KeyAdapter() {
@@ -211,8 +213,8 @@ public class SaleView extends JFrame {
         			 String selectedValue = (String) comboBox.getSelectedItem();
         			 Product product = productService.findProductByReference(data.get(selectedValue));
         			 
-                	 jTable1.setValueAt(product.getPu(), row, 4);
-                	 jTable1.setValueAt(decimalFormat.format(product.getPu() + (product.getPu() * 0.2)), row, 8);
+                	 jTable1.setValueAt(product.getPu(), row, 2);
+                	 jTable1.setValueAt(decimalFormat.format(product.getPu() + (product.getPu() * 0.2)), row, 5);
                 	 // Mettre la désignation au cas ou c'est le code bare qui est saisi
                 	 comboBox.setSelectedItem(product.getDesignation());
                 	 
@@ -234,7 +236,7 @@ public class SaleView extends JFrame {
                 	 int rows = jTable1.getRowCount();
                 	 double total = 0;
                 	 for(int i = 0; i < rows; i++){
-                		 Object d = jTable1.getValueAt(i, 8);
+                		 Object d = jTable1.getValueAt(i, 5);
                 		 if(d != null && !d.toString().equals("")){
                 			 total += Double.parseDouble(((String) d).replace(",", "."));
                 		 }
@@ -250,35 +252,34 @@ public class SaleView extends JFrame {
         renderer.setToolTipText("Séléctionner un produit");
         column.setCellRenderer(renderer);
         
-        
-        TableColumn factureColumn = jTable1.getColumnModel().getColumn(1);
-        JComboBox<String> facture = new JComboBox<String>();
-        facture.addItem("Comptoire");
-        facture.addItem("Assurance");
-        factureColumn.setCellEditor(new DefaultCellEditor(facture));
+//        TableColumn factureColumn = jTable1.getColumnModel().getColumn(1);
+//        JComboBox<String> facture = new JComboBox<String>();
+//        facture.addItem("Comptoire");
+//        facture.addItem("Assurance");
+//        factureColumn.setCellEditor(new DefaultCellEditor(facture));
         
         jTable1.getModel().addTableModelListener(new TableModelListener() {
         	public void tableChanged(TableModelEvent evt) {
         		if (evt.getType() == TableModelEvent.UPDATE){
         			int column = evt.getColumn();
         			int  row = 0;
-        			if (column == 5){
+        			if (column == 3){
         				row = jTable1.getSelectedRow();
         				String qte = (String) jTable1.getValueAt(row, column);
         				try{
         					Double q = Double.valueOf(qte);
         					String designation = (String) jTable1.getValueAt(row, 0);
         					if(designation != null && !designation.equals("")){
-        						String total = (String) jTable1.getValueAt(row, 8);
+        						String total = (String) jTable1.getValueAt(row, 5);
         						if(total != null && !total.equals("")){
         							Double t = Double.parseDouble(((String) total).replace(",", "."));
-        							jTable1.setValueAt(decimalFormat.format(t * q), row, 8);
+        							jTable1.setValueAt(decimalFormat.format(t * q), row, 5);
         						}
         						
         						int rows = jTable1.getRowCount();
         						double sum = 0;
         						for(int i = 0; i < rows; i++){
-        							Object d = jTable1.getValueAt(i, 8);
+        							Object d = jTable1.getValueAt(i, 5);
         							if(d != null && !d.toString().equals("")){
         								sum += Double.parseDouble(((String) d).replace(",", "."));
         							}
@@ -305,14 +306,14 @@ public class SaleView extends JFrame {
                 	if(products.get(row) != null){
 
                 		products.remove(row);
-                		for (int i = 0; i <= 8; i++) {
+                		for (int i = 0; i <= 5; i++) {
                 			jTable1.setValueAt("", row, i);
                 		}
 
                 		int rows = jTable1.getRowCount();
 						double sum = 0;
 						for(int i = 0; i < rows; i++){
-							Object d = jTable1.getValueAt(i, 8);
+							Object d = jTable1.getValueAt(i, 5);
 							if(d != null && !d.toString().equals("")){
 								sum += Double.parseDouble(((String) d).replace(",", "."));
 							}

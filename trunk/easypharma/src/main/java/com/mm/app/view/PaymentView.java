@@ -19,18 +19,22 @@ import java.util.TreeMap;
 import java.util.Vector;
 
 import javax.persistence.EntityManager;
+import javax.swing.AbstractAction;
+import javax.swing.Action;
 import javax.swing.DefaultCellEditor;
 import javax.swing.DefaultComboBoxModel;
 import javax.swing.GroupLayout;
 import javax.swing.ImageIcon;
 import javax.swing.JButton;
 import javax.swing.JComboBox;
+import javax.swing.JComponent;
 import javax.swing.JFrame;
 import javax.swing.JLabel;
 import javax.swing.JList;
 import javax.swing.JOptionPane;
 import javax.swing.JScrollPane;
 import javax.swing.JTextField;
+import javax.swing.KeyStroke;
 import javax.swing.LayoutStyle;
 import javax.swing.WindowConstants;
 import javax.swing.event.TableModelEvent;
@@ -209,7 +213,18 @@ public class PaymentView extends JFrame {
                 .addComponent(jPanel8, GroupLayout.PREFERRED_SIZE, GroupLayout.DEFAULT_SIZE, GroupLayout.PREFERRED_SIZE)
                 .addGap(0, 0, Short.MAX_VALUE))
         );
-
+        
+        KeyStroke escapeKeyStroke = KeyStroke.getKeyStroke(KeyEvent.VK_ESCAPE, 0, false);
+        Action escapeAction = new AbstractAction() {
+        	public void actionPerformed(ActionEvent e) {
+        		setVisible(false);
+        		dispose();
+        	}
+        };
+        
+        getRootPane().getInputMap(JComponent.WHEN_IN_FOCUSED_WINDOW).put(escapeKeyStroke, "ESCAPE");
+        getRootPane().getActionMap().put("ESCAPE", escapeAction);
+        
         pack();
         setLocationRelativeTo(null);
     }                      
@@ -327,37 +342,36 @@ public class PaymentView extends JFrame {
 			    	saleView.getFooterPanel().getTotalValue().setText("");
 			    	
 			    	saleView.getjTable1().setModel(new DefaultTableModel(
-			    	            new Object [][] {
-			    	            		{null, null, null, null, null, null, null, null, null},
-			    	                    {null, null, null, null, null, null, null, null, null},
-			    	                    {null, null, null, null, null, null, null, null, null},
-			    	                    {null, null, null, null, null, null, null, null, null},
-			    	                    {null, null, null, null, null, null, null, null, null},
-			    	                    {null, null, null, null, null, null, null, null, null},
-			    	                    {null, null, null, null, null, null, null, null, null},
-			    	                    {null, null, null, null, null, null, null, null, null},
-			    	                    {null, null, null, null, null, null, null, null, null},
-			    	                    {null, null, null, null, null, null, null, null, null},
-			    	                    {null, null, null, null, null, null, null, null, null},
-			    	                    {null, null, null, null, null, null, null, null, null},
-			    	                    {null, null, null, null, null, null, null, null, null},
-			    	                    {null, null, null, null, null, null, null, null, null},
-			    	                    {null, null, null, null, null, null, null, null, null},
-			    	                    {null, null, null, null, null, null, null, null, null},
-			    	                    {null, null, null, null, null, null, null, null, null},
-			    	                    {null, null, null, null, null, null, null, null, null},
-			    	                    {null, null, null, null, null, null, null, null, null},
-			    	                    {null, null, null, null, null, null, null, null, null},
-			    	                    {null, null, null, null, null, null, null, null, null},
-			    	                    {null, null, null, null, null, null, null, null, null},
-			    	                    {null, null, null, null, null, null, null, null, null}
-			    	            },
-
-			    	            new String [] {
-			    	            		"Désignation", "Facture", "Taux", "Base", "PU TTC", "Qté", "Remise", "Part Client", "Total"
-			    	            }
-			    	        ));
-
+			                new Object [][] {
+			                    {null, null, null, null, null, null},
+			                    {null, null, null, null, null, null},
+			                    {null, null, null, null, null, null},
+			                    {null, null, null, null, null, null},
+			                    {null, null, null, null, null, null},
+			                    {null, null, null, null, null, null},
+			                    {null, null, null, null, null, null},
+			                    {null, null, null, null, null, null},
+			                    {null, null, null, null, null, null},
+			                    {null, null, null, null, null, null},
+			                    {null, null, null, null, null, null},
+			                    {null, null, null, null, null, null},
+			                    {null, null, null, null, null, null},
+			                    {null, null, null, null, null, null},
+			                    {null, null, null, null, null, null},
+			                    {null, null, null, null, null, null},
+			                    {null, null, null, null, null, null},
+			                    {null, null, null, null, null, null},
+			                    {null, null, null, null, null, null},
+			                    {null, null, null, null, null, null},
+			                    {null, null, null, null, null, null},
+			                    {null, null, null, null, null, null},
+			                    {null, null, null, null, null, null}
+			                },
+			                new String [] {
+			                		"Désignation", "Liste Remb.", "PU TTC", "Qté", "Remise", "Total"
+			                }
+			            ));
+			            
 			    	saleView.getjTable1().setRowHeight(22);
 			    	saleView.getjTable1().getColumnModel().getColumn(0).setPreferredWidth(230);
 
@@ -373,9 +387,9 @@ public class PaymentView extends JFrame {
 
 			    	final Java2sAutoComboBox comboBox = new Java2sAutoComboBox(data);
 			    	comboBox.setSelectedItem("");
-			    	comboBox.setDataList(data);
-			    	comboBox.setMaximumRowCount(3);
-			    	comboBox.setStrict(true);
+			        comboBox.setDataList(data);
+			        comboBox.setMaximumRowCount(5);
+			        comboBox.setStrict(false);
 			    	final DecimalFormat decimalFormat = new DecimalFormat("0.00");
 
 			    	comboBox.getEditor().getEditorComponent().addKeyListener(new KeyAdapter() {
@@ -385,8 +399,8 @@ public class PaymentView extends JFrame {
 			    				int row = saleView.getjTable1().getSelectedRow();
 			    				String selectedValue = (String) comboBox.getSelectedItem();
 			    				Product product = saleView.getProductService().findProductByReference(data.get(selectedValue));
-			    				saleView.getjTable1().setValueAt(product.getPu(), row, 4);
-			    				saleView.getjTable1().setValueAt(decimalFormat.format(product.getPu() + (product.getPu() * 0.2)), row, 8);
+			    				saleView.getjTable1().setValueAt(product.getPu(), row, 2);
+			    				saleView.getjTable1().setValueAt(decimalFormat.format(product.getPu() + (product.getPu() * 0.2)), row, 5);
 			                	 // Mettre la désignation au cas ou c'est le code bare qui est saisi
 			                	 comboBox.setSelectedItem(product.getDesignation());
 			                	
@@ -394,9 +408,12 @@ public class PaymentView extends JFrame {
 			                	 if(saleView.getProducts().get(row) != null){
 			                		 vp = saleView.getProducts().get(row);
 			                		 vp.setProduct(product);
+			                		 vp.setDateCreation(new Date());
 			                	 }else{
 			                		 vp = new VenteProduit(product);
 			                		 vp.setVente(vente);
+			                		 vp.setDateCreation(new Date());
+			                		 saleView.getProducts().put(row, vp);
 			                	 }
 			                	 
 			    				saleView.getHeaderPanel().getProduit().activateButton(true);
@@ -404,7 +421,7 @@ public class PaymentView extends JFrame {
 			    				int rows = saleView.getjTable1().getRowCount();
 			    				double total = 0;
 			    				for(int i = 0; i < rows; i++){
-			    					Object d = saleView.getjTable1().getValueAt(i, 8);
+			    					Object d = saleView.getjTable1().getValueAt(i, 5);
 			    					if(d != null && !d.toString().equals("")){
 			    						total += Double.parseDouble(((String) d).replace(",", "."));
 			    					}
@@ -424,34 +441,34 @@ public class PaymentView extends JFrame {
 			    	renderer.setToolTipText("Séléctionner un produit");
 			    	column.setCellRenderer(renderer);
 
-			    	TableColumn factureColumn = saleView.getjTable1().getColumnModel().getColumn(1);
-			    	JComboBox<String> facture = new JComboBox<String>();
-			    	facture.addItem("Comptoire");
-			    	facture.addItem("Assurance");
-			    	factureColumn.setCellEditor(new DefaultCellEditor(facture));
+//			    	TableColumn factureColumn = saleView.getjTable1().getColumnModel().getColumn(1);
+//			    	JComboBox<String> facture = new JComboBox<String>();
+//			    	facture.addItem("Comptoire");
+//			    	facture.addItem("Assurance");
+//			    	factureColumn.setCellEditor(new DefaultCellEditor(facture));
 			    	
 			    	saleView.getjTable1().getModel().addTableModelListener(new TableModelListener() {
 			        	public void tableChanged(TableModelEvent evt) {
 			        		if (evt.getType() == TableModelEvent.UPDATE){
 			        			int column = evt.getColumn();
 			        			int  row = 0;
-			        			if (column == 5){
+			        			if (column == 3){
 			        				row = saleView.getjTable1().getSelectedRow();
 			        				String qte = (String) saleView.getjTable1().getValueAt(row, column);
 			        				try{
 			        					Double q = Double.valueOf(qte);
 			        					String designation = (String) saleView.getjTable1().getValueAt(row, 0);
 			        					if(designation != null && !designation.equals("")){
-			        						String total = (String) saleView.getjTable1().getValueAt(row, 8);
+			        						String total = (String) saleView.getjTable1().getValueAt(row, 5);
 			        						if(total != null && !total.equals("")){
 			        							Double t = Double.parseDouble(((String) total).replace(",", "."));
-			        							saleView.getjTable1().setValueAt(decimalFormat.format(t * q), row, 8);
+			        							saleView.getjTable1().setValueAt(decimalFormat.format(t * q), row, 5);
 			        						}
 			        						
 			        						int rows = saleView.getjTable1().getRowCount();
 			        						double sum = 0;
 			        						for(int i = 0; i < rows; i++){
-			        							Object d = saleView.getjTable1().getValueAt(i, 8);
+			        							Object d = saleView.getjTable1().getValueAt(i, 5);
 			        							if(d != null && !d.toString().equals("")){
 			        								sum += Double.parseDouble(((String) d).replace(",", "."));
 			        							}
@@ -478,14 +495,14 @@ public class PaymentView extends JFrame {
 			                	if(saleView.getProducts().get(row) != null){
 
 			                		saleView.getProducts().remove(row);
-			                		for (int i = 0; i <= 8; i++) {
+			                		for (int i = 0; i <= 5; i++) {
 			                			saleView.getjTable1().setValueAt("", row, i);
 			                		}
 
 			                		int rows = saleView.getjTable1().getRowCount();
 									double sum = 0;
 									for(int i = 0; i < rows; i++){
-										Object d = saleView.getjTable1().getValueAt(i, 8);
+										Object d = saleView.getjTable1().getValueAt(i, 5);
 										if(d != null && !d.toString().equals("")){
 											sum += Double.parseDouble(((String) d).replace(",", "."));
 										}

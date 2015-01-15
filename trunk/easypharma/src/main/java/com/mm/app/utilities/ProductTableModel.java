@@ -10,14 +10,14 @@ import com.mm.app.model.Product;
 public class ProductTableModel extends AbstractTableModel{
 
 	List<Product> productList;
-	String headerList[] = new String[]{"Identifiant", "Désignation", "Réference", "Prix"};
+	String headerList[] = new String[]{"Id", "Désignation", "Réglement", "Prix Usine", "Date Péremption"};
 
 	public ProductTableModel(List list) {
 		productList = list;
 	}
 
 	public int getColumnCount() {
-		return 4;
+		return 5;
 	}
 
 	public int getRowCount() {
@@ -34,9 +34,11 @@ public class ProductTableModel extends AbstractTableModel{
 		case 1:
 			return entity.getDesignation();
 		case 2:
-			return entity.getReference();
+			return entity.getReglement();
 		case 3:
-			return entity.getPu();
+			return entity.getPrixUsine();
+		case 4:
+			return entity.getDatePermeption();
 		default:
 			return ""; 
 		}

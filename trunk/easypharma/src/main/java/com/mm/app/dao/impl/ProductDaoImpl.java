@@ -3,10 +3,8 @@ package com.mm.app.dao.impl;
 import java.util.List;
 
 import javax.persistence.EntityManager;
-import javax.persistence.TypedQuery;
 
 import com.mm.app.dao.ProductDao;
-import com.mm.app.model.Client;
 import com.mm.app.model.Product;
 import com.mm.app.model.VenteProduit;
 
@@ -19,8 +17,8 @@ public class ProductDaoImpl implements ProductDao{
 	}
 
 	public List<Product> getProducts() {
-		TypedQuery<Product> query = em.createQuery("SELECT p FROM Product p ORDER BY p.designation", Product.class);
-		return query.getResultList(); 
+		List<Product> result = em.createQuery("SELECT p FROM Product p ORDER BY p.designation", Product.class).getResultList();
+		return result; 
 	}
 
 	public Product findProduct(int id) {
@@ -38,7 +36,7 @@ public class ProductDaoImpl implements ProductDao{
 	}
 
 	public List<Product> findProductByCriteria(String criteria) {
-		List<Product> products = em.createNamedQuery("findProductByCriteria").setParameter("criteria", "%" + criteria + "%").getResultList();
+		List<Product> products = em.createNamedQuery("findProductByCriteria").setParameter("criteria", "%" + criteria + "%").setMaxResults(10).getResultList();
 		return products;
 	}
 
