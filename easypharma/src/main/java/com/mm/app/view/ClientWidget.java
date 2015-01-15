@@ -90,8 +90,8 @@ public class ClientWidget extends JInternalFrame implements InternalFrameWidget{
 
 		firstName = new Java2sAutoComboBox(data);
 		firstName.setDataList(data);
-		
-		firstName.setMaximumRowCount(3);
+		firstName.setStrict(false);
+		firstName.setMaximumRowCount(5);
 		firstName.getEditor().getEditorComponent().addKeyListener(new KeyAdapter() {
 			@Override
 			public void keyPressed(KeyEvent e) {
@@ -153,8 +153,6 @@ public class ClientWidget extends JInternalFrame implements InternalFrameWidget{
 									default:
 										break;
 									}
-									
-									System.out.println(String.valueOf(assurance.getAssurance().getId()));
 									
 									assuranceField.setText(assurance.getAssurance().getName());
 									hiddenField.setText(String.valueOf(assurance.getAssurance().getId()));

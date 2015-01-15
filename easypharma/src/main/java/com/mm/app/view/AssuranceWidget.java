@@ -91,6 +91,10 @@ public class AssuranceWidget extends JInternalFrame implements InternalFrameWidg
 		editAssur2.setEnabled(false);
 		editAssur3.setEnabled(false);
 		
+		editAssur1.setActionCommand("editAssur1");
+		editAssur2.setActionCommand("editAssur2");
+		editAssur3.setActionCommand("editAssur3");
+		
 		assurance1.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent evt) {
 				searchActionPerformed(evt, TypeAssurance.OBLIGATOIRE);
@@ -322,8 +326,6 @@ public class AssuranceWidget extends JInternalFrame implements InternalFrameWidg
         if("editAssur3".equals(evt.getActionCommand())){
         	HiddenId = hiddenField3.getText();
         }
-        
-        System.out.println("HiddenId " + HiddenId);
         
         if(!"".equals(HiddenId)){
         	Assurance assurance = service.findAssurance(Integer.valueOf(HiddenId));

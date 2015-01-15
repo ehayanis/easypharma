@@ -91,8 +91,8 @@ public class MedecinWidget extends JInternalFrame implements InternalFrameWidget
 		
 		firstName = new Java2sAutoComboBox(data);
 		firstName.setDataList(data);
-		firstName.setMaximumRowCount(3);
-		firstName.setStrict(true);
+		firstName.setMaximumRowCount(5);
+		firstName.setStrict(false);
 		firstName.setSelectedItem("");
 
 		firstName.getEditor().getEditorComponent().addKeyListener(new KeyAdapter() {

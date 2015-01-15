@@ -54,7 +54,7 @@ public class Java2sAutoComboBox extends JComboBox {
 	public boolean isStrict() {
 		return autoTextFieldEditor.getAutoTextFieldEditor().isStrict();
 	}
-
+	
 	public void setStrict(boolean flag) {
 		autoTextFieldEditor.getAutoTextFieldEditor().setStrict(flag);
 	}

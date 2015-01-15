@@ -1,6 +1,7 @@
 package com.mm.app.view;
 
 import java.awt.Color;
+import java.awt.Font;
 import java.awt.GridLayout;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
@@ -62,9 +63,8 @@ public class SearchProduct extends JFrame {
         ImageIcon img = new ImageIcon(getClass().getResource("/img/logo.png"));
         setIconImage(img.getImage());
     }
-
+    
     private void initComponents() {
-
         jPanel1 = new MyJPanel();
         searchField = new JTextField();
         jScrollPane1 = new JScrollPane();
@@ -101,16 +101,16 @@ public class SearchProduct extends JFrame {
         jPanel1Layout.setHorizontalGroup(
             jPanel1Layout.createParallelGroup(GroupLayout.Alignment.LEADING)
             .addGroup(jPanel1Layout.createSequentialGroup()
-                .addGap(215, 215, 215)
+            	.addGap(202, 202, 202)
                 .addComponent(searchField, GroupLayout.PREFERRED_SIZE, 350, GroupLayout.PREFERRED_SIZE)
                 .addContainerGap(GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
         );
         jPanel1Layout.setVerticalGroup(
             jPanel1Layout.createParallelGroup(GroupLayout.Alignment.LEADING)
-            .addGroup(GroupLayout.Alignment.TRAILING, jPanel1Layout.createSequentialGroup()
-                .addContainerGap(GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+            .addGroup(jPanel1Layout.createSequentialGroup()
+                .addContainerGap()
                 .addComponent(searchField, GroupLayout.PREFERRED_SIZE, GroupLayout.DEFAULT_SIZE, GroupLayout.PREFERRED_SIZE)
-                .addContainerGap())
+                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
         );
         
         searchField.addActionListener(new ActionListener() {
@@ -121,13 +121,13 @@ public class SearchProduct extends JFrame {
 
         produitTable.setModel(new DefaultTableModel(
             new Object [][] {
-                {null, null, null, null},
-                {null, null, null, null},
-                {null, null, null, null},
-                {null, null, null, null}
+                {null, null, null, null, null},
+                {null, null, null, null, null},
+                {null, null, null, null, null},
+                {null, null, null, null, null}
             },
             new String [] {
-                "Identifiant", "Désignation", "Réference", "Prix"
+                "Id", "Désignation", "Réglement", "Prix Usine", "Date Péremption"
             }
         ) {
             boolean[] canEdit = new boolean [] {
@@ -140,7 +140,7 @@ public class SearchProduct extends JFrame {
         });
         
         produitTable.getColumnModel().getColumn(1).setPreferredWidth(300);
-        produitTable.getColumnModel().getColumn(0).setPreferredWidth(80);
+        produitTable.getColumnModel().getColumn(0).setPreferredWidth(30);
         
         
         produitTable.setCellSelectionEnabled(true);
@@ -163,14 +163,14 @@ public class SearchProduct extends JFrame {
 				product = service.findProduct(selectedData);
 
 				if(product != null){
-					designation.setText(product.getDesignation());
-					reference.setText(product.getReference());
-					listRemb.setText("");
-					prix.setText(Utilities.isEmpty(product.getPu()));
-					rabais.setText("");
-					reglement.setText("");
-					prixUsine.setText("");
-					datePermeption.setText("");
+//					designation.setText(product.getDesignation());
+//					reference.setText(product.getReference());
+//					listRemb.setText("");
+//					prix.setText(Utilities.isEmpty(product.getPu()));
+//					rabais.setText("");
+//					reglement.setText("");
+//					prixUsine.setText("");
+//					datePermeption.setText("");
 					
 					Client client = em.find(Vente.class, vente.getId()).getClient();
 					
@@ -195,50 +195,61 @@ public class SearchProduct extends JFrame {
 		
 		
         jScrollPane1.setViewportView(produitTable);
+        produitTable.setBackground(Color.WHITE);
         
-        designationLabel.setText("Désignation:");
-        listRembLabel.setText("Liste Remb.: ");
-        prixLabel.setText("Prix:");
-        rabaisLabel.setText("Rabais:");
-        reglementLabel.setText("Réglement:");
-        prixUsineLabel.setText("Prix Ex-fact: ");
-        datePermeptionLabel.setText("Date Péremption: ");
-        referenceLabel.setText("Réference:");
+//        designationLabel.setText("Désignation:");
+//        listRembLabel.setText("Liste Remb.: ");
+//        prixLabel.setText("Prix:");
+//        rabaisLabel.setText("Rabais:");
+//        reglementLabel.setText("Réglement:");
+//        prixUsineLabel.setText("Prix Ex-fact: ");
+//        datePermeptionLabel.setText("Date Péremption: ");
+//        referenceLabel.setText("Réference:");
 		
-        GridLayout gridLayout = new GridLayout(6, 2, 0, 0);
-		gridLayout.setHgap(0);
-		gridLayout.setVgap(0);
-		jPanel3.setLayout(gridLayout);
+//        GridLayout gridLayout = new GridLayout(6, 2, 0, 0);
+//		gridLayout.setHgap(0);
+//		gridLayout.setVgap(0);
+//		jPanel3.setLayout(gridLayout);
 		
-		designation.setEditable(false);
-		reference.setEditable(false);
-		listRemb.setEditable(false);
-		prix.setEditable(false);
-		rabais.setEditable(false);
-		reglement.setEditable(false);
-		prixUsine.setEditable(false);
-		datePermeption.setEditable(false);
+        GroupLayout jPanel3Layout = new GroupLayout(jPanel3);
+        jPanel3.setLayout(jPanel3Layout);
+        jPanel3Layout.setHorizontalGroup(
+            jPanel3Layout.createParallelGroup(GroupLayout.Alignment.LEADING)
+            .addGap(0, 445, Short.MAX_VALUE)
+        );
+        jPanel3Layout.setVerticalGroup(
+            jPanel3Layout.createParallelGroup(GroupLayout.Alignment.LEADING)
+            .addGap(0, 0, Short.MAX_VALUE)
+        );
+        
+//		designation.setEditable(false);
+//		reference.setEditable(false);
+//		listRemb.setEditable(false);
+//		prix.setEditable(false);
+//		rabais.setEditable(false);
+//		reglement.setEditable(false);
+//		prixUsine.setEditable(false);
+//		datePermeption.setEditable(false);
 		
-		jPanel3.add(Utilities.createFilledSimpleInnerPanel(designationLabel, designation));
-		jPanel3.add(Utilities.createFilledSimpleInnerPanel(referenceLabel, reference));
-		jPanel3.add(Utilities.createFilledSimpleInnerPanel(listRembLabel, listRemb));
-		jPanel3.add(Utilities.createFilledSimpleInnerPanel(prixLabel, prix));
-		jPanel3.add(Utilities.createFilledSimpleInnerPanel(rabaisLabel, rabais));
-		jPanel3.add(Utilities.createFilledSimpleInnerPanel(reglementLabel, reglement));
-		jPanel3.add(Utilities.createFilledSimpleInnerPanel(prixUsineLabel, prixUsine));
-		jPanel3.add(Utilities.createFilledSimpleInnerPanel(datePermeptionLabel, datePermeption));
+//		jPanel3.add(Utilities.createFilledSimpleInnerPanel(designationLabel, designation));
+//		jPanel3.add(Utilities.createFilledSimpleInnerPanel(referenceLabel, reference));
+//		jPanel3.add(Utilities.createFilledSimpleInnerPanel(listRembLabel, listRemb));
+//		jPanel3.add(Utilities.createFilledSimpleInnerPanel(prixLabel, prix));
+//		jPanel3.add(Utilities.createFilledSimpleInnerPanel(rabaisLabel, rabais));
+//		jPanel3.add(Utilities.createFilledSimpleInnerPanel(reglementLabel, reglement));
+//		jPanel3.add(Utilities.createFilledSimpleInnerPanel(prixUsineLabel, prixUsine));
+//		jPanel3.add(Utilities.createFilledSimpleInnerPanel(datePermeptionLabel, datePermeption));
 
         jPanel2.setBorder(BorderFactory.createEtchedBorder());
 
         historiqueLabel.setText("Historique Des Ventes");
-
-//        historiqueList.setModel(new AbstractListModel() {
-//            String[] strings = { "Item 1", "Item 2", "Item 3", "Item 4", "Item 5" };
-//            public int getSize() { return strings.length; }
-//            public Object getElementAt(int i) { return strings[i]; }
-//        });
+//        historiqueLabel.setFont(new Font("Tahoma", 1, 12));
+        
         jScrollPane2.setViewportView(historiqueList);
-
+        
+        jScrollPane1.setBackground(Color.WHITE);
+        jScrollPane2.setBackground(Color.WHITE);
+        
         GroupLayout jPanel2Layout = new GroupLayout(jPanel2);
         jPanel2.setLayout(jPanel2Layout);
         jPanel2Layout.setHorizontalGroup(
@@ -254,7 +265,7 @@ public class SearchProduct extends JFrame {
                 .addComponent(historiqueLabel)
                 .addPreferredGap(LayoutStyle.ComponentPlacement.RELATED)
                 .addComponent(jScrollPane2)
-                .addContainerGap())
+                .addGap(0, 0, 0))
         );
 
         GroupLayout layout = new GroupLayout(getContentPane());
@@ -265,21 +276,26 @@ public class SearchProduct extends JFrame {
             .addComponent(jScrollPane1, GroupLayout.Alignment.TRAILING)
             .addGroup(GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
                 .addComponent(jPanel3, GroupLayout.PREFERRED_SIZE, GroupLayout.DEFAULT_SIZE, GroupLayout.PREFERRED_SIZE)
-                .addPreferredGap(LayoutStyle.ComponentPlacement.RELATED)
+                .addGap(0, 0, 0)
+
                 .addComponent(jPanel2, GroupLayout.DEFAULT_SIZE, GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                .addContainerGap())
+                .addGap(0, 0, 0))
+
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(GroupLayout.Alignment.LEADING)
             .addGroup(layout.createSequentialGroup()
                 .addComponent(jPanel1, GroupLayout.PREFERRED_SIZE, GroupLayout.DEFAULT_SIZE, GroupLayout.PREFERRED_SIZE)
-                .addPreferredGap(LayoutStyle.ComponentPlacement.RELATED)
+                .addGap(0, 0, 0)
+
                 .addComponent(jScrollPane1, GroupLayout.PREFERRED_SIZE, 107, GroupLayout.PREFERRED_SIZE)
-                .addPreferredGap(LayoutStyle.ComponentPlacement.UNRELATED)
+                .addGap(0, 0, 0)
+
                 .addGroup(layout.createParallelGroup(GroupLayout.Alignment.LEADING, false)
                     .addComponent(jPanel2, GroupLayout.DEFAULT_SIZE, GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                     .addComponent(jPanel3, GroupLayout.DEFAULT_SIZE, GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
-                .addContainerGap(GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                .addGap(0, 0, Short.MAX_VALUE))
+
         );
         
         KeyStroke escapeKeyStroke = KeyStroke.getKeyStroke(KeyEvent.VK_ESCAPE, 0, false);
@@ -306,7 +322,8 @@ public class SearchProduct extends JFrame {
 		}
 	}
     
-    private javax.swing.JLabel historiqueLabel;
+    
+    private JLabel historiqueLabel;
     private JList<String> historiqueList;
     private MyJPanel jPanel1;
     private MyJPanel jPanel2;

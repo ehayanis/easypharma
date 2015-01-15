@@ -661,6 +661,16 @@ public class PosologieFrame extends JFrame {
         getRootPane().getInputMap(JComponent.WHEN_IN_FOCUSED_WINDOW).put(f1KeyStroke, "F1");
         getRootPane().getActionMap().put("F1", f1Action);
         
+        KeyStroke escapeKeyStroke = KeyStroke.getKeyStroke(KeyEvent.VK_ESCAPE, 0, false);
+        Action escapeAction = new AbstractAction() {
+        	public void actionPerformed(ActionEvent e) {
+        		setVisible(false);
+        		dispose();
+        	}
+        };
+        
+        getRootPane().getInputMap(JComponent.WHEN_IN_FOCUSED_WINDOW).put(escapeKeyStroke, "ESCAPE");
+        getRootPane().getActionMap().put("ESCAPE", escapeAction);
         
         pack();
         setLocationRelativeTo(null);
