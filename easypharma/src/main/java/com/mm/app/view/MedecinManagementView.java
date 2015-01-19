@@ -11,6 +11,7 @@ import java.util.List;
 import javax.persistence.EntityManager;
 import javax.swing.AbstractAction;
 import javax.swing.Action;
+import javax.swing.DefaultComboBoxModel;
 import javax.swing.GroupLayout;
 import javax.swing.ImageIcon;
 import javax.swing.JButton;
@@ -483,7 +484,8 @@ public class MedecinManagementView extends JFrame {
 				
 				if(isNew){
 					medecinWidget.getData().put(medecin.getFirstName() + " " + medecin.getLastName(), String.valueOf(medecin.getId()));
-					medecinWidget.getFirstName().setDataList(medecinWidget.getData());
+					medecinWidget.getFirstName().setModel(new DefaultComboBoxModel(
+							medecinWidget.getData().keySet().toArray()));
 				}	
 			
 				medecinWidget.getReference().setText(Utilities.isEmpty(medecin.getId()));

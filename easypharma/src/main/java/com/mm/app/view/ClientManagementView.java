@@ -17,6 +17,7 @@ import javax.persistence.EntityManager;
 import javax.swing.AbstractAction;
 import javax.swing.Action;
 import javax.swing.BorderFactory;
+import javax.swing.DefaultComboBoxModel;
 import javax.swing.GroupLayout;
 import javax.swing.ImageIcon;
 import javax.swing.JButton;
@@ -735,7 +736,8 @@ public class ClientManagementView extends JFrame {
 				
 				if(isNew){
 					clientWidget.getData().put(client.getFirstName() + " " + client.getLastName(), client.getReference());
-					clientWidget.getFirstName().setDataList(clientWidget.getData());
+					clientWidget.getFirstName().setModel(new DefaultComboBoxModel(
+							clientWidget.getData().keySet().toArray()));
 				}
 				clientWidget.getReference().setText(Utilities.isEmpty(client.getReference()));
 				clientWidget.getFirstName().setSelectedItem(client.getFirstName() + " " + client.getLastName());

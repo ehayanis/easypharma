@@ -13,14 +13,17 @@ import java.awt.event.KeyAdapter;
 import java.awt.event.KeyEvent;
 import java.text.DateFormat;
 import java.text.SimpleDateFormat;
+import java.util.ArrayList;
 import java.util.List;
 import java.util.SortedMap;
 import java.util.TreeMap;
 
 import javax.persistence.EntityManager;
 import javax.swing.BoxLayout;
+import javax.swing.DefaultComboBoxModel;
 import javax.swing.ImageIcon;
 import javax.swing.JButton;
+import javax.swing.JComboBox;
 import javax.swing.JInternalFrame;
 import javax.swing.JPanel;
 import javax.swing.JTextField;
@@ -31,10 +34,7 @@ import com.mm.app.model.Client;
 import com.mm.app.model.Medecin;
 import com.mm.app.model.Vente;
 import com.mm.app.service.ClientService;
-import com.mm.app.service.VenteService;
 import com.mm.app.service.impl.ClientServiceImpl;
-import com.mm.app.service.impl.VenteServiceImpl;
-import com.mm.app.utilities.Java2sAutoComboBox;
 import com.mm.app.utilities.SubAssuranceTableModel;
 import com.mm.app.utilities.Utilities;
 
@@ -43,7 +43,7 @@ public class ClientWidget extends JInternalFrame implements InternalFrameWidget{
 	private static final long serialVersionUID = -1528594567776851222L;
 
 	private JTextField reference;
-	private Java2sAutoComboBox firstName;
+	private JComboBox<String> firstName;
 	private JTextField dateOfBirth;
 	private JTextField phone;
 	private JTextField age;
@@ -88,14 +88,16 @@ public class ClientWidget extends JInternalFrame implements InternalFrameWidget{
 			}
 		}
 
-		firstName = new Java2sAutoComboBox(data);
-		firstName.setDataList(data);
-		firstName.setStrict(false);
+		firstName = new JComboBox<String>();
 		firstName.setMaximumRowCount(5);
+		firstName.setSelectedItem("");
+		firstName.setEditable(true);
 		firstName.getEditor().getEditorComponent().addKeyListener(new KeyAdapter() {
 			@Override
-			public void keyPressed(KeyEvent e) {
+			public void keyReleased(KeyEvent e) {
 				String referencePram = null;
+				String lastTypedText = "";
+				List<String> comboBoxModel = new ArrayList<String>();
 				if (e.getKeyChar() == KeyEvent.VK_ENTER) {
 					
 					String selectedValue = (String) firstName.getSelectedItem();
@@ -163,6 +165,31 @@ public class ClientWidget extends JInternalFrame implements InternalFrameWidget{
 					
 
 				}
+				else {
+					JTextField typedTextField = (JTextField) firstName
+							.getEditor().getEditorComponent();
+					if (typedTextField.getText() != null
+							&& !comboBoxModel.contains(typedTextField
+									.getText())
+							&& !typedTextField.getText().equals(
+									lastTypedText)) {
+						comboBoxModel.clear();
+						lastTypedText = typedTextField.getText();
+						if (!lastTypedText.equals("")) {
+							comboBoxModel.add(lastTypedText);
+						}
+						for (String key : data.keySet()) {
+							if (key.toLowerCase().startsWith(
+									lastTypedText.toLowerCase())) {
+								comboBoxModel.add(key);
+							}
+						}
+						firstName.setModel(new DefaultComboBoxModel(
+								comboBoxModel.toArray()));
+						// firstName.setSelectedItem(lastTypedText);
+						firstName.showPopup();
+					}
+				}
 			}
 		});
 		
@@ -213,11 +240,11 @@ public class ClientWidget extends JInternalFrame implements InternalFrameWidget{
 		this.reference = reference;
 	}
 
-	public Java2sAutoComboBox getFirstName() {
+	public JComboBox<String> getFirstName() {
 		return firstName;
 	}
 
-	public void setFirstName(Java2sAutoComboBox firstName) {
+	public void setFirstName(JComboBox<String> firstName) {
 		this.firstName = firstName;
 	}
 
