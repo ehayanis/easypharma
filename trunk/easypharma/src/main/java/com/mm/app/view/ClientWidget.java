@@ -93,11 +93,14 @@ public class ClientWidget extends JInternalFrame implements InternalFrameWidget{
 		firstName.setSelectedItem("");
 		firstName.setEditable(true);
 		firstName.getEditor().getEditorComponent().addKeyListener(new KeyAdapter() {
+			
+			String lastTypedText = "";
+			List<String> comboBoxModel = new ArrayList<String>();
+			
 			@Override
 			public void keyReleased(KeyEvent e) {
 				String referencePram = null;
-				String lastTypedText = "";
-				List<String> comboBoxModel = new ArrayList<String>();
+				
 				if (e.getKeyChar() == KeyEvent.VK_ENTER) {
 					
 					String selectedValue = (String) firstName.getSelectedItem();
