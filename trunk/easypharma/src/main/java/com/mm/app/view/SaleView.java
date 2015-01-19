@@ -10,8 +10,10 @@ import java.awt.event.KeyAdapter;
 import java.awt.event.KeyEvent;
 import java.beans.PropertyVetoException;
 import java.text.DecimalFormat;
+
 import java.util.ArrayList;
 import java.util.Calendar;
+
 import java.util.Date;
 import java.util.HashMap;
 import java.util.List;
@@ -38,6 +40,7 @@ import javax.swing.JPopupMenu;
 import javax.swing.JScrollPane;
 import javax.swing.JTabbedPane;
 import javax.swing.JTable;
+import javax.swing.JTextField;
 import javax.swing.KeyStroke;
 import javax.swing.LayoutStyle;
 import javax.swing.WindowConstants;
@@ -46,6 +49,7 @@ import javax.swing.event.TableModelListener;
 import javax.swing.table.DefaultTableCellRenderer;
 import javax.swing.table.DefaultTableModel;
 import javax.swing.table.TableColumn;
+import javax.swing.DefaultComboBoxModel;
 
 import com.mm.app.model.Operator;
 import com.mm.app.model.Product;
@@ -55,7 +59,7 @@ import com.mm.app.service.ProductService;
 import com.mm.app.service.VenteService;
 import com.mm.app.service.impl.ProductServiceImpl;
 import com.mm.app.service.impl.VenteServiceImpl;
-import com.mm.app.utilities.Java2sAutoComboBox;
+import com.mm.app.utilities.MedicamentCellEditor;
 
 /**
  *
@@ -189,6 +193,12 @@ public class SaleView extends JFrame {
         
     	data = new TreeMap<String, String>();
         data.put("", "");
+        Product product = new Product();
+        product.setDesignation("designattion");
+        product.setId(1);
+        product.setReference("1234");
+//        List<Product> result = new ArrayList<Product>();
+//        result.add(product);
         List<Product> result = productService.getProducts();
         
 		if(result != null && result.size() > 0){
@@ -198,56 +208,12 @@ public class SaleView extends JFrame {
 			}
 		}
         
-        final Java2sAutoComboBox comboBox = new Java2sAutoComboBox(data);
-        comboBox.setSelectedItem("");
-        comboBox.setDataList(data);
-        comboBox.setMaximumRowCount(5);
-        comboBox.setStrict(false);
+
         final DecimalFormat decimalFormat = new DecimalFormat("0.00");
-        
-        comboBox.getEditor().getEditorComponent().addKeyListener(new KeyAdapter() {
-        	@Override
-        	public void keyPressed(KeyEvent e) {
-        		 if (e.getKeyChar() == KeyEvent.VK_ENTER) {
-        			 int row = jTable1.getSelectedRow();
-        			 String selectedValue = (String) comboBox.getSelectedItem();
-        			 Product product = productService.findProductByReference(data.get(selectedValue));
-        			 
-                	 jTable1.setValueAt(product.getPu(), row, 2);
-                	 jTable1.setValueAt(decimalFormat.format(product.getPu() + (product.getPu() * 0.2)), row, 5);
-                	 // Mettre la désignation au cas ou c'est le code bare qui est saisi
-                	 comboBox.setSelectedItem(product.getDesignation());
-                	 
-                	 VenteProduit vp = null;
-                	 if(products.get(row) != null){
-                		 vp = products.get(row);
-                		 vp.setProduct(product);
-                		 vp.setDateCreation(new Date());
-                	 }else{
-                		 vp = new VenteProduit(product);
-                		 vp.setVente(vente);
-                		 vp.setDateCreation(new Date());
-                		 products.put(row, vp);
-                	 }
-                	 
-                	 headerPanel.getProduit().activateButton(true);
-                	 
-                	 
-                	 int rows = jTable1.getRowCount();
-                	 double total = 0;
-                	 for(int i = 0; i < rows; i++){
-                		 Object d = jTable1.getValueAt(i, 5);
-                		 if(d != null && !d.toString().equals("")){
-                			 total += Double.parseDouble(((String) d).replace(",", "."));
-                		 }
-                	 }
-                	 footerPanel.getTotalValue().setText(decimalFormat.format(total));
-             }
-        	}
-		});
-        
+    
+
         TableColumn column = jTable1.getColumnModel().getColumn(0);
-        column.setCellEditor(new DefaultCellEditor(comboBox));
+        column.setCellEditor(new MedicamentCellEditor(data.keySet(),this));
         DefaultTableCellRenderer renderer = new DefaultTableCellRenderer();
         renderer.setToolTipText("Séléctionner un produit");
         column.setCellRenderer(renderer);
@@ -629,6 +595,43 @@ public class SaleView extends JFrame {
 
 	public void setData(SortedMap<String, String> data) {
 		this.data = data;
+	}
+	
+	public void updateProductLine(String selectedValue) {
+		
+		 final DecimalFormat decimalFormat = new DecimalFormat("0.00");
+		 int row = jTable1.getSelectedRow();		 
+		Product product = productService.findProductByReference(data.get(selectedValue));
+        			 
+                	 jTable1.setValueAt(product.getPu(), row, 2);
+                	 jTable1.setValueAt(decimalFormat.format(product.getPu() + (product.getPu() * 0.2)), row, 5);
+                	 // Mettre la désignation au cas ou c'est le code bare qui est saisi
+                	 //comboBox.setSelectedItem(product.getDesignation());
+                	 
+                	 VenteProduit vp = null;
+                	 if(products.get(row) != null){
+                		 vp = products.get(row);
+                		 vp.setProduct(product);
+                		 vp.setDateCreation(new Date());
+                	 }else{
+                		 vp = new VenteProduit(product);
+                		 vp.setVente(vente);
+                		 vp.setDateCreation(new Date());
+                		 products.put(row, vp);
+                	 }
+                	 
+                	 headerPanel.getProduit().activateButton(true);
+                	 
+                	 
+                	 int rows = jTable1.getRowCount();
+                	 double total = 0;
+                	 for(int i = 0; i < rows; i++){
+                		 Object d = jTable1.getValueAt(i, 5);
+                		 if(d != null && !d.toString().equals("")){
+                			 total += Double.parseDouble(((String) d).replace(",", "."));
+                		 }
+                	 }
+                	 footerPanel.getTotalValue().setText(decimalFormat.format(total));
 	}
 
 
