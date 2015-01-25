@@ -35,7 +35,7 @@ public class FooterPanel extends JPanel{
         paiement = new MyJLabel("Paiement : Esc");
         impression = new MyJLabel("Imprés... : F7");
         posologie = new MyJLabel("Posologie : F9");
-        recherche = new MyJLabel("Rech. Prod. : F8");
+        recherche = new MyJLabel("Rech. Prod. : F11");
         totalPanel = new JPanel();
         totalValue = new JLabel();
         
