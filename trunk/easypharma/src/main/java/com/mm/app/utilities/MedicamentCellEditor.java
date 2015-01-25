@@ -6,7 +6,9 @@ import java.awt.event.ActionListener;
 import java.awt.event.KeyAdapter;
 import java.awt.event.KeyEvent;
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 import java.util.Set;
 
 import javax.swing.AbstractCellEditor;
@@ -26,10 +28,13 @@ public class MedicamentCellEditor extends AbstractCellEditor implements
 	private String designation;
 	private Set<String> listDesignation;
 	private SaleView saleView;
+	private Map<Integer, JComboBox<String>> tableCellsEditor;
 
-	public MedicamentCellEditor(Set<String> listCountry, SaleView saleView) {
-		this.listDesignation = listCountry;
+	public MedicamentCellEditor(Set<String> listDesignation, SaleView saleView) {
+		System.err.println(" New MedicamentCellEditor");
+		this.listDesignation = listDesignation;
 		this.saleView = saleView;
+		this.tableCellsEditor = new HashMap<Integer, JComboBox<String>>();
 	}
 
 	@Override
@@ -40,12 +45,29 @@ public class MedicamentCellEditor extends AbstractCellEditor implements
 	@Override
 	public Component getTableCellEditorComponent(JTable table, Object value,
 			boolean isSelected, int row, int column) {
+		
+		System.err.println("getTableCellEditorComponent is called ");
+		
 		if (value instanceof String) {
 			this.designation = (String) value;
 		}
-
-		final JComboBox<String> comboDesignation = new JComboBox<String>();
-		comboDesignation.setEditable(true);
+		
+		final JComboBox<String> comboDesignation;
+		boolean rowExist = false;
+		for (Integer rowNum : tableCellsEditor.keySet()) {
+			if (rowNum.equals(row)) {
+				rowExist = true;
+			}
+		}
+		if (!rowExist) {
+			comboDesignation = new JComboBox<String>();
+			comboDesignation.setEditable(true);
+			tableCellsEditor.put(row,comboDesignation);
+		}
+		else {
+			comboDesignation = tableCellsEditor.get(row); 
+		}
+		
 		comboDesignation.getEditor().getEditorComponent()
 				.addKeyListener(new KeyAdapter() {
 
@@ -58,7 +80,8 @@ public class MedicamentCellEditor extends AbstractCellEditor implements
 
 						if (e.getKeyChar() == KeyEvent.VK_ENTER) {
 							
-							saleView.updateProductLine(designation);
+							saleView.updateProductLine(designation,comboDesignation);
+							fireEditingStopped(); //Make the renderer reappear.
 
 						} else {
 							JTextField typedTextField = (JTextField) comboDesignation
@@ -109,8 +132,17 @@ public class MedicamentCellEditor extends AbstractCellEditor implements
 	@Override
 	public void actionPerformed(ActionEvent event) {
 		@SuppressWarnings("unchecked")
-		JComboBox<String> comboCountry = (JComboBox<String>) event.getSource();
-		this.designation = (String) comboCountry.getSelectedItem();
+		JComboBox<String> comboDesignation = (JComboBox<String>) event.getSource();
+		this.designation = (String) comboDesignation.getSelectedItem();
+	}
+
+	@SuppressWarnings("unchecked")
+	public void clear(int row) {
+		JComboBox<String> comboDesignation = tableCellsEditor.get(row);
+		comboDesignation.setModel(new DefaultComboBoxModel(
+				(new ArrayList<String>()).toArray()));
+		//tableCellsEditor.remove(row);
+		
 	}
 
 }

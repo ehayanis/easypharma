@@ -10,10 +10,8 @@ import java.awt.event.KeyAdapter;
 import java.awt.event.KeyEvent;
 import java.beans.PropertyVetoException;
 import java.text.DecimalFormat;
-
 import java.util.ArrayList;
 import java.util.Calendar;
-
 import java.util.Date;
 import java.util.HashMap;
 import java.util.List;
@@ -274,8 +272,14 @@ public class SaleView extends JFrame {
                 		products.remove(row);
                 		for (int i = 0; i <= 5; i++) {
                 			jTable1.setValueAt("", row, i);
+                			
                 		}
-
+                		// Remise à zéro de la colone dsésignation, les lines précédentes
+                		// non pas d'effet sur cette cellule
+                		TableColumn designationColumn = jTable1.getColumnModel().getColumn(0);
+                		MedicamentCellEditor medicamentCellEditor = (MedicamentCellEditor) designationColumn.getCellEditor();
+                		medicamentCellEditor.clear(row);
+                		
                 		int rows = jTable1.getRowCount();
 						double sum = 0;
 						for(int i = 0; i < rows; i++){
@@ -395,8 +399,8 @@ public class SaleView extends JFrame {
                     .addComponent(jPanel1, GroupLayout.PREFERRED_SIZE, 219, GroupLayout.PREFERRED_SIZE)
                     .addPreferredGap(LayoutStyle.ComponentPlacement.RELATED)
 //                    To uncomment when used locally
-//                    .addComponent(jTabbedPane1, GroupLayout.PREFERRED_SIZE, 351, GroupLayout.PREFERRED_SIZE)
-                    .addComponent(jTabbedPane1, GroupLayout.PREFERRED_SIZE, 580, GroupLayout.PREFERRED_SIZE)
+                    .addComponent(jTabbedPane1, GroupLayout.PREFERRED_SIZE, 351, GroupLayout.PREFERRED_SIZE)
+//                    .addComponent(jTabbedPane1, GroupLayout.PREFERRED_SIZE, 580, GroupLayout.PREFERRED_SIZE)
                     .addPreferredGap(LayoutStyle.ComponentPlacement.RELATED)
                     .addComponent(footerPanel, GroupLayout.PREFERRED_SIZE, GroupLayout.DEFAULT_SIZE, GroupLayout.PREFERRED_SIZE)
                     .addContainerGap())
@@ -486,7 +490,7 @@ public class SaleView extends JFrame {
         	}
         };
         
-        KeyStroke f8KeyStroke = KeyStroke.getKeyStroke(KeyEvent.VK_F8, 0, false);
+        KeyStroke f8KeyStroke = KeyStroke.getKeyStroke(KeyEvent.VK_F11, 0, false);
         Action f8Action = new AbstractAction() {
         	public void actionPerformed(ActionEvent e) {
         		SearchProduct searchProduct = new SearchProduct(em, vente);
@@ -503,7 +507,7 @@ public class SaleView extends JFrame {
         getRootPane().getInputMap(JComponent.WHEN_IN_FOCUSED_WINDOW).put(f4KeyStroke, "F4");
         getRootPane().getInputMap(JComponent.WHEN_IN_FOCUSED_WINDOW).put(f5KeyStroke, "F5");
         getRootPane().getInputMap(JComponent.WHEN_IN_FOCUSED_WINDOW).put(f6KeyStroke, "F6");
-        getRootPane().getInputMap(JComponent.WHEN_IN_FOCUSED_WINDOW).put(f8KeyStroke, "F8");
+        getRootPane().getInputMap(JComponent.WHEN_IN_FOCUSED_WINDOW).put(f8KeyStroke, "F11");
         getRootPane().getActionMap().put("ESCAPE", escapeAction);
         getRootPane().getActionMap().put("F9", f9Action);
         getRootPane().getActionMap().put("F1", f1Action);
@@ -512,7 +516,7 @@ public class SaleView extends JFrame {
         getRootPane().getActionMap().put("F4", f4Action);
         getRootPane().getActionMap().put("F5", f5Action);
         getRootPane().getActionMap().put("F6", f6Action);
-        getRootPane().getActionMap().put("F8", f8Action);
+        getRootPane().getActionMap().put("F11", f8Action);
         
         pack();
         setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
@@ -599,7 +603,7 @@ public class SaleView extends JFrame {
 		this.data = data;
 	}
 	
-	public void updateProductLine(String selectedValue) {
+	public void updateProductLine(String selectedValue, JComboBox<String> comboDesignation) {
 		
 		 final DecimalFormat decimalFormat = new DecimalFormat("0.00");
 		 int row = jTable1.getSelectedRow();		 
@@ -608,7 +612,11 @@ public class SaleView extends JFrame {
                 	 jTable1.setValueAt(product.getPu(), row, 2);
                 	 jTable1.setValueAt(decimalFormat.format(product.getPu() + (product.getPu() * 0.2)), row, 5);
                 	 // Mettre la désignation au cas ou c'est le code bare qui est saisi
-                	 //comboBox.setSelectedItem(product.getDesignation());
+                	 comboDesignation.setSelectedItem(product.getDesignation());
+                	// comboDesignation.setFocusable(false);
+                	 //comboDesignation.se
+                	 //jTable1.setFocusable(true);
+                	 //comboDesignation.setEnabled(false);
                 	 
                 	 VenteProduit vp = null;
                 	 if(products.get(row) != null){
