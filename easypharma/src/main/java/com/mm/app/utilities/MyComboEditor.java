@@ -14,12 +14,10 @@ public MyComboEditor(){
     textFeild = new JTextField();     
 }
 
-@Override
 public Component getEditorComponent() {
     return textFeild;
 }
 
-@Override
 public void setItem(Object anObject) {
 
     if(anObject != null){
@@ -32,7 +30,6 @@ public void setItem(Object anObject) {
      }
 }
 
-@Override
 public Object getItem() {
     String objectTxt = myObject;
     String feildTxt = textFeild.getText();
@@ -45,18 +42,15 @@ public Object getItem() {
     }
 }
 
-@Override
 public void selectAll() {
     throw new UnsupportedOperationException(
             "Not supported yet. in select All");
 }
 
-@Override
 public void addActionListener(ActionListener l) {
     textFeild.addActionListener(l);     
 }
 
-@Override
 public void removeActionListener(ActionListener l) {
     textFeild.removeActionListener(l);
 }    
