@@ -9,7 +9,7 @@ import javax.persistence.*;
 @NamedQueries({
 	@NamedQuery(name="findProductByReference", query="SELECT p FROM Product p WHERE p.reference = :reference"),
 	@NamedQuery(name="findVenteProduitByClientProduit", query="SELECT vp FROM Vente v JOIN v.produits vp JOIN vp.product p WHERE v.id = :venteId AND p.id = :produitId"),
-	@NamedQuery(name="findProductByCriteria", query="SELECT p FROM Product p WHERE p.designation LIKE :criteria"),
+	@NamedQuery(name="findProductByCriteria", query="SELECT p FROM Product p WHERE p.designation LIKE :criteria OR p.reference LIKE :criteria"),
 	@NamedQuery(name="findHistoriqueProductForClient", query="SELECT vp FROM Vente v JOIN v.client c JOIN v.produits vp JOIN vp.product p WHERE c.id = :clientId AND p.id = :productId")
 })
 
