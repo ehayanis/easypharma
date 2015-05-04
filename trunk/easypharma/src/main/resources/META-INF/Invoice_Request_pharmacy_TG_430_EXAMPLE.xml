@@ -1,0 +1,248 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<invoice:request xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:ds="http://www.w3.org/2000/09/xmldsig#" xmlns:xenc="http://www.w3.org/2001/04/xmlenc#" xmlns:invoice="http://www.forum-datenaustausch.ch/invoice" xmlns="http://www.forum-datenaustausch.ch/invoice" xsi:schemaLocation="http://www.forum-datenaustausch.ch/invoice generalInvoiceRequest_430.xsd" language="de" modus="test" validation_status="0">
+	<invoice:processing>
+		<!-- FROM : ????  -->
+		<!-- TO : ??? -->
+		<invoice:transport from="7601001302112" to="7634567890000">
+			<!-- VIA : ??? -->
+			<!-- SEQUENCE-ID :  -->
+			<invoice:via via="7601001304307" sequence_id="1"/>
+		</invoice:transport>
+	</invoice:processing>
+	<!-- TYPE : invoice / reminder -->
+	<!-- COPY :  -->
+	<!-- STORNO :  -->
+	<invoice:payload type="invoice" copy="0" storno="0">
+		<!-- REQUEST_TIMESTAMP : Request time -->
+		<!-- REQUEST_DATE : Request date -->
+		<!-- REQUEST_ID : Request ID, looks like it should be in a certain format -->
+		<invoice:credit request_timestamp="1271832292" request_date="2010-04-21T00:00:00" request_id="23_45.01"/>
+		<!-- REQUEST_TIMESTAMP : Request time -->
+		<!-- REQUEST_DATE : Request date -->
+		<!-- REQUEST_ID : Request ID -->
+		<!-- REQUEST_PATIENT_ID : The value "patID_1456" is may the ID of <invoice:patient>  -->
+		<invoice:invoice request_timestamp="1279262693" request_date="2010-07-10T00:00:00" request_id="2009_01:001" request_patient_id="patID_1456"/>
+		<!-- ROLE_TITLE : The parmacy Name -->
+		<!-- ROLE : In our case it's : pharmacist -->
+		<!-- PLACE : practice / hospital / lab / association / company -->
+		<invoice:body role_title="Apotheke am Brunnen" role="pharmacist" place="practice">
+			<invoice:prolog>
+				<!-- The value of these attributes are unchangeable and retreived from mediData  -->
+				<!-- NAME :   -->
+				<!-- COPYRIGHT :  -->
+				<!-- VERSION :  -->
+				<invoice:package name="GeneralInvoiceRequestTest" copyright="suva 2000-09" version="100005"/>
+				<!-- The value of these attributes are unchangeable and retreived from mediData  -->
+				<!-- NAME :  -->
+				<!-- COPYRIGHT :  -->
+				<!-- VERSION :  -->
+				<invoice:generator name="GeneralInvoiceRequestManager 4.30.001" copyright="suva 2000-08" version="430">
+					<!-- The value of these attributes are unchangeable and retreived from mediData  -->
+					<!-- NAME :  -->
+					<!-- COPYRIGHT :  -->
+					<!-- VERSION :  -->
+					<!-- ID :  -->
+					<invoice:depends_on name="drugValidator100 ATL Module" copyright="Suva &amp; santésuisse" version="100" id="1002100701"/>
+				</invoice:generator>
+			</invoice:prolog>
+			<!-- REMARK :  -->
+			<invoice:remark>Lorem ipsum per nostra mi fune torectum mi konstradiloru...</invoice:remark>
+			<!-- CURRENCY : Fixed to CHF -->
+			<!-- AMOUNT : Montant à payer -->
+			<!-- AMOUNT_OBLIGATIONS : Montant à payer (Not required) -->
+			<!-- AMOUT_DUE : Montant à payer -->
+			<invoice:balance currency="CHF" amount="53.03" amount_obligations="53.03" amount_due="53.05">
+				<!-- VAT : TVA -->
+				<!-- VAT_NUMBER : ??? -->
+				<invoice:vat vat="0.95" vat_number="123456789">
+					<!-- De ce que j'ai compris, chaque produit peut avoir sont propre tva, mais je vois pas la différence entre vat et vat_rate  -->
+					<!-- VAT :  -->
+					<!-- VAT_RATE :  -->
+					<!-- AMOUNT :  -->
+					<invoice:vat_rate vat="0.00" vat_rate="0" amount="12.53"/>
+					<invoice:vat_rate vat="0.95" vat_rate="2.4" amount="40.50"/>
+				</invoice:vat>
+			</invoice:balance>
+			<!-- TYPE :  -->
+			<!-- PARTICIPENT_NUMBER :  -->
+			<!-- REFERENCE_NUMBER :  -->
+			<!-- CODING_LINE :  -->
+			<invoice:esr9 type="16or27" participant_number="01-162-8" reference_number="12 34562 00001 88888 88888 88885" coding_line="0100000053054&gt;123456200001888888888888885+ 010001628&gt;">
+				<invoice:bank>
+					<invoice:company>
+						<!-- COMPANYNAME :  -->
+						<invoice:companyname>Bank AG</invoice:companyname>
+						<!-- DEPARTEMENT :  -->
+						<invoice:department>Abteilung VESR</invoice:department>
+						<invoice:postal>
+							<!-- POBOX :  -->
+							<invoice:pobox>Postfach</invoice:pobox>
+							<!-- STREET :  -->
+							<invoice:street>Bankstrasse 11</invoice:street>
+							<!-- ZIP :  -->
+							<invoice:zip statecode="BS">4002</invoice:zip>
+							<!-- CITY :  -->
+							<invoice:city>Basel</invoice:city>
+						</invoice:postal>
+					</invoice:company>
+				</invoice:bank>
+			</invoice:esr9>
+			<!-- PAYMENT_PERIOD :  -->
+			<invoice:tiers_garant payment_period="P35D">
+				<!-- EAN_PARTY :  -->
+				<!-- ZSR :  -->
+				<invoice:biller ean_party="2011234567890" zsr="H121111">
+					<invoice:company>
+						<invoice:companyname>Biller AG</invoice:companyname>
+						<invoice:department>Abteilung Inkasso</invoice:department>
+						<invoice:postal>
+							<invoice:street>Billerweg 128</invoice:street>
+							<invoice:zip>4414</invoice:zip>
+							<invoice:city>Füllinsdorf</invoice:city>
+						</invoice:postal>
+						<invoice:telecom>
+							<!-- PHONE :  -->
+							<!-- FAX :  -->
+							<invoice:phone>061 956 99 00</invoice:phone>
+							<invoice:fax>061 956 99 10</invoice:fax>
+						</invoice:telecom>
+						<invoice:online>
+							<!-- EMAIL :  -->
+							<invoice:email>info@biller.ch</invoice:email>
+						</invoice:online>
+					</invoice:company>
+				</invoice:biller>
+				<!-- SPECIALITY :  -->
+				<invoice:provider ean_party="7634567890111" zsr="P123456" specialty="FMH Innere Medizin">
+					<invoice:company>
+						<invoice:companyname>Apotheke zum Brunnen</invoice:companyname>
+						<invoice:postal>
+							<invoice:street>Apothekerallee 17C</invoice:street>
+							<invoice:zip statecode="BS">4000</invoice:zip>
+							<invoice:city>Basel</invoice:city>
+						</invoice:postal>
+						<invoice:telecom>
+							<invoice:phone>061 956 99 00</invoice:phone>
+							<invoice:fax>061 956 99 10</invoice:fax>
+						</invoice:telecom>
+					</invoice:company>
+				</invoice:provider>
+				<invoice:insurance ean_party="2034567890222">
+					<invoice:company>
+						<invoice:companyname>Krankenkasse AG</invoice:companyname>
+						<invoice:department>Abteilung VVG</invoice:department>
+						<invoice:postal>
+							<invoice:street>Kassengraben 222</invoice:street>
+							<invoice:zip>4000</invoice:zip>
+							<invoice:city>Basel</invoice:city>
+						</invoice:postal>
+					</invoice:company>
+				</invoice:insurance>
+				<!-- GENDER :  -->
+				<!-- BIRTHATE :  -->
+				<invoice:patient gender="male" birthdate="1964-02-28T00:00:00" ssn="7561234567890">
+					<!-- SALUTATION :  -->	
+					<invoice:person salutation="Herr">
+						<!-- FAMILYNAME :  -->
+						<invoice:familyname>Muster</invoice:familyname>
+						<!-- GIVENNAME :  -->
+						<invoice:givenname>Peter</invoice:givenname>
+						<!-- SUBADDRESSING :  -->	
+						<invoice:subaddressing>c/o Mieter Karl</invoice:subaddressing>
+						<invoice:postal>
+							<invoice:street>Musterstrasse 5</invoice:street>
+							<invoice:zip>7304</invoice:zip>
+							<invoice:city>Maienfeld</invoice:city>
+						</invoice:postal>
+					</invoice:person>
+					<!-- CARD_ID :  -->
+					<!-- EXPIRY_DATE :  -->
+					<invoice:card card_id="12345678901234567890" expiry_date="2010-10-18T00:00:00"/>
+				</invoice:patient>
+				<invoice:guarantor>
+					<invoice:person salutation="Herr">
+						<invoice:familyname>Muster</invoice:familyname>
+						<invoice:givenname>Peter</invoice:givenname>
+						<invoice:subaddressing>c/o Mieter Karl</invoice:subaddressing>
+						<invoice:postal>
+							<invoice:street>Musterstrasse 5</invoice:street>
+							<invoice:zip>7304</invoice:zip>
+							<invoice:city>Maienfeld</invoice:city>
+						</invoice:postal>
+					</invoice:person>
+				</invoice:guarantor>
+				<invoice:referrer ean_party="2034567890333" zsr="R234567" specialty="FMH Inner Medizin">
+					<!-- TITLE :  -->
+					<invoice:person salutation="Herr" title="Dr. med.">
+						<invoice:familyname>Überweiser</invoice:familyname>
+						<invoice:givenname>Herbert</invoice:givenname>
+						<invoice:postal>
+							<invoice:street>Referrerstrasse 11</invoice:street>
+							<invoice:zip statecode="AG">5000</invoice:zip>
+							<invoice:city>Aarau</invoice:city>
+						</invoice:postal>
+						<invoice:telecom>
+							<invoice:phone>061 956 99 00</invoice:phone>
+							<invoice:fax>061 956 99 10</invoice:fax>
+						</invoice:telecom>
+					</invoice:person>
+				</invoice:referrer>
+				<!-- REG_NUMBER :  -->
+				<invoice:employer ean_party="7600123456789" reg_number="123-456.78">
+					<invoice:company>
+						<invoice:companyname>Arbeitgeber AG</invoice:companyname>
+						<invoice:department>R&amp;D</invoice:department>
+						<invoice:postal>
+							<invoice:street>Arbeitsplatz 3-5</invoice:street>
+							<invoice:zip statecode="BL">4410</invoice:zip>
+							<invoice:city>Liestal</invoice:city>
+						</invoice:postal>
+					</invoice:company>
+				</invoice:employer>
+			</invoice:tiers_garant>
+			<!-- CASE_ID :  -->
+			<!-- CASE_DATE :  -->
+			<!-- INSURED_ID :  -->
+			<!-- CONTRACT_NUMBER :  -->
+			<invoice:vvg case_id="123456-6789" case_date="2010-07-10T00:00:00" insured_id="123.45.678-012" contract_number="AZ-3.456"/>
+			<!-- DATE_BEGIN :  -->
+			<!-- DATE_END :  -->
+			<!-- CANTON :  -->
+			<!-- REASON :  -->
+			<invoice:treatment date_begin="2010-06-10T00:00:00" date_end="2010-07-10T00:00:00" canton="BS" reason="maternity">
+				<!-- TYPE :  -->
+				<!-- CODE :  -->
+				<invoice:diagnosis type="by_contract" code="A1">A1 Text</invoice:diagnosis>
+				<invoice:diagnosis type="by_contract" code="B2"/>
+			</invoice:treatment>
+			<invoice:services>
+				<!-- RECORD_ID :  -->
+				<!-- TARIFF_TYPE :  -->
+				<!-- CODE :  -->
+				<!-- SESSION : (NOT REQUIRED) -->
+				<!-- QUANTITY :  -->
+				<!-- DATE_BEGIN :  -->
+				<!-- PROVIDER_ID -->
+				<!-- RESPONSIBLE_ID :  -->
+				<!-- UNIT :  -->
+				<!-- UNIT_FACTOR :  -->
+				<!-- AMOUNT :  -->
+				<!-- VAT_RATE (NOT REQUIRED) -->
+				<!-- VALIDATE :  (NOT REQUIRED) -->
+				<!-- SERVICE_ATTRIBUTES : (NOT REQUIRED) -->
+				<!-- OBLIGATION :  (NOT REQUIRED) -->
+				<!-- NAME :  -->
+				<invoice:record_drug record_id="1" tariff_type="400" code="3790988" session="1" quantity="2" date_begin="2010-06-30T00:00:00" provider_id="7634567890111" responsible_id="7634567890333" unit="20.25" unit_factor="1" amount="40.50" vat_rate="2.4" validate="1" service_attributes="0" obligation="1" name="Lansoprazol Mepha Kapseln 30mg 14Stk">
+					<!-- INDICATED :  -->
+					<!-- IOCM_CATEGORY :  -->
+					<!-- DELIVERY :  -->
+					<!-- REGULATION_ATTRIBUTES :  -->
+					<!-- LIMITATION :  -->
+					<invoice:xtra_drug indicated="1" iocm_category="B" delivery="first" regulation_attributes="1" limitation="0"/>
+				</invoice:record_drug>
+				<invoice:record_drug record_id="2" tariff_type="570" code="2030.00" ref_code="3790988#1691609" session="1" quantity="2" date_begin="2010-06-30T00:00:00" provider_id="7634567890111" responsible_id="7634567890333" unit="15.7" unit_factor="1.08" external_factor="0.4" amount="13.56" validate="0" service_attributes="0" obligation="1" name="SUB Agopton 30 Kapseln 30 mg"/>
+				<invoice:record_other record_id="3" tariff_type="405" code="5940.00" session="1" quantity="-1" date_begin="2010-06-30T00:00:00" provider_id="7634567890111" responsible_id="7634567890333" unit="41.1" unit_factor="1" external_factor="0.025" amount="-1.03" validate="0" service_attributes="0" obligation="1" name="KSB (Kostenstabilisierungsbeitrag)"/>
+			</invoice:services>
+		</invoice:body>
+	</invoice:payload>
+</invoice:request>
