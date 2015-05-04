@@ -5,6 +5,7 @@ import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.awt.event.KeyAdapter;
 import java.awt.event.KeyEvent;
+import java.text.NumberFormat;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
@@ -92,7 +93,7 @@ TableCellEditor, ActionListener {
                         saleView.getData().clear();
                         if(result != null && result.size() > 0){
                             for(Product p : result){
-                                saleView.getData().put(p.getDesignation(), p.getReference());
+                                saleView.getData().put(p.getDesignation() + " --Qte: " + Utilities.isEmpty(p.getQuantity()), p.getReference());
                                 //						                saleView.getData().put(p.getReference(), p.getReference());
                             }
                         }
