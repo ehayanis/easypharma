@@ -189,5 +189,12 @@ public class Utilities {
 		return true;
 	}
 	
+	public static boolean isNotEmpty(Object o){
+		if(o != null && !"".equals(o.toString())){
+			return true;
+		}
+		return false;
+	}
+	
 	
 }

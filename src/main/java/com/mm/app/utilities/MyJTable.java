@@ -34,4 +34,10 @@ public class MyJTable extends JTable{
 	        }
 	    }
 	}
+	
+	@Override
+	public boolean isCellEditable(int row, int column)
+    {
+        return column != Constants.UNITPRICECMLN && column != Constants.ROWSUMCLMN;
+    }
 }
