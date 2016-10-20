@@ -18,20 +18,22 @@ import javax.swing.JTable;
 import javax.swing.JTextField;
 import javax.swing.table.DefaultTableModel;
 import javax.swing.table.TableCellEditor;
+import javax.swing.table.TableColumn;
 
 import com.mm.app.view.SaleView;
+import com.mm.app.view.SaleView2;
 
-public class MedicamentCellEditor extends AbstractCellEditor implements
+public class MedicamentCellEditor2 extends AbstractCellEditor implements
 		TableCellEditor, ActionListener {
 
 	private static final long serialVersionUID = 1L;
 
 	private String designation;
 	private Set<String> listDesignation;
-	private SaleView saleView;
+	private SaleView2 saleView;
 	private Map<Integer, JComboBox<String>> tableCellsEditor;
 
-	public MedicamentCellEditor(Set<String> listDesignation, SaleView saleView) {
+	public MedicamentCellEditor2(Set<String> listDesignation, SaleView2 saleView) {
 		System.err.println(" New MedicamentCellEditor");
 		this.listDesignation = listDesignation;
 		this.saleView = saleView;
@@ -47,7 +49,7 @@ public class MedicamentCellEditor extends AbstractCellEditor implements
 	public Component getTableCellEditorComponent(JTable table, Object value,
 			boolean isSelected, int row, int column) {
 		
-		System.err.println("getTableCellEditorComponent is called "+value);
+		System.err.println("getTableCellEditorComponent is called "+value+" At Row : "+row);
 		
 		if (value instanceof String) {
 			this.designation = (String) value;
@@ -70,6 +72,8 @@ public class MedicamentCellEditor extends AbstractCellEditor implements
 		}
 		if(table.getValueAt(row, 2) == null){
 			comboDesignation.setSelectedItem(null);
+			System.err.println("row / mohammed : " + row);
+//			System.err.println("comboDesignation.requestFocusInWindow() : " + comboDesignation.requestFocusInWindow()); 
 			System.out.println("comboDesignation.getSelectedItem()  :  "+comboDesignation.getSelectedItem()); 
 		}
 		
@@ -84,15 +88,25 @@ public class MedicamentCellEditor extends AbstractCellEditor implements
 					public void keyReleased(KeyEvent e) {
 
 						if (e.getKeyChar() == KeyEvent.VK_ENTER && designation != null) {
+							
+							System.out.println("ENTER Event : " + designation);
 							saleView.updateProductLine(designation,comboDesignation);
 							fireEditingStopped(); //Make the renderer reappear.
-							int lastIndex = saleView.getjTable1().getRowCount()-1;
+							 int lastIndex = saleView.getjTable1().getRowCount()-1;
 		                	 System.out.println("lastIndex   :    "+lastIndex);
 		                	 System.out.println(saleView.getjTable1().getValueAt(lastIndex, 0));
 		                	 if((saleView.getjTable1().getValueAt(lastIndex, 0) != null) && (saleView.getjTable1().getValueAt(lastIndex, 2) != null)){
 		                		 DefaultTableModel model = (DefaultTableModel) saleView.getjTable1().getModel();
 		                    	 model.addRow(new Object[]{null, null, null, null, null, null});
-		                    	 saleView.getjTable1().changeSelection(lastIndex+1, 0, false, false);
+		                    	saleView.getjTable1().editCellAt(lastIndex+1, 0); 
+		                    	TableColumn tableColumn = saleView.getjTable1().getColumnModel().getColumn(0);
+		         	        	MedicamentCellEditor2 comboEditor = (MedicamentCellEditor2) tableColumn.getCellEditor();
+		         	        	Component editor = comboEditor.getTableCellEditorComponent(saleView.getjTable1(), null, true, lastIndex+1, 0);
+		         	        	saleView.getjTable1().changeSelection(lastIndex+1, 0, false, false);
+		         	        	editor.requestFocusInWindow();
+		                    	// model.get
+		                    //	 tableCellsEditor.get(lastIndex+1).setSelectedItem(null); 
+//		                    	 saleView.getjTable1().editCellAt(lastIndex+1, 0);
 		                	 }
 
 						} else {
@@ -137,7 +151,6 @@ public class MedicamentCellEditor extends AbstractCellEditor implements
 		} else {
 			comboDesignation.setBackground(table.getSelectionForeground());
 		}
-
 		return comboDesignation;
 	}
 

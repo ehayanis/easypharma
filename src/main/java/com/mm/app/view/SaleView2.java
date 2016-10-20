@@ -58,13 +58,14 @@ import com.mm.app.service.VenteService;
 import com.mm.app.service.impl.ProductServiceImpl;
 import com.mm.app.service.impl.VenteServiceImpl;
 import com.mm.app.utilities.MedicamentCellEditor;
+import com.mm.app.utilities.MedicamentCellEditor2;
 import com.mm.app.utilities.MyJTable;
 
 /**
  *
  * @author A574266
  */
-public class SaleView extends JFrame {
+public class SaleView2 extends JFrame {
 
 	private static final long serialVersionUID = 6431174577095592545L;
 	
@@ -78,7 +79,7 @@ public class SaleView extends JFrame {
 	private JDesktopPane m_desktop;
 	private SortedMap<String, String> data;
     
-	public SaleView(EntityManager em, Operator operator) {
+	public SaleView2(EntityManager em, Operator operator) {
 		desktopManager = new MyDesktopManager();
 		m_desktop = new JDesktopPane();
 	    m_desktop.setDesktopManager(desktopManager);
@@ -124,7 +125,7 @@ public class SaleView extends JFrame {
         
         jTabbedPane1 = new JTabbedPane();
         jScrollPane1 = new JScrollPane();
-        jTable1 = new MyJTable();
+        jTable1 = new JTable();
         footerPanel = new FooterPanel();
         jMenuBar1 = new JMenuBar();
         jMenu1 = new JMenu();
@@ -192,10 +193,10 @@ public class SaleView extends JFrame {
         
     	data = new TreeMap<String, String>();
         data.put("", "");
-        Product product = new Product();
-        product.setDesignation("designattion");
-        product.setId(1);
-        product.setReference("1234");
+       // Product product = new Product();
+       // product.setDesignation("designattion");
+       // product.setId(1);
+       // product.setReference("1234");
 //        List<Product> result = new ArrayList<Product>();
 //        result.add(product);
         List<Product> result = productService.getProducts();
@@ -212,7 +213,7 @@ public class SaleView extends JFrame {
     
 
         TableColumn column = jTable1.getColumnModel().getColumn(0);
-        column.setCellEditor(new MedicamentCellEditor(data.keySet(),this));
+        column.setCellEditor(new MedicamentCellEditor2(data.keySet(),this));
         DefaultTableCellRenderer renderer = new DefaultTableCellRenderer();
         renderer.setToolTipText("Séléctionner un produit");
         column.setCellRenderer(renderer);
@@ -436,16 +437,14 @@ public class SaleView extends JFrame {
         			JOptionPane.showMessageDialog(jTabbedPane1, "Veuillez séléctionner au moins un produit!");
         		}else{
 //        			PosologieFrame posologieFrame = new PosologieFrame(em, vente);
-        			vente.setProduits(products.values());
         			PosologieView posologieView = new PosologieView(em, vente);
-        			
-        			//TODO inject my posologie here 
         			
         			em.getTransaction().begin();
         			vente = em.find(Vente.class, vente.getId());
         			vente.setProduits(products.values());
         			em.getTransaction().commit();
         			
+//        			posologieFrame.setVisible(true);
         			posologieView.setVisible(true);
         		}
         	}
@@ -490,8 +489,13 @@ public class SaleView extends JFrame {
         Action f6Action = new AbstractAction() {
         	public void actionPerformed(ActionEvent e) {
         		jTable1.requestFocus();
-//        		jTable1.editCellAt(0, 0);
         		jTable1.changeSelection(0, 0, false, false);
+        		jTable1.editCellAt(0, 0);
+        		TableColumn tableColumn = jTable1.getColumnModel().getColumn(0);
+ 	        	MedicamentCellEditor comboEditor = (MedicamentCellEditor) tableColumn.getCellEditor();
+ 	        	Component editor = comboEditor.getTableCellEditorComponent(jTable1, null, true, 0, 0);
+ 	        	editor.requestFocusInWindow();
+//        		jTable1.changeSelection(0, 0, false, false);
         	}
         };
         
@@ -612,12 +616,12 @@ public class SaleView extends JFrame {
 		
 		 final DecimalFormat decimalFormat = new DecimalFormat("0.00");
 		 int row = jTable1.getSelectedRow();
+		 System.err.println("row jTable1 : " + row);
 		 Long productId = new Long(data.get(selectedValue));
 		Product product = productService.findProduct(productId.intValue());
         			 
-                	 jTable1.setValueAt(decimalFormat.format(product.getPu()), row, 2);
-                	 jTable1.setValueAt(1, row, 3);
-                	 jTable1.setValueAt(decimalFormat.format(product.getPu()), row, 5);
+                	 jTable1.setValueAt(product.getPu(), row, 2);
+                	 jTable1.setValueAt(decimalFormat.format(product.getPu() + (product.getPu() * 0.2)), row, 5);
                 	 // Mettre la désignation au cas ou c'est le code bare qui est saisi
                 	 comboDesignation.setSelectedItem(product.getDesignation());
                 	// comboDesignation.setFocusable(false);

@@ -8,7 +8,7 @@ import com.mm.app.model.Product;
 public class SubProductTableModel extends AbstractTableModel{
 
 	List<Product> produitsTable;
-	String headerList[] = new String[]{"Réference", "Libellé"};
+	String headerList[] = new String[]{"Réference", "Désignation"};
 
 	public SubProductTableModel(List list) {
 		produitsTable = list;
