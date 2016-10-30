@@ -20,6 +20,5 @@ public interface ClientService {
 	public List<AssuranceClient> getClientAssurances(Client client);
 	
 	public List<Vente> getClientVentes(Client client);
-	
 }
 

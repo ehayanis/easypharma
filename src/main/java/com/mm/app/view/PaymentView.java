@@ -7,6 +7,7 @@ import java.awt.event.ActionListener;
 import java.awt.event.KeyAdapter;
 import java.awt.event.KeyEvent;
 import java.text.DecimalFormat;
+import java.util.ArrayList;
 import java.util.Collection;
 import java.util.Date;
 import java.util.HashMap;
@@ -20,6 +21,7 @@ import java.util.Vector;
 import javax.persistence.EntityManager;
 import javax.swing.AbstractAction;
 import javax.swing.Action;
+import javax.swing.DefaultCellEditor;
 import javax.swing.DefaultComboBoxModel;
 import javax.swing.GroupLayout;
 import javax.swing.ImageIcon;
@@ -43,6 +45,8 @@ import javax.swing.table.TableColumn;
 
 import com.mm.app.model.Product;
 import com.mm.app.model.Vente;
+import com.mm.app.model.VenteProduit;
+import com.mm.app.utilities.Java2sAutoComboBox;
 import com.mm.app.utilities.MedicamentCellEditor;
 
 public class PaymentView extends JFrame {
@@ -373,32 +377,31 @@ public class PaymentView extends JFrame {
 					saleView.getjTable1().getColumnModel().getColumn(0).setPreferredWidth(230);
 
 					SortedMap<String, String> data = new TreeMap<String, String>();
+					data.put("", "");
 					Product product = new Product();
 					product.setDesignation("designattion");
 					product.setId(1);
 					product.setReference("1234");
-					
 					//			        List<Product> result = new ArrayList<Product>();
 					//			        result.add(product);
-//					List<Product> result = saleView.getProductService().getProducts();
-//
-//					if(result != null && result.size() > 0){
-//						for(Product p : result){
-//							data.put(p.getDesignation(), p.getReference());
-//							data.put(p.getReference(), p.getReference());
-//						}
-//					}
+					List<Product> result = saleView.getProductService().getProducts();
+
+					if(result != null && result.size() > 0){
+						for(Product p : result){
+							data.put(p.getDesignation(), p.getReference());
+							data.put(p.getReference(), p.getReference());
+						}
+					}
 
 
 					final DecimalFormat decimalFormat = new DecimalFormat("0.00");
 
 
 					TableColumn column = saleView.getjTable1().getColumnModel().getColumn(0);
-					column.setCellEditor(new MedicamentCellEditor(saleView));
+					column.setCellEditor(new MedicamentCellEditor(data.keySet(),saleView));
 					DefaultTableCellRenderer renderer = new DefaultTableCellRenderer();
 					renderer.setToolTipText("Séléctionner un produit");
 					column.setCellRenderer(renderer);
-					
 
 					//			        TableColumn factureColumn = jTable1.getColumnModel().getColumn(1);
 					//			        JComboBox<String> facture = new JComboBox<String>();

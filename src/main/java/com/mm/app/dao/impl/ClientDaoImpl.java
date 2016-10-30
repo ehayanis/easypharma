@@ -34,7 +34,7 @@ public class ClientDaoImpl implements ClientDao {
 	}
 
 	public List<Client> findClientsByCriteria(String criteria) {
-		List<Client> clients = em.createNamedQuery("findClientByCriteria").setParameter("criteria", "%" + criteria + "%").setMaxResults(5).getResultList();
+		List<Client> clients = em.createNamedQuery("findClientByCriteria").setParameter("criteria", criteria).getResultList();
 		return clients;
 	}
 

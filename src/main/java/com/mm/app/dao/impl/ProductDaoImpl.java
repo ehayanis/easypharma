@@ -36,7 +36,7 @@ public class ProductDaoImpl implements ProductDao{
 	}
 
 	public List<Product> findProductByCriteria(String criteria) {
-		List<Product> products = em.createNamedQuery("findProductByCriteria").setParameter("criteria", "%" + criteria + "%").setMaxResults(5).getResultList();
+		List<Product> products = em.createNamedQuery("findProductByCriteria").setParameter("criteria", "%" + criteria + "%").setMaxResults(10).getResultList();
 		return products;
 	}
 

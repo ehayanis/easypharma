@@ -32,286 +32,280 @@ import com.mm.app.service.impl.MedecinServiceImpl;
 import com.mm.app.utilities.Utilities;
 
 public class MedecinWidget extends JInternalFrame implements
-InternalFrameWidget {
+		InternalFrameWidget {
 
-    private static final long serialVersionUID = -1528594567776851222L;
+	private static final long serialVersionUID = -1528594567776851222L;
 
-    private JComboBox<String> firstName;
-    private JTextField speciality;
-    private JTextField reference;
-    private JTextField phone;
-    private JTextField nrcc;
+	private JComboBox<String> firstName;
+	private JTextField speciality;
+	private JTextField reference;
+	private JTextField phone;
+	private JTextField nrcc;
 
-    private JPanel buttonPanel;
-    private JButton editButton;
+	private JPanel buttonPanel;
+	private JButton editButton;
 
-    public JButton getEditButton() {
-        return editButton;
-    }
+	public JButton getEditButton() {
+		return editButton;
+	}
 
-    public void setEditButton(JButton editButton) {
-        this.editButton = editButton;
-    }
+	public void setEditButton(JButton editButton) {
+		this.editButton = editButton;
+	}
 
-    private MedecinService medecinService;
-    private EntityManager em;
-    private Vente vente;
-    private SortedMap<String, String> data;
+	private MedecinService medecinService;
+	private EntityManager em;
+	private Vente vente;
+	private SortedMap<String, String> data;
 
-    public MedecinWidget(EntityManager em, Vente vente) {
-        this.em = em;
-        this.vente = vente;
+	public MedecinWidget(EntityManager em, Vente vente) {
+		this.em = em;
+		this.vente = vente;
 
-        medecinService = new MedecinServiceImpl(em);
-        initComponent();
+		medecinService = new MedecinServiceImpl(em);
+		initComponent();
 
-        getContentPane().setBackground(Color.WHITE);
-        setFrameIcon(new ImageIcon(getClass().getResource("/img/graphite.png")));
-        setTitle("Médecin");
-        setBorder(javax.swing.BorderFactory.createEtchedBorder());
-        setVisible(true);
-        setFont(new Font("Agency FB", 0, 9));
-    }
+		getContentPane().setBackground(Color.WHITE);
+		setFrameIcon(new ImageIcon(getClass().getResource("/img/graphite.png")));
+		setTitle("Médecin");
+		setBorder(javax.swing.BorderFactory.createEtchedBorder());
+		setVisible(true);
+		setFont(new Font("Agency FB", 0, 9));
+	}
 
-    private void initComponent() {
-        getContentPane().setLayout(
-                new BoxLayout(getContentPane(), BoxLayout.Y_AXIS));
+	private void initComponent() {
+		getContentPane().setLayout(
+				new BoxLayout(getContentPane(), BoxLayout.Y_AXIS));
 
-        reference = new JTextField();
-        phone = new JTextField();
-        nrcc = new JTextField();
-        speciality = new JTextField();
+		reference = new JTextField();
+		phone = new JTextField();
+		nrcc = new JTextField();
+		speciality = new JTextField();
 
-        data = new TreeMap<String, String>();
-        //		data.put("", "");
-        //		List<Medecin> result = medecinService.getMedecins();
-        //		if (result != null && result.size() > 0) {
-        //			for (Medecin m : result) {
-        //				data.put(m.getFirstName() + " " + m.getLastName(),
-        //						String.valueOf(m.getId()));
-        //			}
-        //		}
+		data = new TreeMap<String, String>();
+		data.put("", "");
+		List<Medecin> result = medecinService.getMedecins();
+		if (result != null && result.size() > 0) {
 
-        firstName = new JComboBox<String>();
-        firstName.setMaximumRowCount(5);
-        firstName.setSelectedItem("");
-        firstName.setEditable(true);
+			for (Medecin m : result) {
+				data.put(m.getFirstName() + " " + m.getLastName(),
+						String.valueOf(m.getId()));
+			}
+		}
 
-        firstName.getEditor().getEditorComponent()
-        .addKeyListener(new KeyAdapter() {
+		firstName = new JComboBox<String>();
+		firstName.setMaximumRowCount(5);
+		firstName.setSelectedItem("");
+		firstName.setEditable(true);
 
-            String lastTypedText = "";
-            List<String> comboBoxModel = new ArrayList<String>();
+		firstName.getEditor().getEditorComponent()
+				.addKeyListener(new KeyAdapter() {
 
-            @Override
-            public void keyReleased(KeyEvent e) {
-                if (e.getKeyChar() == KeyEvent.VK_ENTER) {
-                    String selectedValue = (String) firstName
-                            .getSelectedItem();
-                    System.out.println("Selected Value : "
-                            + selectedValue);
-                    int id = Integer.valueOf(data.get(selectedValue));
-                    System.out.println("ID : " + id);
-                    Medecin medecin = medecinService.findMedecin(id);
+					String lastTypedText = "";
+					List<String> comboBoxModel = new ArrayList<String>();
 
-                    em.getTransaction().begin();
-                    vente = em.find(Vente.class, vente.getId());
-                    vente.setMedecin(medecin);
-                    em.getTransaction().commit();
+					@Override
+					public void keyReleased(KeyEvent e) {
+						if (e.getKeyChar() == KeyEvent.VK_ENTER) {
+							String selectedValue = (String) firstName
+									.getSelectedItem();
+							System.out.println("Selected Value : "
+									+ selectedValue);
+							int id = Integer.valueOf(data.get(selectedValue));
+							System.out.println("ID : " + id);
+							Medecin medecin = medecinService.findMedecin(id);
 
-                    reference.setText(String.valueOf(medecin.getId()));
-                    speciality.setText(medecin.getSpeciality());
-                    phone.setText(medecin.getPhone());
-                    nrcc.setText(medecin.getNrcc());
-                } else {
-                    JTextField typedTextField = (JTextField) firstName
-                            .getEditor().getEditorComponent();
-                    if (typedTextField.getText() != null
-                            && !comboBoxModel.contains(typedTextField
-                                    .getText())
-                                    && !typedTextField.getText().equals(
-                                            lastTypedText)) {
-                        comboBoxModel.clear();
-                        lastTypedText = typedTextField.getText();
-                        if (!lastTypedText.equals("")) {
-                            comboBoxModel.add(lastTypedText);
-                        }
+							em.getTransaction().begin();
+							vente = em.find(Vente.class, vente.getId());
+							vente.setMedecin(medecin);
+							em.getTransaction().commit();
 
-                        List<Medecin> result = medecinService.findMedecinsByCriteria(lastTypedText.toLowerCase());
-                        data.clear();
-                        if (result != null && result.size() > 0) {
-                            for (Medecin m : result) {
-                                data.put(m.getFirstName() + " " + m.getLastName(), String.valueOf(m.getId()));
-                            }
-                        }
+							reference.setText(String.valueOf(medecin.getId()));
+							speciality.setText(medecin.getSpeciality());
+							phone.setText(medecin.getPhone());
+							nrcc.setText(medecin.getNrcc());
+						} else {
+							JTextField typedTextField = (JTextField) firstName
+									.getEditor().getEditorComponent();
+							if (typedTextField.getText() != null
+									&& !comboBoxModel.contains(typedTextField
+											.getText())
+									&& !typedTextField.getText().equals(
+											lastTypedText)) {
+								comboBoxModel.clear();
+								lastTypedText = typedTextField.getText();
+								if (!lastTypedText.equals("")) {
+									comboBoxModel.add(lastTypedText);
+								}
+								for (String key : data.keySet()) {
+									if (key.toLowerCase().startsWith(
+											lastTypedText.toLowerCase())) {
+										comboBoxModel.add(key);
+									}
+								}
+								firstName.setModel(new DefaultComboBoxModel(
+										comboBoxModel.toArray()));
+								// firstName.setSelectedItem(lastTypedText);
+								firstName.showPopup();
+							}
+						}
+					}
 
-                        for (String key : data.keySet()) {
-                            comboBoxModel.add(key);
-                        }
+				});
 
-                        firstName.setModel(new DefaultComboBoxModel(
-                                comboBoxModel.toArray()));
-                        // firstName.setSelectedItem(lastTypedText);
-                        firstName.showPopup();
-                    }
-                }
-            }
+		FlowLayout gl = new FlowLayout();
+		gl.setHgap(5);
+		gl.setVgap(0);
 
-        });
+		buttonPanel = new JPanel(gl);
+		buttonPanel.setBackground(Color.WHITE);
 
-        FlowLayout gl = new FlowLayout();
-        gl.setHgap(5);
-        gl.setVgap(0);
+		editButton = new HeaderButton("/img/edit.png", "Edit Button");
 
-        buttonPanel = new JPanel(gl);
-        buttonPanel.setBackground(Color.WHITE);
+		editButton.addFocusListener(new FocusListener() {
+			public void focusLost(FocusEvent evt) {
+				((JButton) evt.getSource()).setIcon(new ImageIcon(getClass()
+						.getResource("/img/edit.png")));
+			}
 
-        editButton = new HeaderButton("/img/edit.png", "Edit Button");
+			public void focusGained(FocusEvent evt) {
+				((JButton) evt.getSource()).setIcon(new ImageIcon(getClass()
+						.getResource("/img/edit-hover.png")));
+			}
+		});
 
-        editButton.addFocusListener(new FocusListener() {
-            public void focusLost(FocusEvent evt) {
-                ((JButton) evt.getSource()).setIcon(new ImageIcon(getClass()
-                        .getResource("/img/edit.png")));
-            }
+		editButton.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent evt) {
+				editActionPerformed(evt);
+			}
+		});
 
-            public void focusGained(FocusEvent evt) {
-                ((JButton) evt.getSource()).setIcon(new ImageIcon(getClass()
-                        .getResource("/img/edit-hover.png")));
-            }
-        });
+		firstName.setPreferredSize(new Dimension(216, 20));
+		firstName.setPrototypeDisplayValue("XXXXXXXXXXXXXXX");
+		buttonPanel.add(firstName);
+		buttonPanel.add(editButton);
 
-        editButton.addActionListener(new ActionListener() {
-            public void actionPerformed(ActionEvent evt) {
-                editActionPerformed(evt);
-            }
-        });
+		add(Utilities.createFilledSimplePanel("Nom & Prénom", buttonPanel));
+		add(Utilities.createFilledSimplePanel("Spécialité", speciality));
+		add(Utilities.createFilledSimplePanel("Tél.", phone));
+		add(Utilities.createFilledSimplePanel("NRCC", nrcc));
+		add(Utilities.createFilledSimplePanel("Réference", reference));
 
-        firstName.setPreferredSize(new Dimension(216, 20));
-        firstName.setPrototypeDisplayValue("XXXXXXXXXXXXXXX");
-        buttonPanel.add(firstName);
-        buttonPanel.add(editButton);
+	}
 
-        add(Utilities.createFilledSimplePanel("Nom & Prénom", buttonPanel));
-        add(Utilities.createFilledSimplePanel("Spécialité", speciality));
-        add(Utilities.createFilledSimplePanel("Tél.", phone));
-        add(Utilities.createFilledSimplePanel("NRCC", nrcc));
-        add(Utilities.createFilledSimplePanel("Réference", reference));
+	public JComboBox<String> getFirstName() {
+		return firstName;
+	}
 
-    }
+	public void setFirstName(JComboBox<String> firstName) {
+		this.firstName = firstName;
+	}
 
-    public JComboBox<String> getFirstName() {
-        return firstName;
-    }
+	public JTextField getSpeciality() {
+		return speciality;
+	}
 
-    public void setFirstName(JComboBox<String> firstName) {
-        this.firstName = firstName;
-    }
+	public void setSpeciality(JTextField speciality) {
+		this.speciality = speciality;
+	}
 
-    public JTextField getSpeciality() {
-        return speciality;
-    }
+	public JTextField getReference() {
+		return reference;
+	}
 
-    public void setSpeciality(JTextField speciality) {
-        this.speciality = speciality;
-    }
+	public void setReference(JTextField reference) {
+		this.reference = reference;
+	}
 
-    public JTextField getReference() {
-        return reference;
-    }
+	public JTextField getPhone() {
+		return phone;
+	}
 
-    public void setReference(JTextField reference) {
-        this.reference = reference;
-    }
+	public void setPhone(JTextField phone) {
+		this.phone = phone;
+	}
 
-    public JTextField getPhone() {
-        return phone;
-    }
+	public JTextField getNrcc() {
+		return nrcc;
+	}
 
-    public void setPhone(JTextField phone) {
-        this.phone = phone;
-    }
+	public void setNrcc(JTextField nrcc) {
+		this.nrcc = nrcc;
+	}
 
-    public JTextField getNrcc() {
-        return nrcc;
-    }
+	public Vente getVente() {
+		return vente;
+	}
 
-    public void setNrcc(JTextField nrcc) {
-        this.nrcc = nrcc;
-    }
+	public void setVente(Vente vente) {
+		this.vente = vente;
+	}
 
-    public Vente getVente() {
-        return vente;
-    }
+	public SortedMap<String, String> getData() {
+		return data;
+	}
 
-    public void setVente(Vente vente) {
-        this.vente = vente;
-    }
+	public void setData(SortedMap<String, String> data) {
+		this.data = data;
+	}
 
-    public SortedMap<String, String> getData() {
-        return data;
-    }
+	private void editActionPerformed(ActionEvent evt) {
+		MedecinManagementView medecinManagementView = new MedecinManagementView(
+				em, vente);
 
-    public void setData(SortedMap<String, String> data) {
-        this.data = data;
-    }
+		if (!"".equals(reference.getText())) {
+			medecinManagementView.getSearchField().setEnabled(false);
+			medecinManagementView.getSearchTable().setEnabled(false);
 
-    private void editActionPerformed(ActionEvent evt) {
-        MedecinManagementView medecinManagementView = new MedecinManagementView(
-                em, vente);
+			Medecin medecin = medecinService.findMedecin(Integer
+					.valueOf(reference.getText()));
 
-        if (!"".equals(reference.getText())) {
-            medecinManagementView.getSearchField().setEnabled(false);
-            medecinManagementView.getSearchTable().setEnabled(false);
+			if (medecin != null) {
+				medecinManagementView.getFirstName().setText(
+						Utilities.isEmpty(medecin.getFirstName()));
+				medecinManagementView.getLastName().setText(
+						Utilities.isEmpty(medecin.getLastName()));
+				medecinManagementView.getReference().setText(
+						Utilities.isEmpty(medecin.getReference()));
+				medecinManagementView.getNrcc().setText(
+						Utilities.isEmpty(medecin.getNrcc()));
+				medecinManagementView.getNumNC().setText(
+						Utilities.isEmpty(medecin.getNc()));
+				medecinManagementView.getFixe().setText(
+						Utilities.isEmpty(medecin.getPhone()));
+				medecinManagementView.getFax().setText(
+						Utilities.isEmpty(medecin.getFax()));
+				medecinManagementView.getSpeciality().setText(
+						Utilities.isEmpty(medecin.getSpeciality()));
+				medecinManagementView.getEmail().setText(
+						Utilities.isEmpty(medecin.getEmail()));
+				medecinManagementView.getAddress().setText(
+						Utilities.isEmpty(medecin.getAddress()));
 
-            Medecin medecin = medecinService.findMedecin(Integer
-                    .valueOf(reference.getText()));
+				medecinManagementView.setIdMedecin(medecin.getId());
 
-            if (medecin != null) {
-                medecinManagementView.getFirstName().setText(
-                        Utilities.isEmpty(medecin.getFirstName()));
-                medecinManagementView.getLastName().setText(
-                        Utilities.isEmpty(medecin.getLastName()));
-                medecinManagementView.getReference().setText(
-                        Utilities.isEmpty(medecin.getReference()));
-                medecinManagementView.getNrcc().setText(
-                        Utilities.isEmpty(medecin.getNrcc()));
-                medecinManagementView.getNumNC().setText(
-                        Utilities.isEmpty(medecin.getNc()));
-                medecinManagementView.getFixe().setText(
-                        Utilities.isEmpty(medecin.getPhone()));
-                medecinManagementView.getFax().setText(
-                        Utilities.isEmpty(medecin.getFax()));
-                medecinManagementView.getSpeciality().setText(
-                        Utilities.isEmpty(medecin.getSpeciality()));
-                medecinManagementView.getEmail().setText(
-                        Utilities.isEmpty(medecin.getEmail()));
-                medecinManagementView.getAddress().setText(
-                        Utilities.isEmpty(medecin.getAddress()));
+				medecinManagementView.setEdit(true);
 
-                medecinManagementView.setIdMedecin(medecin.getId());
+				medecinManagementView.setVisible(true);
+			}
 
-                medecinManagementView.setEdit(true);
+		} else {
+			medecinManagementView.setNew(true);
+			medecinManagementView.setVisible(true);
+		}
 
-                medecinManagementView.setVisible(true);
-            }
+	}
 
-        } else {
-            medecinManagementView.setNew(true);
-            medecinManagementView.setVisible(true);
-        }
-
-    }
-
-    public void activateComponents() {
-        firstName.setEnabled(true);
-        reference.setEnabled(true);
-        reference.setEditable(false);
-        speciality.setEnabled(true);
-        speciality.setEditable(false);
-        phone.setEnabled(true);
-        phone.setEditable(false);
-        nrcc.setEnabled(true);
-        nrcc.setEditable(false);
-    }
+	public void activateComponents() {
+		firstName.setEnabled(true);
+		reference.setEnabled(true);
+		reference.setEditable(false);
+		speciality.setEnabled(true);
+		speciality.setEditable(false);
+		phone.setEnabled(true);
+		phone.setEditable(false);
+		nrcc.setEnabled(true);
+		nrcc.setEditable(false);
+	}
 
 }

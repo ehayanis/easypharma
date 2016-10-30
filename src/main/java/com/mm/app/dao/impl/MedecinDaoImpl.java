@@ -6,6 +6,7 @@ import javax.persistence.EntityManager;
 import javax.persistence.TypedQuery;
 
 import com.mm.app.dao.MedecinDao;
+import com.mm.app.model.Assurance;
 import com.mm.app.model.Medecin;
 
 public class MedecinDaoImpl implements MedecinDao{
@@ -31,7 +32,7 @@ public class MedecinDaoImpl implements MedecinDao{
 	}
 
 	public List<Medecin> findMedecinsByCriteria(String criteria) {
-		List<Medecin> result = em.createNamedQuery("findMedecinByCriteria").setParameter("criteria", "%" + criteria + "%").setMaxResults(5).getResultList();
+		List<Medecin> result = em.createNamedQuery("findMedecinByCriteria").setParameter("criteria", criteria).getResultList();
 		return result;
 	}
 	
