@@ -95,22 +95,28 @@ public class SearchProduct extends JFrame {
         setDefaultCloseOperation(WindowConstants.DISPOSE_ON_CLOSE);
         setTitle("Recherche Médicament");
         setResizable(false);
-
+        
+        searchLabel = new JLabel("Désignation:");
         GroupLayout jPanel1Layout = new GroupLayout(jPanel1);
         jPanel1.setLayout(jPanel1Layout);
         jPanel1Layout.setHorizontalGroup(
             jPanel1Layout.createParallelGroup(GroupLayout.Alignment.LEADING)
             .addGroup(jPanel1Layout.createSequentialGroup()
-            	.addGap(202, 202, 202)
+            	.addGap(180, 180, 180)
+            	.addComponent(searchLabel)
+            	.addGap(16, 16, 16)
                 .addComponent(searchField, GroupLayout.PREFERRED_SIZE, 350, GroupLayout.PREFERRED_SIZE)
                 .addContainerGap(GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
         );
         jPanel1Layout.setVerticalGroup(
-            jPanel1Layout.createParallelGroup(GroupLayout.Alignment.LEADING)
-            .addGroup(jPanel1Layout.createSequentialGroup()
-                .addContainerGap()
+            jPanel1Layout.createSequentialGroup()
+            .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+            .addGroup(jPanel1Layout.createParallelGroup()
+                .addGap(16, 16, 16)
+                .addComponent(searchLabel, GroupLayout.DEFAULT_SIZE, 20, Short.MAX_VALUE)
                 .addComponent(searchField, GroupLayout.PREFERRED_SIZE, GroupLayout.DEFAULT_SIZE, GroupLayout.PREFERRED_SIZE)
-                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                )
+            .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
         );
         
         searchField.addActionListener(new ActionListener() {
@@ -340,6 +346,7 @@ public class SearchProduct extends JFrame {
     private JTextField reglement;
     private JTextField prixUsine;
     private JTextField datePermeption;
+    private JLabel searchLabel;
     private JLabel designationLabel;
     private JLabel referenceLabel;
     private JLabel listRembLabel;
