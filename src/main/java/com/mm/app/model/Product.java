@@ -1,10 +1,23 @@
 package com.mm.app.model;
 
 import java.io.Serializable;
+import java.util.Collection;
 import java.util.Date;
 import java.util.List;
 
-import javax.persistence.*;
+import javax.persistence.CascadeType;
+import javax.persistence.Column;
+import javax.persistence.Entity;
+import javax.persistence.FetchType;
+import javax.persistence.GeneratedValue;
+import javax.persistence.GenerationType;
+import javax.persistence.Id;
+import javax.persistence.NamedQueries;
+import javax.persistence.NamedQuery;
+import javax.persistence.OneToMany;
+import javax.persistence.OneToOne;
+import javax.persistence.Temporal;
+import javax.persistence.TemporalType;
 
 @NamedQueries({
 	@NamedQuery(name="findProductByReference", query="SELECT p FROM Product p WHERE p.reference = :reference"),
@@ -46,6 +59,9 @@ public class Product implements Serializable {
 	@Temporal(TemporalType.DATE)
 	@Column(name="date_permeption")
 	private Date datePermeption;
+	
+	@OneToMany(mappedBy="product", cascade=CascadeType.ALL)
+	private Collection<PrescriptionProduct> prescriptionProducts;
 	
     public Product() {
     }
@@ -144,5 +160,13 @@ public class Product implements Serializable {
 
 	public void setDatePermeption(Date datePermeption) {
 		this.datePermeption = datePermeption;
+	}
+
+	public Collection<PrescriptionProduct> getPrescriptionProducts() {
+		return prescriptionProducts;
+	}
+
+	public void setPrescriptionProducts(Collection<PrescriptionProduct> prescriptionProducts) {
+		this.prescriptionProducts = prescriptionProducts;
 	}
 }

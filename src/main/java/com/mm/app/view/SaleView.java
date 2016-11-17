@@ -10,8 +10,6 @@ import java.awt.event.KeyAdapter;
 import java.awt.event.KeyEvent;
 import java.beans.PropertyVetoException;
 import java.text.DecimalFormat;
-import java.util.ArrayList;
-import java.util.Calendar;
 import java.util.Date;
 import java.util.HashMap;
 import java.util.List;
@@ -22,7 +20,6 @@ import java.util.TreeMap;
 import javax.persistence.EntityManager;
 import javax.swing.AbstractAction;
 import javax.swing.Action;
-import javax.swing.DefaultCellEditor;
 import javax.swing.GroupLayout;
 import javax.swing.ImageIcon;
 import javax.swing.JComboBox;
@@ -38,7 +35,6 @@ import javax.swing.JPopupMenu;
 import javax.swing.JScrollPane;
 import javax.swing.JTabbedPane;
 import javax.swing.JTable;
-import javax.swing.JTextField;
 import javax.swing.KeyStroke;
 import javax.swing.LayoutStyle;
 import javax.swing.WindowConstants;
@@ -47,7 +43,6 @@ import javax.swing.event.TableModelListener;
 import javax.swing.table.DefaultTableCellRenderer;
 import javax.swing.table.DefaultTableModel;
 import javax.swing.table.TableColumn;
-import javax.swing.DefaultComboBoxModel;
 
 import com.mm.app.model.Operator;
 import com.mm.app.model.Product;
@@ -218,10 +213,10 @@ public class SaleView extends JFrame {
 					int column = evt.getColumn();
 					int row = jTable1.getSelectedRow();
 
-					// only when the designation exists and the value of quantity or
-					// discount changes we recalculate
-					// the rowSum and the total
-					if (Utilities.isNotEmpty(jTable1.getValueAt(row, Constants.DESIGNATIONCMLN)) && (column == Constants.QUANTITYCLMN || column == Constants.DISCOUNTCLMN)) {
+					/** only when the designation exists and the value of quantity or discount changes 
+					 * we recalculate the rowSum and the total */
+					if (Utilities.isNotEmpty(jTable1.getValueAt(row, Constants.DESIGNATIONCMLN))
+							&& (column == Constants.QUANTITYCLMN || column == Constants.DISCOUNTCLMN)) {
 
 						// unitPrice
 						Double unitPrice = 0D;
@@ -433,7 +428,9 @@ public class SaleView extends JFrame {
 		KeyStroke f1KeyStroke = KeyStroke.getKeyStroke(KeyEvent.VK_F1, 0, false);
 		Action f1Action = new AbstractAction() {
 			public void actionPerformed(ActionEvent e) {
-				assuranceWidget.getAssurance1().requestFocus();
+				PrescriptionSearchView prescriptionSearchView = new PrescriptionSearchView(em);
+				prescriptionSearchView.setVisible(true);
+				//assuranceWidget.getAssurance1().requestFocus();
 			}
 		};
 

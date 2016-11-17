@@ -1,9 +1,18 @@
 package com.mm.app.model;
 
 import java.io.Serializable;
-import javax.persistence.*;
-
+import java.util.Collection;
 import java.util.List;
+
+import javax.persistence.Column;
+import javax.persistence.Entity;
+import javax.persistence.FetchType;
+import javax.persistence.GeneratedValue;
+import javax.persistence.GenerationType;
+import javax.persistence.Id;
+import javax.persistence.NamedQueries;
+import javax.persistence.NamedQuery;
+import javax.persistence.OneToMany;
 
 @NamedQueries({
 	@NamedQuery(name="findMedecinByReference", query="SELECT m FROM Medecin m WHERE m.reference = :reference"),
@@ -41,6 +50,9 @@ public class Medecin implements Serializable {
 	
 	@OneToMany(mappedBy="medecin")
 	private List<Vente> ventes;
+	
+	@OneToMany(mappedBy="medecin", fetch= FetchType.LAZY)
+	private Collection<Prescription> prescriptions;
 	
     public Medecin() {
     }
@@ -144,4 +156,14 @@ public class Medecin implements Serializable {
 	public String getMedecinName(){
 		return this.firstName + " " + this.lastName;
 	}
+
+	public Collection<Prescription> getPrescriptions() {
+		return prescriptions;
+	}
+
+	public void setPrescriptions(Collection<Prescription> prescriptions) {
+		this.prescriptions = prescriptions;
+	}
+	
+	
 }

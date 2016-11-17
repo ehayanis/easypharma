@@ -1,11 +1,22 @@
 package com.mm.app.model;
 
 import java.io.Serializable;
-import javax.persistence.*;
-
+import java.util.Collection;
 import java.util.Date;
 import java.util.List;
-import java.util.Map;
+
+import javax.persistence.CascadeType;
+import javax.persistence.Column;
+import javax.persistence.Entity;
+import javax.persistence.FetchType;
+import javax.persistence.GeneratedValue;
+import javax.persistence.GenerationType;
+import javax.persistence.Id;
+import javax.persistence.NamedQueries;
+import javax.persistence.NamedQuery;
+import javax.persistence.OneToMany;
+import javax.persistence.Temporal;
+import javax.persistence.TemporalType;
 
 enum AssuranceType{
 	OBLIGATOIRE, COMPLEMENTAIRE, ACCIDENT
@@ -65,6 +76,9 @@ public class Client implements Serializable {
 	
 	@OneToMany(mappedBy="client", cascade = CascadeType.ALL, fetch= FetchType.LAZY)
 	private List<AssuranceClient> assuranceClients;
+	
+	@OneToMany(mappedBy="client", fetch= FetchType.LAZY)
+	private Collection<Prescription> prescriptions;
 	
 	public Client() {
     }
@@ -212,5 +226,15 @@ public class Client implements Serializable {
 	public void setAddrLivraison(String addrLivraison) {
 		this.addrLivraison = addrLivraison;
 	}
+
+	public Collection<Prescription> getPrescriptions() {
+		return prescriptions;
+	}
+
+	public void setPrescriptions(Collection<Prescription> prescriptions) {
+		this.prescriptions = prescriptions;
+	}
+	
+	
 
 }
